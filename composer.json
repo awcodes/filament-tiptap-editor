@@ -1,0 +1,48 @@
+{
+    "name": "awcodes/filament-tiptap-editor",
+    "type": "project",
+    "description": "A TipTap ingtegration for Filament Admin/Forms.",
+    "keywords": [
+        "framework",
+        "laravel",
+        "filament",
+        "tiptap"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Weston",
+            "email": "awcodes1@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0.2",
+        "filament/filament": "^2.0",
+        "spatie/laravel-package-tools": "^1.9.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "FilamentTipTapEditor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FilamentTipTapEditor\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FilamentTipTapEditor\\FilamentTipTapEditorServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
