@@ -1,24 +1,24 @@
-# Filament Bard Editor
+# Filament Tiptap Editor
 
-A port of the Statamic Bard field for Filament Admin/Forms.
+A TipTap ingtegration for Filament Admin/Forms.
 
 Please star these awesome repos and/or sponsors all of these peoples hard work:
 
--   [Filament](https://github.com/laravel-filament/filament)
--   [Spatie Laravel Package Tools](https://github.com/spatie/laravel-package-tools)
+- [Filament](https://github.com/laravel-filament/filament)
+- [Spatie Laravel Package Tools](https://github.com/spatie/laravel-package-tools)
 
 ## Installation
 
 1. Install the package via composer
 
 ```bash
-composer require awcodes/filament-bard-editor
+composer require awcodes/filament-tiptap-editor
 ```
 
 2. Publish config files and assets
 
 ```bash
-php artisan vendor:publish --tag="filament-config"
+php artisan vendor:publish --tag="filament-tiptap-editor-config"
 ```
 
 ## Versioning
