@@ -8,21 +8,18 @@ on:
 
 jobs:
   build:
+    name: Build JavaScript/CSS for PRODUCTION
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x]
-
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
+      - name: NPM Build
       - name: Build
         run: |
           npm install
           npm run production
+      - name: Put built assets in Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: resources/dist/
