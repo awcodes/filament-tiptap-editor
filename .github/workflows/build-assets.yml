@@ -18,5 +18,7 @@ jobs:
           npm run production
       - uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: resources/dist/
+          path: dist
+      - uses: actions/download-artifact@v3
+        with:
+          path: dist
