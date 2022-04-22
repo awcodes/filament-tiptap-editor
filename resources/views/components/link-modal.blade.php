@@ -1,8 +1,8 @@
 <div x-data="{
     isOpen: false,
 }"
-    x-on:close-modal.window="if ($event.detail.id === 'filament-tiptap-editor-media-uploader') isOpen = false;"
-    x-on:open-modal.window="if ($event.detail.id === 'filament-tiptap-editor-media-uploader') isOpen = true;"
+    x-on:close-modal.window="if ($event.detail.id === 'filament-tiptap-editor-link-modal') isOpen = false;"
+    x-on:open-modal.window="if ($event.detail.id === 'filament-tiptap-editor-link-modal') isOpen = true;"
     x-on:new-media-added.window="isOpen = false;"
     aria-labelledby="filament-tiptap-editor-modal-header"
     role="dialog"
@@ -41,7 +41,7 @@
             ])>
                 <form wire:submit.prevent="create">
                     <div class="px-4 py-3 filament-tiptap-editor-modal-header">
-                        <h3>{{ __('Insert Image') }}</h3>
+                        <h3>{{ __('Insert Link') }}</h3>
                     </div>
 
                     <x-filament::hr />
