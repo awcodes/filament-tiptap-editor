@@ -13,12 +13,11 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-        name: NPM Build
+      - name: NPM Build
         run: |
           npm install
           npm run production
       - uses: actions/upload-artifact@v3
-        name: Put built assets in Artifacts
         with:
           name: dist
           path: resources/dist/
