@@ -1,6 +1,6 @@
 <?php
 
-namespace FilamentTipTapEditor;
+namespace FilamentTiptapEditor;
 
 use Closure;
 use Illuminate\Support\Arr;
@@ -11,7 +11,7 @@ use Filament\Forms\Components\Builder\Block;
 use function Filament\Forms\array_move_after;
 use function Filament\Forms\array_move_before;
 
-class TipTapEditor extends Field
+class TiptapEditor extends Field
 {
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 

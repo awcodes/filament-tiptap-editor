@@ -1,6 +1,6 @@
 <?php
 
-namespace FilamentTipTapEditor\Components;
+namespace FilamentTiptapEditor\Components;
 
 use Livewire\Component;
 use Illuminate\Support\Str;

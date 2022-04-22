@@ -1,13 +1,13 @@
 <?php
 
-namespace FilamentTipTapEditor;
+namespace FilamentTiptapEditor;
 
 use Livewire\Livewire;
 use Filament\Facades\Filament;
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
-class FilamentTipTapEditorServiceProvider extends PluginServiceProvider
+class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
 {
     protected array $styles = [
         'filament-tiptap-editor-styles' => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',

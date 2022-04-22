@@ -19,6 +19,8 @@ import TableHeader from "@tiptap/extension-table-header";
 import Image from "@tiptap/extension-image";
 import Italic from "@tiptap/extension-italic";
 import Bold from "@tiptap/extension-bold";
+import Strike from "@tiptap/extension-strike";
+import Underline from "@tiptap/extension-underline";
 import History from "@tiptap/extension-history";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import Gapcursor from "@tiptap/extension-gapcursor";
@@ -43,6 +45,8 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("blockquote")) exts.push(Blockquote);
         if (this.buttons.includes("bold")) exts.push(Bold);
         if (this.buttons.includes("italic")) exts.push(Italic);
+        if (this.buttons.includes("strike")) exts.push(Strike);
+        if (this.buttons.includes("underline")) exts.push(Underline);
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
         if (this.buttons.includes("media")) exts.push(Image);
@@ -85,6 +89,12 @@ document.addEventListener("alpine:init", () => {
       },
       toggleItalic() {
         editor.chain().focus().toggleItalic().run();
+      },
+      toggleStrike() {
+        editor.chain().focus().toggleStrike().run();
+      },
+      toggleUnderline() {
+        editor.chain().focus().toggleUnderline().run();
       },
       toggleHeading(level) {
         editor.chain().focus().toggleHeading({ level }).run();

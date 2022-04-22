@@ -40,6 +40,14 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.italic />
                     </div>
+                    <div x-show="buttons.includes('strike')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.strike />
+                    </div>
+                    <div x-show="buttons.includes('underline')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.underline />
+                    </div>
                     <div x-show="buttons.includes('h1')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.heading level="1" />

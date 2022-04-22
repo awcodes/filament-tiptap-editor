@@ -1,7 +1,7 @@
 {
     "name": "awcodes/filament-tiptap-editor",
     "type": "project",
-    "description": "A TipTap ingtegration for Filament Admin/Forms.",
+    "description": "A Tiptap ingtegration for Filament Admin/Forms.",
     "keywords": [
         "framework",
         "laravel",
@@ -23,18 +23,18 @@
     },
     "autoload": {
         "psr-4": {
-            "FilamentTipTapEditor\\": "src/"
+            "FilamentTiptapEditor\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "FilamentTipTapEditor\\Tests\\": "tests/"
+            "FilamentTiptapEditor\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "FilamentTipTapEditor\\FilamentTipTapEditorServiceProvider"
+                "FilamentTiptapEditor\\FilamentTiptapEditorServiceProvider"
             ]
         }
     },

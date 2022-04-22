@@ -1,25 +1,46 @@
 # Filament Tiptap Editor
 
-A TipTap ingtegration for Filament Admin/Forms.
+A Tiptap ingtegration for Filament Admin/Forms.
 
-Please star these awesome repos and/or sponsors all of these peoples hard work:
+![screenshot](./images/screenshot.png)
 
-- [Filament](https://github.com/laravel-filament/filament)
-- [Spatie Laravel Package Tools](https://github.com/spatie/laravel-package-tools)
+- Supports Light/Dark Mode
+- Fullscreen editing
+- Overrideable Media uploading
+- Profile based buttons to simplify reusing features
+- Includes all Tiptap extensions in the Starter Kit and Tables. More extensions to come...
 
 ## Installation
 
-1. Install the package via composer
+Install the package via composer
 
 ```bash
 composer require awcodes/filament-tiptap-editor
 ```
 
-2. Publish config files and assets
+Optionally, Publish config files and assets.
+
+The package comes with 3 profiles for buttons out of the box. Unless you need to create your own profiles there is no need to publish.
 
 ```bash
 php artisan vendor:publish --tag="filament-tiptap-editor-config"
 ```
+
+## Usage
+
+The editor extends the default Forms Field class so all other methods available on that class can be used when adding it to a form.
+
+```php
+use FilamentTiptapEditor\TiptapEditor;
+
+TiptapEditor::make('content')
+    ->profile('simple')
+    ->required(); //->etc
+```
+
+See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor.
+
+You may also override the default file upload with your own Livewire component and assigning its ID to the `media_upload_id` setting in the config file.
 
 ## Versioning
 

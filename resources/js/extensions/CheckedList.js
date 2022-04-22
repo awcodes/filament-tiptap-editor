@@ -20,7 +20,7 @@ const CheckedList = BulletList.extend({
   },
 
   parseHTML() {
-    return [{ tag: "ul", getAttrs: (element) => element.classList.contains("checked-list"), priority: 100 }];
+    return [{ tag: "ul", getAttrs: (element) => element.classList.contains("checked-list"), priority: 1000 }];
   },
 
   renderHTML({ HTMLAttributes }) {
