@@ -11,14 +11,14 @@ jobs:
     name: Build JavaScript/CSS for PRODUCTION
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: NPM Build
-        run: |
-          npm install
-          npm run production
-      - uses: actions/upload-artifact@v3
-        with:
-          path: resources/dist/
-      - uses: actions/download-artifact@v3
-        with:
-          path: resources/dist/
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        width:
+          node-version: "14"
+          check-latest: true
+      - name: Install NPM Dependencies
+        run: npm install
+      - name: Compile assets for production
+        run: npm run production
