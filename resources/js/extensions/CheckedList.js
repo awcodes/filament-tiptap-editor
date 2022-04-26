@@ -1,8 +1,9 @@
 import { Node, mergeAttributes } from "@tiptap/core";
-import BulletList from "@tiptap/extension-bullet-list";
 
-const CheckedList = BulletList.extend({
+const CheckedList = Node.create({
   name: "checkedList",
+
+  priority: 50,
 
   addOptions() {
     return {
