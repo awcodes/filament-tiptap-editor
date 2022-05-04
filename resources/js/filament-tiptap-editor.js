@@ -39,7 +39,7 @@ document.addEventListener("alpine:init", () => {
       fullScreenMode: false,
       updatedAt: Date.now(),
       getExtensions() {
-        let exts = [Document, Text, Paragraph, Dropcursor, Gapcursor];
+        let exts = [Document, Text, Paragraph, Dropcursor, Gapcursor, HardBreak];
 
         if (this.buttons.includes("link")) exts.push(Link);
         if (this.buttons.includes("blockquote")) exts.push(Blockquote);
