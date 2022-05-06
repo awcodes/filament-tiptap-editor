@@ -36,12 +36,14 @@ class MediaUploader extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
+            TextInput::make('type')->hidden('true'),
             FileUpload::make('src')
                 ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'])
                 ->label('File')
                 ->required()
                 ->maxFiles(1)
-                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file) {
+                ->reactive()
+                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, $set) {
 
                     $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
 
@@ -53,8 +55,14 @@ class MediaUploader extends Component implements HasForms
 
                     $upload = $file->{$storeMethod}($component->getDirectory(), $filename  .  '.' . $file->getClientOriginalExtension(), $component->getDiskName());
 
+                    if (Str::of($file->getMimeType())->contains('image')) {
+                        $set('type', 'document');
+                    }
+
                     return Storage::disk($component->getDiskName())->url($upload);
                 }),
+            TextInput::make('link_text')
+                ->helperText('<span class="text-xs">This will only be used if the file is not an image.</span>'),
             TextInput::make('alt')
                 ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.</span>'),
         ];

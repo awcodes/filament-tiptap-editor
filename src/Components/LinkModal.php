@@ -37,7 +37,7 @@ class LinkModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('url')->url()->required(),
+            TextInput::make('url')->type('url')->required(),
             Select::make('target')->options(['_blank' => 'New Window']),
         ];
     }

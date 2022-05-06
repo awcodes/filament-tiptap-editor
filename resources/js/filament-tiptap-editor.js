@@ -41,7 +41,13 @@ document.addEventListener("alpine:init", () => {
       getExtensions() {
         let exts = [Document, Text, Paragraph, Dropcursor, Gapcursor, HardBreak];
 
-        if (this.buttons.includes("link")) exts.push(Link);
+        if (this.buttons.includes("link"))
+          exts.push(
+            Link.configure({
+              openOnClick: false,
+              autolink: false,
+            })
+          );
         if (this.buttons.includes("blockquote")) exts.push(Blockquote);
         if (this.buttons.includes("bold")) exts.push(Bold);
         if (this.buttons.includes("italic")) exts.push(Italic);
@@ -186,6 +192,9 @@ document.addEventListener("alpine:init", () => {
           editor.chain().focus().goToPreviousCell().run();
         },
       },
+      unsetLink() {
+        editor.chain().extendMarkRange("link").unsetLink().run();
+      },
       insertLink(link) {
         if (link.url === null) {
           return;
@@ -205,15 +214,21 @@ document.addEventListener("alpine:init", () => {
       },
       insertMedia(media) {
         const src = media?.url || media.src;
-        editor
-          .chain()
-          .focus()
-          .setImage({
-            src: src,
-            alt: media?.alt,
-            title: media?.title,
-          })
-          .run();
+        const imageTypes = ["jpg", "jpeg", "svg", "png"];
+
+        if (imageTypes.includes(src.split(".").pop())) {
+          editor
+            .chain()
+            .focus()
+            .setImage({
+              src: src,
+              alt: media?.alt,
+              title: media?.title,
+            })
+            .run();
+        } else {
+          editor.chain().focus().extendMarkRange("link").setLink({ href: src }).insertContent(media?.link_text).run();
+        }
       },
       init() {
         const _this = this;

@@ -3,8 +3,8 @@
 ])
 <button type="button"
     class="p-2"
-    :class="{ 'active' : isActive('link', updatedAt) }"
-    x-on:click="$dispatch('open-modal', {id: 'filament-tiptap-editor-link-modal', fieldId: '{{ $fieldId }}'})"
+    :class="{ 'active': isActive('link', updatedAt) }"
+    x-on:click="isActive('link', updatedAt) ? unsetLink() : $dispatch('open-modal', {id: 'filament-tiptap-editor-link-modal', fieldId: '{{ $fieldId }}'})"
     x-tooltip="'Link'">
     <svg x-show="!isActive('link', updatedAt)"
         xmlns="http://www.w3.org/2000/svg"
