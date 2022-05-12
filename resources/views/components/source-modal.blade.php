@@ -1,8 +1,14 @@
 <div x-data="{
     isOpen: false,
+    toggleOpen(event) {
+        if (event.detail.id === 'filament-tiptap-editor-source-modal') {
+            this.isOpen = !this.isOpen;
+            $wire.setState(event.detail.source)
+        }
+    }
 }"
-    x-on:close-modal.window="if ($event.detail.id === 'filament-tiptap-editor-media-uploader') isOpen = false;"
-    x-on:open-modal.window="if ($event.detail.id === 'filament-tiptap-editor-media-uploader') isOpen = true;"
+    x-on:close-modal.window="toggleOpen($event)"
+    x-on:open-modal.window="toggleOpen($event)"
     x-on:new-media-added.window="isOpen = false;"
     aria-labelledby="filament-tiptap-editor-modal-header"
     role="dialog"
@@ -41,7 +47,7 @@
             ])>
                 <form wire:submit.prevent="create">
                     <div class="px-4 py-3 filament-tiptap-editor-modal-header">
-                        <h3>{{ __('Insert Image') }}</h3>
+                        <h3>{{ __('Insert Link') }}</h3>
                     </div>
 
                     <x-filament::hr />
@@ -52,15 +58,17 @@
 
                     <x-filament::hr />
 
-                    <div class="flex items-center justify-end gap-4 px-4 py-3 trov-media-picker-modal-footer">
-                        <x-filament::button type="button"
-                            x-on:click="isOpen = false; $wire.resetForm();"
-                            color="secondary">
-                            Cancel
-                        </x-filament::button>
-                        <x-filament::button type="submit">
-                            Insert
-                        </x-filament::button>
+                    <div class="flex items-center gap-4 px-4 py-3 filament-tiptap-editor-modal-footer">
+                        <div class="ml-auto">
+                            <x-filament::button type="button"
+                                x-on:click="isOpen = false; $wire.resetForm();"
+                                color="secondary">
+                                Cancel
+                            </x-filament::button>
+                            <x-filament::button type="submit">
+                                Insert
+                            </x-filament::button>
+                        </div>
                     </div>
                 </form>
             </div>

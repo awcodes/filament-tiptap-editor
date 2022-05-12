@@ -6,19 +6,17 @@
     :required="$isRequired()"
     :state-path="$getStatePath()">
     <div @class([
-        'tiptap-editor border border-gray-200 rounded-md overflow-hidden',
+        'tiptap-editor border border-gray-200 rounded-md',
         'dark:border-gray-600' => config('filament.dark_mode'),
     ])>
         <div wire:ignore
             class="tiptap-wrapper"
-            x-bind:class="{'tiptap-fullscreen': fullScreenMode}"
+            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
             x-data="tiptap({ state: $wire.entangle('{{ $getStatePath() }}'), buttons: '{{ $getButtons() }}' })"
-            x-on:insert-media.window="$event.detail.fieldId === '{{ $getStatePath() }}' ? insertMedia($event.detail.media) : null"
-            x-on:insert-link.window="$event.detail.fieldId === '{{ $getStatePath() }}' ? insertLink($event.detail.link) : null"
             x-on:keydown.escape="fullScreenMode = false"
             x-id="['dropdown-button']">
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
                     'filament.dark_mode'
                 ),
@@ -76,6 +74,10 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.lead />
                     </div>
+                    <div x-show="buttons.includes('color')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.color />
+                    </div>
                     <div x-show="buttons.includes('bulletList')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.list />
@@ -116,9 +118,26 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.media fieldId="{{ $getStatePath() }}" />
                     </div>
+                    <div x-show="buttons.includes('embed')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.embed fieldId="{{ $getStatePath() }}" />
+                    </div>
+                    <div x-show="buttons.includes('color')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.remove-color />
+                    </div>
+                    <div x-show="buttons.includes('code')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.code />
+                    </div>
+                    <div x-show="buttons.includes('codeblock')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.code-block />
+                    </div>
                 </div>
                 <div class="tiptap-toolbar-right">
                     <x-filament-tiptap-editor::buttons.fullscreen />
+                    {{-- <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" /> --}}
                 </div>
             </div>
 
@@ -130,10 +149,10 @@
         </div>
     </div>
 
-    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader')
+    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
         @once
             @push('modals')
-                @livewire('filament-tiptap-editor-media-uploader', ['fieldId' => $getStatePath()])
+                @livewire('filament-tiptap-editor-media-uploader-modal', ['fieldId' => $getStatePath()])
             @endpush
         @endonce
     @endif
@@ -141,6 +160,8 @@
     @once
         @push('modals')
             @livewire('filament-tiptap-editor-link-modal', ['fieldId' => $getStatePath()])
+            @livewire('filament-tiptap-editor-embed-modal', ['fieldId' => $getStatePath()])
+            {{-- @livewire('filament-tiptap-editor-source-modal', ['fieldId' => $getStatePath()]) --}}
         @endpush
     @endonce
 </x-forms::field-wrapper>

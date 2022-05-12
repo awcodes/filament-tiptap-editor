@@ -24,13 +24,33 @@ import Underline from "@tiptap/extension-underline";
 import History from "@tiptap/extension-history";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import Gapcursor from "@tiptap/extension-gapcursor";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import Code from "@tiptap/extension-code";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { CheckedList, Lead } from "./extensions";
+import { lowlight } from "lowlight/lib/common";
+
+function randomString(length) {
+  var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".split("");
+
+  if (!length) {
+    length = Math.floor(Math.random() * chars.length);
+  }
+
+  var str = "";
+  for (var i = 0; i < length; i++) {
+    str += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return str;
+}
 
 document.addEventListener("alpine:init", () => {
-  Alpine.data("tiptap", ({ state, buttons = "", blocks = [] }) => {
-    let editor;
+  let editors = window.filamentTiptapEditors || {};
 
+  Alpine.data("tiptap", ({ state, buttons = "", blocks = [] }) => {
     return {
+      id: null,
       buttons: buttons.split(","),
       blocks: blocks,
       json: [],
@@ -56,8 +76,25 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
         if (this.buttons.includes("media")) exts.push(Image);
+        // if (this.buttons.includes("embed")) exts.push(IFrame);
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);
+
+        if (this.buttons.includes("code")) exts.push(Code);
+        if (this.buttons.includes("codeblock"))
+          exts.push(
+            CodeBlockLowlight.configure({
+              lowlight,
+              HTMLAttributes: {
+                class: "hljs",
+              },
+            })
+          );
+
+        if (this.buttons.includes("color")) {
+          exts.push(Color);
+          exts.push(TextStyle);
+        }
 
         if (this.buttons.includes("orderedList") || this.buttons.includes("bulletList") || this.buttons.includes("checkedList")) {
           if (this.buttons.includes("orderedList")) exts.push(OrderedList);
@@ -87,152 +124,10 @@ document.addEventListener("alpine:init", () => {
 
         return exts;
       },
-      isActive(type, opts = {}, updatedAt) {
-        return editor.isActive(type, opts);
-      },
-      toggleBold() {
-        editor.chain().focus().toggleBold().run();
-      },
-      toggleItalic() {
-        editor.chain().focus().toggleItalic().run();
-      },
-      toggleStrike() {
-        editor.chain().focus().toggleStrike().run();
-      },
-      toggleUnderline() {
-        editor.chain().focus().toggleUnderline().run();
-      },
-      toggleHeading(level) {
-        editor.chain().focus().toggleHeading({ level }).run();
-      },
-      toggleLead() {
-        editor.chain().focus().toggleLead().run();
-      },
-      toggleList(type) {
-        if (type == "ol") {
-          editor.chain().focus().toggleOrderedList().run();
-        } else {
-          editor.chain().focus().toggleBulletList().run();
-        }
-      },
-      toggleCheckedList() {
-        editor.chain().focus().toggleCheckedList().run();
-      },
-      toggleBlockquote() {
-        editor.chain().focus().toggleBlockquote().run();
-      },
-      setHorizontalRule() {
-        editor.chain().focus().setHorizontalRule().run();
-      },
-      undo() {
-        editor.chain().focus().undo().run();
-      },
-      redo() {
-        editor.chain().focus().redo().run();
-      },
-      toggleSuperscript() {
-        editor.chain().focus().toggleSuperscript().run();
-      },
-      toggleSubscript() {
-        editor.chain().focus().toggleSubscript().run();
-      },
-      tables: {
-        insertTable(config = { rows: 3, cols: 3, withHeaderRow: true }) {
-          editor.chain().focus().insertTable(config).run();
-        },
-        addColumnBefore() {
-          editor.chain().focus().addColumnBefore().run();
-        },
-        addColumnAfter() {
-          editor.chain().focus().addColumnAfter().run();
-        },
-        deleteColumn() {
-          editor.chain().focus().deleteColumn().run();
-        },
-        addRowBefore() {
-          editor.chain().focus().addRowBefore().run();
-        },
-        addRowAfter() {
-          editor.chain().focus().addRowAfter().run();
-        },
-        deleteRow() {
-          editor.chain().focus().deleteRow().run();
-        },
-        deleteTable() {
-          editor.chain().focus().deleteTable().run();
-        },
-        mergeCells() {
-          editor.chain().focus().mergeCells().run();
-        },
-        splitCell() {
-          editor.chain().focus().splitCell().run();
-        },
-        toggleHeaderColumn() {
-          editor.chain().focus().toggleHeaderColumn().run();
-        },
-        toggleHeaderRow() {
-          editor.chain().focus().toggleHeaderRow().run();
-        },
-        toggleHeaderCell() {
-          editor.chain().focus().toggleHeaderCell().run();
-        },
-        mergeOrSplit() {
-          editor.chain().focus().mergeOrSplit().run();
-        },
-        setCellAttribute(attribute = "colspan", value = 2) {
-          editor.chain().focus().setCellAttribute(attribute, value).run();
-        },
-        fixTables() {
-          editor.chain().focus().fixTables().run();
-        },
-        goToNextCell() {
-          editor.chain().focus().goToNextCell().run();
-        },
-        goToPreviousCell() {
-          editor.chain().focus().goToPreviousCell().run();
-        },
-      },
-      unsetLink() {
-        editor.chain().extendMarkRange("link").unsetLink().run();
-      },
-      insertLink(link) {
-        if (link.url === null) {
-          return;
-        }
-
-        if (link.url === "") {
-          editor.chain().focus().extendMarkRange("link").unsetLink().run();
-          return;
-        }
-
-        editor
-          .chain()
-          .focus()
-          .extendMarkRange("link")
-          .setLink({ href: link.url, target: link.target ?? null })
-          .run();
-      },
-      insertMedia(media) {
-        const src = media?.url || media.src;
-        const imageTypes = ["jpg", "jpeg", "svg", "png"];
-
-        if (imageTypes.includes(src.split(".").pop())) {
-          editor
-            .chain()
-            .focus()
-            .setImage({
-              src: src,
-              alt: media?.alt,
-              title: media?.title,
-            })
-            .run();
-        } else {
-          editor.chain().focus().extendMarkRange("link").setLink({ href: src }).insertContent(media?.link_text).run();
-        }
-      },
       init() {
-        const _this = this;
-        editor = new Editor({
+        this.id = randomString(8);
+        let _this = this;
+        editors[this.id] = new Editor({
           element: this.$refs.element,
           extensions: this.getExtensions(),
           content: state.initialValue,
@@ -251,6 +146,14 @@ document.addEventListener("alpine:init", () => {
             _this.updatedAt = Date.now();
           },
         });
+
+        window.filamentTiptapEditors = editors;
+      },
+      editor() {
+        return editors[this.id];
+      },
+      isActive(type, opts = {}, updatedAt) {
+        return this.editor().isActive(type, opts);
       },
     };
   });

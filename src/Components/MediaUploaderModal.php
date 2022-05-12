@@ -15,12 +15,13 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class MediaUploader extends Component implements HasForms
+class MediaUploaderModal extends Component implements HasForms
 {
     use InteractsWithForms;
 
     public $data;
     public $fieldId = null;
+    public $type = 'image';
 
     public function mount(string $fieldId)
     {
@@ -36,12 +37,19 @@ class MediaUploader extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('type')->hidden('true'),
             FileUpload::make('src')
-                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'])
                 ->label('File')
-                ->required()
+                ->disk(config('filament-tiptap-editor.disk'))
+                ->directory(config('filament-tiptap-editor.directory'))
+                ->visibility(config('filament-tiptap-editor.visibility'))
+                ->preserveFilenames(config('filament-tiptap-editor.preserve_file_names'))
+                ->acceptedFileTypes(config('filament-tiptap-editor.accepted_file_types'))
                 ->maxFiles(1)
+                ->maxSize(config('filament-tiptap-editor.max_file_size'))
+                ->imageCropAspectRatio(config('filament-tiptap-editor.image_crop_aspect_ratio'))
+                ->imageResizeTargetWidth(config('filament-tiptap-editor.image_resize_target_width'))
+                ->imageResizeTargetHeight(config('filament-tiptap-editor.image_resize_target_height'))
+                ->required()
                 ->reactive()
                 ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, $set) {
 
@@ -55,35 +63,48 @@ class MediaUploader extends Component implements HasForms
 
                     $upload = $file->{$storeMethod}($component->getDirectory(), $filename  .  '.' . $file->getClientOriginalExtension(), $component->getDiskName());
 
-                    if (Str::of($file->getMimeType())->contains('image')) {
-                        $set('type', 'document');
-                    }
-
                     return Storage::disk($component->getDiskName())->url($upload);
                 }),
             TextInput::make('link_text')
-                ->helperText('<span class="text-xs">This will only be used if the file is not an image.</span>'),
+                ->required()
+                ->visible(fn ($livewire) => $livewire->type == 'document'),
             TextInput::make('alt')
+                ->hidden(fn ($livewire) => $livewire->type == 'document')
                 ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.</span>'),
         ];
+    }
+
+    public function determineType($type): void
+    {
+        if (!Str::of($type)->contains('image')) {
+            $this->type = 'document';
+        }
     }
 
     public function resetForm(): void
     {
         $this->resetErrorBag();
+        $this->type = 'image';
+        $this->data = null;
         $this->form->fill();
+    }
+
+    public function cancelInsert()
+    {
+        $this->resetForm();
+        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-media-uploader-modal']);
     }
 
     public function create(): void
     {
         $media = $this->form->getState();
-        $this->form->fill();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-media-uploader']);
-        $this->dispatchBrowserEvent('insert-media', ['id' => 'filament-tiptap-editor-media-uploader', 'media' => $media, 'fieldId' => $this->fieldId]);
+        $this->resetForm();
+        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-media-uploader-modal']);
+        $this->dispatchBrowserEvent('insert-media', ['id' => 'filament-tiptap-editor-media-uploader-modal', 'media' => $media, 'fieldId' => $this->fieldId]);
     }
 
     public function render()
     {
-        return view('filament-tiptap-editor::components.media-uploader');
+        return view('filament-tiptap-editor::components.media-uploader-modal');
     }
 }

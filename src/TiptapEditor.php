@@ -23,12 +23,12 @@ class TiptapEditor extends Field
     {
         parent::setUp();
 
-        $this->profile = Str::of(config('filament-tiptap-editor.profiles.default'))->replace(' ', '')->trim(',');
+        $this->profile = collect(config('filament-tiptap-editor.profiles.default'))->implode(',');
     }
 
     public function profile(?string $profile)
     {
-        $this->profile = Str::of(config('filament-tiptap-editor.profiles.' . $profile))->replace(' ', '')->trim(',');
+        $this->profile = collect(config('filament-tiptap-editor.profiles.' . $profile))->implode(',');
 
         return $this;
     }

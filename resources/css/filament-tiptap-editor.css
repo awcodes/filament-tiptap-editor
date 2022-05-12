@@ -34,6 +34,15 @@
   }
 }
 
+.tiptap-editor .tiptap-toolbar input[type="color"] {
+  -webkit-appearance: none;
+  border: 0px solid theme("colors.gray.300");
+}
+
+.tiptap-editor .tiptap-toolbar input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
 .tiptap-editor .ProseMirror {
   padding: 1rem;
 
@@ -199,6 +208,101 @@
     cursor: ew-resize;
     cursor: col-resize;
   }
+
+  code {
+    background-color: theme("colors.gray.300");
+    border-radius: 0.25rem;
+    padding-inline: 0.25rem;
+  }
+
+  pre {
+    background-color: theme("colors.gray.900");
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+
+    code {
+      color: inherit;
+      padding: 0;
+      background: none !important;
+      font-size: 0.8rem;
+    }
+
+    .hljs-doctag,
+    .hljs-keyword,
+    .hljs-meta .hljs-keyword,
+    .hljs-template-tag,
+    .hljs-template-variable,
+    .hljs-type,
+    .hljs-variable.language_ {
+      color: #ff7b72;
+    }
+    .hljs-title,
+    .hljs-title.class_,
+    .hljs-title.class_.inherited__,
+    .hljs-title.function_ {
+      color: #d2a8ff;
+    }
+    .hljs-attr,
+    .hljs-attribute,
+    .hljs-literal,
+    .hljs-meta,
+    .hljs-number,
+    .hljs-operator,
+    .hljs-selector-attr,
+    .hljs-selector-class,
+    .hljs-selector-id,
+    .hljs-variable {
+      color: #79c0ff;
+    }
+    .hljs-meta .hljs-string,
+    .hljs-regexp,
+    .hljs-string {
+      color: #a5d6ff;
+    }
+    .hljs-built_in,
+    .hljs-symbol {
+      color: #ffa657;
+    }
+    .hljs-code,
+    .hljs-comment,
+    .hljs-formula {
+      color: #8b949e;
+    }
+    .hljs-name,
+    .hljs-quote,
+    .hljs-selector-pseudo,
+    .hljs-selector-tag {
+      color: #7ee787;
+    }
+    .hljs-subst {
+      color: #c9d1d9;
+    }
+    .hljs-section {
+      color: #1f6feb;
+      font-weight: 700;
+    }
+    .hljs-bullet {
+      color: #f2cc60;
+    }
+    .hljs-emphasis {
+      color: #c9d1d9;
+      font-style: italic;
+    }
+    .hljs-strong {
+      color: #c9d1d9;
+      font-weight: 700;
+    }
+    .hljs-addition {
+      color: #aff5b4;
+      background-color: #033a16;
+    }
+    .hljs-deletion {
+      color: #ffdcd7;
+      background-color: #67060c;
+    }
+  }
 }
 
 .dark {
@@ -235,5 +339,13 @@
       background-color: theme("colors.gray.500");
       color: theme("colors.gray.900");
     }
+
+    code {
+      background-color: theme("colors.gray.500");
+    }
+  }
+
+  .tiptap-editor .ProseMirror-focused .ProseMirror-gapcursor:after {
+    border-top: 1px solid white;
   }
 }

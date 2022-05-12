@@ -16,14 +16,12 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class LinkModal extends Component implements HasForms
+class SourceModal extends Component implements HasForms
 {
     use InteractsWithForms;
 
     public $data;
     public $fieldId = null;
-    public $href = null;
-    public $target = null;
 
     public function mount(string $fieldId)
     {
@@ -39,19 +37,14 @@ class LinkModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('url')->type('url')->required(),
-            Select::make('target')->options(['_blank' => 'New Window']),
+            TextArea::make('source'),
         ];
     }
 
-    public function setState($href, $target)
+    public function setState($source)
     {
-        $this->href = $href;
-        $this->target = $target;
-
         $this->form->fill([
-            'url' => $href,
-            'target' => $target,
+            'source' => $source,
         ]);
     }
 
@@ -61,23 +54,16 @@ class LinkModal extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function removeLink(): void
-    {
-        $this->resetForm();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-link-modal']);
-        $this->dispatchBrowserEvent('remove-link', ['id' => 'filament-tiptap-editor-link-modal', 'fieldId' => $this->fieldId]);
-    }
-
     public function create(): void
     {
-        $link = $this->form->getState();
+        $data = $this->form->getState();
         $this->form->fill();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-link-modal']);
-        $this->dispatchBrowserEvent('insert-link', ['id' => 'filament-tiptap-editor-link-modal', 'link' => $link, 'fieldId' => $this->fieldId]);
+        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-source-modal']);
+        $this->dispatchBrowserEvent('insert-source', ['id' => 'filament-tiptap-editor-source-modal', 'source' => $data['source'], 'fieldId' => $this->fieldId]);
     }
 
     public function render()
     {
-        return view('filament-tiptap-editor::components.link-modal');
+        return view('filament-tiptap-editor::components.source-modal');
     }
 }

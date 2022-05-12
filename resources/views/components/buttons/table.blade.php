@@ -15,7 +15,13 @@
         this.open = false
 
         focusAfter && focusAfter.focus()
-    }
+    },
+    insertTable(config = { rows: 3, cols: 3, withHeaderRow: true }) {
+        this.editor().chain().focus().insertTable(config).run();
+    },
+    setCellAttribute(attribute = 'colspan', value = 2) {
+        this.editor().chain().focus().setCellAttribute(attribute, value).run();
+    },
 }"
     x-on:keydown.escape.prevent.stop="close($refs.button)"
     x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
@@ -27,7 +33,7 @@
         :aria-expanded="open"
         :aria-controls="$id('dropdown-button')"
         class="p-2"
-        :class="{ 'active' : open }"
+        :class="{ 'active': open }"
         x-tooltip="'Table'">
         <svg xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -56,109 +62,109 @@
         <ul class="text-sm divide-y divide-gray-700 min-w-[144px]">
             <li>
                 <button type="button"
-                    x-on:click="tables.insertTable()"
+                    x-on:click="insertTable()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500 rounded-t-md">Insert
                     Table</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.addColumnBefore()"
+                    x-on:click="editor().chain().focus().addColumnBefore().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Add
                     Column Before</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.addColumnAfter()"
+                    x-on:click="editor().chain().focus().addColumnAfter().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Add
                     Column After</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.deleteColumn()"
+                    x-on:click="editor().chain().focus().deleteColumn().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Delete
                     Column</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.addRowBefore()"
+                    x-on:click="editor().chain().focus().addRowBefore().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Add
                     Row Before</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.addRowAfter()"
+                    x-on:click="editor().chain().focus().addRowAfter().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Add
                     Row After</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.deleteRow()"
+                    x-on:click="editor().chain().focus().deleteRow().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Delete
                     Row</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.deleteTable()"
+                    x-on:click="editor().chain().focus().deleteTable().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Delete
                     Table</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.mergeCells()"
+                    x-on:click="editor().chain().focus().mergeCells().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Merge
                     Cells</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.splitCell()"
+                    x-on:click="editor().chain().focus().splitCell().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Split
                     Cell</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.toggleHeaderColumn()"
+                    x-on:click="editor().chain().focus().toggleHeaderColumn().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Toggle
                     Header Column</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.toggleHeaderRow()"
+                    x-on:click="editor().chain().focus().toggleHeaderRow().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Toggle
                     Header Row</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.toggleHeaderCell()"
+                    x-on:click="editor().chain().focus().toggleHeaderCell().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Toggle
                     Header Cell</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.mergeOrSplit()"
+                    x-on:click="editor().chain().focus().mergeOrSplit().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Merge
                     Or Split</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.setCellAttribute()"
+                    x-on:click="setCellAttribute()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Set
                     Cell Attribute</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.fixTables()"
+                    x-on:click="editor().chain().focus().fixTables().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Fix
                     Tables</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.goToNextCell()"
+                    x-on:click="editor().chain().focus().goToNextCell().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500">Go
                     To Next Cell</button>
             </li>
             <li>
                 <button type="button"
-                    x-on:click="tables.goToPreviousCell()"
+                    x-on:click="editor().chain().focus().goToPreviousCell().run()"
                     class="block w-full px-3 py-2 text-left whitespace-nowrap hover:bg-primary-500 focus:bg-primary-500 rounded-b-md">Go
                     To Previous Cell</button>
             </li>

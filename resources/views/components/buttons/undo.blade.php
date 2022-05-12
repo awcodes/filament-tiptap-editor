@@ -1,5 +1,5 @@
 <button type="button"
-    x-on:click="undo()"
+    x-on:click="editor().chain().focus().undo().run()"
     class="p-2"
     x-tooltip="'Undo'">
     <svg xmlns="http://www.w3.org/2000/svg"

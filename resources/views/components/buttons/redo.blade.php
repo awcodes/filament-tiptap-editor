@@ -1,5 +1,5 @@
 <button type="button"
-    x-on:click="redo()"
+    x-on:click="editor().chain().focus().redo().run()"
     class="p-2"
     x-tooltip="'Redo'">
     <svg xmlns="http://www.w3.org/2000/svg"

@@ -16,14 +16,12 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 
-class LinkModal extends Component implements HasForms
+class EmbedModal extends Component implements HasForms
 {
     use InteractsWithForms;
 
     public $data;
     public $fieldId = null;
-    public $href = null;
-    public $target = null;
 
     public function mount(string $fieldId)
     {
@@ -40,19 +38,7 @@ class LinkModal extends Component implements HasForms
     {
         return [
             TextInput::make('url')->type('url')->required(),
-            Select::make('target')->options(['_blank' => 'New Window']),
         ];
-    }
-
-    public function setState($href, $target)
-    {
-        $this->href = $href;
-        $this->target = $target;
-
-        $this->form->fill([
-            'url' => $href,
-            'target' => $target,
-        ]);
     }
 
     public function resetForm(): void
@@ -61,23 +47,17 @@ class LinkModal extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function removeLink(): void
-    {
-        $this->resetForm();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-link-modal']);
-        $this->dispatchBrowserEvent('remove-link', ['id' => 'filament-tiptap-editor-link-modal', 'fieldId' => $this->fieldId]);
-    }
-
     public function create(): void
     {
-        $link = $this->form->getState();
-        $this->form->fill();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-link-modal']);
-        $this->dispatchBrowserEvent('insert-link', ['id' => 'filament-tiptap-editor-link-modal', 'link' => $link, 'fieldId' => $this->fieldId]);
+        $data = $this->form->getState();
+        ray($data);
+        $this->resetForm();
+        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-embed-modal']);
+        $this->dispatchBrowserEvent('insert-embed', ['id' => 'filament-tiptap-editor-embed-modal', 'url' => $data['url'], 'fieldId' => $this->fieldId]);
     }
 
     public function render()
     {
-        return view('filament-tiptap-editor::components.link-modal');
+        return view('filament-tiptap-editor::components.embed-modal');
     }
 }

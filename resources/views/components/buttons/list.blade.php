@@ -7,9 +7,9 @@ $active = $type == 'ol' ? 'orderedList' : 'bulletList';
 @endphp
 
 <button type="button"
-    x-on:click="toggleList('{{ $type }}')"
+    x-on:click="{{ $type == 'ol' ? 'editor().chain().focus().toggleOrderedList().run()' : 'editor().chain().focus().toggleBulletList().run()' }}"
     class="p-2"
-    :class="{ 'active' : isActive('{{ $active }}', updatedAt) }"
+    :class="{ 'active': isActive('{{ $active }}', updatedAt) }"
     x-tooltip="'{{ $type == 'ol' ? 'Ordered List' : 'Unordered List' }}'">
     @if ($type == 'ol')
         <svg xmlns="http://www.w3.org/2000/svg"

@@ -3,8 +3,29 @@
 ])
 <button type="button"
     x-on:click="$dispatch('open-modal', {id: '{{ config('filament-tiptap-editor.media_uploader_id') }}', fieldId: '{{ $fieldId }}'})"
+    x-on:insert-media.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertMedia($event.detail.media) : null"
     class="p-2"
-    x-tooltip="'Insert Media'">
+    x-tooltip="'Insert Media'"
+    x-data="{
+        insertMedia(media) {
+            const src = media?.url || media.src;
+            const imageTypes = ['jpg', 'jpeg', 'svg', 'png'];
+    
+            if (imageTypes.includes(src.split('.').pop())) {
+                this.editor()
+                    .chain()
+                    .focus()
+                    .setImage({
+                        src: src,
+                        alt: media?.alt,
+                        title: media?.title,
+                    })
+                    .run();
+            } else {
+                this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
+            }
+        },
+    }">
     <svg xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         aria-hidden="true"

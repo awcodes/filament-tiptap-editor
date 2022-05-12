@@ -1,10 +1,9 @@
 <div x-data="{
     isOpen: false,
     toggleOpen(event) {
-        if (event.detail.id === 'filament-tiptap-editor-link-modal') {
+        if (event.detail.id === 'filament-tiptap-editor-embed-modal') {
             this.isOpen = !this.isOpen;
         }
-        $wire.setState(event.detail.href, event.detail.target);
     }
 }"
     x-on:close-modal.window="toggleOpen($event)"
@@ -47,7 +46,7 @@
             ])>
                 <form wire:submit.prevent="create">
                     <div class="px-4 py-3 filament-tiptap-editor-modal-header">
-                        <h3>{{ __('Insert Link') }}</h3>
+                        <h3>{{ __('Insert Embed') }}</h3>
                     </div>
 
                     <x-filament::hr />
@@ -59,13 +58,6 @@
                     <x-filament::hr />
 
                     <div class="flex items-center gap-4 px-4 py-3 filament-tiptap-editor-modal-footer">
-                        @if ($href)
-                            <x-filament::button type="button"
-                                wire:click="removeLink"
-                                color="danger">
-                                Remove Link
-                            </x-filament::button>
-                        @endif
                         <div class="ml-auto">
                             <x-filament::button type="button"
                                 x-on:click="isOpen = false; $wire.resetForm();"

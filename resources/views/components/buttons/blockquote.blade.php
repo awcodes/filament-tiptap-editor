@@ -1,7 +1,7 @@
 <button type="button"
-    x-on:click="toggleBlockquote()"
+    x-on:click="editor().chain().focus().toggleBlockquote().run()"
     class="p-2"
-    :class="{ 'active' : isActive('blockquote', updatedAt) }"
+    :class="{ 'active': isActive('blockquote', updatedAt) }"
     x-tooltip="'Blockquote'">
     <svg xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
