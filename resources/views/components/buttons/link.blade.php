@@ -36,8 +36,6 @@
                     return;
                 }
     
-                console.log(link);
-    
                 this.editor()
                     .chain()
                     .focus()
