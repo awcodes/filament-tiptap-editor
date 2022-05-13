@@ -24,6 +24,7 @@ class LinkModal extends Component implements HasForms
     public ?string $fieldId = null;
     public ?string $href = null;
     public ?string $target = null;
+    public ?string $rel = null;
 
     public function mount(string $fieldId)
     {
@@ -51,17 +52,22 @@ class LinkModal extends Component implements HasForms
                     '_top' => 'Top',
                 ])
                 ->required(),
+            TextInput::make('rel')
+                ->label('Rel')
+                ->helperText('Example: noopener noreferrer nofollow'),
         ];
     }
 
-    public function setState(?string $href, ?string $target)
+    public function setState(?string $href, ?string $target, ?string $rel)
     {
         $this->href = $href;
         $this->target = $target ?: '_self';
+        $this->rel = $rel;
 
         $this->form->fill([
             'url' => $this->href,
             'target' => $this->target,
+            'rel' => $this->rel,
         ]);
     }
 
