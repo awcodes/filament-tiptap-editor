@@ -4,7 +4,7 @@
         if (event.detail.id === 'filament-tiptap-editor-link-modal') {
             this.isOpen = !this.isOpen;
         }
-        $wire.setState(event.detail.href, event.detail.target);
+        $wire.setState(event.detail.href, event.detail.target, event.detail.hreflang, event.detail.rel);
     }
 }"
     x-on:close-modal.window="toggleOpen($event)"

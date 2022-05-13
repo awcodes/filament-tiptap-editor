@@ -13,29 +13,41 @@
             },
             openModal() {
                 let href = this.editor().getAttributes('link').href;
-                let target = this.editor().getAttributes('link').target;
+                let target = this.editor().getAttributes('link').target || null;
+                let hreflang = this.editor().getAttributes('link').hreflang || null;
+                let rel = this.editor().getAttributes('link').rel || null;
+    
                 $dispatch('open-modal', {
                     id: 'filament-tiptap-editor-link-modal',
                     fieldId: '{{ $fieldId }}',
                     href: href,
-                    target: target
+                    hreflang: hreflang,
+                    target: target,
+                    rel: rel,
                 });
             },
             insertLink(link) {
-                if (link.url === null) {
+                if (link.href === null) {
                     return;
                 }
     
-                if (link.url === '') {
+                if (link.href === '') {
                     this.editor().chain().focus().extendMarkRange('link').unsetLink().run();
                     return;
                 }
+    
+                console.log(link);
     
                 this.editor()
                     .chain()
                     .focus()
                     .extendMarkRange('link')
-                    .setLink({ href: link.url, target: link.target ?? null })
+                    .setLink({
+                        href: link.href,
+                        target: link.target ?? null,
+                        hreflang: link.hreflang ?? null,
+                        rel: link.rel.length ? link.rel.join(' ') : null
+                    })
                     .run();
             }
     }">
