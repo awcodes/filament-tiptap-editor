@@ -21,9 +21,9 @@ class LinkModal extends Component implements HasForms
     use InteractsWithForms;
 
     public $data;
-    public $fieldId = null;
-    public $href = null;
-    public $target = null;
+    public ?string $fieldId = null;
+    public ?string $href = null;
+    public ?string $target = null;
 
     public function mount(string $fieldId)
     {
@@ -39,19 +39,29 @@ class LinkModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('url')->type('url')->required(),
-            Select::make('target')->options(['_blank' => 'New Window']),
+            TextInput::make('url')
+                ->label('Url')
+                ->required(),
+            Select::make('target')
+                ->label('Link target')
+                ->options([
+                    '_self' => 'Default',
+                    '_blank' => 'New window',
+                    '_parent' => 'Parent',
+                    '_top' => 'Top',
+                ])
+                ->required(),
         ];
     }
 
-    public function setState($href, $target)
+    public function setState(?string $href, ?string $target)
     {
         $this->href = $href;
-        $this->target = $target;
+        $this->target = $target ?: '_self';
 
         $this->form->fill([
-            'url' => $href,
-            'target' => $target,
+            'url' => $this->href,
+            'target' => $this->target,
         ]);
     }
 
