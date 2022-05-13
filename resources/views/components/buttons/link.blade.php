@@ -15,6 +15,7 @@
                 let href = this.editor().getAttributes('link').href;
                 let target = this.editor().getAttributes('link').target;
                 let rel = this.editor().getAttributes('link').rel;
+                console.log(this.editor().getAttributes('link'));
                 $dispatch('open-modal', {
                     id: 'filament-tiptap-editor-link-modal',
                     fieldId: '{{ $fieldId }}',

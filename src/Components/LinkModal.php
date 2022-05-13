@@ -52,9 +52,9 @@ class LinkModal extends Component implements HasForms
                     '_top' => 'Top',
                 ])
                 ->required(),
-            TextInput::make('rel')
-                ->label('Rel')
-                ->helperText('Example: noopener noreferrer nofollow'),
+//            TextInput::make('rel')
+//                ->label('Rel')
+//                ->helperText('Example: noopener noreferrer nofollow'),
         ];
     }
 
