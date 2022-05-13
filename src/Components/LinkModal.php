@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\BaseFileUpload;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class LinkModal extends Component implements HasForms
@@ -21,9 +22,11 @@ class LinkModal extends Component implements HasForms
     use InteractsWithForms;
 
     public $data;
-    public $fieldId = null;
-    public $href = null;
-    public $target = null;
+    public ?string $fieldId = null;
+    public ?string $href = null;
+    public ?string $hreflang = null;
+    public ?string $target = null;
+    public ?array $rel = [];
 
     public function mount(string $fieldId)
     {
@@ -39,19 +42,34 @@ class LinkModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('url')->type('url')->required(),
-            Select::make('target')->options(['_blank' => 'New Window']),
+            TextInput::make('href')->label('URL')->required(),
+            TextInput::make('hreflang')->label('Language'),
+            Select::make('target')->options([
+                '' => 'Default',
+                '_blank' => 'New Window',
+                '_parent' => 'Parent',
+                '_top' => 'Top'
+            ]),
+            CheckboxList::make('rel')->options([
+                'nofollow' => 'No follow',
+                'noopener' => 'No opener',
+                'noreferrer' => 'No Referrer',
+            ])
         ];
     }
 
-    public function setState($href, $target)
+    public function setState(?string $href = null, ?string $target = null, ?string $hreflang = null, ?string $rel = null)
     {
         $this->href = $href;
+        $this->hreflang = $hreflang;
         $this->target = $target;
+        $this->rel = $rel ? Str::of($rel)->trim()->explode(' ')->toArray() : [];
 
         $this->form->fill([
-            'url' => $href,
-            'target' => $target,
+            'href' => $this->href,
+            'hreflang' => $this->hreflang,
+            'target' => $this->target,
+            'rel' => $this->rel,
         ]);
     }
 

@@ -9,7 +9,6 @@ import ListItem from "@tiptap/extension-list-item";
 import Heading from "@tiptap/extension-heading";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import OrderedList from "@tiptap/extension-ordered-list";
-import Link from "@tiptap/extension-link";
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
 import Table from "@tiptap/extension-table";
@@ -28,7 +27,7 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
-import { CheckedList, Lead } from "./extensions";
+import { CheckedList, Lead, CustomLink } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
 function randomString(length) {
@@ -63,9 +62,13 @@ document.addEventListener("alpine:init", () => {
 
         if (this.buttons.includes("link"))
           exts.push(
-            Link.configure({
+            CustomLink.configure({
               openOnClick: false,
               autolink: false,
+              HTMLAttributes: {
+                rel: null,
+                hreflang: null,
+              },
             })
           );
         if (this.buttons.includes("blockquote")) exts.push(Blockquote);
