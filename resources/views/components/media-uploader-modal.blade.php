@@ -8,7 +8,7 @@
     init() {
         document.addEventListener('FilePond:processfiles', (e) => {
             $wire.determineType(e.detail.pond.getFile().fileType);
-        });
+        }, true);
     }
 }"
     x-on:close-modal.window="toggleOpen($event)"
