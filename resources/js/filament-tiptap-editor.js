@@ -133,7 +133,7 @@ document.addEventListener("alpine:init", () => {
         editors[this.id] = new Editor({
           element: this.$refs.element,
           extensions: this.getExtensions(),
-          content: state.initialValue,
+          content: state?.initialValue,
           onCreate({ editor }) {
             _this.updatedAt = Date.now();
             _this.html = editor.getHTML();
@@ -144,9 +144,14 @@ document.addEventListener("alpine:init", () => {
             _this.state = editor.getHTML();
             _this.html = editor.getHTML();
             _this.json = editor.getJSON()?.content;
+            _this.$refs.textarea.value = editor.getHTML();
+            _this.$refs.textarea.dispatchEvent(new Event("input"));
           },
           onSelectionUpdate({ editor }) {
             _this.updatedAt = Date.now();
+          },
+          onBlur({ editor }) {
+            _this.$refs.textarea.dispatchEvent(new Event("change"));
           },
         });
 

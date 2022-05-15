@@ -5,7 +5,7 @@
         'dark:border-gray-600' => config('filament.dark_mode'),
     ])>
         <div wire:ignore class="tiptap-wrapper" x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
-            x-data="tiptap({ state: $wire.entangle('{{ $getStatePath() }}'), buttons: '{{ $getButtons() }}' })" x-on:keydown.escape="fullScreenMode = false" x-id="['dropdown-button']">
+            x-data="tiptap({ state: $wire.entangle('{{ $getStatePath() }}').defer, buttons: '{{ $getButtons() }}' })" x-on:keydown.escape="fullScreenMode = false" x-id="['dropdown-button']">
             <div @class([
                 'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
@@ -108,6 +108,8 @@
                 'tiptap-content bg-white max-h-[40rem] h-auto overflow-scroll',
                 'dark:bg-gray-700' => config('filament.dark_mode'),
             ]) x-ref="element"></div>
+            <textarea x-ref="textarea" style="display:none;"
+                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"></textarea>
         </div>
     </div>
 
