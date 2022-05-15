@@ -23,9 +23,8 @@ class EmbedModal extends Component implements HasForms
     public $data;
     public $fieldId = null;
 
-    public function mount(string $fieldId)
+    public function mount()
     {
-        $this->fieldId = $fieldId;
         $this->form->fill();
     }
 
