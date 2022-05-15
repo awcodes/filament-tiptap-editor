@@ -28,9 +28,8 @@ class LinkModal extends Component implements HasForms
     public ?string $target = null;
     public ?array $rel = [];
 
-    public function mount(string $fieldId)
+    public function mount()
     {
-        $this->fieldId = $fieldId;
         $this->form->fill();
     }
 

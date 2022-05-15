@@ -23,9 +23,8 @@ class MediaUploaderModal extends Component implements HasForms
     public $fieldId = null;
     public $type = 'image';
 
-    public function mount(string $fieldId)
+    public function mount()
     {
-        $this->fieldId = $fieldId;
         $this->form->fill();
     }
 
