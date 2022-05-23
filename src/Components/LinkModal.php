@@ -25,7 +25,7 @@ class LinkModal extends Component implements HasForms
     public ?string $fieldId = null;
     public ?string $href = null;
     public ?string $hreflang = null;
-    public ?string $target = null;
+    public ?string $target = '';
     public ?array $rel = [];
 
     public function mount()
@@ -50,8 +50,8 @@ class LinkModal extends Component implements HasForms
                 '_top' => 'Top'
             ]),
             CheckboxList::make('rel')->options([
-                'nofollow' => 'No follow',
-                'noopener' => 'No opener',
+                'nofollow' => 'No Follow',
+                'noopener' => 'No Opener',
                 'noreferrer' => 'No Referrer',
             ])
         ];
@@ -61,7 +61,7 @@ class LinkModal extends Component implements HasForms
     {
         $this->href = $href;
         $this->hreflang = $hreflang;
-        $this->target = $target;
+        $this->target = $target ? $target : '';
         $this->rel = $rel ? Str::of($rel)->trim()->explode(' ')->toArray() : [];
 
         $this->form->fill([
@@ -81,7 +81,6 @@ class LinkModal extends Component implements HasForms
     public function removeLink(): void
     {
         $this->resetForm();
-        $this->dispatchBrowserEvent('close-modal', ['id' => 'filament-tiptap-editor-link-modal']);
         $this->dispatchBrowserEvent('remove-link', ['id' => 'filament-tiptap-editor-link-modal', 'fieldId' => $this->fieldId]);
     }
 

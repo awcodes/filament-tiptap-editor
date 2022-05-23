@@ -1,6 +1,5 @@
 <button type="button"
     x-on:click="editor().chain().focus().toggleLead().run()"
-    class="p-2"
     :class="{ 'active': isActive('leadParagraph', updatedAt) }"
     x-tooltip="'Lead Paragraph'">
     <svg xmlns="http://www.w3.org/2000/svg"

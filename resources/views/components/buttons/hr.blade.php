@@ -1,6 +1,5 @@
 <button type="button"
     x-on:click="editor().chain().focus().setHorizontalRule().run()"
-    class="p-2"
     :class="{ 'active': isActive('horizontalRule', updatedAt) }"
     x-tooltip="'Horizontal Rule'">
     <svg xmlns="http://www.w3.org/2000/svg"

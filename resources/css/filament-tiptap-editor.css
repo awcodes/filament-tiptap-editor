@@ -28,6 +28,18 @@
   display: grid;
   grid-template-columns: 1fr auto;
 
+  button {
+    border-radius: 0.25rem;
+    margin: 6px 4px 5px;
+    display: block;
+    padding: 4px;
+  }
+
+  button:hover,
+  button:focus {
+    background-color: theme("colors.gray.200");
+  }
+
   button.active {
     background-color: theme("colors.gray.300");
     color: theme("colors.gray.900");
@@ -309,6 +321,11 @@
 
 .dark {
   .tiptap-editor .tiptap-toolbar {
+    button:hover,
+    button:focus {
+      background-color: theme("colors.gray.800");
+    }
+
     button.active {
       background-color: theme("colors.gray.600");
       color: theme("colors.gray.300");

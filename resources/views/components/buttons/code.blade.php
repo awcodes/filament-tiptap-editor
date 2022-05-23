@@ -1,6 +1,5 @@
 <button type="button"
     x-on:click="editor().chain().focus().toggleCode().run()"
-    class="p-2"
     :class="{ 'active': isActive('code', updatedAt) }"
     x-tooltip="'Code'">
 

@@ -2,7 +2,6 @@
     'fieldId' => null,
 ])
 <button type="button"
-    class="p-2"
     x-on:click="openModal()"
     x-on:insert-link.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertLink($event.detail.link) : null"
     x-on:remove-link.window="$event.detail.fieldId === '{{ $fieldId }}' ? unsetLink($event.detail.link) : null"

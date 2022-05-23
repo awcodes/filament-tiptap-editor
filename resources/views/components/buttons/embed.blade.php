@@ -2,7 +2,6 @@
     'fieldId' => null,
 ])
 <button type="button"
-    class="p-2"
     x-on:click="openModal()"
     x-on:insert-embed.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertEmbed($event.detail.url) : null"
     x-tooltip="'Embed'"

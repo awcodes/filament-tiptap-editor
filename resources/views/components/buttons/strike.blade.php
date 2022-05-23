@@ -1,6 +1,5 @@
 <button type="button"
     x-on:click="editor().chain().focus().toggleStrike().run()"
-    class="p-2"
     :class="{ 'active': isActive('strike', updatedAt) }"
     x-tooltip="'Strike'">
     <svg xmlns="http://www.w3.org/2000/svg"

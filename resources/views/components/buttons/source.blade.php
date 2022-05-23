@@ -2,7 +2,6 @@
     'fieldId' => null,
 ])
 <button type="button"
-    class="p-2"
     x-on:click="openModal()"
     x-on:insert-source.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertSource($event.detail.source) : null"
     x-tooltip="'Source Code'"

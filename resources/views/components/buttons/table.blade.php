@@ -32,7 +32,6 @@
         x-on:click="toggle()"
         :aria-expanded="open"
         :aria-controls="$id('dropdown-button')"
-        class="p-2"
         :class="{ 'active': open }"
         x-tooltip="'Table'">
         <svg xmlns="http://www.w3.org/2000/svg"

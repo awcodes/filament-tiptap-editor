@@ -1,6 +1,6 @@
 <button type="button"
     x-on:click="fullScreenMode = !fullScreenMode"
-    class="p-2">
+    x-bind:class="{ 'active': fullScreenMode }">
     <div x-show="!fullScreenMode"
         x-tooltip="'Enter Fullscreen'">
         <svg xmlns="http://www.w3.org/2000/svg"

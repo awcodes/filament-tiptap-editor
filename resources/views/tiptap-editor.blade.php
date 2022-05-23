@@ -26,20 +26,12 @@
             x-on:keydown.escape="fullScreenMode = false"
             x-id="['dropdown-button']">
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md shadow z-10 relative',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
                     'filament.dark_mode'
                 ),
             ])>
                 <div class="flex flex-wrap items-center justify-start tiptap-toolbar-left">
-                    <div x-show="buttons.includes('undo')"
-                        style="display: none;">
-                        <x-filament-tiptap-editor::buttons.undo />
-                    </div>
-                    <div x-show="buttons.includes('redo')"
-                        style="display: none;">
-                        <x-filament-tiptap-editor::buttons.redo />
-                    </div>
                     <div x-show="buttons.includes('bold')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.bold />
@@ -128,10 +120,10 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.media fieldId="{{ $getStatePath() }}" />
                     </div>
-                    <div x-show="buttons.includes('embed')"
+                    {{-- <div x-show="buttons.includes('embed')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.embed fieldId="{{ $getStatePath() }}" />
-                    </div>
+                    </div> --}}
                     <div x-show="buttons.includes('color')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.remove-color />
@@ -145,7 +137,19 @@
                         <x-filament-tiptap-editor::buttons.code-block />
                     </div>
                 </div>
-                <div class="tiptap-toolbar-right">
+                <div class="flex flex-wrap items-center justify-end pl-1 tiptap-toolbar-right">
+                    <div x-show="buttons.includes('undo')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.undo />
+                    </div>
+                    <div x-show="buttons.includes('redo')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.redo />
+                    </div>
+                    <div x-show="buttons.includes('erase')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.erase />
+                    </div>
                     <x-filament-tiptap-editor::buttons.fullscreen />
                     {{-- <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" /> --}}
                 </div>
@@ -169,7 +173,7 @@
     @once
         @push('modals')
             @livewire('filament-tiptap-editor-link-modal')
-            @livewire('filament-tiptap-editor-embed-modal')
+            {{-- @livewire('filament-tiptap-editor-embed-modal') --}}
             {{-- @livewire('filament-tiptap-editor-source-modal') --}}
         @endpush
     @endonce

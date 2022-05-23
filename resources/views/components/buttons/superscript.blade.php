@@ -1,6 +1,5 @@
 <button type="button"
     x-on:click="editor().chain().focus().toggleSuperscript().run()"
-    class="p-2"
     :class="{ 'active': isActive('superscript', updatedAt) }"
     x-tooltip="'Superscript'">
     <svg xmlns="http://www.w3.org/2000/svg"

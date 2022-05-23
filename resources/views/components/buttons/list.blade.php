@@ -8,7 +8,6 @@ $active = $type == 'ol' ? 'orderedList' : 'bulletList';
 
 <button type="button"
     x-on:click="{{ $type == 'ol' ? 'editor().chain().focus().toggleOrderedList().run()' : 'editor().chain().focus().toggleBulletList().run()' }}"
-    class="p-2"
     :class="{ 'active': isActive('{{ $active }}', updatedAt) }"
     x-tooltip="'{{ $type == 'ol' ? 'Ordered List' : 'Unordered List' }}'">
     @if ($type == 'ol')

@@ -2,7 +2,7 @@
     'fieldId' => null,
 ])
 <button type="button"
-    class="relative p-2"
+    class="relative"
     x-show="editor().getAttributes('textStyle').color"
     x-on:click="editor().chain().focus().unsetColor().run()"
     x-tooltip="'Remove Color'">

@@ -4,7 +4,6 @@
 
 <button type="button"
     x-on:click="editor().chain().focus().toggleHeading({ level: {{ $level }} }).run()"
-    class="p-2"
     :class="{ 'active': isActive('heading', { level: {{ $level }} }, updatedAt) }"
     x-tooltip="'Heading {{ $level }}'">
     @switch($level)
