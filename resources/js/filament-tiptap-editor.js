@@ -133,25 +133,28 @@ document.addEventListener("alpine:init", () => {
         editors[this.id] = new Editor({
           element: this.$refs.element,
           extensions: this.getExtensions(),
-          content: state?.initialValue,
+          content: state?.initialValue === "<p></p>" ? "" : state?.initialValue,
           onCreate({ editor }) {
-            _this.updatedAt = Date.now();
             _this.html = editor.getHTML();
             _this.json = editor.getJSON()?.content;
+            _this.state = _this.html = editor.getHTML() === "<p></p>" ? "" : editor.getHTML();
+            _this.$refs.textarea.value = _this.state;
+            _this.updatedAt = Date.now();
           },
           onUpdate({ editor }) {
-            _this.updatedAt = Date.now();
             _this.state = editor.getHTML();
             _this.html = editor.getHTML();
             _this.json = editor.getJSON()?.content;
-            _this.$refs.textarea.value = editor.getHTML();
+            _this.$refs.textarea.value = _this.html === "<p></p>" ? "" : _this.html;
             _this.$refs.textarea.dispatchEvent(new Event("input"));
+            _this.updatedAt = Date.now();
           },
           onSelectionUpdate({ editor }) {
             _this.updatedAt = Date.now();
           },
           onBlur({ editor }) {
             _this.$refs.textarea.dispatchEvent(new Event("change"));
+            _this.updatedAt = Date.now();
           },
         });
 

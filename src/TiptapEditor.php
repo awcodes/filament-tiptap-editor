@@ -8,11 +8,18 @@ use Illuminate\Support\Str;
 use Filament\Forms\Components\Field;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Builder\Block;
-use function Filament\Forms\array_move_after;
-use function Filament\Forms\array_move_before;
+use Filament\Forms\Components\Concerns\HasPlaceholder;
+use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
+use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
+use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
 
-class TiptapEditor extends Field
+class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
+    use CanBeLengthConstrained;
+    use HasExtraInputAttributes;
+    use HasExtraAlpineAttributes;
+
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
     protected ?Closure $saveUploadedFileUsing = null;

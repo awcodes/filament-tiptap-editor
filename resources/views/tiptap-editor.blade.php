@@ -6,11 +6,21 @@
     :required="$isRequired()"
     :state-path="$getStatePath()">
     <div @class([
-        'tiptap-editor border border-gray-200 rounded-md',
-        'dark:border-gray-600' => config('filament.dark_mode'),
+        'tiptap-editor border rounded-md relative bg-white',
+        'dark:bg-gray-700' => config('filament.dark_mode'),
+        'border-gray-200' => !$errors->has($getStatePath()),
+        'dark:border-gray-600' =>
+            config('filament.dark_mode') && !$errors->has($getStatePath()),
+        'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
     ])>
+        <textarea x-ref="textarea"
+            class="absolute inset-0"
+            style="display: none;"
+            @if (!$isConcealed()) {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
+                {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!} {!! $isRequired() ? 'required' : null !!} @endif
+            {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"></textarea>
         <div wire:ignore
-            class="tiptap-wrapper"
+            class="relative z-0 tiptap-wrapper"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
             x-data="tiptap({ state: $wire.entangle('{{ $getStatePath() }}').defer, buttons: '{{ $getButtons() }}' })"
             x-on:keydown.escape="fullScreenMode = false"
@@ -142,13 +152,9 @@
             </div>
 
             <div @class([
-                'tiptap-content bg-white max-h-[40rem] h-auto overflow-scroll rounded-b-md',
-                'dark:bg-gray-700' => config('filament.dark_mode'),
+                'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md dark:bg-gray-700',
             ])
                 x-ref="element"></div>
-            <textarea x-ref="textarea"
-                style="display:none;"
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"></textarea>
         </div>
     </div>
 

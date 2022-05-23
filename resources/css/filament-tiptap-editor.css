@@ -45,6 +45,8 @@
 
 .tiptap-editor .ProseMirror {
   padding: 1rem;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
 
   > * + * {
     margin-block-start: 1rem;
