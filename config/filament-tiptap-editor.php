@@ -40,6 +40,7 @@ return [
             'color',
             'code',
             'codeblock',
+            'align',
             // 'embed',
             // 'source',
         ],

@@ -46,6 +46,7 @@
     "@tiptap/extension-table-header": "^2.0.0-beta.22",
     "@tiptap/extension-table-row": "^2.0.0-beta.19",
     "@tiptap/extension-text": "^2.0.0-beta.15",
+    "@tiptap/extension-text-align": "^2.0.0-beta.29",
     "@tiptap/extension-text-style": "^2.0.0-beta.23",
     "@tiptap/extension-underline": "^2.0.0-beta.23",
     "@tiptap/starter-kit": "^2.0.0-beta.183",

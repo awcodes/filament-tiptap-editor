@@ -26,12 +26,12 @@
             x-on:keydown.escape="fullScreenMode = false"
             x-id="['dropdown-button']">
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md shadow z-10 relative',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md shadow z-10 relative flex flex-col md:flex-row',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
                     'filament.dark_mode'
                 ),
             ])>
-                <div class="flex flex-wrap items-center justify-start tiptap-toolbar-left">
+                <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
                     <div x-show="buttons.includes('bold')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.bold />
@@ -92,6 +92,18 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.checkedlist />
                     </div>
+                    <div x-show="buttons.includes('align')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.align-left />
+                    </div>
+                    <div x-show="buttons.includes('align')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.align-center />
+                    </div>
+                    <div x-show="buttons.includes('align')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.align-right />
+                    </div>
                     <div x-show="buttons.includes('blockquote')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.blockquote />
@@ -137,7 +149,7 @@
                         <x-filament-tiptap-editor::buttons.code-block />
                     </div>
                 </div>
-                <div class="flex flex-wrap items-center justify-end pl-1 tiptap-toolbar-right">
+                <div class="flex flex-wrap items-center self-stretch gap-1 p-1 tiptap-toolbar-right">
                     <div x-show="buttons.includes('undo')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.undo />

@@ -1,8 +1,8 @@
 <button type="button"
     x-on:click="fullScreenMode = !fullScreenMode"
-    x-bind:class="{ 'active': fullScreenMode }">
-    <div x-show="!fullScreenMode"
-        x-tooltip="'Enter Fullscreen'">
+    x-bind:class="{ 'active': fullScreenMode }"
+    x-tooltip="fullScreenMode ? 'Exit Fullscreen' : 'Enter Fullscreen'">
+    <div x-show="!fullScreenMode">
         <svg xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
             aria-hidden="true"
@@ -19,8 +19,7 @@
         <span class="sr-only">Enter Fullscreen</span>
     </div>
     <div x-show="fullScreenMode"
-        style="display: none;"
-        x-tooltip="'Exit Fullscreen'">
+        style="display: none;">
         <svg xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
             aria-hidden="true"

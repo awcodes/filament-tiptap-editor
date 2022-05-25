@@ -25,12 +25,8 @@
 }
 
 .tiptap-editor .tiptap-toolbar {
-  display: grid;
-  grid-template-columns: 1fr auto;
-
   button {
     border-radius: 0.25rem;
-    margin: 6px 4px 5px;
     display: block;
     padding: 4px;
   }
@@ -71,6 +67,10 @@
   > * + h5,
   > * + h6 {
     margin-block-start: 2rem;
+  }
+
+  img {
+    display: inline-block;
   }
 
   h1,

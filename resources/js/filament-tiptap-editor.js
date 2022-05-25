@@ -27,6 +27,7 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import TextAlign from "@tiptap/extension-text-align";
 import { CheckedList, Lead, CustomLink } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
@@ -76,9 +77,10 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("italic")) exts.push(Italic);
         if (this.buttons.includes("strike")) exts.push(Strike);
         if (this.buttons.includes("underline")) exts.push(Underline);
+        if (this.buttons.includes("align")) exts.push(TextAlign.configure({ types: ["heading", "paragraph"] }));
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
-        if (this.buttons.includes("media")) exts.push(Image);
+        if (this.buttons.includes("media")) exts.push(Image.configure({ inline: true }));
         // if (this.buttons.includes("embed")) exts.push(IFrame);
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);
