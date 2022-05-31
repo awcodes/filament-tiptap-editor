@@ -8,7 +8,7 @@ A Tiptap ingtegration for Filament Admin/Forms.
 - Fullscreen editing
 - Overrideable Media uploading
 - Profile based toolbars to simplify reusing features
-- Included extensions:
+- Available Tools:
   - undo
   - redo
   - bold
@@ -35,6 +35,7 @@ A Tiptap ingtegration for Filament Admin/Forms.
   - color
   - code
   - codeblock
+  - source
 
 ## Installation
 
