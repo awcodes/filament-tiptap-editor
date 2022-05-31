@@ -2,7 +2,11 @@
 
 A Tiptap ingtegration for Filament Admin/Forms.
 
-![screenshot](./images/screenshot.png)
+![screenshot in light mode](./images/screenshot-light.png)
+
+![screenshot in dark mode](./images/screenshot-dark.png)
+
+![screenshot of fullscreen editing in dark mode](./images/fullscreen-mode-dark.png)
 
 - Supports Light/Dark Mode
 - Fullscreen editing
