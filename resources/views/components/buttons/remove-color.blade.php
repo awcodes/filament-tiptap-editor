@@ -3,7 +3,7 @@
 ])
 <button type="button"
     class="relative"
-    x-show="editor().getAttributes('textStyle').color"
+    x-show="isActive('textStyle', updatedAt)"
     x-on:click="editor().chain().focus().unsetColor().run()"
     x-tooltip="'Remove Color'">
     <svg xmlns="http://www.w3.org/2000/svg"

@@ -14,7 +14,8 @@
         }
     }"
     x-on:close-modal.window="toggleOpen($event)"
-    x-on:open-modal.window="toggleOpen($event)">
+    x-on:open-modal.window="toggleOpen($event)"
+    class="filament-tiptap-editor-link-modal">
 
     <form wire:submit.prevent="create">
         {{ $this->form }}

@@ -14,7 +14,8 @@
     }"
     x-on:close-modal.window="toggleOpen($event)"
     x-on:open-modal.window="toggleOpen($event)"
-    x-on:new-media-added.window="isOpen = false;">
+    x-on:new-media-added.window="isOpen = false;"
+    class="filament-tiptap-editor-media-uploader-modal">
 
     <form wire:submit.prevent="create">
 

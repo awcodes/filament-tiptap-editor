@@ -368,3 +368,7 @@
     border-top: 1px solid white;
   }
 }
+
+.filament-tiptap-editor-source-modal textarea {
+  font-family: theme("fontFamily.mono");
+}

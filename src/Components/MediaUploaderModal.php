@@ -2,11 +2,14 @@
 
 namespace FilamentTiptapEditor\Components;
 
+use Closure;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Filament\Facades\Filament;
 use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
+use Intervention\Image\Facades\Image;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +53,7 @@ class MediaUploaderModal extends Component implements HasForms
                 ->imageResizeTargetHeight(config('filament-tiptap-editor.image_resize_target_height'))
                 ->required()
                 ->reactive()
-                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, $set) {
+                ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, Closure $set) {
 
                     $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
 
@@ -58,6 +61,12 @@ class MediaUploaderModal extends Component implements HasForms
 
                     if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename  .  '.' . $file->getClientOriginalExtension(), '/'))) {
                         $filename = $filename . '-' . time();
+                    }
+
+                    if (Str::contains($file->getMimeType(), 'image')) {
+                        $image = Image::make($file->getRealPath());
+                        $set('width', $image->getWidth());
+                        $set('height', $height = $image->getHeight());
                     }
 
                     $upload = $file->{$storeMethod}($component->getDirectory(), $filename  .  '.' . $file->getClientOriginalExtension(), $component->getDiskName());
@@ -68,8 +77,12 @@ class MediaUploaderModal extends Component implements HasForms
                 ->required()
                 ->visible(fn ($livewire) => $livewire->type == 'document'),
             TextInput::make('alt')
+                ->label('Description')
                 ->hidden(fn ($livewire) => $livewire->type == 'document')
                 ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.</span>'),
+            TextInput::make('title'),
+            Hidden::make('width'),
+            Hidden::make('height'),
         ];
     }
 

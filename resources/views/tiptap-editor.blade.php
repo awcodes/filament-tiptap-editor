@@ -136,10 +136,6 @@
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.embed fieldId="{{ $getStatePath() }}" />
                     </div> --}}
-                    <div x-show="buttons.includes('color')"
-                        style="display: none;">
-                        <x-filament-tiptap-editor::buttons.remove-color />
-                    </div>
                     <div x-show="buttons.includes('code')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.code />
@@ -147,6 +143,14 @@
                     <div x-show="buttons.includes('codeblock')"
                         style="display: none;">
                         <x-filament-tiptap-editor::buttons.code-block />
+                    </div>
+                    <div x-show="buttons.includes('source')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" />
+                    </div>
+                    <div x-show="buttons.includes('color')"
+                        style="display: none;">
+                        <x-filament-tiptap-editor::buttons.remove-color />
                     </div>
                 </div>
                 <div class="flex flex-wrap items-center self-stretch gap-1 p-1 tiptap-toolbar-right">
@@ -163,7 +167,6 @@
                         <x-filament-tiptap-editor::buttons.erase />
                     </div>
                     <x-filament-tiptap-editor::buttons.fullscreen />
-                    {{-- <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" /> --}}
                 </div>
             </div>
 
@@ -186,7 +189,7 @@
         @push('modals')
             @livewire('filament-tiptap-editor-link-modal')
             {{-- @livewire('filament-tiptap-editor-embed-modal') --}}
-            {{-- @livewire('filament-tiptap-editor-source-modal') --}}
+            @livewire('filament-tiptap-editor-source-modal')
         @endpush
     @endonce
 </x-forms::field-wrapper>

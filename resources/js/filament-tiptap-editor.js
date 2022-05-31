@@ -3,7 +3,6 @@ import Document from "@tiptap/extension-document";
 import Blockquote from "@tiptap/extension-blockquote";
 import HardBreak from "@tiptap/extension-hard-break";
 import Text from "@tiptap/extension-text";
-import Paragraph from "@tiptap/extension-paragraph";
 import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import Heading from "@tiptap/extension-heading";
@@ -15,7 +14,6 @@ import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
-import Image from "@tiptap/extension-image";
 import Italic from "@tiptap/extension-italic";
 import Bold from "@tiptap/extension-bold";
 import Strike from "@tiptap/extension-strike";
@@ -28,7 +26,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import TextAlign from "@tiptap/extension-text-align";
-import { CheckedList, Lead, CustomLink } from "./extensions";
+import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
 function randomString(length) {
@@ -59,7 +57,7 @@ document.addEventListener("alpine:init", () => {
       fullScreenMode: false,
       updatedAt: Date.now(),
       getExtensions() {
-        let exts = [Document, Text, Paragraph, Dropcursor, Gapcursor, HardBreak];
+        let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak];
 
         if (this.buttons.includes("link"))
           exts.push(
@@ -80,7 +78,7 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("align")) exts.push(TextAlign.configure({ types: ["heading", "paragraph"] }));
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
-        if (this.buttons.includes("media")) exts.push(Image.configure({ inline: true }));
+        if (this.buttons.includes("media")) exts.push(CustomImage.configure({ inline: true }));
         // if (this.buttons.includes("embed")) exts.push(IFrame);
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);

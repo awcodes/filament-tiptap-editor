@@ -18,6 +18,8 @@
                         src: src,
                         alt: media?.alt,
                         title: media?.title,
+                        width: media?.width,
+                        height: media?.height,
                     })
                     .run();
             } else {
