@@ -8,7 +8,13 @@ $active = $type == 'ol' ? 'orderedList' : 'bulletList';
 
 <button type="button"
     x-on:click="{{ $type == 'ol' ? 'editor().chain().focus().toggleOrderedList().run()' : 'editor().chain().focus().toggleBulletList().run()' }}"
-    :class="{ 'active': isActive('{{ $active }}', updatedAt) }"
+    :class="{ 'bg-gray-300 text-gray-900 dark:bg-gray-600 dark:text-gray-300': isActive('{{ $active }}', updatedAt) }"
+    @class([
+        'rounded block p-1 hover:bg-gray-200 focus:bg-gray-200',
+        'dark:hover:bg-gray-800 dark:focus:bg-gray-800' => config(
+            'filament.dark_mode'
+        ),
+    ])
     x-tooltip="'{{ $type == 'ol' ? 'Ordered List' : 'Unordered List' }}'">
     @if ($type == 'ol')
         <svg xmlns="http://www.w3.org/2000/svg"
