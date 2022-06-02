@@ -4,6 +4,12 @@
 <button type="button"
     x-on:click="openModal()"
     x-on:insert-source.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertSource($event.detail.source) : null"
+    @class([
+        'rounded block p-1 hover:bg-gray-200 focus:bg-gray-200',
+        'dark:hover:bg-gray-800 dark:focus:bg-gray-800' => config(
+            'filament.dark_mode'
+        ),
+    ])
     x-tooltip="'Source Code'"
     x-data="{
         openModal() {

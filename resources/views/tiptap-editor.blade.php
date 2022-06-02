@@ -171,7 +171,7 @@
             </div>
 
             <div @class([
-                'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md dark:bg-gray-700',
+                'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-gray-50 dark:bg-gray-700',
             ])
                 x-ref="element"></div>
         </div>

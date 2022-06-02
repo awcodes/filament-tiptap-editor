@@ -16,7 +16,13 @@
                 console.log(url);
                 this.editor().chain().focus().setIframe({ src: url }).run();
             },
-    }">
+    }"
+    @class([
+        'rounded block p-1 hover:bg-gray-200 focus:bg-gray-200',
+        'dark:hover:bg-gray-800 dark:focus:bg-gray-800' => config(
+            'filament.dark_mode'
+        ),
+    ])>
     <svg xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         aria-hidden="true"

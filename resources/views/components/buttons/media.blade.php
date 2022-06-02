@@ -4,6 +4,12 @@
 <button type="button"
     x-on:click="$dispatch('open-modal', {id: '{{ config('filament-tiptap-editor.media_uploader_id') }}', fieldId: '{{ $fieldId }}'})"
     x-on:insert-media.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertMedia($event.detail.media) : null"
+    @class([
+        'rounded block p-1 hover:bg-gray-200 focus:bg-gray-200',
+        'dark:hover:bg-gray-800 dark:focus:bg-gray-800' => config(
+            'filament.dark_mode'
+        ),
+    ])
     x-tooltip="'Insert Media'"
     x-data="{
         insertMedia(media) {
