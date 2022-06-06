@@ -26,7 +26,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import TextAlign from "@tiptap/extension-text-align";
-import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph } from "./extensions";
+import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
 function randomString(length) {
@@ -79,9 +79,9 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
         if (this.buttons.includes("media")) exts.push(CustomImage.configure({ inline: true }));
-        // if (this.buttons.includes("embed")) exts.push(IFrame);
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);
+        if (this.buttons.includes("small")) exts.push(Small);
 
         if (this.buttons.includes("code")) exts.push(Code);
         if (this.buttons.includes("codeblock"))
