@@ -12,34 +12,6 @@ A Tiptap ingtegration for Filament Admin/Forms.
 - Fullscreen editing
 - Overrideable Media uploading
 - Profile based toolbars to simplify reusing features
-- Available Tools:
-  - undo
-  - redo
-  - bold
-  - italic
-  - strike
-  - underline
-  - h1
-  - h2
-  - h3
-  - h4
-  - h5
-  - h6
-  - lead
-  - hr
-  - table
-  - bulletList
-  - orderedList
-  - checkedList
-  - link
-  - media
-  - blockquote
-  - superscript
-  - subscript
-  - color
-  - code
-  - codeblock
-  - source
 
 ## Installation
 
@@ -71,13 +43,13 @@ php artisan vendor:publish --tag="filament-tiptap-editor-config"
 
 ### Profiles
 
-The package comes with 3 profiles for buttons out of the box.
+The package comes with 3 profiles for buttons/tools out of the box.
 
-- default: includes all currently available tools
+- default: 'undo', 'redo', 'bold', 'italic', 'strike', 'underline', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'lead', 'small', 'hr', 'table', 'bulletList', 'orderedList', 'checkedList', 'link', 'media', 'blockquote', 'superscript', 'subscript', 'color', 'code', 'codeblock', 'source'
 - simple: 'undo', 'redo', 'bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'
 - barebone: 'bold', 'italic', 'link', 'redo', 'undo'
 
-See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor.
+See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor or to create your own.
 
 ### Media / Images
 
