@@ -41,7 +41,6 @@ return [
             'code',
             'codeblock',
             'align',
-            // 'embed',
             'source',
         ],
         'simple' => ['undo', 'redo', 'bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],

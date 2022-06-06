@@ -79,7 +79,6 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("subscript")) exts.push(Subscript);
         if (this.buttons.includes("superscript")) exts.push(Superscript);
         if (this.buttons.includes("media")) exts.push(CustomImage.configure({ inline: true }));
-        // if (this.buttons.includes("embed")) exts.push(IFrame);
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);
 
