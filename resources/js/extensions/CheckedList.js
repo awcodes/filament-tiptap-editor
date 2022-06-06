@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from "@tiptap/core";
 
-const CheckedList = Node.create({
+export const CheckedList = Node.create({
   name: "checkedList",
 
   priority: 50,
@@ -38,5 +38,3 @@ const CheckedList = Node.create({
     };
   },
 });
-
-export default CheckedList;

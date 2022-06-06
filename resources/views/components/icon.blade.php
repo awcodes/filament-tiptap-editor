@@ -53,6 +53,19 @@
             </path>
         @break
 
+        @case('details')
+            <path fill="currentColor"
+                d="M32 6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Zm0 22H4V8h28Z"></path>
+            <path fill="currentColor"
+                d="M9 14h18a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
+            <path fill="currentColor"
+                d="M9 18h18a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
+            <path fill="currentColor"
+                d="M9 22h10a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
+            <path fill="none"
+                d="M0 0h36v36H0z"></path>
+        @break
+
         @case('erase')
             <path fill="currentColor"
                 d="m16.24 3.56l4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.008 4.008 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53l-4.95-4.95l-4.95 4.95Z">

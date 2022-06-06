@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from "@tiptap/core";
 
-const Lead = Node.create({
+export const Lead = Node.create({
   name: "lead",
   group: "block",
   content: "block+",
@@ -32,5 +32,3 @@ const Lead = Node.create({
     };
   },
 });
-
-export default Lead;
