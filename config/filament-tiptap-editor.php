@@ -27,6 +27,7 @@ return [
             'h5',
             'h6',
             'lead',
+            'small',
             'hr',
             'table',
             'bulletList',

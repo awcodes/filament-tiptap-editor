@@ -88,6 +88,10 @@
     line-height: 1.3;
   }
 
+  small {
+    font-size: 0.75rem;
+  }
+
   ul,
   ol {
     padding-inline-start: 1rem;
