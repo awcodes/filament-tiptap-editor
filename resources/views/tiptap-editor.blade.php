@@ -50,6 +50,7 @@
                     <x-filament-tiptap-editor::buttons.superscript />
                     <x-filament-tiptap-editor::buttons.subscript />
                     <x-filament-tiptap-editor::buttons.table />
+                    <x-filament-tiptap-editor::buttons.grid />
                     <x-filament-tiptap-editor::buttons.media fieldId="{{ $getStatePath() }}" />
                     <x-filament-tiptap-editor::buttons.code />
                     <x-filament-tiptap-editor::buttons.code-block />

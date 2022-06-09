@@ -7,7 +7,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 500;
+  z-index: 39;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -303,6 +303,81 @@
       background-color: #67060c;
     }
   }
+
+  .filament-tiptap-grid {
+    display: flex;
+    gap: 1rem;
+
+    .filament-tiptap-grid__column {
+      box-sizing: border-box;
+      border: dashed 2px theme("colors.gray.300");
+      padding: 0.5rem;
+      border-radius: theme("borderRadius.DEFAULT");
+
+      > * + * {
+        margin-block-start: 1rem;
+      }
+    }
+  }
+
+  .filament-tiptap-grid[type="responsive"] {
+    flex-wrap: wrap;
+    margin-inline-end: -1rem;
+
+    &[cols="2"] {
+      .filament-tiptap-grid__column {
+        width: 100%;
+
+        @screen md {
+          width: calc(50% - 1rem);
+        }
+      }
+    }
+
+    &[cols="3"] {
+      .filament-tiptap-grid__column {
+        width: 100%;
+
+        @screen md {
+          width: calc(33.33333% - 1rem);
+        }
+      }
+    }
+
+    &[cols="4"] {
+      .filament-tiptap-grid__column {
+        width: 100%;
+
+        @screen sm {
+          width: calc(50% - 1rem);
+        }
+
+        @screen md {
+          width: calc(25% - 1rem);
+        }
+      }
+    }
+
+    &[cols="5"] {
+      .filament-tiptap-grid__column {
+        width: 100%;
+
+        @screen md {
+          width: calc(33.33333% - 1rem);
+        }
+
+        @screen lg {
+          width: calc(20% - 1rem);
+        }
+      }
+    }
+  }
+
+  .filament-tiptap-grid[type="fixed"] {
+    .filament-tiptap-grid__column {
+      flex-grow: 1;
+    }
+  }
 }
 
 .dark {
@@ -335,6 +410,12 @@
 
     code {
       background-color: theme("colors.gray.500");
+    }
+
+    .filament-tiptap-grid {
+      .filament-tiptap-grid__column {
+        border: dashed 2px theme("colors.gray.900");
+      }
     }
   }
 
