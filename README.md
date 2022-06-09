@@ -45,7 +45,7 @@ php artisan vendor:publish --tag="filament-tiptap-editor-config"
 
 The package comes with 3 profiles for buttons/tools out of the box.
 
-- default: 'undo', 'redo', 'bold', 'italic', 'strike', 'underline', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'lead', 'small', 'hr', 'table', 'bulletList', 'orderedList', 'checkedList', 'link', 'media', 'blockquote', 'superscript', 'subscript', 'color', 'code', 'codeblock', 'source'
+- default: 'undo', 'redo', 'bold', 'italic', 'strike', 'underline', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'lead', 'small', 'hr', 'table', 'bulletList', 'orderedList', 'checkedList', 'link', 'media', 'blockquote', 'superscript', 'subscript', 'color', 'code', 'codeblock', 'source', 'grid',
 - simple: 'undo', 'redo', 'bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'
 - barebone: 'bold', 'italic', 'link', 'redo', 'undo'
 
