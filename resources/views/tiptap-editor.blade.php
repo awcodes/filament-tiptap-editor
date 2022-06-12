@@ -54,7 +54,7 @@
                 'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-gray-50 dark:bg-gray-700',
             ]) x-ref="element"></div>
 
-            <textarea x-ref="textarea" class="sr-only"
+            <textarea x-ref="textarea" class="sr-only" tabindex="-1"
                 @if (!$isConcealed()) {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
                 {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!} {!! $isRequired() ? 'required' : null !!} @endif
                 {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}" name="{{ $getStatePath() }}"></textarea>
