@@ -38,6 +38,12 @@
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
 
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   > * + * {
     margin-block-start: 1rem;
   }
@@ -141,6 +147,14 @@
 
   sup {
     font-size: 65%;
+  }
+
+  img {
+    border: dashed 2px transparent;
+    &.ProseMirror-selectednode {
+      border-color: theme("colors.gray.300");
+      border-radius: theme("borderRadius.DEFAULT");
+    }
   }
 
   table {
@@ -443,6 +457,10 @@
       .filament-tiptap-grid__column {
         border: dashed 2px theme("colors.gray.900");
       }
+    }
+
+    img.ProseMirror-selectednode {
+      border-color: theme("colors.gray.900");
     }
   }
 
