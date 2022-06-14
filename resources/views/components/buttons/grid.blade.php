@@ -31,5 +31,21 @@
             action="editor().chain().focus().insertGrid({ cols: 5, type: 'fixed' }).run()">
             {{ __('Fixed 5 Columns') }}
         </x-filament-tiptap-editor::dropdown-button-item>
+        <x-filament-tiptap-editor::dropdown-button-item
+            action="editor().chain().focus().insertGrid({ cols: 2, type: 'asymetric-left-thirds' }).run()">
+            {{ __('Asymetic Left - Thirds') }}
+        </x-filament-tiptap-editor::dropdown-button-item>
+        <x-filament-tiptap-editor::dropdown-button-item
+            action="editor().chain().focus().insertGrid({ cols: 2, type: 'asymetric-right-thirds' }).run()">
+            {{ __('Asymetic Right - Thirds') }}
+        </x-filament-tiptap-editor::dropdown-button-item>
+        <x-filament-tiptap-editor::dropdown-button-item
+            action="editor().chain().focus().insertGrid({ cols: 2, type: 'asymetric-left-fourths' }).run()">
+            {{ __('Asymetic Left - Fourths') }}
+        </x-filament-tiptap-editor::dropdown-button-item>
+        <x-filament-tiptap-editor::dropdown-button-item
+            action="editor().chain().focus().insertGrid({ cols: 2, type: 'asymetric-right-fourths' }).run()">
+            {{ __('Asymetic Right - Fourths') }}
+        </x-filament-tiptap-editor::dropdown-button-item>
     </x-filament-tiptap-editor::dropdown-button>
 </div>
