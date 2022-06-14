@@ -15,7 +15,6 @@ return [
         'default' => [
             'undo',
             'redo',
-            'erase',
             'bold',
             'italic',
             'strike',
@@ -45,8 +44,8 @@ return [
             'source',
             'grid',
         ],
-        'simple' => ['undo', 'redo', 'bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],
-        'barebone' => ['bold', 'italic', 'link', 'redo', 'undo'],
+        'simple' => ['bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],
+        'barebone' => ['bold', 'italic', 'link', 'bulletList', 'orderedList'],
     ],
 
     /*
