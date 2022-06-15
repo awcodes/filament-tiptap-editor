@@ -37,6 +37,7 @@
                     <x-filament-tiptap-editor::buttons.align-left />
                     <x-filament-tiptap-editor::buttons.align-center />
                     <x-filament-tiptap-editor::buttons.align-right />
+                    <x-filament-tiptap-editor::buttons.align-justify />
                     <x-filament-tiptap-editor::buttons.blockquote />
                     <x-filament-tiptap-editor::buttons.hr />
                     <x-filament-tiptap-editor::buttons.link fieldId="{{ $getStatePath() }}" />
