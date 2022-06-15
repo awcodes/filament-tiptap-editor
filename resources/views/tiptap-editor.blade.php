@@ -82,9 +82,16 @@
         @endonce
     @endif
 
+    @if (config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal')
+        @once
+            @push('modals')
+                @livewire('filament-tiptap-editor-link-modal')
+            @endpush
+        @endonce
+    @endif
+
     @once
         @push('modals')
-            @livewire('filament-tiptap-editor-link-modal')
             @livewire('filament-tiptap-editor-source-modal')
         @endpush
     @endonce
