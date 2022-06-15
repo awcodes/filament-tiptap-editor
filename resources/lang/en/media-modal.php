@@ -1,0 +1,16 @@
+<?php
+
+return [
+    'heading' => 'Insert Media',
+    'buttons' => [
+        'cancel' => 'Cancel',
+        'insert' => 'Insert',
+    ],
+    'labels' => [
+        'file' => 'File',
+        'link_text' => 'Link Text',
+        'alt' => 'Description',
+        'alt_helper_text' => 'Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.',
+        'title' => 'Title',
+    ]
+];

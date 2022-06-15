@@ -7,7 +7,7 @@
         active="'link'"
         x-on:insert-link.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertLink($event.detail.link) : null"
         x-on:remove-link.window="$event.detail.fieldId === '{{ $fieldId }}' ? unsetLink($event.detail.link) : null"
-        label="Link"
+        label="{{ __('filament-tiptap-editor::editor.link') }}"
         x-data="{
             unsetLink() {
                     this.editor().chain().focus().extendMarkRange('link').unsetLink().run();

@@ -4,7 +4,7 @@
 <div x-show="buttons.includes('color')"
     style="display: none;">
     <div class="relative p-1.5 cursor-pointer rounded hover:bg-gray-200 hover:dark:bg-gray-800"
-        x-tooltip="'Color'">
+        x-tooltip="'{{ __('filament-tiptap-editor::editor.color') }}'">
         <label>
             <input type="color"
                 x-on:input="editor().chain().focus().setColor($event.target.value).run()"

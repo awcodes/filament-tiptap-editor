@@ -1,5 +1,5 @@
 <x-filament-support::modal id="filament-tiptap-editor-media-uploader-modal"
-    heading="{{ __('Insert Media') }}"
+    heading="{{ __('filament-tiptap-editor::media-modal.heading') }}"
     width="md"
     :dark-mode="config('filament.dark_mode')"
     x-data="{
@@ -26,10 +26,10 @@
                 x-on:click="isOpen = false; $wire.resetForm();"
                 wire:click="cancelInsert"
                 color="secondary">
-                {{ __('Cancel') }}
+                {{ __('filament-tiptap-editor::media-modal.buttons.cancel') }}
             </x-filament::button>
             <x-filament::button type="submit">
-                {{ __('Insert') }}
+                {{ __('filament-tiptap-editor::media-modal.buttons.insert') }}
             </x-filament::button>
         </div>
     </form>

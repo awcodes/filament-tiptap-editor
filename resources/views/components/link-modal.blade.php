@@ -1,5 +1,5 @@
 <x-filament-support::modal id="filament-tiptap-editor-link-modal"
-    heading="{{ $href ? __('Update Link') : __('Insert Link') }}"
+    heading="{{ $href ? __('filament-tiptap-editor::link-modal.heading.update') : __('filament-tiptap-editor::link-modal.heading.insert') }}"
     width="md"
     :dark-mode="config('filament.dark_mode')"
     x-data="{
@@ -26,17 +26,17 @@
                     x-on:click="isOpen = false;"
                     wire:click="removeLink"
                     color="danger">
-                    {{ __('Remove Link') }}
+                    {{ __('filament-tiptap-editor::link-modal.buttons.remove') }}
                 </x-filament::button>
             @endif
             <div class="flex items-center gap-2 ml-auto">
                 <x-filament::button type="button"
                     x-on:click="isOpen = false; $wire.resetForm();"
                     color="secondary">
-                    {{ __('Cancel') }}
+                    {{ __('filament-tiptap-editor::link-modal.buttons.cancel') }}
                 </x-filament::button>
                 <x-filament::button type="submit">
-                    {{ $href ? __('Update') : __('Insert') }}
+                    {{ $href ? __('filament-tiptap-editor::link-modal.buttons.update') : __('filament-tiptap-editor::link-modal.buttons.insert') }}
                 </x-filament::button>
             </div>
         </div>

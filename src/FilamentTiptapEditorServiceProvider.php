@@ -23,6 +23,7 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
             ->name('filament-tiptap-editor')
             ->hasConfigFile()
             ->hasAssets()
+            ->hasTranslations()
             ->hasViews();
     }
 

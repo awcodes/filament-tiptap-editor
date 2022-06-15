@@ -40,7 +40,7 @@ class MediaUploaderModal extends Component implements HasForms
     {
         return [
             FileUpload::make('src')
-                ->label('File')
+                ->label(__('filament-tiptap-editor::media-modal.labels.file'))
                 ->disk(config('filament-tiptap-editor.disk'))
                 ->directory(config('filament-tiptap-editor.directory'))
                 ->visibility(config('filament-tiptap-editor.visibility'))
@@ -74,13 +74,15 @@ class MediaUploaderModal extends Component implements HasForms
                     return Storage::disk($component->getDiskName())->url($upload);
                 }),
             TextInput::make('link_text')
+                ->label(__('filament-tiptap-editor::media-modal.labels.link_text'))
                 ->required()
                 ->visible(fn ($livewire) => $livewire->type == 'document'),
             TextInput::make('alt')
-                ->label('Description')
+                ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
                 ->hidden(fn ($livewire) => $livewire->type == 'document')
-                ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.</span>'),
-            TextInput::make('title'),
+                ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">' . __('filament-tiptap-editor::media-modal.labels.alt_helper_text') . '</span>'),
+            TextInput::make('title')
+                ->label(__('filament-tiptap-editor::media-modal.labels.title')),
             Hidden::make('width'),
             Hidden::make('height'),
         ];
