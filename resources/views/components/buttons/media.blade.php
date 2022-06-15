@@ -7,7 +7,7 @@
     <x-filament-tiptap-editor::button
         action="$dispatch('open-modal', {id: '{{ config('filament-tiptap-editor.media_uploader_id') }}', fieldId: '{{ $fieldId }}'})"
         x-on:insert-media.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertMedia($event.detail.media) : null"
-        label="Insert Media"
+        label="{{ __('filament-tiptap-editor::editor.media') }}"
         x-data="{
             insertMedia(media) {
                 const src = media?.url || media.src;

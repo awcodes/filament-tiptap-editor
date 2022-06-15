@@ -2,7 +2,7 @@
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleBold().run()"
         active="'bold'"
-        label="Bold">
+        label="{{ __('filament-tiptap-editor::editor.bold') }}">
         <x-filament-tiptap-editor::icon icon="bold" />
     </x-filament-tiptap-editor::button>
 </div>

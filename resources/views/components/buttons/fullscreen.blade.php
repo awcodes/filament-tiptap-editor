@@ -7,14 +7,14 @@
             'filament.dark_mode'
         ),
     ])
-    x-tooltip="fullScreenMode ? 'Exit Fullscreen' : 'Enter Fullscreen'">
+    x-tooltip="fullScreenMode ? '{{ __('filament-tiptap-editor::editor.fullscreen.exit') }}' : '{{ __('filament-tiptap-editor::editor.fullscreen.enter') }}'">
     <div x-show="!fullScreenMode">
         <x-filament-tiptap-editor::icon icon="fullscreen-enter" />
-        <span class="sr-only">Enter Fullscreen</span>
+        <span class="sr-only">{{ __('filament-tiptap-editor::editor.fullscreen.enter') }}</span>
     </div>
     <div x-show="fullScreenMode"
         style="display: none;">
         <x-filament-tiptap-editor::icon icon="fullscreen-exit" />
-        <span class="sr-only">Exit Fullscreen</span>
+        <span class="sr-only">{{ __('filament-tiptap-editor::editor.fullscreen.exit') }}</span>
     </div>
 </button>

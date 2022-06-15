@@ -2,7 +2,7 @@
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleItalic().run()"
         active="'italic'"
-        label="Italic">
+        label="{{ __('filament-tiptap-editor::editor.italic') }}">
         <x-filament-tiptap-editor::icon icon="italic" />
     </x-filament-tiptap-editor::button>
 </div>

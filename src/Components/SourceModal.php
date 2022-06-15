@@ -36,7 +36,9 @@ class SourceModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextArea::make('source')->rows(10),
+            TextArea::make('source')
+                ->label(__('filament-tiptap-editor::source-modal.labels.source'))
+                ->rows(10),
         ];
     }
 

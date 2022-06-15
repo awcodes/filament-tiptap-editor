@@ -41,18 +41,21 @@ class LinkModal extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('href')->label('URL')->required(),
-            TextInput::make('hreflang')->label('Language'),
+            TextInput::make('href')
+                ->label(__('filament-tiptap-editor::link-modal.labels.url'))
+                ->required(),
+            TextInput::make('hreflang')
+                ->label(__('filament-tiptap-editor::link-modal.labels.language')),
             Select::make('target')->options([
-                '' => 'Default',
-                '_blank' => 'New Window',
-                '_parent' => 'Parent',
-                '_top' => 'Top'
+                '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
+                '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
+                '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
+                '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
             ]),
             CheckboxList::make('rel')->options([
-                'nofollow' => 'No Follow',
-                'noopener' => 'No Opener',
-                'noreferrer' => 'No Referrer',
+                'nofollow' => __('filament-tiptap-editor::link-modal.labels.rel.nofollow'),
+                'noopener' => __('filament-tiptap-editor::link-modal.labels.rel.noopener'),
+                'noreferrer' => __('filament-tiptap-editor::link-modal.labels.rel.noreferrer'),
             ])
         ];
     }

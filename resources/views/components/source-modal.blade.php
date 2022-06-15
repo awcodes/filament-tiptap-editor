@@ -1,5 +1,5 @@
 <x-filament-support::modal id="filament-tiptap-editor-source-modal"
-    heading="{{ __('Edit Source Code') }}"
+    heading="{{ __('filament-tiptap-editor::source-modal.heading') }}"
     width="3xl"
     :dark-mode="config('filament.dark_mode')"
     x-data="{
@@ -20,10 +20,10 @@
                 <x-filament::button type="button"
                     x-on:click="isOpen = false; $wire.resetForm();"
                     color="secondary">
-                    Cancel
+                    {{ __('filament-tiptap-editor::source-modal.buttons.cancel') }}
                 </x-filament::button>
                 <x-filament::button type="submit">
-                    Insert
+                    {{ __('filament-tiptap-editor::source-modal.buttons.update') }}
                 </x-filament::button>
             </div>
         </div>
