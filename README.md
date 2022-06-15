@@ -64,7 +64,17 @@ See `filament-tiptap-editor.php` config file for modifying profiles to add / rem
 - image_resize_target_height: null
 - media_uploader_id: 'filament-tiptap-editor-media-uploader-modal'
 
-You may also override the default file uploader with your own Livewire component and assign its ID to the `media_uploader_id` setting in the config file.
+## Overrides
+
+### Link Modal
+
+You may override the default link modal with your own Livewire component and assign its ID to the `link_modal_id` setting in the config file.
+
+See `vendor/awcodes/resources/views/components/link-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/LinkModal.php` for implementation.
+
+### Media Modal
+
+You may override the default file uploader with your own Livewire component and assign its ID to the `media_uploader_id` setting in the config file.
 
 See `vendor/awcodes/resources/views/components/media-uploader-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/MediaUploaderModal.php` for implementation.
 
