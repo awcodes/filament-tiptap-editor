@@ -78,4 +78,8 @@ return [
     ],
     'underline' => 'Underline',
     'undo' => 'Undo',
+    'video' => [
+        'youtube' => 'Insert YouTube Video',
+        'vimeo' => 'Insert Vimeo Video',
+    ],
 ];

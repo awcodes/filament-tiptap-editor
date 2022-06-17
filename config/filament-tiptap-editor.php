@@ -41,6 +41,8 @@ return [
             'code',
             'codeblock',
             'source',
+            'youtube',
+            'vimeo',
         ],
         'simple' => ['bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],
         'barebone' => ['bold', 'italic', 'link', 'bulletList', 'orderedList'],
