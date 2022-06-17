@@ -152,8 +152,11 @@
   img {
     border: dashed 2px transparent;
     &.ProseMirror-selectednode {
-      border-color: theme("colors.gray.300");
       border-radius: theme("borderRadius.DEFAULT");
+      outline-color: theme("colors.gray.900");
+      outline-offset: 2px;
+      outline-width: 2px;
+      outline-style: dashed;
     }
   }
 
@@ -425,8 +428,11 @@
     border: dashed 2px transparent;
 
     &.ProseMirror-selectednode {
-      border-color: theme("colors.gray.300");
       border-radius: theme("borderRadius.DEFAULT");
+      outline-color: theme("colors.gray.900");
+      outline-offset: 2px;
+      outline-width: 2px;
+      outline-style: dashed;
     }
 
     iframe {
@@ -474,13 +480,13 @@
     }
 
     img.ProseMirror-selectednode {
-      border-color: theme("colors.gray.900");
+      outline-color: theme("colors.gray.300");
     }
 
     [data-youtube-video],
     [data-vimeo-video] {
       &.ProseMirror-selectednode {
-        border-color: theme("colors.gray.900");
+        outline-color: theme("colors.gray.300");
       }
     }
   }
