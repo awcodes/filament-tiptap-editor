@@ -419,6 +419,20 @@
       grid-template-columns: repeat(5, 1fr);
     }
   }
+
+  [data-youtube-video],
+  [data-vimeo-video] {
+    border: dashed 2px transparent;
+
+    &.ProseMirror-selectednode {
+      border-color: theme("colors.gray.300");
+      border-radius: theme("borderRadius.DEFAULT");
+    }
+
+    iframe {
+      pointer-events: none;
+    }
+  }
 }
 
 .dark {
@@ -461,6 +475,13 @@
 
     img.ProseMirror-selectednode {
       border-color: theme("colors.gray.900");
+    }
+
+    [data-youtube-video],
+    [data-vimeo-video] {
+      &.ProseMirror-selectednode {
+        border-color: theme("colors.gray.900");
+      }
     }
   }
 

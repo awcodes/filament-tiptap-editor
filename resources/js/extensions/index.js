@@ -6,3 +6,5 @@ export { CustomParagraph } from "./Paragraph";
 export { Small } from "./Small";
 export { Grid } from "./Grid/Grid";
 export { GridColumn } from "./Grid/GridColumn";
+export { Youtube } from "./Youtube/Youtube";
+export { Vimeo } from "./Vimeo/Vimeo";

@@ -46,6 +46,8 @@
                     <x-filament-tiptap-editor::buttons.table />
                     <x-filament-tiptap-editor::buttons.grid />
                     <x-filament-tiptap-editor::buttons.media fieldId="{{ $getStatePath() }}" />
+                    <x-filament-tiptap-editor::buttons.youtube fieldId="{{ $getStatePath() }}" />
+                    <x-filament-tiptap-editor::buttons.vimeo fieldId="{{ $getStatePath() }}" />
                     <x-filament-tiptap-editor::buttons.code />
                     <x-filament-tiptap-editor::buttons.code-block />
                     <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" />
@@ -94,6 +96,8 @@
     @once
         @push('modals')
             @livewire('filament-tiptap-editor-source-modal')
+            @livewire('filament-tiptap-editor-youtube-modal')
+            @livewire('filament-tiptap-editor-vimeo-modal')
         @endpush
     @endonce
 </x-forms::field-wrapper>
