@@ -1,31 +1,31 @@
 import { Editor } from "@tiptap/core";
-import Document from "@tiptap/extension-document";
 import Blockquote from "@tiptap/extension-blockquote";
-import HardBreak from "@tiptap/extension-hard-break";
-import Text from "@tiptap/extension-text";
-import BulletList from "@tiptap/extension-bullet-list";
-import ListItem from "@tiptap/extension-list-item";
-import Heading from "@tiptap/extension-heading";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Superscript from "@tiptap/extension-superscript";
-import Subscript from "@tiptap/extension-subscript";
-import Table from "@tiptap/extension-table";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import Italic from "@tiptap/extension-italic";
 import Bold from "@tiptap/extension-bold";
-import Strike from "@tiptap/extension-strike";
-import Underline from "@tiptap/extension-underline";
-import History from "@tiptap/extension-history";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import Gapcursor from "@tiptap/extension-gapcursor";
-import { Color } from "@tiptap/extension-color";
-import TextStyle from "@tiptap/extension-text-style";
+import BulletList from "@tiptap/extension-bullet-list";
 import Code from "@tiptap/extension-code";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { Color } from "@tiptap/extension-color";
+import Document from "@tiptap/extension-document";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Gapcursor from "@tiptap/extension-gapcursor";
+import HardBreak from "@tiptap/extension-hard-break";
+import Heading from "@tiptap/extension-heading";
+import History from "@tiptap/extension-history";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import Italic from "@tiptap/extension-italic";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Strike from "@tiptap/extension-strike";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Underline from "@tiptap/extension-underline";
 import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
@@ -46,18 +46,17 @@ function randomString(length) {
 document.addEventListener("alpine:init", () => {
   let editors = window.filamentTiptapEditors || {};
 
-  Alpine.data("tiptap", ({ state, buttons = "", blocks = [] }) => {
+  Alpine.data("tiptap", ({ state, buttons = "" }) => {
     return {
       id: null,
       buttons: buttons.split(","),
-      blocks: blocks,
       json: [],
       html: "",
       state: state,
       fullScreenMode: false,
       updatedAt: Date.now(),
       getExtensions() {
-        let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak];
+        let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History];
 
         if (this.buttons.includes("link"))
           exts.push(
@@ -84,8 +83,11 @@ document.addEventListener("alpine:init", () => {
         if (this.buttons.includes("hr")) exts.push(HorizontalRule);
         if (this.buttons.includes("lead")) exts.push(Lead);
         if (this.buttons.includes("small")) exts.push(Small);
-        if (this.buttons.includes("grid")) exts.push(Grid);
-        if (this.buttons.includes("grid")) exts.push(GridColumn);
+
+        if (this.buttons.includes("grid")) {
+          exts.push(Grid);
+          exts.push(GridColumn);
+        }
 
         if (this.buttons.includes("code")) exts.push(Code);
         if (this.buttons.includes("codeblock"))
@@ -108,10 +110,6 @@ document.addEventListener("alpine:init", () => {
           if (this.buttons.includes("bulletList")) exts.push(BulletList);
           if (this.buttons.includes("checkedList")) exts.push(CheckedList);
           exts.push(ListItem);
-        }
-
-        if (this.buttons.includes("undo") || this.buttons.includes("redo")) {
-          exts.push(History);
         }
 
         if (this.buttons.includes("table")) {
