@@ -167,6 +167,12 @@ document.addEventListener("alpine:init", () => {
             e.target.firstChild.style.pointerEvents = "all";
           }
         });
+
+        this.$watch('state', (newState) => {
+          if (editors[this.id].getHTML() !== newState){
+            editors[this.id].commands.setContent(newState)
+          }
+        })
       },
       editor() {
         return editors[this.id];
