@@ -26,7 +26,7 @@ import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
-import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo } from "./extensions";
+import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 
 function randomString(length) {
@@ -127,6 +127,12 @@ document.addEventListener("alpine:init", () => {
           exts.push(Heading.configure({ levels }));
         }
 
+        if (this.buttons.includes("details")) {
+          exts.push(Details);
+          exts.push(DetailsSummary);
+          exts.push(DetailsContent);
+        }
+
         return exts;
       },
       init() {
@@ -168,11 +174,11 @@ document.addEventListener("alpine:init", () => {
           }
         });
 
-        this.$watch('state', (newState) => {
-          if (editors[this.id].getHTML() !== newState){
-            editors[this.id].commands.setContent(newState)
+        this.$watch("state", (newState) => {
+          if (editors[this.id].getHTML() !== newState) {
+            editors[this.id].commands.setContent(newState);
           }
-        })
+        });
       },
       editor() {
         return editors[this.id];

@@ -61,15 +61,7 @@
 
         @case('details')
             <path fill="currentColor"
-                d="M32 6H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Zm0 22H4V8h28Z"></path>
-            <path fill="currentColor"
-                d="M9 14h18a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
-            <path fill="currentColor"
-                d="M9 18h18a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
-            <path fill="currentColor"
-                d="M9 22h10a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Z"></path>
-            <path fill="none"
-                d="M0 0h36v36H0z"></path>
+                d="M3 17h18v2H3zm0-7h18v5H3zm0-4h18v2H3z"></path>
         @break
 
         @case('erase')

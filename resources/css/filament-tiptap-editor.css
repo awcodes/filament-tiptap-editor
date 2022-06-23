@@ -328,7 +328,9 @@
 
     .filament-tiptap-grid__column {
       box-sizing: border-box;
-      border: dashed 2px theme("colors.gray.300");
+      border-style: dashed;
+      border-width: 1px;
+      border-color: theme("colors.gray.300");
       padding: 0.5rem;
       border-radius: theme("borderRadius.DEFAULT");
 
@@ -425,7 +427,7 @@
 
   [data-youtube-video],
   [data-vimeo-video] {
-    border: dashed 2px transparent;
+    border: dashed 1px transparent;
 
     &.ProseMirror-selectednode {
       border-radius: theme("borderRadius.DEFAULT");
@@ -437,6 +439,60 @@
 
     iframe {
       pointer-events: none;
+    }
+  }
+
+  div[data-type="details"] {
+    box-sizing: border-box;
+    border-style: dashed;
+    border-width: 1px;
+    border-color: theme("colors.gray.300");
+    border-radius: theme("borderRadius.DEFAULT");
+    position: relative;
+
+    button {
+      position: absolute;
+      z-index: 1;
+      top: 0.125rem;
+      right: 0.25rem;
+      color: theme("colors.gray.400");
+    }
+
+    summary {
+      padding: 0.375rem 0.5rem;
+      font-weight: 700;
+
+      &::marker {
+        content: "";
+        display: none;
+      }
+    }
+
+    div[data-type="detailsContent"] {
+      overflow: hidden;
+      height: 0;
+
+      > * + * {
+        margin-block-start: 1rem;
+      }
+    }
+
+    &.is-open {
+      button {
+        transform: rotate(180deg);
+        color: theme("colors.primary.500");
+      }
+
+      summary {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: theme("colors.gray.200");
+      }
+
+      div[data-type="detailsContent"] {
+        padding: 0.5rem;
+        height: auto;
+      }
     }
   }
 }
@@ -461,7 +517,7 @@
 
     table td,
     table th {
-      border: 2px solid theme("colors.gray.600");
+      border: 1px solid theme("colors.gray.600");
     }
 
     table th {
@@ -475,7 +531,7 @@
 
     .filament-tiptap-grid {
       .filament-tiptap-grid__column {
-        border: dashed 2px theme("colors.gray.900");
+        border-color: theme("colors.gray.800");
       }
     }
 
@@ -487,6 +543,27 @@
     [data-vimeo-video] {
       &.ProseMirror-selectednode {
         outline-color: theme("colors.gray.300");
+      }
+    }
+
+    div[data-type="details"] {
+      box-sizing: border-box;
+      border-color: theme("colors.gray.800");
+      border-radius: theme("borderRadius.DEFAULT");
+      position: relative;
+
+      button {
+        color: theme("colors.gray.900");
+      }
+
+      &.is-open {
+        button {
+          color: theme("colors.primary.500");
+        }
+
+        summary {
+          border-bottom-color: theme("colors.gray.800");
+        }
       }
     }
   }

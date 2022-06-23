@@ -19,7 +19,7 @@
             x-data="tiptap({ state: $wire.entangle('{{ $getStatePath() }}').defer, buttons: '{{ $getButtons() }}' })"
             x-on:keydown.escape="fullScreenMode = false">
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
                     'filament.dark_mode'
                 ),
@@ -51,6 +51,7 @@
                     <x-filament-tiptap-editor::buttons.code />
                     <x-filament-tiptap-editor::buttons.code-block />
                     <x-filament-tiptap-editor::buttons.source fieldId="{{ $getStatePath() }}" />
+                    <x-filament-tiptap-editor::buttons.details />
                     <x-filament-tiptap-editor::buttons.remove-color />
                 </div>
                 <div class="flex flex-wrap items-center self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">

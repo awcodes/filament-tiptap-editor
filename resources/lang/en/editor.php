@@ -10,6 +10,7 @@ return [
     'code_block' => 'Code Block',
     'code' => 'Inline Code',
     'color' => 'Color',
+    'details' => 'Details',
     'erase' => 'Erase All Content',
     'fullscreen' => [
         'enter' => 'Enter Fullscreen Mode',

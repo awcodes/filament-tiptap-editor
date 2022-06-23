@@ -8,3 +8,6 @@ export { Grid } from "./Grid/Grid";
 export { GridColumn } from "./Grid/GridColumn";
 export { Youtube } from "./Youtube/Youtube";
 export { Vimeo } from "./Vimeo/Vimeo";
+export { Details } from "./Details/Details";
+export { DetailsSummary } from "./Details/DetailsSummary";
+export { DetailsContent } from "./Details/DetailsContent";
