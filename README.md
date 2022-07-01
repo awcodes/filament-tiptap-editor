@@ -78,6 +78,16 @@ You may override the default file uploader with your own Livewire component and 
 
 See `vendor/awcodes/resources/views/components/media-uploader-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/MediaUploaderModal.php` for implementation.
 
+### Initial height of editor field
+
+You can add extra input attributes to the field with the `extraInputAttributes()` method. This allows you to do things like set the initial height of the editor.
+
+```php
+TiptapEditor::make('barebone')
+    ->profile('barebone')
+    ->extraInputAttributes(['style' => 'min-height: 12rem;']),
+```
+
 ## Versioning
 
 This projects follow the [Semantic Versioning](https://semver.org/) guidelines.
