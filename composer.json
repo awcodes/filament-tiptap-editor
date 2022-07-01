@@ -1,6 +1,7 @@
 {
     "name": "awcodes/filament-tiptap-editor",
-    "type": "project",
+    "type": "package",
+    "version": "0.2.19",
     "description": "A Tiptap ingtegration for Filament Admin/Forms.",
     "keywords": [
         "framework",
