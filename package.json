@@ -1,6 +1,6 @@
 {
   "name": "filament-tiptap-editor",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "description": "A Tiptap ingtegration for Filament Admin/Forms.",
   "scripts": {
     "dev": "npm run development",
