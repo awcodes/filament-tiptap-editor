@@ -1,7 +1,7 @@
 @props([
     'fieldId' => null,
 ])
-<div x-show="buttons.includes('link')"
+<div x-show="tools.includes('link')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="openModal()"
         active="'link'"
@@ -17,7 +17,7 @@
                     let target = this.editor().getAttributes('link').target || null;
                     let hreflang = this.editor().getAttributes('link').hreflang || null;
                     let rel = this.editor().getAttributes('link').rel || null;
-        
+
                     $dispatch('open-modal', {
                         id: 'filament-tiptap-editor-link-modal',
                         fieldId: '{{ $fieldId }}',
@@ -31,12 +31,12 @@
                     if (link.href === null) {
                         return;
                     }
-        
+
                     if (link.href === '') {
                         this.editor().chain().focus().extendMarkRange('link').unsetLink().run();
                         return;
                     }
-        
+
                     this.editor()
                         .chain()
                         .focus()
