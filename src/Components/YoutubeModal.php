@@ -39,7 +39,7 @@ class YoutubeModal extends Component implements HasForms
                     ->label(__('filament-tiptap-editor::youtube-modal.labels.width')),
                 TextInput::make('height')
                     ->default('9')
-                    ->label(__('filament-tiptap-editor::youtube-modal.labels.width')),
+                    ->label(__('filament-tiptap-editor::youtube-modal.labels.height')),
             ])->columns(['md' => 2])
         ];
     }
