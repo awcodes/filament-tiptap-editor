@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('bulletList')"
+<div x-show="tools.includes('bulletList')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleBulletList().run()"
         active="'bulletlist'"
@@ -7,7 +7,7 @@
     </x-filament-tiptap-editor::button>
 </div>
 
-<div x-show="buttons.includes('orderedList')"
+<div x-show="tools.includes('orderedList')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleOrderedList().run()"
         active="'orderedlist'"
@@ -16,7 +16,7 @@
     </x-filament-tiptap-editor::button>
 </div>
 
-<div x-show="buttons.includes('checkedList')"
+<div x-show="tools.includes('checkedList')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleCheckedList().run()"
         active="'checkedlist'"

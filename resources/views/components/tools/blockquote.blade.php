@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('blockquote')"
+<div x-show="tools.includes('blockquote')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleBlockquote().run()"
         active="'blockquote'"

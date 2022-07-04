@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('small')"
+<div x-show="tools.includes('small')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleSmall().run()"
         active="'small'"

@@ -2,7 +2,7 @@
     'fieldId' => null,
 ])
 
-<div x-show="buttons.includes('source')"
+<div x-show="tools.includes('source')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="openModal()"
         label="{{ __('filament-tiptap-editor::editor.source') }}"

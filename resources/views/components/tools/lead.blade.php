@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('lead')"
+<div x-show="tools.includes('lead')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleLead().run()"
         active="'leadParagraph'"

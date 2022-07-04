@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('code')"
+<div x-show="tools.includes('code')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleCode().run()"
         active="'code'"
