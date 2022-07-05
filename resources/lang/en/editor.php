@@ -2,7 +2,7 @@
 
 return [
     'align_center' => 'Align Text Center',
-    'align_justify' => 'Justinfy Text',
+    'align_justify' => 'Justify Text',
     'align_left' => 'Align Text Left',
     'align_right' => 'Align Text Right',
     'blockquote' => 'Blockquote',
