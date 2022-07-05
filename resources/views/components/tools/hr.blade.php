@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('hr')"
+<div x-show="tools.includes('hr')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().setHorizontalRule().run()"
         active="'horizontalRule'"

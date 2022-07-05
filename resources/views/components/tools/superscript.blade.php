@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('superscript')"
+<div x-show="tools.includes('superscript')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleSuperscript().run()"
         active="'superscript'"

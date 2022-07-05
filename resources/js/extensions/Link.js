@@ -6,7 +6,9 @@ export const CustomLink = Link.extend({
       openOnClick: true,
       linkOnPaste: true,
       autolink: true,
+      protocols: [],
       HTMLAttributes: {},
+      validate: undefined,
     };
   },
 

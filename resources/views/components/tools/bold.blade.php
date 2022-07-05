@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('bold')"
+<div x-show="tools.includes('bold')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleBold().run()"
         active="'bold'"

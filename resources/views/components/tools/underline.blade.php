@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('underline')"
+<div x-show="tools.includes('underline')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleUnderline().run()"
         active="'underline'"

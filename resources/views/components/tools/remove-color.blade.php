@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('color') && editor().isActive('textStyle', updatedAt)"
+<div x-show="tools.includes('color') && editor().isActive('textStyle', updatedAt)"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().unsetColor().run()"
         label="{{ __('filament-tiptap-editor::editor.remove_color') }}">

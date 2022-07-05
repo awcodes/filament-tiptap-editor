@@ -26,16 +26,25 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public string $profile = 'default';
 
+    protected ?array $tools = [];
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->profile = collect(config('filament-tiptap-editor.profiles.default'))->implode(',');
+        $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
     }
 
     public function profile(?string $profile)
     {
-        $this->profile = collect(config('filament-tiptap-editor.profiles.' . $profile))->implode(',');
+        $this->profile = implode(',', config('filament-tiptap-editor.profiles.' . $profile));
+
+        return $this;
+    }
+
+    public function tools(array $tools): static
+    {
+        $this->tools = $tools;
 
         return $this;
     }
@@ -90,8 +99,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->state($state);
     }
 
-    public function getButtons()
+    public function getTools()
     {
-        return $this->profile;
+        return !$this->tools ? $this->profile : implode(',', $this->tools);
     }
 }

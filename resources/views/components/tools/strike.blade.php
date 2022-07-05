@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('strike')"
+<div x-show="tools.includes('strike')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleStrike().run()"
         active="'strike'"

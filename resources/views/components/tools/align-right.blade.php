@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('align')"
+<div x-show="tools.includes('align')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().setTextAlign('right').run()"
         active="{ textAlign: 'right' }"

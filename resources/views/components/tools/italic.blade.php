@@ -1,4 +1,4 @@
-<div x-show="buttons.includes('italic')"
+<div x-show="tools.includes('italic')"
     style="display: none;">
     <x-filament-tiptap-editor::button action="editor().chain().focus().toggleItalic().run()"
         active="'italic'"

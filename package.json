@@ -1,8 +1,7 @@
 {
   "name": "filament-tiptap-editor",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "0.2.20",
+  "description": "A Tiptap ingtegration for Filament Admin/Forms.",
   "scripts": {
     "dev": "npm run development",
     "development": "mix",
@@ -12,8 +11,7 @@
     "prod": "npm run production",
     "production": "mix --production"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Adam Weston <awcodes1@gmail.com> (https://github.com/awcodes)",
   "license": "MIT",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0",
@@ -37,7 +35,7 @@
     "@tiptap/extension-horizontal-rule": "^2.0.0-beta.31",
     "@tiptap/extension-image": "^2.0.0-beta.27",
     "@tiptap/extension-italic": "^2.0.0-beta.26",
-    "@tiptap/extension-link": "2.0.0-beta.36",
+    "@tiptap/extension-link": "^2.0.0-beta.36",
     "@tiptap/extension-list-item": "^2.0.0-beta.20",
     "@tiptap/extension-ordered-list": "^2.0.0-beta.27",
     "@tiptap/extension-paragraph": "^2.0.0-beta.23",

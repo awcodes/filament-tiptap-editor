@@ -23,14 +23,15 @@ composer require awcodes/filament-tiptap-editor
 
 ## Usage
 
-The editor extends the default Forms Field class so all other methods available on that class can be used when adding it to a form.
+The editor extends the default Field class so most other methods available on that class can be used when adding it to a form.
 
 ```php
 use FilamentTiptapEditor\TiptapEditor;
 
 TiptapEditor::make('content')
-    ->profile('simple')
-    ->required(); //->etc
+    ->profile('default|simple|barebone|custom')
+    ->tools([]) //-> individual tools to use in the editor, overwrites profile
+    ->required();
 ```
 
 ## Config
@@ -41,15 +42,17 @@ Publish the config file.
 php artisan vendor:publish --tag="filament-tiptap-editor-config"
 ```
 
-### Profiles
+### Profiles / Tools
 
 The package comes with 3 profiles for buttons/tools out of the box.
 
-- default: 'bold', 'italic', 'strike', 'underline', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'lead', 'small', 'color', 'bulletList', 'orderedList', 'checkedList', 'align', 'blockquote', 'hr', 'link', 'superscript', 'subscript', 'table', 'grid', 'media', 'youtube', 'vimeo', 'code', 'codeblock', 'source'
-- simple: 'bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'
-- barebone: 'bold', 'italic', 'link', 'bulletList', 'orderedList'
+- default: includes all available tools
+- simple
+- barebone
 
 See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor or to create your own.
+
+Tools can also be added on a per instance basis. Using the `->tools()` modifier will overwrite the profile set for the instance. A full list of tools can be found in the `filament-tiptap-editor.php` config file under the default profile setting.
 
 ### Media / Images
 
@@ -77,6 +80,28 @@ See `vendor/awcodes/resources/views/components/link-modal.blade.php` and `vendor
 You may override the default file uploader with your own Livewire component and assign its ID to the `media_uploader_id` setting in the config file.
 
 See `vendor/awcodes/resources/views/components/media-uploader-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/MediaUploaderModal.php` for implementation.
+
+### Initial height of editor field
+
+You can add extra input attributes to the field with the `extraInputAttributes()` method. This allows you to do things like set the initial height of the editor.
+
+```php
+TiptapEditor::make('barebone')
+    ->profile('barebone')
+    ->extraInputAttributes(['style' => 'min-height: 12rem;']),
+```
+
+## Usage in Standalone Forms Package
+
+1. Publish the JS/CSS assets
+
+```bash
+php artisan vendor:publish tag="filament-tiptap-editor-assets"
+```
+
+2. Include the CSS files in your page / layout
+2. Include the JS files in your page / layout before Filament's scripts
+3. Include a `@stack('modals')` in your page / layout if it doesn't exist
 
 ## Versioning
 
