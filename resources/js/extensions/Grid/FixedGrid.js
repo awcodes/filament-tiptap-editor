@@ -4,10 +4,19 @@ import { createGrid } from "./utils/createGrid";
 
 export const FixedGrid = Node.create({
   name: "fixedGrid",
+
   group: "block",
-  draggable: true,
+
+  defining: true,
+
+  isolating: true,
+
+  allowGapCursor: false,
+
   content: "gridColumn+",
+
   gridRole: "grid",
+
   addOptions() {
     return {
       HTMLAttributes: {
@@ -15,6 +24,7 @@ export const FixedGrid = Node.create({
       },
     };
   },
+
   addAttributes() {
     return {
       type: {
@@ -25,6 +35,7 @@ export const FixedGrid = Node.create({
       },
     };
   },
+
   parseHTML() {
     return [
       {
@@ -33,9 +44,11 @@ export const FixedGrid = Node.create({
       },
     ];
   },
+
   renderHTML({ HTMLAttributes }) {
     return ["div", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
+
   addCommands() {
     return {
       insertGrid:
@@ -55,6 +68,7 @@ export const FixedGrid = Node.create({
         },
     };
   },
+
   addKeyboardShortcuts() {
     return {
       "Mod-Alt-G": () => this.editor.commands.insertGrid(),

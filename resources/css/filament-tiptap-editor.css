@@ -348,6 +348,14 @@
         margin-block-start: 1rem;
       }
     }
+
+    &.ProseMirror-selectednode {
+      border-radius: theme("borderRadius.DEFAULT");
+      outline-color: theme("colors.gray.900");
+      outline-offset: 2px;
+      outline-width: 2px;
+      outline-style: dashed;
+    }
   }
 
   .filament-tiptap-grid[type="asymetric-right-thirds"],
@@ -542,6 +550,10 @@
     .filament-tiptap-grid {
       .filament-tiptap-grid__column {
         border-color: theme("colors.gray.500");
+      }
+
+      &.ProseMirror-selectednode {
+        outline-color: theme("colors.gray.300");
       }
     }
 
