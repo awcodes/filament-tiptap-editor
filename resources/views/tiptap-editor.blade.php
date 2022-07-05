@@ -27,7 +27,7 @@
             x-on:keydown.escape="fullScreenMode = false">
             <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">Skip toolbar</button>
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-100 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
                     'filament.dark_mode'
                 ),
