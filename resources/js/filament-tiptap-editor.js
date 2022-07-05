@@ -74,6 +74,12 @@ document.addEventListener("alpine:init", () => {
         exts.push(GridColumn);
       }
 
+      if (this.tools.includes("details")) {
+        exts.push(Details);
+        exts.push(DetailsSummary);
+        exts.push(DetailsContent);
+      }
+
       if (this.tools.includes("code")) exts.push(Code);
       if (this.tools.includes("codeblock"))
         exts.push(

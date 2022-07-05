@@ -203,6 +203,36 @@ export const Details = Node.create({
             .setTextSelection(range.start + 2)
             .run();
         },
+        unsetDetails: () => ({ state, chain }) => {
+            const { selection, schema } = state;
+            const details = findParentNode(node => node.type === this.type)(selection);
+            if (!details) {
+                return false;
+            }
+            const detailsSummaries = findChildren(details.node, node => node.type === schema.nodes.detailsSummary);
+            const detailsContents = findChildren(details.node, node => node.type === schema.nodes.detailsContent);
+            if (!detailsSummaries.length || !detailsContents.length) {
+                return false;
+            }
+            const detailsSummary = detailsSummaries[0];
+            const detailsContent = detailsContents[0];
+            const from = details.pos;
+            const $from = state.doc.resolve(from);
+            const to = from + details.node.nodeSize;
+            const range = { from, to };
+            const content = detailsContent.node.content.toJSON() || [];
+            const defaultTypeForSummary = $from.parent.type.contentMatch.defaultType;
+            // TODO: this may break for some custom schemas
+            const summaryContent = defaultTypeForSummary === null || defaultTypeForSummary === void 0 ? void 0 : defaultTypeForSummary.create(null, detailsSummary.node.content).toJSON();
+            const mergedContent = [
+                summaryContent,
+                ...content,
+            ];
+            return chain()
+                .insertContentAt(range, mergedContent)
+                .setTextSelection(from + 1)
+                .run();
+        },
     };
   },
   addKeyboardShortcuts() {
