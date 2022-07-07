@@ -53,6 +53,7 @@
                     <x-filament-tiptap-editor::tools.subscript />
                     <x-filament-tiptap-editor::tools.table />
                     <x-filament-tiptap-editor::tools.grid />
+                    <x-filament-tiptap-editor::tools.details />
                     <x-filament-tiptap-editor::tools.media fieldId="{{ $getStatePath() }}" />
                     <x-filament-tiptap-editor::tools.youtube fieldId="{{ $getStatePath() }}" />
                     <x-filament-tiptap-editor::tools.vimeo fieldId="{{ $getStatePath() }}" />

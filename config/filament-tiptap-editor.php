@@ -43,6 +43,7 @@ return [
             'source',
             'youtube',
             'vimeo',
+            'details',
         ],
         'simple' => ['bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],
         'barebone' => ['bold', 'italic', 'link', 'bulletList', 'orderedList'],

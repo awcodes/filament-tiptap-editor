@@ -520,6 +520,9 @@
     summary {
       padding: 0.375rem 0.5rem;
       font-weight: 700;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: theme("colors.gray.200");
 
       &::marker {
         content: "";
@@ -527,30 +530,12 @@
       }
     }
 
-    div[data-type="detailsContent"] {
-      overflow: hidden;
-      height: 0;
+    div[data-type="details-content"] {
+      padding: 0.5rem;
+      height: auto;
 
       > * + * {
         margin-block-start: 1rem;
-      }
-    }
-
-    &.is-open {
-      button {
-        transform: rotate(180deg);
-        color: theme("colors.primary.500");
-      }
-
-      summary {
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-color: theme("colors.gray.200");
-      }
-
-      div[data-type="detailsContent"] {
-        padding: 0.5rem;
-        height: auto;
       }
     }
   }
@@ -737,18 +722,8 @@
       border-radius: theme("borderRadius.DEFAULT");
       position: relative;
 
-      button {
-        color: theme("colors.gray.900");
-      }
-
-      &.is-open {
-        button {
-          color: theme("colors.primary.500");
-        }
-
-        summary {
-          border-bottom-color: theme("colors.gray.500");
-        }
+      summary {
+        border-bottom-color: theme("colors.gray.500");
       }
     }
   }
