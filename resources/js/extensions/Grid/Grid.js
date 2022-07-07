@@ -1,13 +1,23 @@
-import { callOrReturn, getExtensionField, Node, mergeAttributes, ParentConfig } from "@tiptap/core";
+import { callOrReturn, getExtensionField, Node, mergeAttributes, ParentConfig, findParentNode, findChildren } from "@tiptap/core";
 import { TextSelection } from "prosemirror-state";
 import { createGrid } from "./utils/createGrid";
+import { GapCursor } from "prosemirror-gapcursor";
 
 export const Grid = Node.create({
   name: "grid",
+
   group: "block",
-  draggable: true,
+
+  defining: true,
+
+  isolating: true,
+
+  allowGapCursor: false,
+
   content: "gridColumn+",
+
   gridRole: "grid",
+
   addOptions() {
     return {
       HTMLAttributes: {
@@ -15,6 +25,7 @@ export const Grid = Node.create({
       },
     };
   },
+
   addAttributes() {
     return {
       type: {
@@ -27,6 +38,7 @@ export const Grid = Node.create({
       },
     };
   },
+
   parseHTML() {
     return [
       {
@@ -35,9 +47,11 @@ export const Grid = Node.create({
       },
     ];
   },
+
   renderHTML({ HTMLAttributes }) {
     return ["div", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
+
   addCommands() {
     return {
       insertGrid:
@@ -57,6 +71,7 @@ export const Grid = Node.create({
         },
     };
   },
+
   addKeyboardShortcuts() {
     return {
       "Mod-Alt-G": () => this.editor.commands.insertGrid(),
