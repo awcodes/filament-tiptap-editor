@@ -11,3 +11,4 @@ export { Vimeo } from "./Vimeo/Vimeo";
 export { Details } from "./Details/Details";
 export { DetailsSummary } from "./Details/DetailsSummary";
 export { DetailsContent } from "./Details/DetailsContent";
+export { CustomCodeBlockLowlight } from "./CodeBlock";

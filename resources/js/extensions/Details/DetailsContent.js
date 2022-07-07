@@ -3,26 +3,34 @@ import { Selection } from "prosemirror-state";
 
 export const DetailsContent = Node.create({
   name: "detailsContent",
+
   content: "block+",
+
   defining: true,
+
   selectable: false,
+
   addOptions() {
     return {
       HTMLAttributes: {},
     };
   },
+
   parseHTML() {
     return [
       {
-        tag: `div[data-type="${this.name}"]`,
+        tag: `div[data-type="details-content"]`,
       },
     ];
   },
+
   renderHTML({ HTMLAttributes }) {
-    return ["div", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { "data-type": this.name }), 0];
+    return ["div", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { "data-type": "details-content" }), 0];
   },
+
   addKeyboardShortcuts() {
     return {
+      // allows double enter to exit content node
       Enter: ({ editor }) => {
         const { state, view } = editor;
         const { selection } = state;

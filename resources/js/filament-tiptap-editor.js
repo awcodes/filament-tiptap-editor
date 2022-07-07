@@ -3,7 +3,6 @@ import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
 import Code from "@tiptap/extension-code";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { Color } from "@tiptap/extension-color";
 import Document from "@tiptap/extension-document";
 import Dropcursor from "@tiptap/extension-dropcursor";
@@ -26,9 +25,9 @@ import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
-import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent } from "./extensions";
+import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent, CustomCodeBlockLowlight } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
-import { randomString } from "./utils/randomString";
+import { randomString } from "./utils";
 
 document.addEventListener("alpine:init", () => {
   let editors = window.filamentTiptapEditors || {};
@@ -43,17 +42,6 @@ document.addEventListener("alpine:init", () => {
     getExtensions() {
       let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History];
 
-      if (this.tools.includes("link"))
-        exts.push(
-          CustomLink.configure({
-            openOnClick: false,
-            autolink: false,
-            HTMLAttributes: {
-              rel: null,
-              hreflang: null,
-            },
-          })
-        );
       if (this.tools.includes("blockquote")) exts.push(Blockquote);
       if (this.tools.includes("bold")) exts.push(Bold);
       if (this.tools.includes("italic")) exts.push(Italic);
@@ -68,22 +56,27 @@ document.addEventListener("alpine:init", () => {
       if (this.tools.includes("hr")) exts.push(HorizontalRule);
       if (this.tools.includes("lead")) exts.push(Lead);
       if (this.tools.includes("small")) exts.push(Small);
-
-      if (this.tools.includes("grid")) {
-        exts.push(Grid);
-        exts.push(GridColumn);
-      }
-
-      if (this.tools.includes("details")) {
-        exts.push(Details);
-        exts.push(DetailsSummary);
-        exts.push(DetailsContent);
-      }
-
+      if (this.tools.includes("grid")) exts.push(Grid, GridColumn);
+      if (this.tools.includes("details")) exts.push(Details, DetailsSummary, DetailsContent);
+      if (this.tools.includes("color")) exts.push(Color, TextStyle);
+      if (this.tools.includes("table")) exts.push(Table.configure({ resizable: true }), TableHeader, TableCell, TableRow);
       if (this.tools.includes("code")) exts.push(Code);
+
+      if (this.tools.includes("link"))
+        exts.push(
+          CustomLink.configure({
+            openOnClick: false,
+            autolink: false,
+            HTMLAttributes: {
+              rel: null,
+              hreflang: null,
+            },
+          })
+        );
+
       if (this.tools.includes("codeblock"))
         exts.push(
-          CodeBlockLowlight.configure({
+          CustomCodeBlockLowlight.configure({
             lowlight,
             HTMLAttributes: {
               class: "hljs",
@@ -91,20 +84,11 @@ document.addEventListener("alpine:init", () => {
           })
         );
 
-      if (this.tools.includes("color")) {
-        exts.push(Color);
-        exts.push(TextStyle);
-      }
-
       if (this.tools.includes("orderedList") || this.tools.includes("bulletList") || this.tools.includes("checkedList")) {
         if (this.tools.includes("orderedList")) exts.push(OrderedList);
         if (this.tools.includes("bulletList")) exts.push(BulletList);
         if (this.tools.includes("checkedList")) exts.push(CheckedList);
         exts.push(ListItem);
-      }
-
-      if (this.tools.includes("table")) {
-        exts.push(Table.configure({ resizable: true }), TableHeader, TableCell, TableRow);
       }
 
       if (this.tools.includes("h1") || this.tools.includes("h2") || this.tools.includes("h3") || this.tools.includes("h4") || this.tools.includes("h5") || this.tools.includes("h6")) {
@@ -146,9 +130,9 @@ document.addEventListener("alpine:init", () => {
           _this.$refs.textarea.dispatchEvent(new Event("change"));
           _this.updatedAt = Date.now();
         },
-        onFocus({event}) {
+        onFocus({ event }) {
           _this.focused = true;
-        }
+        },
       });
 
       window.filamentTiptapEditors = editors;
