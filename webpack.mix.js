@@ -4,7 +4,12 @@ mix.disableNotifications();
 
 mix
   .setPublicPath("./resources/dist")
-  .postCss("./resources/css/filament-tiptap-editor.css", "filament-tiptap-editor.css", [require("tailwindcss/nesting")(), require("tailwindcss")("./tailwind.config.js")])
+  .postCss("./resources/css/filament-tiptap-editor.css", "filament-tiptap-editor.css", [
+      require("postcss-import"),
+      require("tailwindcss/nesting")(),
+      require("tailwindcss")("./tailwind.config.js"),
+      require("autoprefixer")
+  ])
   .js("./resources/js/filament-tiptap-editor.js", "filament-tiptap-editor.js")
   .options({
     processCssUrls: false,
