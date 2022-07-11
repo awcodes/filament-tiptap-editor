@@ -40,12 +40,12 @@
                 'filament.dark_mode'
             ),
         ])>
-        <x-filament-tiptap-editor::icon icon="{{ $icon }}" />
-        <span class="sr-only">{{ $label }}</span>
+        <x-filament-tiptap-editor::icon icon="{{ $icon }}" title="{{ $label }}" />
     </button>
 
     <div x-ref="panel"
         x-show="open"
+        x-trap="open"
         x-transition.origin.top.left
         x-on:click.outside="close($refs.button)"
         :id="$id('dropdown-button')"

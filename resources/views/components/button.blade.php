@@ -2,6 +2,7 @@
     'action' => null,
     'active' => null,
     'label' => null,
+    'icon' => null,
 ])
 <button type="button"
     x-on:click="{{ $action }}"
@@ -15,5 +16,5 @@
         ),
     ])>
     {{ $slot }}
-    <span class="sr-only">{{ $label }}</span>
+    <x-filament-tiptap-editor::icon icon="{{ $icon }}" title="{{  $label }}" />
 </button>

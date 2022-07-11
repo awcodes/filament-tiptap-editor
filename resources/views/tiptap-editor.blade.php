@@ -70,23 +70,26 @@
                 </div>
             </div>
 
-            <div x-ref="element"
-            {{ $getExtraInputAttributeBag()->class([
-                'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-white',
-                'dark:bg-gray-700' => config('filament.dark_mode'),
-            ]) }}
-            x-bind:class="{'ring-inset ring-2 relative ring-primary-500': focused}"></div>
+            <div
+                x-ref="element"
+                x-bind:class="{'ring-inset ring-2 relative ring-primary-500': focused}"
+                {{ $getExtraInputAttributeBag()->class([
+                    'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-white',
+                    'dark:bg-gray-700' => config('filament.dark_mode'),
+                ]) }}
+            ></div>
 
             <textarea x-ref="textarea"
                 class="sr-only"
                 tabindex="-1"
+                name="{{ $getStatePath() }}"
                 @if (!$isConcealed())
-                {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
-                {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
-                {!! $isRequired() ? 'required' : null !!}
+                    {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
+                    {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
+                    {!! $isRequired() ? 'required' : null !!}
                 @endif
                 {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
-                name="{{ $getStatePath() }}"></textarea>
+            ></textarea>
         </div>
     </div>
 
