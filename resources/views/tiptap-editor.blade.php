@@ -93,10 +93,15 @@
         </div>
     </div>
 
-    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal' && str($tools)->contains('media'))
+    @if (str($tools)->contains('media'))
         @once
             @push('modals')
-                @livewire('filament-tiptap-editor-media-uploader-modal')
+                @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
+                    @livewire('filament-tiptap-editor-media-uploader-modal')
+                @endif
+                @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-curator-media-picker')
+                    @livewire('filament-curator-media-picker-modal')
+                @endif
             @endpush
         @endonce
     @endif
