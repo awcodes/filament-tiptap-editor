@@ -143,6 +143,21 @@ document.addEventListener("alpine:init", () => {
         }
       });
 
+      let sortableEl = this.$el.parentElement.closest("[wire\\:sortable");
+      if (sortableEl) {
+        window.Sortable.utils.on(sortableEl, "start", (event) => {
+          Object.values(editors).forEach(function (editor) {
+            editor.setEditable(false);
+          });
+        });
+
+        window.Sortable.utils.on(sortableEl, "end", (event) => {
+          Object.values(editors).forEach(function (editor) {
+            editor.setEditable(true);
+          });
+        });
+      }
+
       this.$watch("state", (newState) => {
         if (editors[this.id].getHTML() !== newState) {
           editors[this.id].commands.setContent(newState);
