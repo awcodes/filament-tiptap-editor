@@ -5,7 +5,7 @@
     x-data="{
         toggleOpen(event) {
             $wire.set('fieldId', event.detail.fieldId);
-            $wire.setState(event.detail.href, event.detail.target, event.detail.hreflang, event.detail.rel);
+            $wire.setState(event.detail.href, event.detail.target, event.detail.hreflang, event.detail.rel, event.detail.as_button, event.detail.button_theme);
             this.$nextTick(() => {
                 if (this.isOpen === true && this.$el.querySelector('input')) {
                     this.$el.querySelector('input').focus();

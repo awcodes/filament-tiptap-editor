@@ -155,6 +155,30 @@
     text-decoration: underline;
   }
 
+  a.btn {
+    background-color: theme("colors.gray.900");
+    color: white !important;
+    text-decoration: none;
+    display: inline-block;
+    @apply rounded-md py-2 px-5;
+
+    &.btn-primary {
+      background-color: theme("colors.primary.600");
+    }
+
+    &.btn-secondary {
+      background-color: theme("colors.warning.600");
+    }
+
+    &.btn-tertiary {
+      background-color: theme("colors.success.600");
+    }
+
+    &.btn-accent {
+      background-color: theme("colors.danger.600");
+    }
+  }
+
   sup {
     font-size: 65%;
   }
