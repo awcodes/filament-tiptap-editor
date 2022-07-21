@@ -3,6 +3,19 @@
 return [
     /*
     |--------------------------------------------------------------------------
+    | Theme overrides
+    |--------------------------------------------------------------------------
+    |
+    | Theme overrides can be used to style parts of the editor content.
+    | theme_builder : 'mix' | 'vite'
+    | theme_path : css/tiptap-editor-styles.css
+    |
+    */
+    'theme_builder' => 'mix',
+    'theme_path' => 'css/filament-tiptap-editor.css',
+
+    /*
+    |--------------------------------------------------------------------------
     | Profiles
     |--------------------------------------------------------------------------
     |
