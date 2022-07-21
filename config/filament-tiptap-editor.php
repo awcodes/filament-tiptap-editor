@@ -12,7 +12,7 @@ return [
     |
     */
     'theme_builder' => 'mix',
-    'theme_path' => 'css/filament-tiptap-editor.css',
+    'theme_path' => null,
 
     /*
     |--------------------------------------------------------------------------
