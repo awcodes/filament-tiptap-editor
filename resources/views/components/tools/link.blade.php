@@ -20,6 +20,8 @@
             let target = this.editor().getAttributes('link').target || null;
             let hreflang = this.editor().getAttributes('link').hreflang || null;
             let rel = this.editor().getAttributes('link').rel || null;
+            let as_button = this.editor().getAttributes('link').as_button || null;
+            let button_theme = this.editor().getAttributes('link').button_theme || '';
 
             $dispatch('open-modal', {
                 id: 'filament-tiptap-editor-link-modal',
@@ -28,6 +30,8 @@
                 hreflang: hreflang,
                 target: target,
                 rel: rel,
+                as_button: as_button,
+                button_theme: button_theme,
             });
         },
         insertLink(link) {
@@ -48,7 +52,10 @@
                     href: link.href,
                     target: link.target ?? null,
                     hreflang: link.hreflang ?? null,
-                    rel: link.rel.length ? link.rel.join(' ') : null
+                    rel: link.rel.length ? link.rel.join(' ') : null,
+                    as_button: link.as_button ? true : false,
+                    button_theme: link.button_theme ?? '',
+                    class: link.as_button ? `btn btn-${link.button_theme}` : null
                 })
                 .run();
         }

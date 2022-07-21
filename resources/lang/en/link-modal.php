@@ -24,6 +24,13 @@ return [
             'nofollow' => 'No Follow',
             'noopener' => 'No Opener',
             'noreferrer' => 'No Referrer',
+        ],
+        'as_button' => 'As Button',
+        'button_theme' => [
+            'primary' => 'Primary',
+            'secondary' => 'Secondary',
+            'tertiary' => 'Tertiary',
+            'accent' => 'Accent',
         ]
     ]
 ];

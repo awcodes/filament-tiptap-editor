@@ -70,6 +70,7 @@ document.addEventListener("alpine:init", () => {
             HTMLAttributes: {
               rel: null,
               hreflang: null,
+              class: null,
             },
           })
         );

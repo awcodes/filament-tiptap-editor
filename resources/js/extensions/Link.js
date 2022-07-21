@@ -26,6 +26,15 @@ export const CustomLink = Link.extend({
       rel: {
         default: null,
       },
+      class: {
+        default: null,
+      },
+      as_button: {
+        default: false,
+      },
+      button_theme: {
+        default: "",
+      },
     };
   },
 });
