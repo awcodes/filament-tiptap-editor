@@ -1,4 +1,4 @@
-import { callOrReturn, getExtensionField, Node, mergeAttributes, ParentConfig, findParentNode, findChildren } from "@tiptap/core";
+import { callOrReturn, getExtensionField, Node, mergeAttributes, findParentNode, findChildren } from "@tiptap/core";
 import { TextSelection } from "prosemirror-state";
 import { createGrid } from "./utils/createGrid";
 import { GapCursor } from "prosemirror-gapcursor";

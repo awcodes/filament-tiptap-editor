@@ -1,8 +1,6 @@
 name: npm-build
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
     types: [closed]
@@ -21,7 +19,7 @@ jobs:
         run: npm ci
 
       - name: Build assets
-        run: npm run production
+        run: npm run build
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
