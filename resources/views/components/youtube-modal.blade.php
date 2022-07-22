@@ -12,8 +12,8 @@
             });
         }
     }"
-    x-on:close-modal.window="toggleOpen($event)"
-    x-on:open-modal.window="toggleOpen($event)"
+    x-on:close-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
+    x-on:open-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
     class="filament-tiptap-editor-youtube-modal">
 
     <form wire:submit.prevent="create">
