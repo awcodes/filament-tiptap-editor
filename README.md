@@ -103,6 +103,17 @@ php artisan vendor:publish tag="filament-tiptap-editor-assets"
 2. Include the JS files in your page / layout before Filament's scripts
 3. Include a `@stack('modals')` in your page / layout if it doesn't exist
 
+## Themeing
+
+If you are using a custom theme for Filament you will need to add this plugin's views to your Tailwind CSS config.
+
+```js
+content: [
+    ...
+    "./vendor/awcodes/filament-tiptap-editor/resources/views/**/*.blade.php",
+],
+```
+
 ## Versioning
 
 This projects follow the [Semantic Versioning](https://semver.org/) guidelines.
