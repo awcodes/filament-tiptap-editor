@@ -24,7 +24,7 @@
             let button_theme = this.editor().getAttributes('link').button_theme || '';
 
             $dispatch('open-modal', {
-                id: 'filament-tiptap-editor-link-modal',
+                id: '{{ config('filament-tiptap-editor.link_modal_id') }}',
                 fieldId: '{{ $fieldId }}',
                 href: href,
                 hreflang: hreflang,

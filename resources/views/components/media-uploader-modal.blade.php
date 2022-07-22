@@ -12,8 +12,8 @@
                 }, true);
             }
     }"
-    x-on:close-modal.window="toggleOpen($event)"
-    x-on:open-modal.window="toggleOpen($event)"
+    x-on:close-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
+    x-on:open-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
     x-on:new-media-added.window="isOpen = false;"
     class="filament-tiptap-editor-media-uploader-modal">
 
