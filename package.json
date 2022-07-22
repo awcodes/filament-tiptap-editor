@@ -1,15 +1,12 @@
 {
   "private": true,
-  "name": "filament-tiptap-editor",
-  "description": "A Tiptap ingtegration for Filament Admin/Forms.",
   "scripts": {
-    "dev": "npm run development",
-    "development": "mix",
-    "watch": "mix watch",
-    "watch-poll": "mix watch -- --watch-options-poll=1000",
-    "hot": "mix watch --hot",
-    "prod": "npm run production",
-    "production": "mix --production"
+    "dev:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --watch",
+    "dev:js": "esbuild resources/js/plugin.js --bundle --sourcemap=inline --outfile=resources/dist/filament-tiptap-editor.js --watch",
+    "build:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --minify",
+    "build:js": "esbuild resources/js/plugin.js --bundle --minify --outfile=resources/dist/filament-tiptap-editor.js",
+    "dev": "npm-run-all --parallel dev:*",
+    "build": "npm-run-all build:*"
   },
   "author": "Adam Weston <awcodes1@gmail.com> (https://github.com/awcodes)",
   "license": "MIT",
@@ -48,9 +45,10 @@
     "@tiptap/extension-underline": "^2.0.0-beta.23",
     "alpinejs": "^3.9.6",
     "autoprefixer": "^10.4.7",
+    "esbuild": "^0.14.49",
     "highlight.js": "^11.5.0",
-    "laravel-mix": "^6.0.43",
     "lowlight": "^2.6.1",
+    "npm-run-all": "^4.1.5",
     "postcss-import": "^14.1.0",
     "tailwindcss": "^3.0.23"
   }
