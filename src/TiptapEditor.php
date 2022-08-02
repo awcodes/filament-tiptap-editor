@@ -13,6 +13,7 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
+use Illuminate\Support\Facades\Storage;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -28,11 +29,22 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?array $tools = [];
 
+    protected ?string $disk = null;
+
+    protected string | Closure | null $directory = null;
+
+    protected ?array $acceptedFileTypes = null;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
+
+        $this->dehydrateStateUsing(function($state) {
+            $this->purgeUnusedFiles($state);
+            return $state;
+        });
     }
 
     public function profile(?string $profile)
@@ -49,58 +61,65 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function saveUploadedFileUsing(?Closure $callback): static
+    public function disk(?string $disk): static
     {
-        $this->saveUploadedFileUsing = $callback;
+        $this->disk = $disk;
 
         return $this;
     }
 
-    public function saveUploadedFiles(): void
+    public function directory(string | Closure | null $directory): static
     {
-        if (blank($this->getState())) {
-            $this->state([]);
+        $this->directory = $directory;
 
-            return;
-        }
-
-        if (!is_array($this->getState())) {
-            $this->state([$this->getState()]);
-        }
-
-        $state = array_map(function (TemporaryUploadedFile | string $file) {
-            if (!$file instanceof TemporaryUploadedFile) {
-                return $file;
-            }
-
-            $callback = $this->saveUploadedFileUsing;
-
-            if (!$callback) {
-                $file->delete();
-
-                return $file;
-            }
-
-            $storedFile = $this->evaluate($callback, [
-                'file' => $file,
-            ]);
-
-            $file->delete();
-
-            return $storedFile;
-        }, $this->getState());
-
-        if ($this->canReorder && ($callback = $this->reorderUploadedFilesUsing)) {
-            $state = $this->evaluate($callback, [
-                'state' => $state,
-            ]);
-        }
-
-        $this->state($state);
+        return $this;
     }
 
-    public function getTools()
+    public function acceptedFileTypes(?array $acceptedFileTypes): static
+    {
+        $this->acceptedFileTypes = $acceptedFileTypes;
+
+        return $this;
+    }
+
+    public function getTools(): string
     {
         return !$this->tools ? $this->profile : implode(',', $this->tools);
+    }
+
+    public function getDisk(): string
+    {
+        return $this->disk ?? config('filament-tiptap-editor.disk');
+    }
+
+    public function getDirectory(): string
+    {
+        return $this->directory ? $this->evaluate($this->directory) : config('filament-tiptap-editor.directory');
+    }
+
+    public function getAcceptedFileTypes(): array
+    {
+        return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
+    }
+
+    private function purgeUnusedFiles(string $state): void
+    {
+        preg_match_all('/(src|href)=[\'"](.*?)[\'"].*?>/i', $state, $matches);
+
+        if ($matches[2]) {
+            $delimiter = $this->getDisk() === 'public' ? '/storage/' : $this->getDisk();
+
+            $used = array_map(function($file) use ($delimiter) {
+                return Str::of($file)->after($delimiter)->toString();
+            }, $matches[2]);
+
+            $files = Storage::disk($this->getDisk())->files($this->getDirectory());
+
+            foreach (array_diff($files, $used) as $unused) {
+                Storage::disk($this->getDisk())->delete($unused);
+            }
+        } else {
+            Storage::disk($this->getDisk())->deleteDirectory($this->getDirectory());
+        }
     }
 }
