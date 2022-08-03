@@ -25,10 +25,18 @@ class MediaUploaderModal extends Component implements HasForms
     public $data;
     public $fieldId = null;
     public $type = 'image';
+    public $disk = null;
+    public $directory = null;
+    public $acceptedFileTypes = [];
+    public $maxFileSize = 2042;
 
-    public function mount()
+    public function mount(string $disk, string $directory, array $acceptedFileTypes, int $maxFileSize)
     {
         $this->form->fill();
+        $this->disk = $disk;
+        $this->directory = $directory;
+        $this->acceptedFileTypes = $acceptedFileTypes;
+        $this->maxFileSize = $maxFileSize;
     }
 
     protected function getFormStatePath(): string
@@ -41,13 +49,13 @@ class MediaUploaderModal extends Component implements HasForms
         return [
             FileUpload::make('src')
                 ->label(__('filament-tiptap-editor::media-modal.labels.file'))
-                ->disk(config('filament-tiptap-editor.disk'))
-                ->directory(config('filament-tiptap-editor.directory'))
+                ->disk($this->disk)
+                ->directory($this->directory)
                 ->visibility(config('filament-tiptap-editor.visibility'))
                 ->preserveFilenames(config('filament-tiptap-editor.preserve_file_names'))
-                ->acceptedFileTypes(config('filament-tiptap-editor.accepted_file_types'))
+                ->acceptedFileTypes($this->acceptedFileTypes)
                 ->maxFiles(1)
-                ->maxSize(config('filament-tiptap-editor.max_file_size'))
+                ->maxSize($this->maxFileSize)
                 ->imageCropAspectRatio(config('filament-tiptap-editor.image_crop_aspect_ratio'))
                 ->imageResizeTargetWidth(config('filament-tiptap-editor.image_resize_target_width'))
                 ->imageResizeTargetHeight(config('filament-tiptap-editor.image_resize_target_height'))

@@ -97,7 +97,12 @@
         @once
             @push('modals')
                 @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
-                    @livewire('filament-tiptap-editor-media-uploader-modal')
+                    @livewire('filament-tiptap-editor-media-uploader-modal', [
+                        'disk' => $getDisk(),
+                        'directory' => $getDirectory(),
+                        'acceptedFileTypes' => $getAcceptedFileTypes(),
+                        'maxFileSize' => $getMaxFileSize(),
+                    ])
                 @endif
                 @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-curator-media-picker')
                     @livewire('filament-curator-media-picker-modal')
