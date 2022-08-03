@@ -35,16 +35,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?array $acceptedFileTypes = null;
 
+    protected ?int $maxFileSize = 2042;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
-
-        $this->dehydrateStateUsing(function($state) {
-            $this->purgeUnusedFiles($state);
-            return $state;
-        });
     }
 
     public function profile(?string $profile)
@@ -82,6 +79,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    public function maxFileSize(?int $maxFileSize): static
+    {
+        $this->maxFileSize = $maxFileSize;
+
+        return $this;
+    }
+
     public function getTools(): string
     {
         return !$this->tools ? $this->profile : implode(',', $this->tools);
@@ -102,24 +106,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
     }
 
-    private function purgeUnusedFiles(string $state): void
+    public function getMaxFileSize(): int
     {
-        preg_match_all('/(src|href)=[\'"](.*?)[\'"].*?>/i', $state, $matches);
-
-        if ($matches[2]) {
-            $delimiter = $this->getDisk() === 'public' ? '/storage/' : $this->getDisk();
-
-            $used = array_map(function($file) use ($delimiter) {
-                return Str::of($file)->after($delimiter)->toString();
-            }, $matches[2]);
-
-            $files = Storage::disk($this->getDisk())->files($this->getDirectory());
-
-            foreach (array_diff($files, $used) as $unused) {
-                Storage::disk($this->getDisk())->delete($unused);
-            }
-        } else {
-            Storage::disk($this->getDisk())->deleteDirectory($this->getDirectory());
-        }
+        return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
     }
 }

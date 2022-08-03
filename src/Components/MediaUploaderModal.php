@@ -28,13 +28,15 @@ class MediaUploaderModal extends Component implements HasForms
     public $disk = null;
     public $directory = null;
     public $acceptedFileTypes = [];
+    public $maxFileSize = 2042;
 
-    public function mount(string $disk, string $directory, array $acceptedFileTypes)
+    public function mount(string $disk, string $directory, array $acceptedFileTypes, int $maxFileSize)
     {
         $this->form->fill();
         $this->disk = $disk;
         $this->directory = $directory;
         $this->acceptedFileTypes = $acceptedFileTypes;
+        $this->maxFileSize = $maxFileSize;
     }
 
     protected function getFormStatePath(): string
@@ -53,7 +55,7 @@ class MediaUploaderModal extends Component implements HasForms
                 ->preserveFilenames(config('filament-tiptap-editor.preserve_file_names'))
                 ->acceptedFileTypes($this->acceptedFileTypes)
                 ->maxFiles(1)
-                ->maxSize(config('filament-tiptap-editor.max_file_size'))
+                ->maxSize($this->maxFileSize)
                 ->imageCropAspectRatio(config('filament-tiptap-editor.image_crop_aspect_ratio'))
                 ->imageResizeTargetWidth(config('filament-tiptap-editor.image_resize_target_width'))
                 ->imageResizeTargetHeight(config('filament-tiptap-editor.image_resize_target_height'))
