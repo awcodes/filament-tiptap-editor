@@ -12,7 +12,7 @@
     x-data="{
         insertMedia(media) {
             const src = media?.url || media.src;
-            const imageTypes = ['jpg', 'jpeg', 'svg', 'png'];
+            const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
 
             if (imageTypes.includes(src.split('.').pop())) {
                 this.editor()
