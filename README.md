@@ -100,7 +100,7 @@ TiptapEditor::make('barebone')
 1. Publish the JS/CSS assets
 
 ```bash
-php artisan vendor:publish tag="filament-tiptap-editor-assets"
+php artisan vendor:publish --tag="filament-tiptap-editor-assets"
 ```
 
 2. Include the CSS files in your page / layout
