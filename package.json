@@ -5,12 +5,14 @@
     "dev:js": "esbuild resources/js/plugin.js --bundle --sourcemap=inline --outfile=resources/dist/filament-tiptap-editor.js --watch",
     "build:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --minify",
     "build:js": "esbuild resources/js/plugin.js --bundle --minify --outfile=resources/dist/filament-tiptap-editor.js",
+    "build:purge": "filament-purge -i resources/dist/filament-tiptap-editor.css -o resources/dist/filament-tiptap-editor.css",
     "dev": "npm-run-all --parallel dev:*",
     "build": "npm-run-all build:*"
   },
   "author": "Adam Weston <awcodes1@gmail.com> (https://github.com/awcodes)",
   "license": "MIT",
   "devDependencies": {
+    "@awcodes/filament-plugin-purge": "^1.0.1",
     "@tiptap/core": "^2.0.0-beta.174",
     "@tiptap/extension-blockquote": "^2.0.0-beta.26",
     "@tiptap/extension-bold": "^2.0.0-beta.26",
