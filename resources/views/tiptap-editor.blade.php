@@ -104,9 +104,6 @@
                         'maxFileSize' => $getMaxFileSize(),
                     ])
                 @endif
-                @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-curator-media-picker')
-                    @livewire('filament-curator-media-picker-modal')
-                @endif
             @endpush
         @endonce
     @endif
