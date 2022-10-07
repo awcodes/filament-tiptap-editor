@@ -44,7 +44,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
     }
 
-    public function profile(?string $profile)
+    public function profile(?string $profile): static
     {
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.' . $profile));
 
