@@ -13,10 +13,21 @@
         'tiptap-editor border rounded-md relative bg-white shadow-sm',
         'dark:bg-gray-700' => config('filament.dark_mode'),
         'border-gray-200' => !$errors->has($getStatePath()),
-        'dark:border-gray-600' =>
-            config('filament.dark_mode') && !$errors->has($getStatePath()),
+        'dark:border-gray-600' => config('filament.dark_mode') && !$errors->has($getStatePath()),
         'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
     ])>
+        @if ($isDisabled())
+            <div class="relative z-0 tiptap-wrapper">
+                <div
+                    {{ $getExtraInputAttributeBag()->class([
+                        'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-white ProseMirror',
+                        'dark:bg-gray-700' => config('filament.dark_mode'),
+                    ]) }}
+                >
+                    {!! $getState() !!}
+                </div>
+            </div>
+        @else
         <div wire:ignore
             class="relative z-0 tiptap-wrapper"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
@@ -80,48 +91,53 @@
                 ]) }}
             ></div>
 
-            <textarea x-ref="textarea"
-                class="sr-only"
-                tabindex="-1"
-                name="{{ $getStatePath() }}"
-                @if (!$isConcealed())
-                    {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
-                    {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
-                    {!! $isRequired() ? 'required' : null !!}
-                @endif
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
+            <textarea
+                    x-ref="textarea"
+                    tabindex="-1"
+                    class="sr-only"
+                    aria-hidden="true"
+                    name="{{ $getStatePath() }}"
+                    @if (!$isConcealed())
+                        {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
+                        {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
+                        {!! $isRequired() ? 'required' : null !!}
+                    @endif
+                    {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
             ></textarea>
         </div>
+        @endif
     </div>
 
-    @if (str($tools)->contains('media'))
+    @if (! $isDisabled())
+        @if (str($tools)->contains('media'))
+            @once
+                @push('modals')
+                    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
+                        @livewire('filament-tiptap-editor-media-uploader-modal', [
+                            'disk' => $getDisk(),
+                            'directory' => $getDirectory(),
+                            'acceptedFileTypes' => $getAcceptedFileTypes(),
+                            'maxFileSize' => $getMaxFileSize(),
+                        ])
+                    @endif
+                @endpush
+            @endonce
+        @endif
+
+        @if (config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal' && str($tools)->contains('link'))
+            @once
+                @push('modals')
+                    @livewire('filament-tiptap-editor-link-modal')
+                @endpush
+            @endonce
+        @endif
+
         @once
             @push('modals')
-                @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
-                    @livewire('filament-tiptap-editor-media-uploader-modal', [
-                        'disk' => $getDisk(),
-                        'directory' => $getDirectory(),
-                        'acceptedFileTypes' => $getAcceptedFileTypes(),
-                        'maxFileSize' => $getMaxFileSize(),
-                    ])
-                @endif
+                @if (str($tools)->contains('source')) @livewire('filament-tiptap-editor-source-modal') @endif
+                @if (str($tools)->contains('youtube')) @livewire('filament-tiptap-editor-youtube-modal') @endif
+                @if (str($tools)->contains('vimeo')) @livewire('filament-tiptap-editor-vimeo-modal') @endif
             @endpush
         @endonce
     @endif
-
-    @if (config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal' && str($tools)->contains('link'))
-        @once
-            @push('modals')
-                @livewire('filament-tiptap-editor-link-modal')
-            @endpush
-        @endonce
-    @endif
-
-    @once
-        @push('modals')
-            @if (str($tools)->contains('source')) @livewire('filament-tiptap-editor-source-modal') @endif
-            @if (str($tools)->contains('youtube')) @livewire('filament-tiptap-editor-youtube-modal') @endif
-            @if (str($tools)->contains('vimeo')) @livewire('filament-tiptap-editor-vimeo-modal') @endif
-        @endpush
-    @endonce
 </x-forms::field-wrapper>
