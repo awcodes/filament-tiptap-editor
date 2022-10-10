@@ -72,9 +72,14 @@ class MediaUploaderModal extends Component implements HasForms
                     }
 
                     if (Str::contains($file->getMimeType(), 'image')) {
-                        $image = Image::make($file->getRealPath());
+                        if (config('filesystems.disks.s3.driver') === 's3') {
+                            $image = Image::make($file->readStream());
+                        } else {
+                            $image = Image::make($file->getRealPath());
+                        }
+
                         $set('width', $image->getWidth());
-                        $set('height', $height = $image->getHeight());
+                        $set('height', $image->getHeight());
                     }
 
                     $upload = $file->{$storeMethod}($component->getDirectory(), $filename  .  '.' . $file->getClientOriginalExtension(), $component->getDiskName());
