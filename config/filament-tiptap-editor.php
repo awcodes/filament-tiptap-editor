@@ -45,6 +45,7 @@ return [
             'align',
             'blockquote',
             'hr',
+            'highlight',
             'link',
             'superscript',
             'subscript',

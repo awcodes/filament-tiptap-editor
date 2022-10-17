@@ -60,6 +60,7 @@
                     <x-filament-tiptap-editor::tools.align-justify />
                     <x-filament-tiptap-editor::tools.blockquote />
                     <x-filament-tiptap-editor::tools.hr />
+                    <x-filament-tiptap-editor::tools.highlight />
                     <x-filament-tiptap-editor::tools.link fieldId="{{ $getStatePath() }}" />
                     <x-filament-tiptap-editor::tools.superscript />
                     <x-filament-tiptap-editor::tools.subscript />

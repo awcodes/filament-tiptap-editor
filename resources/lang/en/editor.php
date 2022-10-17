@@ -40,6 +40,7 @@ return [
         'h5' => 'Heading 5',
         'h6' => 'Heading 6',
     ],
+    'highlight' => 'Highlight',
     'hr' => 'Horizontal Rule',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',

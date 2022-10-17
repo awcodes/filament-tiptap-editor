@@ -53,5 +53,8 @@
     "npm-run-all": "^4.1.5",
     "postcss-import": "^14.1.0",
     "tailwindcss": "^3.0.23"
+  },
+  "dependencies": {
+    "@tiptap/extension-highlight": "^2.0.0-beta.199"
   }
 }
