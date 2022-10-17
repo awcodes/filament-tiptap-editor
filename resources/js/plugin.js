@@ -25,6 +25,7 @@ import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
+import Highlight from "@tiptap/extension-highlight";
 import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent, CustomCodeBlockLowlight } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 import { randomString } from "./utils";
@@ -61,6 +62,7 @@ document.addEventListener("alpine:init", () => {
       if (this.tools.includes("color")) exts.push(Color, TextStyle);
       if (this.tools.includes("table")) exts.push(Table.configure({ resizable: true }), TableHeader, TableCell, TableRow);
       if (this.tools.includes("code")) exts.push(Code);
+      if (this.tools.includes("highlight")) exts.push(Highlight);
 
       if (this.tools.includes("link"))
         exts.push(
