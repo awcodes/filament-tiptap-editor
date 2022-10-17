@@ -2,8 +2,6 @@
     'fieldId' => null,
 ])
 <div
-    x-show="tools.includes('color')"
-    style="display: none;"
     class="relative p-1.5 cursor-pointer rounded hover:bg-gray-200 hover:dark:bg-gray-800"
     x-tooltip="'{{ __('filament-tiptap-editor::editor.color') }}'">
     <label>

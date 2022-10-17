@@ -3,8 +3,6 @@
 ])
 
 <x-filament-tiptap-editor::button
-    x-show="tools.includes('vimeo')"
-    style="display: none;"
     action="openModal()"
     active="'vimeo'"
     x-on:insert-vimeo.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertVideo($event.detail.video) : null"

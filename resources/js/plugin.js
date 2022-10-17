@@ -26,7 +26,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
-import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent, CustomCodeBlockLowlight } from "./extensions";
+import { CheckedList, Lead, CustomLink, CustomImage, CustomParagraph, Small, Grid, GridColumn, Youtube, Vimeo, Details, DetailsSummary, DetailsContent, CustomCodeBlockLowlight, Hurdle } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 import { randomString } from "./utils";
 
@@ -48,7 +48,6 @@ document.addEventListener("alpine:init", () => {
       if (this.tools.includes("italic")) exts.push(Italic);
       if (this.tools.includes("strike")) exts.push(Strike);
       if (this.tools.includes("underline")) exts.push(Underline);
-      if (this.tools.includes("align")) exts.push(TextAlign.configure({ types: ["heading", "paragraph"] }));
       if (this.tools.includes("subscript")) exts.push(Subscript);
       if (this.tools.includes("superscript")) exts.push(Superscript);
       if (this.tools.includes("media")) exts.push(CustomImage.configure({ inline: true }));
@@ -63,6 +62,21 @@ document.addEventListener("alpine:init", () => {
       if (this.tools.includes("table")) exts.push(Table.configure({ resizable: true }), TableHeader, TableCell, TableRow);
       if (this.tools.includes("code")) exts.push(Code);
       if (this.tools.includes("highlight")) exts.push(Highlight);
+      if (this.tools.includes("hurdle")) exts.push(Hurdle);
+
+      if (
+          this.tools.includes("align-left") ||
+          this.tools.includes("align-center") ||
+          this.tools.includes("align-right") ||
+          this.tools.includes("align-justify")
+      ) {
+        const alignments = [];
+        if (this.tools.includes("align-left")) alignments.push('left');
+        if (this.tools.includes("align-center")) alignments.push('center');
+        if (this.tools.includes("align-right")) alignments.push('right');
+        if (this.tools.includes("align-justify")) alignments.push('justify');
+        exts.push(TextAlign.configure({ types: ["heading", "paragraph"], alignments: alignments }));
+      }
 
       if (this.tools.includes("link"))
         exts.push(
@@ -77,7 +91,7 @@ document.addEventListener("alpine:init", () => {
           })
         );
 
-      if (this.tools.includes("codeblock"))
+      if (this.tools.includes("code-block"))
         exts.push(
           CustomCodeBlockLowlight.configure({
             lowlight,
@@ -94,15 +108,8 @@ document.addEventListener("alpine:init", () => {
         exts.push(ListItem);
       }
 
-      if (this.tools.includes("h1") || this.tools.includes("h2") || this.tools.includes("h3") || this.tools.includes("h4") || this.tools.includes("h5") || this.tools.includes("h6")) {
-        let levels = [];
-        if (this.tools.includes("h1")) levels.push(1);
-        if (this.tools.includes("h2")) levels.push(2);
-        if (this.tools.includes("h3")) levels.push(3);
-        if (this.tools.includes("h4")) levels.push(4);
-        if (this.tools.includes("h5")) levels.push(5);
-        if (this.tools.includes("h6")) levels.push(6);
-        exts.push(Heading.configure({ levels }));
+      if (this.tools.includes("heading")) {
+        exts.push(Heading.configure({ levels: [1,2,3,4,5,6] }));
       }
 
       return exts;

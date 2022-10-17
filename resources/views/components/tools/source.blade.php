@@ -3,8 +3,6 @@
 ])
 
 <x-filament-tiptap-editor::button
-    x-show="tools.includes('source')"
-    style="display: none;"
     action="openModal()"
     label="{{ __('filament-tiptap-editor::editor.source') }}"
     x-on:insert-source.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertSource($event.detail.source) : null"

@@ -3,8 +3,6 @@
 ])
 
 <x-filament-tiptap-editor::button
-    x-show="tools.includes('link')"
-    style="display: none;"
     action="openModal()"
     active="'link'"
     x-on:insert-link.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertLink($event.detail.link) : null"

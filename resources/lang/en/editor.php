@@ -41,6 +41,7 @@ return [
         'h6' => 'Heading 6',
     ],
     'highlight' => 'Highlight',
+    'hurdle' => 'Hurdle',
     'hr' => 'Horizontal Rule',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',

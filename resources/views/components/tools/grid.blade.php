@@ -1,6 +1,4 @@
 <x-filament-tiptap-editor::dropdown-button
-    x-show="tools.includes('grid')"
-    style="display: none;"
     label="{{ __('filament-tiptap-editor::editor.grid.label') }}"
     active="'grid'"
     icon="grid"

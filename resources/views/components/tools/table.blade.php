@@ -1,6 +1,4 @@
 <x-filament-tiptap-editor::dropdown-button
-    x-show="tools.includes('table')"
-    style="display: none;"
     label="{{ __('filament-tiptap-editor::editor.table.label') }}"
     active="'table'"
     icon="table"
