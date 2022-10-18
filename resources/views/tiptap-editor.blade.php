@@ -29,8 +29,8 @@
             </div>
         @else
         <div wire:ignore
-            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700"
-            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
+            class="relative tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
+            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
                 state: $wire.entangle('{{ $getStatePath() }}').defer,
                 tools: '{{ $tools }}'
@@ -39,7 +39,7 @@
             x-trap.noscroll="fullScreenMode">
             <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">Skip toolbar</button>
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
+                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-[1] relative flex flex-col md:flex-row',
                 'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config('filament.dark_mode'),
             ])>
                 <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
@@ -61,9 +61,8 @@
 
             <div
                 x-ref="element"
-                x-bind:class="{'outline relative outline-primary-500': focused}"
                 {{ $getExtraInputAttributeBag()->class([
-                    'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md mt-1',
+                    'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md',
                 ]) }}
             ></div>
 

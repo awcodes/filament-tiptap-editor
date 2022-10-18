@@ -24,6 +24,7 @@
 }"
     x-on:keydown.escape.prevent.stop="close($refs.button)"
     x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+     x-on:close-panel="close($refs.button)"
     x-id="['dropdown-button']"
     class="relative">
     <button type="button"
