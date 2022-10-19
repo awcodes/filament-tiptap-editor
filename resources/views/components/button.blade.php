@@ -6,7 +6,7 @@
 ])
 <button type="button"
     x-on:click="{{ $action }}"
-    @if ($active) :class="{ 'bg-gray-300 text-gray-900 dark:bg-gray-600 dark:text-gray-300': isActive({{ $active }}, updatedAt) }" @endif
+    @if ($active) :class="{ 'bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-300': isActive({{ $active }}, updatedAt) }" @endif
     x-tooltip="'{{ $label }}'"
     {{ $attributes }}
     @class([

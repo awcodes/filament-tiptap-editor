@@ -8,11 +8,13 @@ return [
     |
     | Theme overrides can be used to style parts of the editor content.
     | theme_builder : 'mix' | 'vite'
-    | theme_path : css/tiptap-editor-styles.css
+    | theme_file : resources/css/tiptap-editor-styles.css
+    | theme_folder : 'build'
     |
     */
     'theme_builder' => 'mix',
-    'theme_path' => null,
+    'theme_file' => null,
+    'theme_folder' => 'build',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,41 +28,42 @@ return [
     */
     'profiles' => [
         'default' => [
+            'heading',
+            'bullet-list',
+            'ordered-list',
+            'checked-list',
+            'blockquote',
+            'hr',
+            '|',
             'bold',
             'italic',
             'strike',
             'underline',
-            'h1',
-            'h2',
-            'h3',
-            'h4',
-            'h5',
-            'h6',
+            'superscript',
+            'subscript',
             'lead',
             'small',
             'color',
-            'bulletList',
-            'orderedList',
-            'checkedList',
-            'align',
-            'blockquote',
-            'hr',
             'highlight',
+            'align-left',
+            'align-center',
+            'align-right',
+            '|',
             'link',
-            'superscript',
-            'subscript',
+            'media',
             'table',
             'grid',
-            'media',
-            'code',
-            'codeblock',
-            'source',
+            'details',
+            'hurdle',
             'youtube',
             'vimeo',
-            'details',
+            '|',
+            'code',
+            'code-block',
+            'source',
         ],
-        'simple' => ['bold', 'italic', 'h1', 'h2', 'h3', 'lead', 'hr', 'bulletList', 'orderedList', 'checkedList', 'link', 'media'],
-        'barebone' => ['bold', 'italic', 'link', 'bulletList', 'orderedList'],
+        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
+        'barebone' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
     ],
 
     /*

@@ -3,8 +3,6 @@
 ])
 
 <x-filament-tiptap-editor::button
-    x-show="tools.includes('media')"
-    style="display: none;"
     action="$dispatch('open-modal', {id: '{{ config('filament-tiptap-editor.media_uploader_id') }}', fieldId: '{{ $fieldId }}'})"
     x-on:insert-media.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertMedia($event.detail.media) : null"
     label="{{ __('filament-tiptap-editor::editor.media') }}"

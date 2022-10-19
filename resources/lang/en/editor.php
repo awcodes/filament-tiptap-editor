@@ -41,6 +41,18 @@ return [
         'h6' => 'Heading 6',
     ],
     'highlight' => 'Highlight',
+    'hurdle' => [
+        'label' => 'Hurdle',
+        'colors' => [
+            'gray_light' => 'Gray - Light',
+            'gray' => 'Gray',
+            'gray_dark' => 'Gray - Dark',
+            'primary' => 'Primary',
+            'secondary' => 'Secondary',
+            'tertiary' => 'Tertiary',
+            'accent' => 'Accent',
+        ],
+    ],
     'hr' => 'Horizontal Rule',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',

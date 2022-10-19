@@ -3,8 +3,6 @@
 ])
 
 <x-filament-tiptap-editor::button
-    x-show="tools.includes('youtube')"
-    style="display: none;"
     action="openModal()"
     active="'youtube'"
     x-on:insert-youtube.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertVideo($event.detail.video) : null"

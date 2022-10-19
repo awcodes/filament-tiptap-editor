@@ -29,8 +29,8 @@
             </div>
         @else
         <div wire:ignore
-            class="relative z-0 tiptap-wrapper"
-            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
+            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
+            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
                 state: $wire.entangle('{{ $getStatePath() }}').defer,
                 tools: '{{ $tools }}'
@@ -39,41 +39,17 @@
             x-trap.noscroll="fullScreenMode">
             <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">Skip toolbar</button>
             <div @class([
-                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-10 relative flex flex-col md:flex-row',
-                'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config(
-                    'filament.dark_mode'
-                ),
+                'tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-[1] relative flex flex-col md:flex-row',
+                'dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700' => config('filament.dark_mode'),
             ])>
-                <div class="flex flex-wrap items-start flex-1 gap-1 p-1 tiptap-toolbar-left">
-                    <x-filament-tiptap-editor::tools.bold />
-                    <x-filament-tiptap-editor::tools.italic />
-                    <x-filament-tiptap-editor::tools.strike />
-                    <x-filament-tiptap-editor::tools.underline />
-                    <x-filament-tiptap-editor::tools.heading />
-                    <x-filament-tiptap-editor::tools.lead />
-                    <x-filament-tiptap-editor::tools.small />
-                    <x-filament-tiptap-editor::tools.color />
-                    <x-filament-tiptap-editor::tools.list />
-                    <x-filament-tiptap-editor::tools.align-left />
-                    <x-filament-tiptap-editor::tools.align-center />
-                    <x-filament-tiptap-editor::tools.align-right />
-                    <x-filament-tiptap-editor::tools.align-justify />
-                    <x-filament-tiptap-editor::tools.blockquote />
-                    <x-filament-tiptap-editor::tools.hr />
-                    <x-filament-tiptap-editor::tools.highlight />
-                    <x-filament-tiptap-editor::tools.link fieldId="{{ $getStatePath() }}" />
-                    <x-filament-tiptap-editor::tools.superscript />
-                    <x-filament-tiptap-editor::tools.subscript />
-                    <x-filament-tiptap-editor::tools.table />
-                    <x-filament-tiptap-editor::tools.grid />
-                    <x-filament-tiptap-editor::tools.details />
-                    <x-filament-tiptap-editor::tools.media fieldId="{{ $getStatePath() }}" />
-                    <x-filament-tiptap-editor::tools.youtube fieldId="{{ $getStatePath() }}" />
-                    <x-filament-tiptap-editor::tools.vimeo fieldId="{{ $getStatePath() }}" />
-                    <x-filament-tiptap-editor::tools.code />
-                    <x-filament-tiptap-editor::tools.code-block />
-                    <x-filament-tiptap-editor::tools.source fieldId="{{ $getStatePath() }}" />
-                    <x-filament-tiptap-editor::tools.remove-color />
+                <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
+                    @foreach(explode(',', $getTools()) as $tool)
+                        @if ($tool === '|')
+                            <div class="border-l border-gray-300 dark:border-gray-700 h-5"></div>
+                        @else
+                            <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" fieldId="{{ $getStatePath() }}" />
+                        @endif
+                    @endforeach
                 </div>
                 <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
                     <x-filament-tiptap-editor::tools.undo />
@@ -85,25 +61,23 @@
 
             <div
                 x-ref="element"
-                x-bind:class="{'ring-inset ring-2 relative ring-primary-500': focused}"
                 {{ $getExtraInputAttributeBag()->class([
-                    'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-white',
-                    'dark:bg-gray-700' => config('filament.dark_mode'),
+                    'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md',
                 ]) }}
             ></div>
 
             <textarea
-                    x-ref="textarea"
-                    tabindex="-1"
-                    class="sr-only"
-                    aria-hidden="true"
-                    name="{{ $getStatePath() }}"
-                    @if (!$isConcealed())
-                        {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
-                        {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
-                        {!! $isRequired() ? 'required' : null !!}
-                    @endif
-                    {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
+                x-ref="textarea"
+                tabindex="-1"
+                class="sr-only"
+                aria-hidden="true"
+                name="{{ $getStatePath() }}"
+                @if (!$isConcealed())
+                    {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
+                    {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
+                    {!! $isRequired() ? 'required' : null !!}
+                @endif
+                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
             ></textarea>
         </div>
         @endif

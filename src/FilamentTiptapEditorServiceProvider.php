@@ -51,15 +51,15 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
 
     public function getTiptapEditorStylesLink(): ?Htmlable
     {
-        $themePath = config('filament-tiptap-editor.theme_path');
+        $themeFile = config('filament-tiptap-editor.theme_file');
 
-        if ($themePath) {
+        if ($themeFile) {
             $builder = config('filament-tiptap-editor.theme_builder');
 
             if ($builder == 'vite') {
-                $theme = app(Vite::class)($themePath);
+                $theme = app(Vite::class)($themeFile, config('filament-tiptap-editor.theme_folder'));
             } else {
-                $theme = mix($themePath);
+                $theme = mix($themeFile);
             }
 
             if (Str::of($theme)->contains('<link')) {
