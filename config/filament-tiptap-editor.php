@@ -8,11 +8,13 @@ return [
     |
     | Theme overrides can be used to style parts of the editor content.
     | theme_builder : 'mix' | 'vite'
-    | theme_path : css/tiptap-editor-styles.css
+    | theme_file : resources/css/tiptap-editor-styles.css
+    | theme_folder : 'build'
     |
     */
     'theme_builder' => 'mix',
-    'theme_path' => null,
+    'theme_file' => null,
+    'theme_folder' => 'build',
 
     /*
     |--------------------------------------------------------------------------
@@ -26,38 +28,41 @@ return [
     */
     'profiles' => [
         'default' => [
+            'heading',
+            'bullet-list',
+            'ordered-list',
+            'checked-list',
+            'blockquote',
+            'hr',
+            '|',
             'bold',
             'italic',
             'strike',
             'underline',
-            'heading',
+            'superscript',
+            'subscript',
             'lead',
             'small',
             'color',
-            'bullet-list',
-            'ordered-list',
-            'checked-list',
+            'highlight',
             'align-left',
             'align-center',
             'align-right',
-            'blockquote',
-            'hr',
-            'highlight',
+            '|',
             'link',
-            'superscript',
-            'subscript',
+            'media',
             'table',
             'grid',
-            'media',
+            'details',
+            'hurdle',
+            'youtube',
+            'vimeo',
+            '|',
             'code',
             'code-block',
             'source',
-            'youtube',
-            'vimeo',
-            'details',
-            'hurdle',
         ],
-        'simple' => ['bold', 'italic', 'heading', 'lead', 'hr', 'bullet-list', 'ordered-list', 'checked-list', 'link', 'media'],
+        'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
         'barebone' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
     ],
 

@@ -29,7 +29,7 @@
             </div>
         @else
         <div wire:ignore
-            class="relative tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
+            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
                 state: $wire.entangle('{{ $getStatePath() }}').defer,

@@ -45,8 +45,7 @@
   padding-block: 1rem;
 
   > * {
-    max-width: var(--tiptap-max-width);
-    margin-inline: auto;
+    margin-inline: max(var(--tiptap-side-margin), ((100% - var(--tiptap-max-width)) / 2));
   }
 
   .filament-tiptap-hurdle {
@@ -54,37 +53,44 @@
     max-width: 100vw;
     padding-block: 1rem;
     background-color: theme('colors.gray.800');
+    margin-inline: 0;
 
     > * {
-      max-width: var(--tiptap-max-width);
-      margin-inline: auto;
+      margin-inline: max(var(--tiptap-side-margin), ((100% - var(--tiptap-max-width)) / 2));
     }
 
     &[data-color="gray_light"] {
+      color: theme('colors.gray.900');
       background-color: theme('colors.gray.300');
     }
 
     &[data-color="gray"] {
+      color: white;
       background-color: theme('colors.gray.500');
     }
 
     &[data-color="gray_dark"] {
+      color: white;
       background-color: theme('colors.gray.800');
     }
 
     &[data-color="primary"] {
+      color: theme('colors.gray.900');
       background-color: theme('colors.primary.500');
     }
 
     &[data-color="secondary"] {
+      color: theme('colors.gray.900');
       background-color: theme('colors.warning.500');
     }
 
-    &[data-color="tertiray"] {
+    &[data-color="tertiary"] {
+      color: white;
       background-color: theme('colors.success.500');
     }
 
     &[data-color="accent"] {
+      color: white;
       background-color: theme('colors.danger.500');
     }
   }
