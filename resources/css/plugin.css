@@ -1,7 +1,7 @@
 @tailwind utilities;
 
 :root {
-  --tiptap-side-margin: 2rem;
+  --tiptap-side-margin: 1rem;
   --tiptap-max-width: 1024px;
 }
 
@@ -25,7 +25,7 @@
 
 .tiptap-editor .tiptap-toolbar input[type="color"] {
   -webkit-appearance: none;
-  border: 0px solid theme("colors.gray.300");
+  border: 0 solid theme("colors.gray.300");
 }
 
 .tiptap-editor .tiptap-toolbar input[type="color"]::-webkit-color-swatch-wrapper {
