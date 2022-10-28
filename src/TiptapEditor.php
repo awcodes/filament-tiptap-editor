@@ -3,17 +3,11 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Filament\Forms\Components\Field;
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Builder\Block;
-use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
-use Illuminate\Support\Facades\Storage;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {

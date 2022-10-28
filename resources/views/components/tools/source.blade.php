@@ -16,7 +16,7 @@
                 });
             },
             insertSource(source) {
-                this.editor().commands.setContent(source);
+                this.editor().commands.setContent(source, {emitUpdate: true});
             }
     }"
 />

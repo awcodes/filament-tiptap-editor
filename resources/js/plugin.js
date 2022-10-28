@@ -136,7 +136,7 @@ document.addEventListener("alpine:init", () => {
             editors[this.id] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(),
-                content: state?.initialValue,
+                content: state?.initialValue || '<p></p>',
                 onCreate({editor}) {
                     _this.state = editor.getHTML();
                     _this.$refs.textarea.value = _this.state;
