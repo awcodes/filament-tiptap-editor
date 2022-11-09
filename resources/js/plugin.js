@@ -189,22 +189,13 @@ document.addEventListener("alpine:init", () => {
 
                 switch(output) {
                     case 'html':
-                        if (editors[this.id].getHTML() !== newState) {
-                            editorContent = editors[this.id].getHTML();
-                        }
-
+                        editorContent = editors[this.id].getHTML();
                         break;
                     case 'json':
-                        if (editors[this.id].getJSON() !== newState) {
-                            editorContent = editors[this.id].getJSON();
-                        }
-
+                        editorContent = editors[this.id].getJSON();
                         break;
                     case 'text':
-                        if (editors[this.id].getText() !== newState) {
-                            editorContent = editors[this.id].getText();
-                        }
-
+                        editorContent = editors[this.id].getText();
                         break;
                 }
 
