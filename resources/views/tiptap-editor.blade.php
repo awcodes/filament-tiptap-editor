@@ -33,7 +33,8 @@
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
                 state: $wire.entangle('{{ $getStatePath() }}').defer,
-                tools: '{{ $tools }}'
+                tools: '{{ $tools }}',
+                output: '{{ $getOutput() }}',
             })"
             x-on:keydown.escape="fullScreenMode = false"
             x-trap.noscroll="fullScreenMode">
