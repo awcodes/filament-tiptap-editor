@@ -200,7 +200,10 @@ document.addEventListener("alpine:init", () => {
                 }
 
                 editors[this.id].commands.setContent(editorContent);
-                _this.$refs.textarea.value = editorContent;
+
+                (output === 'json')
+                    ? _this.$refs.textarea.value = JSON.stringify(editorContent)
+                    : _this.$refs.textarea.value = editorContent;
             });
         },
         editor() {
