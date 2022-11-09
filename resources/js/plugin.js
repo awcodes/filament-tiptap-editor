@@ -49,7 +49,7 @@ import {randomString} from "./utils";
 document.addEventListener("alpine:init", () => {
     let editors = window.filamentTiptapEditors || {};
 
-    Alpine.data("tiptap", ({state, tools = ""}) => ({
+    Alpine.data("tiptap", ({state, tools = "", output}) => ({
         id: null,
         tools: tools.split(","),
         state: state,
