@@ -123,8 +123,9 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public function getOutput(): string
     {
-        $config = (TiptapOutput) config('filament-tiptap-editor.output')->value;
+        /** @var TiptapOutput @config */
+        $config = config('filament-tiptap-editor.output');
 
-        return $this->output->value ?? $config;
+        return $this->output->value ?? $config->value;
     }
 }
