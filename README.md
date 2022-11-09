@@ -35,6 +35,7 @@ TiptapEditor::make('content')
     ->directory('string or Closure returning a string') // optional, defaults to config setting
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
     ->maxFileSize('integer in KB') // optional, defaults to config setting
+    ->output(TiptapOutput::Json) // optional, change the output format. defaults is html
     ->required();
 ```
 
@@ -70,6 +71,34 @@ Tools can also be added on a per instance basis. Using the `->tools()` modifier 
 - image_resize_target_width: null
 - image_resize_target_height: null
 - media_uploader_id: 'filament-tiptap-editor-media-uploader-modal'
+
+### Output format
+
+Tiptap editor ships 3 output formats.
+See: https://tiptap.dev/guide/output
+
+- HTML (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Html`)
+- JSON (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Json`)
+- Text (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Text`)
+
+If you want to change the output format you can change the default config or specify it in each form instances.
+For each form field instances you can add the following option:
+
+```php
+    TiptapEditor::make('content')
+        // ... other options
+        ->output(FilamentTiptapEditor\Enums\TiptapOutput::Json);
+```
+
+**Note:**
+
+If you want to store the editor content as array / json you have to set the database column as `json` type.
+
+For example:
+
+```php
+   $table->json('content'); 
+```
 
 ## Overrides
 
