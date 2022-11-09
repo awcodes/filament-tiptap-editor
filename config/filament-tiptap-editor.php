@@ -79,7 +79,7 @@ return [
     | Output format
     |--------------------------------------------------------------------------
     |
-    | Which output format should be as default.
+    | Which output format should be the default.
     | Available formats: TiptapOutput::Html | TiptapOutput::Json | TiptapOutput::Text
     |
     | See: https://tiptap.dev/guide/output
