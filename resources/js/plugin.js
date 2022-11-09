@@ -185,9 +185,33 @@ document.addEventListener("alpine:init", () => {
             }
 
             this.$watch("state", (newState) => {
-                if (editors[this.id].getHTML() !== newState) {
-                    editors[this.id].commands.setContent(newState);
+                let editorContent, textareaValue;
+                switch(output) {
+                    case 'html':
+                        if (editors[this.id].getHTML() !== newState) {
+                            editorContent = editors[this.id].getHTML();
+                        }
+
+                        textareaValue = editors[this.id].getHTML();
+                        break;
+                    case 'json':
+                        if (editors[this.id].getJSON() !== newState) {
+                            editorContent = editors[this.id].getJSON();
+                        }
+
+                        textareaValue = JSON.stringify(editors[this.id].getJSON());
+                        break;
+                    case 'text':
+                        if (editors[this.id].getText() !== newState) {
+                            editorContent = editors[this.id].getText();
+                        }
+
+                        textareaValue = editors[this.id].getText();
+                        break;
                 }
+
+                editors[this.id].commands.setContent(editorContent);
+                _this.$refs.textarea.value = textareaValue;
             });
         },
         editor() {
