@@ -39,7 +39,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         parent::setUp();
 
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
-        $this->ouput = config('filament-tiptap-editor.output') ?? null;
+        $this->output(config('filament-tiptap-editor.output'));
 
         $this->beforeStateDehydrated(function(TiptapEditor $component, string $state) {
             if ($this->output === TiptapOutput::Json) {
