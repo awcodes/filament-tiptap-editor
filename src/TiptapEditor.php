@@ -8,6 +8,7 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -31,11 +32,19 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?int $maxFileSize = 2042;
 
+    protected ?TiptapOutput $output = null;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
+
+        $this->beforeStateDehydrated(function(TiptapEditor $component, string $state) {
+            if ($this->output === TiptapOutput::Json) {
+                $component->state(json_decode($state));
+            }
+        });
     }
 
     public function profile(?string $profile): static
@@ -80,6 +89,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    public function output(TiptapOutput $output): static
+    {
+        $this->output = $output;
+
+        return $this;
+    }
+
     public function getTools(): string
     {
         return !$this->tools ? $this->profile : implode(',', $this->tools);
@@ -103,5 +119,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     public function getMaxFileSize(): int
     {
         return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
+    }
+
+    public function getOutput(): string
+    {
+        $config = (TiptapOutput) config('filament-tiptap-editor.output')->value;
+
+        return $this->output->value ?? $config;
     }
 }
