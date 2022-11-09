@@ -76,6 +76,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Output format
+    |--------------------------------------------------------------------------
+    |
+    | Which output format should be as default.
+    | Available formats: TiptapOutput::Html | TiptapOutput::Json | TiptapOutput::Text
+    |
+    | See: https://tiptap.dev/guide/output
+    */
+    'output' => FilamentTiptapEditor\Enums\TiptapOutput::Html,
+
+    /*
+    |--------------------------------------------------------------------------
     | Media Uploader
     |--------------------------------------------------------------------------
     |
