@@ -49,7 +49,7 @@ import {randomString} from "./utils";
 document.addEventListener("alpine:init", () => {
     let editors = window.filamentTiptapEditors || {};
 
-    Alpine.data("tiptap", ({state, tools = ""}) => ({
+    Alpine.data("tiptap", ({state, tools = "", output}) => ({
         id: null,
         tools: tools.split(","),
         state: state,
@@ -185,9 +185,25 @@ document.addEventListener("alpine:init", () => {
             }
 
             this.$watch("state", (newState) => {
-                if (editors[this.id].getHTML() !== newState) {
-                    editors[this.id].commands.setContent(newState);
+                let editorContent;
+
+                switch(output) {
+                    case 'html':
+                        editorContent = editors[this.id].getHTML();
+                        break;
+                    case 'json':
+                        editorContent = editors[this.id].getJSON();
+                        break;
+                    case 'text':
+                        editorContent = editors[this.id].getText();
+                        break;
                 }
+
+                editors[this.id].commands.setContent(editorContent);
+
+                (output === 'json')
+                    ? _this.$refs.textarea.value = JSON.stringify(editorContent)
+                    : _this.$refs.textarea.value = editorContent;
             });
         },
         editor() {

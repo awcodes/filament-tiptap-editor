@@ -76,6 +76,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Output format
+    |--------------------------------------------------------------------------
+    |
+    | Which output format should be the default.
+    | Available formats:
+    | > For php 8.0: TiptapEditor::OUTPUT_HTML | TiptapEditor::OUTPUT_JSON | TiptapEditor::OUTPUT_TEXT
+    | > For php 8.1: TiptapOutput::Html | TiptapOutput::Json | TiptapOutput::Text
+    | > or only as string: 'html', 'json', 'text'
+    |
+    | See: https://tiptap.dev/guide/output
+    */
+    'output' => FilamentTiptapEditor\TiptapEditor::OUTPUT_HTML,
+
+    /*
+    |--------------------------------------------------------------------------
     | Media Uploader
     |--------------------------------------------------------------------------
     |
