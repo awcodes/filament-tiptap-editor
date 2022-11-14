@@ -9,12 +9,17 @@ use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
 use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
     use CanBeLengthConstrained;
     use HasExtraInputAttributes;
     use HasExtraAlpineAttributes;
+
+    public const OUTPUT_HTML = 'html';
+    public const OUTPUT_JSON = 'json';
+    public const OUTPUT_TEXT = 'text';
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
@@ -32,7 +37,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?int $maxFileSize = 2042;
 
-    protected ?TiptapOutput $output = null;
+    protected null | string | TiptapOutput $output = null;
 
     protected function setUp(): void
     {
@@ -40,9 +45,10 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
         $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
         $this->output(config('filament-tiptap-editor.output'));
+        $this->validateOutputFormat();
 
         $this->beforeStateDehydrated(function(TiptapEditor $component, string $state) {
-            if ($this->output === TiptapOutput::Json) {
+            if ($this->output === TiptapOutput::Json || $this->output === self::OUTPUT_JSON) {
                 $component->state(json_decode($state));
             }
         });
@@ -90,9 +96,10 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function output(TiptapOutput $output): static
+    public function output(TiptapOutput | string $output): static
     {
         $this->output = $output;
+        $this->validateOutputFormat();
 
         return $this;
     }
@@ -124,6 +131,25 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public function getOutput(): string
     {
-        return $this->output->value;
+        return ($this->output instanceof TiptapOutput)
+            ? $this->output->value
+            : $this->output;
+    }
+
+    protected function validateOutputFormat(): void 
+    {
+        $availableFormats = [
+            self::OUTPUT_HTML,
+            self::OUTPUT_JSON,
+            self::OUTPUT_TEXT,
+        ];
+
+        if ($this->output instanceof TiptapOutput) {
+            return;
+        }
+
+        if (!in_array($this->output, $availableFormats)) {
+            throw new InvalidOutputFormatException;
+        }
     }
 }
