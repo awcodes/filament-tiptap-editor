@@ -74,21 +74,48 @@ Tools can also be added on a per instance basis. Using the `->tools()` modifier 
 
 ### Output format
 
-Tiptap editor ships 3 output formats.
+Tiptap editor has 3 different output formats.
 See: https://tiptap.dev/guide/output
 
-- HTML (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Html`)
-- JSON (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Json`)
-- Text (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Text`)
 
 If you want to change the output format you can change the default config or specify it in each form instances.
 For each form field instances you can add the following option:
 
+**For php 8.1**
 ```php
     TiptapEditor::make('content')
         // ... other options
         ->output(FilamentTiptapEditor\Enums\TiptapOutput::Json);
 ```
+
+- HTML (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Html`)
+- JSON (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Json`)
+- Text (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Text`)
+
+
+**For php 8.0**
+```php
+    TiptapEditor::make('content')
+        // ... other options
+        ->output(FilamentTiptapEditor\TiptapEditor::OUTPUT_JSON);
+```
+
+- HTML (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_HTML`)
+- JSON (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_JSON`)
+- Text (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_TEXT`)
+
+
+**or as string**
+```php
+    TiptapEditor::make('content')
+        // ... other options
+        ->output('json');
+```
+
+- HTML (`html`)
+- JSON (`json`)
+- Text (`text`)
+
 
 **Note:**
 
