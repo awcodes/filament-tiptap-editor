@@ -35,7 +35,7 @@ TiptapEditor::make('content')
     ->directory('string or Closure returning a string') // optional, defaults to config setting
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
     ->maxFileSize('integer in KB') // optional, defaults to config setting
-    ->output(TiptapOutput::Json) // optional, change the output format. defaults is html
+    ->output('json') // optional, change the output format. defaults is html
     ->required();
 ```
 
@@ -77,23 +77,9 @@ Tools can also be added on a per instance basis. Using the `->tools()` modifier 
 Tiptap editor has 3 different output formats.
 See: https://tiptap.dev/guide/output
 
-
 If you want to change the output format you can change the default config or specify it in each form instances.
 For each form field instances you can add the following option:
 
-**For php 8.1**
-```php
-    TiptapEditor::make('content')
-        // ... other options
-        ->output(FilamentTiptapEditor\Enums\TiptapOutput::Json);
-```
-
-- HTML (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Html`)
-- JSON (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Json`)
-- Text (Format enum type: `FilamentTiptapEditor\Enums\TiptapOutput::Text`)
-
-
-**For php 8.0**
 ```php
     TiptapEditor::make('content')
         // ... other options
@@ -103,7 +89,6 @@ For each form field instances you can add the following option:
 - HTML (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_HTML`)
 - JSON (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_JSON`)
 - Text (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_TEXT`)
-
 
 **or as string**
 ```php
@@ -115,7 +100,6 @@ For each form field instances you can add the following option:
 - HTML (`html`)
 - JSON (`json`)
 - Text (`text`)
-
 
 **Note:**
 
