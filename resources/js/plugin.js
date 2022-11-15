@@ -169,7 +169,7 @@ document.addEventListener("alpine:init", () => {
                 }
             });
 
-            let sortableEl = this.$el.parentElement.closest("[wire\\:sortable");
+            let sortableEl = this.$el.parentElement.closest("[wire\\:sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", (event) => {
                     Object.values(editors).forEach(function (editor) {

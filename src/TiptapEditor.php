@@ -8,7 +8,6 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
-use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
@@ -37,7 +36,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?int $maxFileSize = 2042;
 
-    protected null | string | TiptapOutput $output = null;
+    protected null | string $output = null;
 
     protected function setUp(): void
     {
@@ -48,7 +47,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->validateOutputFormat();
 
         $this->beforeStateDehydrated(function(TiptapEditor $component, string $state) {
-            if ($this->output === TiptapOutput::Json || $this->output === self::OUTPUT_JSON) {
+            if ($this->output === self::OUTPUT_JSON) {
                 $component->state(json_decode($state));
             }
         });
@@ -96,7 +95,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function output(TiptapOutput | string $output): static
+    public function output(string $output): static
     {
         $this->output = $output;
         $this->validateOutputFormat();
@@ -131,9 +130,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public function getOutput(): string
     {
-        return ($this->output instanceof TiptapOutput)
-            ? $this->output->value
-            : $this->output;
+        return $this->output;
     }
 
     protected function validateOutputFormat(): void 
@@ -143,10 +140,6 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
             self::OUTPUT_JSON,
             self::OUTPUT_TEXT,
         ];
-
-        if ($this->output instanceof TiptapOutput) {
-            return;
-        }
 
         if (!in_array($this->output, $availableFormats)) {
             throw new InvalidOutputFormatException;
