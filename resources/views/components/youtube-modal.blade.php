@@ -2,21 +2,23 @@
     heading="{{ __('filament-tiptap-editor::youtube-modal.heading') }}"
     width="md"
     :dark-mode="config('filament.dark_mode')"
-    x-data="{
-        toggleOpen(event) {
-            $wire.set('fieldId', event.detail.fieldId);
-            this.$nextTick(() => {
-                if (this.isOpen === true && this.$el.querySelector('input')) {
-                    this.$el.querySelector('input').focus();
-                }
-            });
-        }
-    }"
-    x-on:close-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
-    x-on:open-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
-    class="filament-tiptap-editor-youtube-modal">
+    class="filament-tiptap-editor-youtube-modal"
+>
 
-    <form wire:submit.prevent="create">
+    <form wire:submit.prevent="create"
+          x-data="{
+               toggleOpen(event) {
+                    $wire.set('fieldId', event.detail.fieldId);
+                    this.$nextTick(() => {
+                        if (this.isOpen === true && this.$el.querySelector('input')) {
+                            this.$el.querySelector('input').focus();
+                        }
+                    });
+               }
+          }"
+          x-on:close-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
+          x-on:open-modal.window="$event.detail.id == 'filament-tiptap-editor-youtube-modal' ? toggleOpen($event) : null"
+    >
         {{ $this->form }}
 
         <div class="flex items-center gap-4 pt-3 mt-6 border-t border-gray-300 dark:border-gray-700">

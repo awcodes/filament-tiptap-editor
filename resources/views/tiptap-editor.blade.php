@@ -100,7 +100,7 @@
             @endonce
         @endif
 
-        @if (config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal' && str($tools)->contains('link'))
+        @if (str($tools)->contains('link') && config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal')
             @once
                 @push('modals')
                     @livewire('filament-tiptap-editor-link-modal')

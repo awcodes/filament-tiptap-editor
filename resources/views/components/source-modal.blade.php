@@ -2,17 +2,19 @@
     heading="{{ __('filament-tiptap-editor::source-modal.heading') }}"
     width="3xl"
     :dark-mode="config('filament.dark_mode')"
-    x-data="{
-        toggleOpen(event) {
-            $wire.set('fieldId', event.detail.fieldId);
-            $wire.setState(event.detail.source)
-        }
-    }"
-    x-on:close-modal.window="$event.detail.id == 'filament-tiptap-editor-source-modal' ? toggleOpen($event) : null"
-    x-on:open-modal.window="$event.detail.id == 'filament-tiptap-editor-source-modal' ? toggleOpen($event) : null"
-    class="filament-tiptap-editor-source-modal">
+    class="filament-tiptap-editor-source-modal"
+>
 
-    <form wire:submit.prevent="create">
+    <form wire:submit.prevent="create"
+          x-data="{
+               toggleOpen(event) {
+                    $wire.set('fieldId', event.detail.fieldId);
+                    $wire.setState(event.detail.source)
+               }
+          }"
+          x-on:close-modal.window="$event.detail.id == 'filament-tiptap-editor-source-modal' ? toggleOpen($event) : null"
+          x-on:open-modal.window="$event.detail.id == 'filament-tiptap-editor-source-modal' ? toggleOpen($event) : null"
+    >
         {{ $this->form }}
 
         <div class="flex items-center gap-4 pt-3 mt-3 border-t border-gray-300 dark:border-gray-700">
