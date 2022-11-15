@@ -2,22 +2,24 @@
     heading="{{ __('filament-tiptap-editor::media-modal.heading') }}"
     width="md"
     :dark-mode="config('filament.dark_mode')"
-    x-data="{
-        toggleOpen(event) {
-                $wire.set('fieldId', event.detail.fieldId);
-            },
-            init() {
-                document.addEventListener('FilePond:processfiles', (e) => {
-                    $wire.determineType(e.detail.pond.getFile().fileType);
-                }, true);
-            }
-    }"
-    x-on:close-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
-    x-on:open-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
-    x-on:new-media-added.window="isOpen = false;"
-    class="filament-tiptap-editor-media-uploader-modal">
+    class="filament-tiptap-editor-media-uploader-modal"
+>
 
-    <form wire:submit.prevent="create">
+    <form wire:submit.prevent="create"
+          x-data="{
+               toggleOpen(event) {
+                    $wire.set('fieldId', event.detail.fieldId);
+               },
+               init() {
+                    document.addEventListener('FilePond:processfiles', (e) => {
+                        $wire.determineType(e.detail.pond.getFile().fileType);
+                    }, true);
+               }
+          }"
+          x-on:close-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
+          x-on:open-modal.window="$event.detail.id == '{{ config('filament-tiptap-editor.media_uploader_id') }}' ? toggleOpen($event) : null"
+          x-on:new-media-added.window="isOpen = false;"
+    >
 
         {{ $this->form }}
 
