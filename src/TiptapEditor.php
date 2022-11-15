@@ -3,7 +3,10 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Concerns\HasActions;
 use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Textarea;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
@@ -38,6 +41,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected null | string $output = null;
 
+    protected Action | Closure | null $sourceAction = null;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -51,6 +56,30 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                 $component->state(json_decode($state));
             }
         });
+
+        $this->sourceAction = Action::make('filament_tiptap_source')
+            ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
+            ->form([
+                TextArea::make('source')
+                    ->label(__('filament-tiptap-editor::source-modal.labels.source'))
+                    ->rows(10),
+            ])
+            ->action(fn () => dd('test'));
+    }
+
+    public function getActions(): array
+    {
+        $sourceAction = $this->getSourceAction();
+
+        return array_merge(
+            parent::getActions(),
+            $sourceAction ? [$sourceAction->getName() => $sourceAction->component($this)] : [],
+        );
+    }
+
+    public function getSourceAction(): ?Action
+    {
+        return $this->evaluate($this->sourceAction)?->component($this);
     }
 
     public function profile(?string $profile): static

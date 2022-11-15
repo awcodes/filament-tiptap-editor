@@ -26,7 +26,7 @@
         <div class="flex items-center gap-4 pt-3 mt-3 border-t border-gray-300 dark:border-gray-700">
             @if ($href)
                 <x-filament::button type="button"
-                    x-on:click="isOpen = false;"
+                    x-on:click="$dispatch('close-modal');"
                     wire:click="removeLink"
                     color="danger">
                     {{ __('filament-tiptap-editor::link-modal.buttons.remove') }}

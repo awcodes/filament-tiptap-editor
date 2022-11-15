@@ -25,7 +25,7 @@
 
         <div class="flex items-center justify-end gap-4 pt-3 mt-3 border-t border-gray-300 dark:border-gray-700">
             <x-filament::button type="button"
-                x-on:click="isOpen = false; $wire.resetForm();"
+                x-on:click="$dispatch('close-modal'); $wire.resetForm();"
                 wire:click="cancelInsert"
                 color="secondary">
                 {{ __('filament-tiptap-editor::media-modal.buttons.cancel') }}

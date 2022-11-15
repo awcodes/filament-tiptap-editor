@@ -51,8 +51,12 @@
                             <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" fieldId="{{ $getStatePath() }}" />
                         @endif
                     @endforeach
+
                 </div>
                 <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
+                    @if (($sourceAction = $getSourceAction()) && (! $sourceAction->isHidden()))
+                        {{ dd($sourceAction) }}
+                    @endif
                     <x-filament-tiptap-editor::tools.undo />
                     <x-filament-tiptap-editor::tools.redo />
                     <x-filament-tiptap-editor::tools.erase />
@@ -85,34 +89,34 @@
     </div>
 
     @if (! $isDisabled())
-        @if (str($tools)->contains('media'))
-            @once
-                @push('modals')
-                    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')
-                        @livewire('filament-tiptap-editor-media-uploader-modal', [
-                            'disk' => $getDisk(),
-                            'directory' => $getDirectory(),
-                            'acceptedFileTypes' => $getAcceptedFileTypes(),
-                            'maxFileSize' => $getMaxFileSize(),
-                        ])
-                    @endif
-                @endpush
-            @endonce
-        @endif
+{{--        @if (str($tools)->contains('media'))--}}
+{{--            @once--}}
+{{--                @push('modals')--}}
+{{--                    @if (config('filament-tiptap-editor.media_uploader_id') == 'filament-tiptap-editor-media-uploader-modal')--}}
+{{--                        @livewire('filament-tiptap-editor-media-uploader-modal', [--}}
+{{--                            'disk' => $getDisk(),--}}
+{{--                            'directory' => $getDirectory(),--}}
+{{--                            'acceptedFileTypes' => $getAcceptedFileTypes(),--}}
+{{--                            'maxFileSize' => $getMaxFileSize(),--}}
+{{--                        ])--}}
+{{--                    @endif--}}
+{{--                @endpush--}}
+{{--            @endonce--}}
+{{--        @endif--}}
 
-        @if (str($tools)->contains('link') && config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal')
-            @once
-                @push('modals')
-                    @livewire('filament-tiptap-editor-link-modal')
-                @endpush
-            @endonce
-        @endif
+{{--        @if (str($tools)->contains('link') && config('filament-tiptap-editor.link_modal_id') == 'filament-tiptap-editor-link-modal')--}}
+{{--            @once--}}
+{{--                @push('modals')--}}
+{{--                    @livewire('filament-tiptap-editor-link-modal')--}}
+{{--                @endpush--}}
+{{--            @endonce--}}
+{{--        @endif--}}
 
         @once
             @push('modals')
-                @if (str($tools)->contains('source')) @livewire('filament-tiptap-editor-source-modal') @endif
-                @if (str($tools)->contains('youtube')) @livewire('filament-tiptap-editor-youtube-modal') @endif
-                @if (str($tools)->contains('vimeo')) @livewire('filament-tiptap-editor-vimeo-modal') @endif
+{{--                @if (str($tools)->contains('source')) @livewire('filament-tiptap-editor-source-modal') @endif--}}
+{{--                @if (str($tools)->contains('youtube')) @livewire('filament-tiptap-editor-youtube-modal') @endif--}}
+{{--                @if (str($tools)->contains('vimeo')) @livewire('filament-tiptap-editor-vimeo-modal') @endif--}}
             @endpush
         @endonce
     @endif

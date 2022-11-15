@@ -24,7 +24,7 @@
         <div class="flex items-center gap-4 pt-3 mt-6 border-t border-gray-300 dark:border-gray-700">
             <div class="flex items-center gap-2 ml-auto">
                 <x-filament::button type="button"
-                    x-on:click="isOpen = false; $wire.resetForm();"
+                    x-on:click="$dispatch('close-modal'); $wire.resetForm();"
                     color="secondary">
                     {{ __('filament-tiptap-editor::vimeo-modal.buttons.cancel') }}
                 </x-filament::button>
