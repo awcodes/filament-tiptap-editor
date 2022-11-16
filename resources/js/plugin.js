@@ -199,11 +199,13 @@ document.addEventListener("alpine:init", () => {
                         break;
                 }
 
-                editors[this.id].commands.setContent(editorContent);
+                if (editorContent !== newState) {
+                    editors[this.id].commands.setContent(editorContent);
 
-                (output === 'json')
-                    ? _this.$refs.textarea.value = JSON.stringify(editorContent)
-                    : _this.$refs.textarea.value = editorContent;
+                    (output === 'json')
+                        ? _this.$refs.textarea.value = JSON.stringify(editorContent)
+                        : _this.$refs.textarea.value = editorContent;
+                }
             });
         },
         editor() {
