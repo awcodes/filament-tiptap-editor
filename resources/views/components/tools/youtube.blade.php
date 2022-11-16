@@ -1,26 +1,25 @@
 @props([
-    'fieldId' => null,
+    'statePath' => null,
 ])
 
 <x-filament-tiptap-editor::button
-    action="openModal()"
-    active="'youtube'"
-    x-on:insert-youtube.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertVideo($event.detail.video) : null"
-    label="{{ __('filament-tiptap-editor::editor.video.youtube') }}"
-    icon="youtube"
-    x-data="{
-        openModal() {
-            $dispatch('open-modal', {
-                id: 'filament-tiptap-editor-youtube-modal',
-                fieldId: '{{ $fieldId }}',
-            });
-        },
-        insertVideo(video) {
-            if (video.url === null) {
-                return;
-            }
+        action="openModal()"
+        active="'youtube'"
+        label="{{ __('filament-tiptap-editor::editor.video.youtube') }}"
+        icon="youtube"
+        x-on:insert-video.window="insertVideo($event.detail.video)"
+        x-data="{
+            openModal() {
+                $wire.dispatchFormEvent('tiptap::setYoutubeContent', '{{ $statePath }}');
+            },
+            insertVideo(video) {
+                if (video.url === null) {
+                    return;
+                }
 
-            this.editor()
+                console.log(video);
+
+                this.editor()
                 .chain()
                 .focus()
                 .setYoutubeVideo({
@@ -30,6 +29,6 @@
                     responsive: video.responsive ?? true,
                 })
                 .run();
-        }
-    }"
+            }
+        }"
 />

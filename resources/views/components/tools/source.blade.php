@@ -1,23 +1,18 @@
 @props([
-    'fieldId' => null,
+    'statePath' => null,
 ])
 
 <x-filament-tiptap-editor::button
     action="openModal()"
     label="{{ __('filament-tiptap-editor::editor.source') }}"
-    x-on:insert-source.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertSource($event.detail.source) : null"
+    x-on:insert-source.window="insertSource($event.detail.source)"
     icon="source"
-    wire:click="mountFormComponentAction('filament_tiptap_source')"
     x-data="{
         openModal() {
-                $dispatch('open-modal', {
-                    id: 'filament-tiptap-editor-source-modal',
-                    fieldId: '{{ $fieldId }}',
-                    source: this.editor().getHTML()
-                });
-            },
-            insertSource(source) {
-                this.editor().commands.setContent(source, {emitUpdate: true});
-            }
+            $wire.dispatchFormEvent('tiptap::setSourceContent', '{{ $statePath }}', this.editor().getHTML());
+        },
+        insertSource(source) {
+            this.editor().commands.setContent(source, {emitUpdate: true});
+        }
     }"
 />

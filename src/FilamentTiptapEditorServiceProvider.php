@@ -41,12 +41,6 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
                 fn (): string => $theme,
             );
         }
-
-        Livewire::component('filament-tiptap-editor-media-uploader-modal', Components\MediaUploaderModal::class);
-        Livewire::component('filament-tiptap-editor-link-modal', Components\LinkModal::class);
-        Livewire::component('filament-tiptap-editor-source-modal', Components\SourceModal::class);
-        Livewire::component('filament-tiptap-editor-youtube-modal', Components\YoutubeModal::class);
-        Livewire::component('filament-tiptap-editor-vimeo-modal', Components\VimeoModal::class);
     }
 
     public function getTiptapEditorStylesLink(): ?Htmlable

@@ -1,6 +1,3 @@
-@props([
-    'fieldId' => null,
-])
 <div
     class="relative p-1.5 cursor-pointer rounded hover:bg-gray-200 hover:dark:bg-gray-800"
     x-tooltip="'{{ __('filament-tiptap-editor::editor.color') }}'">

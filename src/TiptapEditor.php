@@ -3,14 +3,16 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Concerns\HasActions;
-use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Textarea;
-use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
+use Filament\Forms\Components\Field;
+use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use FilamentTiptapEditor\Actions\LinkAction;
+use FilamentTiptapEditor\Actions\MediaAction;
+use FilamentTiptapEditor\Actions\SourceAction;
+use FilamentTiptapEditor\Actions\VimeoAction;
+use FilamentTiptapEditor\Actions\YoutubeAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
@@ -41,8 +43,6 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected null | string $output = null;
 
-    protected Action | Closure | null $sourceAction = null;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -56,20 +56,64 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                 $component->state(json_decode($state));
             }
         });
-    }
 
-    public function registerActions(array $actions): static
-    {
-        return [
-            Action::make('filament_tiptap_source')
-                ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
-                ->form([
-                    TextArea::make('source')
-                        ->label(__('filament-tiptap-editor::source-modal.labels.source'))
-                        ->rows(10),
-                ])
-                ->action(fn () => dd('test'))
-        ];
+        $this->registerListeners([
+            'tiptap::setSourceContent' => [
+                function (TiptapEditor $component, string $statePath): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source');
+                },
+            ],
+            'tiptap::setVimeoContent' => [
+                function (TiptapEditor $component, string $statePath): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_vimeo');
+                },
+            ],
+            'tiptap::setYoutubeContent' => [
+                function (TiptapEditor $component, string $statePath): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_youtube');
+                },
+            ],
+            'tiptap::setLinkContent' => [
+                function (TiptapEditor $component, string $statePath, array $linkProps): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $livewire = $component->getLivewire();
+                    data_set($livewire, 'linkProps', $linkProps);
+                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_link');
+                },
+            ],
+            'tiptap::setMediaContent' => [
+                function (TiptapEditor $component, string $statePath): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_media');
+                },
+            ],
+        ]);
+
+        $this->registerActions([
+            SourceAction::make(),
+            VimeoAction::make(),
+            YoutubeAction::make(),
+            LinkAction::make(),
+            MediaAction::make(),
+        ]);
     }
 
     public function profile(?string $profile): static
