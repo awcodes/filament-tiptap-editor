@@ -7,6 +7,7 @@
     label="{{ __('filament-tiptap-editor::editor.source') }}"
     x-on:insert-source.window="$event.detail.fieldId === '{{ $fieldId }}' ? insertSource($event.detail.source) : null"
     icon="source"
+    wire:click="mountFormComponentAction('filament_tiptap_source')"
     x-data="{
         openModal() {
                 $dispatch('open-modal', {

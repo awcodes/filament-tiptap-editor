@@ -54,9 +54,6 @@
 
                 </div>
                 <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
-                    @if (($sourceAction = $getSourceAction()) && (! $sourceAction->isHidden()))
-                        {{ dd($sourceAction) }}
-                    @endif
                     <x-filament-tiptap-editor::tools.undo />
                     <x-filament-tiptap-editor::tools.redo />
                     <x-filament-tiptap-editor::tools.erase />
