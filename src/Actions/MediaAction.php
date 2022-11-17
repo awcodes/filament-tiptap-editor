@@ -97,12 +97,14 @@ class MediaAction extends Action
         $this->action(function(TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-media', [
                 'statePath' => $component->getStatePath(),
-                'src' => $data['src'],
-                'alt' => $data['alt'] ?? null,
-                'title' => $data['title'],
-                'width' => $data['width'],
-                'height' => $data['height'],
-                'link_text' => $data['link_text'] ?? null,
+                'media' => [
+                    'src' => $data['src'],
+                    'alt' => $data['alt'] ?? null,
+                    'title' => $data['title'],
+                    'width' => $data['width'],
+                    'height' => $data['height'],
+                    'link_text' => $data['link_text'] ?? null,
+                ],
             ]);
         });
     }

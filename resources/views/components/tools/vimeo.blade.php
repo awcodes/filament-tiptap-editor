@@ -7,7 +7,7 @@
         active="'vimeo'"
         label="{{ __('filament-tiptap-editor::editor.video.vimeo') }}"
         icon="vimeo"
-        x-on:insert-video.window="insertVideo($event.detail.video)"
+        x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"
         x-data="{
             openModal() {
                 $wire.dispatchFormEvent('tiptap::setVimeoContent', '{{ $statePath }}');

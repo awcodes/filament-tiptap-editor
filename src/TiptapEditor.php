@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
@@ -14,6 +15,7 @@ use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Actions\VimeoAction;
 use FilamentTiptapEditor\Actions\YoutubeAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
+use Illuminate\Support\Str;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -107,13 +109,19 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
             ],
         ]);
 
-        $this->registerActions([
-            SourceAction::make(),
-            VimeoAction::make(),
-            YoutubeAction::make(),
-            LinkAction::make(),
-            MediaAction::make(),
-        ]);
+        $this->registerActions(array_merge(
+            [
+                SourceAction::make(),
+                VimeoAction::make(),
+                YoutubeAction::make(),
+            ],
+            [
+                config('filament-tiptap-editor.link_action')::make(),
+            ],
+            Str::of(config('filament-tiptap-editor.media_action'))->contains('\\')
+                ? [config('filament-tiptap-editor.media_action')::make()]
+                : [],
+        ));
     }
 
     public function profile(?string $profile): static

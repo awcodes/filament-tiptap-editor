@@ -5,7 +5,7 @@
 <x-filament-tiptap-editor::button
     action="openModal()"
     label="{{ __('filament-tiptap-editor::editor.source') }}"
-    x-on:insert-source.window="insertSource($event.detail.source)"
+    x-on:insert-source.window="$event.detail.statePath === '{{ $statePath }}' ? insertSource($event.detail.source) : null"
     icon="source"
     x-data="{
         openModal() {

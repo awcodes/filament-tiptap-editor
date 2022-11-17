@@ -7,7 +7,7 @@
         active="'youtube'"
         label="{{ __('filament-tiptap-editor::editor.video.youtube') }}"
         icon="youtube"
-        x-on:insert-video.window="insertVideo($event.detail.video)"
+        x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"
         x-data="{
             openModal() {
                 $wire.dispatchFormEvent('tiptap::setYoutubeContent', '{{ $statePath }}');

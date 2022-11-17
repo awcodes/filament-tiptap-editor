@@ -68,11 +68,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Link Modal
+    | Actions
     |--------------------------------------------------------------------------
     |
     */
-    'link_modal_id' => 'filament-tiptap-editor-link-modal',
+    'media_action' => FilamentTiptapEditor\Actions\MediaAction::class,
+    'media_action' => FilamentCurator\Actions\MediaAction::class,
+//    'media_action' => 'filament-curator',
+    'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -109,6 +112,4 @@ return [
     'image_crop_aspect_ratio' => null,
     'image_resize_target_width' => null,
     'image_resize_target_height' => null,
-    'media_uploader_id' => 'filament-tiptap-editor-media-uploader-modal', // Default
-    // 'media_uploader_id' => 'filament-curator-media-picker', // Filament Curator
 ];

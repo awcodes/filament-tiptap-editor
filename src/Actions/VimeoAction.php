@@ -78,9 +78,9 @@ class VimeoAction extends Action
 
         $this->action(function(TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-video', [
-                    'video' => $data,
-                    'statePath' => $component->getStatePath()]
-            );
+                'statePath' => $component->getStatePath(),
+                'video' => $data,
+            ]);
         });
     }
 }

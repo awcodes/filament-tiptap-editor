@@ -82,13 +82,13 @@ class LinkAction extends Action
 
         $this->action(function(TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-link', [
+                'statePath' => $component->getStatePath(),
                 'href' => $data['href'],
                 'hreflang' => $data['hreflang'],
                 'target' => $data['target'],
                 'rel' => $data['rel'],
                 'as_button' => $data['as_button'],
                 'button_theme' => $data['as_button'] ? $data['button_theme'] : '',
-                'statePath' => $component->getStatePath()
             ]);
 
             $component->state($component->getState());

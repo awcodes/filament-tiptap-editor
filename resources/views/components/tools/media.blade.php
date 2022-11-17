@@ -2,17 +2,25 @@
     'statePath' => null,
 ])
 
+@php
+    if (Str::of(config('filament-tiptap-editor.media_action'))->contains('\\')) {
+        $action = "\$wire.dispatchFormEvent('tiptap::setMediaContent', '" . $statePath . "');";
+    } else {
+        $action = "this.\$dispatch('open-modal', {id: '" . config('filament-tiptap-editor.media_action') . "', statePath: '" . $statePath . "'})";
+    }
+@endphp
+
 <x-filament-tiptap-editor::button
     action="openModal()"
-    x-on:insert-media.window="insertMedia($event.detail)"
+    x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
     label="{{ __('filament-tiptap-editor::editor.media') }}"
     icon="media"
     x-data="{
         openModal() {
-            $wire.dispatchFormEvent('tiptap::setMediaContent', '{{ $statePath }}');
+            {{ $action }}
         },
         insertMedia(media) {
-            const src = media?.url || media.src;
+            const src = media?.url || media?.src;
             const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
 
             if (imageTypes.includes(src.split('.').pop())) {

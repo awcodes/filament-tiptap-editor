@@ -34,9 +34,9 @@ class SourceAction extends Action
 
         $this->action(function(TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-source', [
-                    'source' => $data['source'],
-                    'statePath' => $component->getStatePath()]
-            );
+                'statePath' => $component->getStatePath(),
+                'source' => $data['source'],
+            ]);
 
             $component->state($data['source']);
         });
