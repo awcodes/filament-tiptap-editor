@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'heading' => 'Insert Vimeo Video',
+    'heading' => 'Insert OEmbed Video',
     'buttons' => [
         'cancel' => 'Cancel',
         'insert' => 'Insert',

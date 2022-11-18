@@ -67,8 +67,10 @@ document.addEventListener("alpine:init", () => {
             if (this.tools.includes("subscript")) exts.push(Subscript);
             if (this.tools.includes("superscript")) exts.push(Superscript);
             if (this.tools.includes("media")) exts.push(CustomImage.configure({inline: true}));
-            if (this.tools.includes("youtube")) exts.push(Youtube);
-            if (this.tools.includes("vimeo")) exts.push(Vimeo);
+            if (this.tools.includes("oembed")) {
+                exts.push(Youtube);
+                exts.push(Vimeo);
+            }
             if (this.tools.includes("hr")) exts.push(HorizontalRule);
             if (this.tools.includes("lead")) exts.push(Lead);
             if (this.tools.includes("small")) exts.push(Small);

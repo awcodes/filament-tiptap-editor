@@ -11,6 +11,7 @@ use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\LinkAction;
 use FilamentTiptapEditor\Actions\MediaAction;
+use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Actions\VimeoAction;
 use FilamentTiptapEditor\Actions\YoutubeAction;
@@ -87,6 +88,15 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                     $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_youtube');
                 },
             ],
+            'tiptap::setOEmbedContent' => [
+                function (TiptapEditor $component, string $statePath): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_oembed');
+                },
+            ],
             'tiptap::setLinkContent' => [
                 function (TiptapEditor $component, string $statePath, array $linkProps): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
@@ -112,8 +122,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->registerActions(array_merge(
             [
                 SourceAction::make(),
-                VimeoAction::make(),
-                YoutubeAction::make(),
+                OEmbedAction::make(),
             ],
             [
                 config('filament-tiptap-editor.link_action')::make(),
