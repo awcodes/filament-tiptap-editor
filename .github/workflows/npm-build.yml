@@ -2,7 +2,7 @@ name: npm-build
 
 on:
   pull_request:
-    branches: [1.x, 2x]
+    branches: [1.x, 2.x]
     types: [closed]
 
 jobs:
