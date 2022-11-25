@@ -70,7 +70,6 @@ Tools can also be added on a per instance basis. Using the `->tools()` modifier 
 - image_crop_aspect_ratio: null
 - image_resize_target_width: null
 - image_resize_target_height: null
-- media_uploader_id: 'filament-tiptap-editor-media-uploader-modal'
 
 ### Output format
 
@@ -103,27 +102,29 @@ For each form field instances you can add the following option:
 
 **Note:**
 
-If you want to store the editor content as array / json you have to set the database column as `json` type.
+If you want to store the editor content as array / json you have to set the database column as `longText` or `json` type. And cast it appropriately in your model class.
 
 For example:
 
 ```php
-   $table->json('content'); 
+   $table->json('content');
 ```
 
 ## Overrides
 
+The Link and Media modals are built using Filament Form Component Actions. This means it is easy enough to swap them out with your own implementations.
+
 ### Link Modal
 
-You may override the default link modal with your own Livewire component and assign its ID to the `link_modal_id` setting in the config file.
+You may override the default Link modal with your own Action and assign to the `link_action` key in the config file. Make sure the default name for your action is `filament_tiptap_link`.
 
-See `vendor/awcodes/resources/views/components/link-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/LinkModal.php` for implementation.
+See `vendor/awcodes/filament-tiptap-editor/src/Actions/LinkAction.php` for implementation.
 
 ### Media Modal
 
-You may override the default file uploader with your own Livewire component and assign its ID to the `media_uploader_id` setting in the config file.
+You may override the default Media modal with your own Action and assign to the `media_action` key in the config file. Make sure the default name for your action is `filament_tiptap_media`.
 
-See `vendor/awcodes/resources/views/components/media-uploader-modal.blade.php` and `vendor/awcodes/filament-tiptap-editor/src/Components/MediaUploaderModal.php` for implementation.
+See `vendor/awcodes/filament-tiptap-editor/src/Actions/MediaAction.php` for implementation.
 
 ### Initial height of editor field
 
@@ -147,7 +148,7 @@ php artisan vendor:publish --tag="filament-tiptap-editor-assets"
 2. Include the JS files in your page / layout before Filament's scripts
 3. Include a `@stack('modals')` in your page / layout if it doesn't exist
 
-## Themeing
+## Theming
 
 If you are using a custom theme for Filament you will need to add this plugin's views to your Tailwind CSS config.
 
