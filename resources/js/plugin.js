@@ -140,13 +140,27 @@ document.addEventListener("alpine:init", () => {
                 extensions: this.getExtensions(),
                 content: state?.initialValue || '<p></p>',
                 onCreate({editor}) {
+                    console.log(output);
                     _this.state = editor.getHTML();
                     _this.$refs.textarea.value = _this.state;
                     _this.updatedAt = Date.now();
                 },
                 onUpdate({editor}) {
-                    _this.state = editor.getHTML();
-                    _this.$refs.textarea.value = _this.state;
+                    switch (output) {
+                        case 'json':
+                            _this.state = editor.getJSON();
+                            break;
+                        case 'text':
+                            _this.state = editor.getText();
+                            break;
+                        default:
+                            _this.state = editor.getHTML();
+                    }
+
+                    (output === 'json')
+                        ? _this.$refs.textarea.value = JSON.stringify(_this.state)
+                        : _this.$refs.textarea.value = _this.state;
+
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                     _this.updatedAt = Date.now();
                 },
@@ -185,30 +199,6 @@ document.addEventListener("alpine:init", () => {
                     });
                 });
             }
-
-            this.$watch("state", (newState) => {
-                let editorContent;
-
-                switch(output) {
-                    case 'html':
-                        editorContent = editors[this.id].getHTML();
-                        break;
-                    case 'json':
-                        editorContent = editors[this.id].getJSON();
-                        break;
-                    case 'text':
-                        editorContent = editors[this.id].getText();
-                        break;
-                }
-
-                if (editorContent !== newState) {
-                    editors[this.id].commands.setContent(editorContent);
-
-                    (output === 'json')
-                        ? _this.$refs.textarea.value = JSON.stringify(editorContent)
-                        : _this.$refs.textarea.value = editorContent;
-                }
-            });
         },
         editor() {
             return editors[this.id];
