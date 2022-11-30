@@ -140,9 +140,19 @@ document.addEventListener("alpine:init", () => {
                 extensions: this.getExtensions(),
                 content: state?.initialValue || '<p></p>',
                 onCreate({editor}) {
-                    console.log(output);
-                    _this.state = editor.getHTML();
-                    _this.$refs.textarea.value = _this.state;
+                    switch (output) {
+                        case 'json':
+                            _this.state = editor.getJSON();
+                            break;
+                        case 'text':
+                            _this.state = editor.getText();
+                            break;
+                        default:
+                            _this.state = editor.getHTML();
+                    }
+                    (output === 'json')
+                        ? _this.$refs.textarea.value = JSON.stringify(_this.state)
+                        : _this.$refs.textarea.value = _this.state;
                     _this.updatedAt = Date.now();
                 },
                 onUpdate({editor}) {
