@@ -89,11 +89,13 @@ document.addEventListener("alpine:init", () => {
                 this.tools.includes("align-justify")
             ) {
                 const alignments = [];
+                const types = ["paragraph"];
                 if (this.tools.includes("align-left")) alignments.push('left');
                 if (this.tools.includes("align-center")) alignments.push('center');
                 if (this.tools.includes("align-right")) alignments.push('right');
                 if (this.tools.includes("align-justify")) alignments.push('justify');
-                exts.push(TextAlign.configure({types: ["heading", "paragraph"], alignments: alignments}));
+                if (this.tools.includes("heading")) types.push('heading');
+                exts.push(TextAlign.configure({types, alignments}));
             }
 
             if (this.tools.includes("link"))
