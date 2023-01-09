@@ -42,6 +42,9 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected null | string $output = null;
 
+    /**
+     * @throws InvalidOutputFormatException
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -171,6 +174,9 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    /**
+     * @throws InvalidOutputFormatException
+     */
     public function output(string $output): static
     {
         $this->output = $output;
