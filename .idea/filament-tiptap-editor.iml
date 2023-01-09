@@ -85,6 +85,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/graham-campbell/result-type" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/intervention/image" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/shiki-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ueberdosis/tiptap-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/scrivo/highlight.php" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

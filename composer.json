@@ -1,7 +1,7 @@
 {
     "name": "awcodes/filament-tiptap-editor",
     "type": "package",
-    "description": "A Tiptap ingtegration for Filament Admin/Forms.",
+    "description": "A Tiptap integration for Filament Admin/Forms.",
     "keywords": [
         "framework",
         "laravel",
@@ -19,8 +19,9 @@
     "require": {
         "php": "^8.0.2",
         "filament/filament": "^2.0",
+        "intervention/image": "^2.7",
         "spatie/laravel-package-tools": "^1.9.2",
-        "intervention/image": "^2.7"
+        "ueberdosis/tiptap-php": "^1.1"
     },
     "autoload": {
         "psr-4": {
