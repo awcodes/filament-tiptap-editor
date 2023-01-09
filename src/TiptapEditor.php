@@ -3,20 +3,16 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
-use FilamentTiptapEditor\Actions\LinkAction;
-use FilamentTiptapEditor\Actions\MediaAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
-use FilamentTiptapEditor\Actions\VimeoAction;
-use FilamentTiptapEditor\Actions\YoutubeAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 use Illuminate\Support\Str;
+use Tiptap\Editor;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -213,7 +209,10 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->output;
     }
 
-    protected function validateOutputFormat(): void 
+    /**
+     * @throws InvalidOutputFormatException
+     */
+    protected function validateOutputFormat(): void
     {
         $availableFormats = [
             self::OUTPUT_HTML,
@@ -224,5 +223,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         if (!in_array($this->output, $availableFormats)) {
             throw new InvalidOutputFormatException;
         }
+    }
+
+    public function getHTML(): string
+    {
+        return (new Editor)
+            ->setContent($this->getState())
+            ->getHtml();
     }
 }
