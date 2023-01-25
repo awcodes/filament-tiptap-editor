@@ -1,5 +1,6 @@
 @php
     $tools = $getTools();
+    $statePath = $getStatePath();
 @endphp
 
 <x-forms::field-wrapper :id="$getId()"
@@ -8,11 +9,12 @@
     :helper-text="$getHelperText()"
     :hint="$getHint()"
     :required="$isRequired()"
-    :state-path="$getStatePath()">
+    :state-path="$statePath"
+>
     <div @class([
         'tiptap-editor border rounded-md relative bg-white shadow-sm dark:bg-gray-700',
-        'border-gray-200 dark:border-gray-600' => ! $errors->has($getStatePath()),
-        'border-danger-600 ring-danger-600' => $errors->has($getStatePath()),
+        'border-gray-200 dark:border-gray-600' => ! $errors->has($statePath),
+        'border-danger-600 ring-danger-600' => $errors->has($statePath),
     ])>
         @if ($isDisabled())
             <div class="relative z-0 tiptap-wrapper">
@@ -30,7 +32,8 @@
             class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
-                state: $wire.entangle('{{ $getStatePath() }}').defer,
+                state: $wire.entangle('{{ $statePath }}').defer,
+                statePath: '{{ $statePath }}',
                 tools: '{{ $tools }}',
                 output: '{{ $getOutput() }}',
             })"
@@ -47,7 +50,7 @@
                         @if ($tool === '|')
                             <div class="border-l border-gray-300 dark:border-gray-700 h-5"></div>
                         @else
-                            <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$getStatePath()" />
+                            <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                         @endif
                     @endforeach
                 </div>
@@ -71,15 +74,16 @@
             <textarea
                 x-ref="textarea"
                 tabindex="-1"
-                class="sr-only"
+                class="hidden"
                 aria-hidden="true"
-                name="{{ $getStatePath() }}"
+                name="{{ $statePath }}"
                 @if (!$isConcealed())
                     {!! filled($length = $getMaxLength()) ? "maxlength=\"{$length}\"" : null !!}
                     {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
                     {!! $isRequired() ? 'required' : null !!}
                 @endif
-                {{ $applyStateBindingModifiers('wire:model') }}="{{ $getStatePath() }}"
+{{--                    x-model="validationText"--}}
+                {{ $applyStateBindingModifiers('wire:model') }}="{{ $statePath }}"
             ></textarea>
         </div>
         @endif

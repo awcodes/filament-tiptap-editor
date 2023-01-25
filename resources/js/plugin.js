@@ -49,10 +49,17 @@ import {randomString} from "./utils";
 document.addEventListener("alpine:init", () => {
     let editors = window.filamentTiptapEditors || {};
 
-    Alpine.data("tiptap", ({state, tools = "", output}) => ({
+    Alpine.data("tiptap", ({
+        state,
+        statePath,
+        tools = "",
+        output,
+    }) => ({
         id: null,
         tools: tools.split(","),
         state: state,
+        statePath: statePath,
+        output: output,
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
@@ -142,50 +149,25 @@ document.addEventListener("alpine:init", () => {
                 extensions: this.getExtensions(),
                 content: state?.initialValue || '<p></p>',
                 onCreate({editor}) {
-                    switch (output) {
-                        case 'json':
-                            _this.state = editor.getJSON();
-                            break;
-                        case 'text':
-                            _this.state = editor.getText();
-                            break;
-                        default:
-                            _this.state = editor.getHTML();
-                    }
-                    (output === 'json')
-                        ? _this.$refs.textarea.value = JSON.stringify(_this.state)
-                        : _this.$refs.textarea.value = _this.state;
-                    _this.updatedAt = Date.now();
+                    _this.getFormattedContent();
                 },
                 onUpdate({editor}) {
-                    switch (output) {
-                        case 'json':
-                            _this.state = editor.getJSON();
-                            break;
-                        case 'text':
-                            _this.state = editor.getText();
-                            break;
-                        default:
-                            _this.state = editor.getHTML();
-                    }
-
-                    (output === 'json')
-                        ? _this.$refs.textarea.value = JSON.stringify(_this.state)
-                        : _this.$refs.textarea.value = _this.state;
-
+                    _this.getFormattedContent();
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
-                    _this.updatedAt = Date.now();
                 },
                 onSelectionUpdate({editor}) {
-                    _this.updatedAt = Date.now();
+                    _this.getFormattedContent();
+                    _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
                 onBlur({event}) {
                     _this.focused = false;
+                    _this.getFormattedContent();
                     _this.$refs.textarea.dispatchEvent(new Event("change"));
-                    _this.updatedAt = Date.now();
+                    console.log(_this.state)
                 },
                 onFocus({event}) {
                     _this.focused = true;
+                    _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
             });
 
@@ -215,8 +197,25 @@ document.addEventListener("alpine:init", () => {
         editor() {
             return editors[this.id];
         },
-        isActive(type, opts = {}, updatedAt) {
+        isActive(type, opts = {}) {
             return this.editor().isActive(type, opts);
         },
+        getFormattedContent() {
+            this.$nextTick(() => {
+                switch (this.output) {
+                    case 'json':
+                        this.state = this.editor().getJSON();
+                        break;
+                    case 'text':
+                        this.state = this.editor().getText();
+                        break;
+                    default:
+                        this.state = this.editor().getHTML();
+                }
+
+                this.$wire.set(this.statePath, (this.output === 'json') ? JSON.stringify(this.state) : this.state);
+                this.updatedAt = Date.now();
+            })
+        }
     }));
 });

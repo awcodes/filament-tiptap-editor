@@ -93,5 +93,17 @@ class LinkAction extends Action
 
             $component->state($component->getState());
         });
+
+        $this->modalActions(array_merge(
+            $this->getModalActions(),
+            [
+                \Filament\Forms\Components\Actions\Modal\Actions\Action::make('remove_link')
+                    ->color('danger')
+                    ->extraAttributes([
+                        'x-on:click' => '$dispatch(\'unset-link\'); close()',
+                        'style' => 'margin-left: auto;'
+                    ])
+            ],
+        ));
     }
 }

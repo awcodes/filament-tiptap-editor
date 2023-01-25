@@ -53,10 +53,20 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->output(config('filament-tiptap-editor.output'));
         $this->validateOutputFormat();
 
-        $this->beforeStateDehydrated(function(TiptapEditor $component, string | array | null $state) {
+//        $this->afterStateHydrated(function(TiptapEditor $component, string $state) {
+//            if ($state && $this->output === self::OUTPUT_JSON) {
+//                $component->state(json_decode($state));
+//            } else {
+//                $component->state($state);
+//            }
+//        });
+
+        $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
             if ($state && $this->output === self::OUTPUT_JSON) {
-                $component->state(is_array($state) ? $state : json_decode($state));
+                return is_array($state) ? $state : json_decode($state);
             }
+
+            return $state;
         });
 
         $this->registerListeners([

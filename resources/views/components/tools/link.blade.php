@@ -8,6 +8,7 @@
     label="{{ __('filament-tiptap-editor::editor.link') }}"
     icon="link"
     x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
+    x-on:unset-link.window="unsetLink();"
     x-data="{
         openModal() {
             let link = this.editor().getAttributes('link');
@@ -31,7 +32,7 @@
             }
 
             if (link.href === '') {
-                this.editor().chain().focus().extendMarkRange('link').unsetLink().run();
+                this.unsetLink();
                 return;
             }
 
