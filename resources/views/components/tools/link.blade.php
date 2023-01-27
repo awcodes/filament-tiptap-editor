@@ -24,7 +24,7 @@
             $wire.dispatchFormEvent('tiptap::setLinkContent', '{{ $statePath }}', linkProps);
         },
         unsetLink() {
-            this.editor().chain().focus().extendMarkRange('link').unsetLink().run();
+            this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
         },
         insertLink(link) {
             if (link.href === null) {
@@ -49,6 +49,7 @@
                     button_theme: link.button_theme ?? '',
                     class: link.as_button ? `btn btn-${link.button_theme}` : null
                 })
+                .selectTextblockEnd()
                 .run();
         }
     }"

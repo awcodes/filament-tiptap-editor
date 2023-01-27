@@ -34,7 +34,7 @@
             x-data="tiptap({
                 state: $wire.entangle('{{ $statePath }}').defer,
                 statePath: '{{ $statePath }}',
-                tools: '{{ $tools }}',
+                tools: @js($tools),
                 output: '{{ $getOutput() }}',
             })"
             x-on:keydown.escape="fullScreenMode = false"
@@ -46,9 +46,11 @@
             <div class="tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700">
 
                 <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
-                    @foreach(explode(',', $getTools()) as $tool)
+                    @foreach($tools as $tool)
                         @if ($tool === '|')
                             <div class="border-l border-gray-300 dark:border-gray-700 h-5"></div>
+                        @elseif (is_array($tool))
+                            <x-dynamic-component component="{{ $tool['view'] }}" :state-path="$statePath" />
                         @else
                             <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                         @endif
@@ -82,7 +84,6 @@
                     {!! filled($length = $getMinLength()) ? "minlength=\"{$length}\"" : null !!}
                     {!! $isRequired() ? 'required' : null !!}
                 @endif
-{{--                    x-model="validationText"--}}
                 {{ $applyStateBindingModifiers('wire:model') }}="{{ $statePath }}"
             ></textarea>
         </div>

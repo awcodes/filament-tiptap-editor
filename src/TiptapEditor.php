@@ -12,7 +12,6 @@ use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 use Illuminate\Support\Str;
-use Tiptap\Editor;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -42,6 +41,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected null | string $output = null;
 
+    protected array $extensions = [];
+
     /**
      * @throws InvalidOutputFormatException
      */
@@ -49,17 +50,11 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     {
         parent::setUp();
 
-        $this->profile = implode(',', config('filament-tiptap-editor.profiles.default'));
+        $this->tools = config('filament-tiptap-editor.profiles.default');
         $this->output(config('filament-tiptap-editor.output'));
         $this->validateOutputFormat();
 
-//        $this->afterStateHydrated(function(TiptapEditor $component, string $state) {
-//            if ($state && $this->output === self::OUTPUT_JSON) {
-//                $component->state(json_decode($state));
-//            } else {
-//                $component->state($state);
-//            }
-//        });
+        $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
         $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
             if ($state && $this->output === self::OUTPUT_JSON) {
@@ -144,7 +139,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public function profile(?string $profile): static
     {
-        $this->profile = implode(',', config('filament-tiptap-editor.profiles.' . $profile));
+        $this->profile = $profile;
+        $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
 
         return $this;
     }
@@ -195,9 +191,17 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function getTools(): string
+    public function getTools(): array
     {
-        return !$this->tools ? $this->profile : implode(',', $this->tools);
+        $extensions = collect($this->extensions);
+
+        foreach ($this->tools as $k => $tool) {
+            if ($ext = $extensions->where('id', $tool)->first()) {
+                $this->tools[$k] = $ext;
+            }
+        }
+
+        return $this->tools;
     }
 
     public function getDisk(): string
