@@ -95,6 +95,7 @@ document.addEventListener("alpine:init", () => {
         statePath,
         tools = [],
         output = 'html',
+        disabled = false,
     }) => ({
         id: null,
         tools: tools,
@@ -153,6 +154,7 @@ document.addEventListener("alpine:init", () => {
             editors[this.id] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(),
+                editable: ! disabled,
                 content: state?.initialValue || '<p></p>',
                 onUpdate({editor}) {
                     setTimeout(() => {

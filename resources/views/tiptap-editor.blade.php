@@ -1,6 +1,7 @@
 @php
     $tools = $getTools();
     $statePath = $getStatePath();
+    $isDisabled = $isDisabled();
 @endphp
 
 <x-forms::field-wrapper :id="$getId()"
@@ -16,17 +17,7 @@
         'border-gray-200 dark:border-gray-600' => ! $errors->has($statePath),
         'border-danger-600 ring-danger-600' => $errors->has($statePath),
     ])>
-        @if ($isDisabled())
-            <div class="relative z-0 tiptap-wrapper">
-                <div
-                    {{ $getExtraInputAttributeBag()->class([
-                        'tiptap-content max-h-[40rem] h-auto overflow-scroll rounded-b-md bg-white dark:bg-gray-700 ProseMirror',
-                    ]) }}
-                >
-                    {!! $getHTML() !!}
-                </div>
-            </div>
-        @else
+
         <div
             wire:ignore
             class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
@@ -36,11 +27,13 @@
                 statePath: '{{ $statePath }}',
                 tools: @js($tools),
                 output: '{{ $getOutput() }}',
+                disabled: {{ $isDisabled ? 'true' : 'false' }}
             })"
             x-on:keydown.escape="fullScreenMode = false"
             x-trap.noscroll="fullScreenMode"
         >
 
+            @if (! $isDisabled)
             <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">Skip toolbar</button>
 
             <div class="tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700">
@@ -65,6 +58,7 @@
                 </div>
 
             </div>
+            @endif
 
             <div
                 x-ref="element"
@@ -87,6 +81,5 @@
                 {{ $applyStateBindingModifiers('wire:model') }}="{{ $statePath }}"
             ></textarea>
         </div>
-        @endif
     </div>
 </x-forms::field-wrapper>
