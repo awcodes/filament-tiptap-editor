@@ -2,3 +2,4 @@
 /vendor
 /.npmrc
 /.idea
+/composer.lock
