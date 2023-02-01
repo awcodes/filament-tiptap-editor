@@ -1,3 +1,5 @@
 /node_modules
 /vendor
 /.npmrc
+/.idea
+/composer.lock
