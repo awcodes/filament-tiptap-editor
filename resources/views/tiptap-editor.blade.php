@@ -63,7 +63,7 @@
             <div
                 x-ref="element"
                 {{ $getExtraInputAttributeBag()->class([
-                    'tiptap-content max-h-[40rem] min-h-[56px] h-auto overflow-scroll rounded-b-md',
+                    'tiptap-content max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
                 ]) }}
             ></div>
 
