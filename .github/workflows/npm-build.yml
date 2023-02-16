@@ -1,8 +1,8 @@
-name: npm-build
+name: Build Assets
 
 on:
   pull_request:
-    branches: [1.x, 2.x]
+    branches: [2.x]
     types: [closed]
 
 jobs:
@@ -26,5 +26,5 @@ jobs:
         with:
           branch: main
           commit_message: >
-            chore: build assets
+            Chore: build assets
 
