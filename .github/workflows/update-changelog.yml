@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: 2.x
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
