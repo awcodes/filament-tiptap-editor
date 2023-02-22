@@ -51,6 +51,7 @@
     max-width: var(--tiptap-max-width);
     margin-inline: auto;
     position: relative;
+    width: 100%;
 
     .filament-tiptap-hurdle {
         width: 100%;
