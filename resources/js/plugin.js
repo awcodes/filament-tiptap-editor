@@ -22,7 +22,6 @@ import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
 import Text from "@tiptap/extension-text";
-import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
@@ -32,6 +31,7 @@ import {
     CustomLink,
     CustomImage,
     CustomParagraph,
+    CustomTextAlign,
     Small,
     Grid,
     GridColumn,
@@ -134,13 +134,13 @@ document.addEventListener("alpine:init", () => {
                         })
                     } else {
                         if (['align-left', 'align-right', 'align-center', 'align-justify'].includes(tool)) {
-                            if (tool === "align-left") alignments.push('left');
+                            if (tool === "align-left") alignments.push('start');
                             if (tool === "align-center") alignments.push('center');
-                            if (tool === "align-right") alignments.push('right');
+                            if (tool === "align-right") alignments.push('end');
                             if (tool === "align-justify") alignments.push('justify');
                             if (tools.includes("heading")) types.push('heading');
                             let hasTextAlign = exts.find((item) => item.name === 'textAlign');
-                            if (typeof hasTextAlign === "undefined") exts.push(TextAlign.configure({types, alignments}));
+                            if (typeof hasTextAlign === "undefined") exts.push(CustomTextAlign.configure({types, alignments}));
                         }
                     }
                 })
