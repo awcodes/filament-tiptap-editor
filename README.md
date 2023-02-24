@@ -110,6 +110,18 @@ For example:
    $table->json('content');
 ```
 
+### RTL Support
+
+In order for things like text align to work properly with RTL languages you 
+can switch the `direction` key in the config to 'rtl'.
+
+```php
+[
+    'direction' => 'rtl'
+    ...
+]
+```
+
 ## Overrides
 
 The Link and Media modals are built using Filament Form Component Actions. This means it is easy enough to swap them out with your own implementations.

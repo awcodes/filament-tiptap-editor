@@ -1,6 +1,5 @@
 <x-filament-tiptap-editor::button
-    action="editor().chain().focus().setTextAlign('right').run()"
-    active="{ textAlign: 'right' }"
-    label="{{ __('filament-tiptap-editor::editor.align_right') }}"
-    icon="align-right"
+    action="editor().chain().focus().setTextAlign('end').run()"
+    label="{{ config('filament-tiptap-editor.direction') === 'rtl' ? __('filament-tiptap-editor::editor.align_left') : __('filament-tiptap-editor::editor.align_right') }}"
+    icon="{{ config('filament-tiptap-editor.direction') === 'rtl' ? 'align-left' : 'align-right' }}"
 />

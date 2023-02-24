@@ -13,3 +13,4 @@ export { DetailsSummary } from "./Details/DetailsSummary";
 export { DetailsContent } from "./Details/DetailsContent";
 export { CustomCodeBlockLowlight } from "./CodeBlock";
 export { Hurdle } from "./Hurdle";
+export { CustomTextAlign } from "./CustomTextAlign";
