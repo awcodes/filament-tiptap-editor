@@ -155,7 +155,7 @@ document.addEventListener("alpine:init", () => {
                 element: this.$refs.element,
                 extensions: this.getExtensions(),
                 editable: ! disabled,
-                content: state?.initialValue.length > 0 ? state.initialValue : '<p></p>',
+                content: state.initialValue,
                 onUpdate({editor}) {
                     setTimeout(() => {
                         editor.chain().focus()
