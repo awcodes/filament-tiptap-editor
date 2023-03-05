@@ -12,6 +12,7 @@ use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 use Illuminate\Support\Str;
+use Tiptap\Editor;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -55,6 +56,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->validateOutputFormat();
 
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
+
+        $this->afterStateHydrated(function(TiptapEditor $component, string|array|null $state) {
+           if (! $state) {
+               $component->state('<p></p>');
+           }
+        });
 
         $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
             if ($state && $this->output === self::OUTPUT_JSON) {
