@@ -2,6 +2,15 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.4 - 2023-03-05
+
+### What's Changed
+
+- Fix: default null state errors by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/87
+- Fix: translation switching by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/88
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.3...v2.2.4
+
 ## v2.2.3 - 2023-02-28
 
 ### What's Changed
