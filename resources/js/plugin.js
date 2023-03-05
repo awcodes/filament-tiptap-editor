@@ -105,6 +105,7 @@ document.addEventListener("alpine:init", () => {
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
+        currentLocale: 'en',
         getExtensions() {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
@@ -149,34 +150,7 @@ document.addEventListener("alpine:init", () => {
             return exts;
         },
         init() {
-            this.id = randomString(8);
-            let _this = this;
-            editors[this.id] = new Editor({
-                element: this.$refs.element,
-                extensions: this.getExtensions(),
-                editable: ! disabled,
-                content: state.initialValue,
-                onUpdate({editor}) {
-                    setTimeout(() => {
-                        editor.chain().focus()
-                    }, 500);
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
-                },
-                onSelectionUpdate({editor}) {
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
-                },
-                onBlur({event}) {
-                    _this.focused = false;
-                    _this.state = _this.getFormattedContent();
-                    _this.$wire.set(_this.statePath, (_this.output === 'json') ? JSON.stringify(_this.state) : _this.state);
-                    _this.updatedAt = Date.now();
-                    _this.$refs.textarea.dispatchEvent(new Event("change"));
-                },
-                onFocus({event}) {
-                    _this.focused = true;
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
-                },
-            });
+            this.initEditor(state.initialValue);
 
             window.filamentTiptapEditors = editors;
 
@@ -188,13 +162,13 @@ document.addEventListener("alpine:init", () => {
 
             let sortableEl = this.$el.parentElement.closest("[wire\\:sortable]");
             if (sortableEl) {
-                window.Sortable.utils.on(sortableEl, "start", (event) => {
+                window.Sortable.utils.on(sortableEl, "start", () => {
                     Object.values(editors).forEach(function (editor) {
                         editor.setEditable(false);
                     });
                 });
 
-                window.Sortable.utils.on(sortableEl, "end", (event) => {
+                window.Sortable.utils.on(sortableEl, "end", () => {
                     Object.values(editors).forEach(function (editor) {
                         editor.setEditable(true);
                     });
@@ -203,9 +177,14 @@ document.addEventListener("alpine:init", () => {
 
             this.$watch('state', (newState) => {
                 if (this.state !== newState) {
-                    this.editor().commands.setContent(newState)
+                    this.editor().commands.setContent(newState);
+                } else {
+                    if (editors[this.id]) {
+                        editors[this.id].destroy();
+                        this.initEditor(newState);
+                    }
                 }
-            })
+            });
         },
         editor() {
             return editors[this.id];
@@ -222,6 +201,36 @@ document.addEventListener("alpine:init", () => {
                 default:
                     return this.editor().getHTML();
             }
+        },
+        initEditor(content) {
+            this.id = randomString(8);
+            let _this = this;
+            editors[this.id] = new Editor({
+                element: this.$refs.element,
+                extensions: this.getExtensions(),
+                editable: ! disabled,
+                content: content,
+                onUpdate({editor}) {
+                    setTimeout(() => {
+                        editor.chain().focus()
+                    }, 500);
+                    _this.$refs.textarea.dispatchEvent(new Event("input"));
+                },
+                onSelectionUpdate() {
+                    _this.$refs.textarea.dispatchEvent(new Event("input"));
+                },
+                onBlur() {
+                    _this.focused = false;
+                    _this.state = _this.getFormattedContent();
+                    _this.$wire.set(_this.statePath, _this.getFormattedContent());
+                    _this.updatedAt = Date.now();
+                    _this.$refs.textarea.dispatchEvent(new Event("change"));
+                },
+                onFocus() {
+                    _this.focused = true;
+                    _this.$refs.textarea.dispatchEvent(new Event("input"));
+                },
+            });
         }
     }));
 });
