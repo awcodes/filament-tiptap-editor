@@ -2,6 +2,15 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.5 - 2023-03-07
+
+### What's Changed
+
+- Chore: make assets versionable for cache busting by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/89
+- Feature: add max content option by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/90
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.4...v2.2.5
+
 ## v2.2.4 - 2023-03-05
 
 ### What's Changed
