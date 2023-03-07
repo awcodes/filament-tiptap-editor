@@ -60,12 +60,29 @@
             </div>
             @endif
 
-            <div
-                x-ref="element"
-                {{ $getExtraInputAttributeBag()->class([
-                    'tiptap-content max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
-                ]) }}
-            ></div>
+            <div @class([
+                'tiptap-prosemirror-wrapper mx-auto px-4 w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
+                match ($getMaxContentWidth()) {
+                    'sm' => 'max-w-sm',
+                    'md' => 'max-w-md',
+                    'lg' => 'max-w-lg',
+                    'xl' => 'max-w-xl',
+                    '2xl' => 'max-w-2xl',
+                    '3xl' => 'max-w-3xl',
+                    '4xl' => 'max-w-4xl',
+                    '6xl' => 'max-w-6xl',
+                    '7xl' => 'max-w-7xl',
+                    'full' => 'max-w-none',
+                    default => 'max-w-5xl',
+                }
+            ])>
+                <div
+                    x-ref="element"
+                    {{ $getExtraInputAttributeBag()->class([
+                        'tiptap-content ',
+                    ]) }}
+                ></div>
+            </div>
 
             <textarea
                 x-ref="textarea"

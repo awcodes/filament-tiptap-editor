@@ -44,6 +44,8 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected array $extensions = [];
 
+    protected null | string | Closure $maxContentWidth = null;
+
     /**
      * @throws InvalidOutputFormatException
      */
@@ -198,6 +200,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    public function maxContentWidth(string|null|Closure $width = null): static
+    {
+        $this->maxContentWidth = $width;
+
+        return $this;
+    }
+
     public function getTools(): array
     {
         $extensions = collect($this->extensions);
@@ -234,6 +243,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     public function getOutput(): string
     {
         return $this->output;
+    }
+
+    public function getMaxContentWidth(): string
+    {
+        return $this->maxContentWidth
+            ? $this->evaluate($this->maxContentWidth)
+            : config('filament-tiptap-editor.max_content_width');
     }
 
     /**
