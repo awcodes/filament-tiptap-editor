@@ -36,6 +36,7 @@ TiptapEditor::make('content')
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
     ->maxFileSize('integer in KB') // optional, defaults to config setting
     ->output('json') // optional, change the output format. defaults is html
+    ->maxContentWidth('5xl')
     ->required();
 ```
 
@@ -120,6 +121,26 @@ can switch the `direction` key in the config to 'rtl'.
     'direction' => 'rtl'
     ...
 ]
+```
+
+### Max Content Width
+
+To adjust the max content width of the editor globally set `max_content_width` 
+key in the config to one of the tailwind max width sizes or `full` for full width. 
+This could also be set on a per instance basis with the `->maxContentWidth()` method.
+
+```php
+[
+    'max_content_width' => 'full'
+    ...
+]
+```
+
+```php
+use FilamentTiptapEditor\TiptapEditor;
+
+TiptapEditor::make('content')
+    ->maxContentWidth('3xl');
 ```
 
 ## Overrides

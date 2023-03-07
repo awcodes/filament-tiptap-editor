@@ -1,5 +1,5 @@
 <button type="button"
-    x-on:click="fullScreenMode = !fullScreenMode"
+    x-on:click="fullScreenMode = !fullScreenMode; if (fullScreenMode) editor().chain().focus()"
     x-bind:class="{ 'bg-gray-300 text-gray-900 dark:bg-gray-600 dark:text-gray-300': fullScreenMode }"
     @class([
         'rounded block p-1 hover:bg-gray-200 focus:bg-gray-200',

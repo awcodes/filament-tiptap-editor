@@ -1,10 +1,5 @@
 @tailwind utilities;
 
-:root {
-    --tiptap-side-margin: 1rem;
-    --tiptap-max-width: 1024px;
-}
-
 .tiptap-wrapper.tiptap-fullscreen {
     position: fixed;
     top: 0;
@@ -47,8 +42,6 @@
     border-bottom-right-radius: 0.375rem;
     flex: 1 1 0;
     padding-block: 1rem;
-    padding-inline: var(--tiptap-side-margin);
-    max-width: var(--tiptap-max-width);
     margin-inline: auto;
     position: relative;
     width: 100%;
