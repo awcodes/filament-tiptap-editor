@@ -2,10 +2,10 @@
 
 namespace FilamentTiptapEditor;
 
-use Livewire\Livewire;
+use Composer\InstalledVersions;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Filament\Facades\Filament;
-use Illuminate\Foundation\Vite;
 use Illuminate\Support\HtmlString;
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
@@ -13,18 +13,16 @@ use Illuminate\Contracts\Support\Htmlable;
 
 class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
 {
-    protected array $styles = [
-        'filament-tiptap-editor-styles' => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',
-    ];
+    public static string $name = 'filament-tiptap-editor';
 
-    protected array $beforeCoreScripts = [
-        'filament-tiptap-editor-scripts' => __DIR__ . '/../resources/dist/filament-tiptap-editor.js',
-    ];
+    public static string $version = 'dev';
 
     public function configurePackage(Package $package): void
     {
+        static::$version = InstalledVersions::getVersion('awcodes/filament-tiptap-editor');
+
         $package
-            ->name('filament-tiptap-editor')
+            ->name(static::$name)
             ->hasConfigFile()
             ->hasAssets()
             ->hasTranslations()
@@ -41,6 +39,23 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
                 fn (): string => $theme,
             );
         }
+    }
+
+    protected function getStyles(): array
+    {
+        return [
+            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getBeforeCoreScripts(): array
+    {
+        return [
+            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.js',
+        ];
     }
 
     public function getTiptapEditorStylesLink(): ?Htmlable
