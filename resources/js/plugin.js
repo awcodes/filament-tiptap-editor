@@ -87,6 +87,8 @@ let editorExtensions = {
     underline: [Underline],
 };
 
+let localeChanged = false;
+
 document.addEventListener("alpine:init", () => {
     let editors = window.filamentTiptapEditors || {};
 
@@ -175,14 +177,22 @@ document.addEventListener("alpine:init", () => {
                 });
             }
 
+            const localeSwitcher = document.getElementById('activeLocale');
+            if (localeSwitcher) {
+                localeSwitcher.addEventListener('change', () => {
+                    localeChanged = true;
+                });
+            }
+
             this.$watch('state', (newState) => {
                 if (this.state !== newState) {
                     this.editor().commands.setContent(newState);
-                } else {
-                    if (editors[this.id]) {
-                        editors[this.id].destroy();
-                        this.initEditor(newState);
-                    }
+                }
+
+                if (localeChanged) {
+                    editors[this.id].destroy();
+                    this.initEditor(newState)
+                    localeChanged = false;
                 }
             });
         },
@@ -231,6 +241,6 @@ document.addEventListener("alpine:init", () => {
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
             });
-        }
+        },
     }));
 });
