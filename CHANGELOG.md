@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.6 - 2023-03-08
+
+### What's Changed
+
+- Fix: translatable issues causing tool issues by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/92
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.5...v2.2.6
+
 ## v2.2.5 - 2023-03-07
 
 ### What's Changed
