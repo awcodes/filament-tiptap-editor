@@ -11,6 +11,7 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 use Tiptap\Editor;
 
@@ -47,7 +48,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     protected null | string | Closure $maxContentWidth = null;
 
     /**
-     * @throws InvalidOutputFormatException
+     * @throws InvalidOutputFormatException|BindingResolutionException
      */
     protected function setUp(): void
     {
@@ -122,12 +123,14 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                 },
             ],
             'tiptap::setMediaContent' => [
-                function (TiptapEditor $component, string $statePath): void {
+                function (TiptapEditor $component, string $statePath, array $mediaProps): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
                         return;
                     }
 
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_media');
+                    $livewire = $component->getLivewire();
+                    data_set($livewire, 'mediaProps', $mediaProps);
+                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_media');
                 },
             ],
         ]);

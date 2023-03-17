@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'heading' => 'Insert Media',
+    'heading' => [
+        'update' => 'Update Media',
+        'insert' => 'Insert Media',
+    ],
     'buttons' => [
         'cancel' => 'Cancel',
         'insert' => 'Insert',

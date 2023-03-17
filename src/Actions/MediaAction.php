@@ -2,6 +2,7 @@
 
 namespace FilamentTiptapEditor\Actions;
 
+use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\FileUpload;
@@ -24,7 +25,25 @@ class MediaAction extends Action
     {
         parent::setUp();
 
-        $this->modalHeading(__('filament-tiptap-editor::media-modal.heading'));
+        $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
+            $source = $component->getLivewire()->mediaProps['src'] !== ''
+                ? $component->getDirectory() . Str::of($component->getLivewire()->mediaProps['src'])
+                    ->after($component->getDirectory())
+                : null;
+
+            $form->fill([
+                'src' => $source,
+                'alt' => $component->getLivewire()->mediaProps['alt'],
+                'title' => $component->getLivewire()->mediaProps['title'],
+                'width' => $component->getLivewire()->mediaProps['width'],
+                'height' => $component->getLivewire()->mediaProps['height'],
+            ]);
+        });
+
+        $this->modalHeading(function(TiptapEditor $component) {
+            $context = blank($component->getLivewire()->mediaProps['src']) ? 'insert' : 'update';
+            return __('filament-tiptap-editor::media-modal.heading.' . $context);
+        });
 
         $this->modalWidth('md');
 
@@ -53,12 +72,11 @@ class MediaAction extends Action
                         }
                     })
                     ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
-
                         $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
 
                         $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
 
-                        if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename  .  '.' . $file->getClientOriginalExtension(), '/'))) {
+                        if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $file->getClientOriginalExtension(), '/'))) {
                             $filename = $filename . '-' . time();
                         }
 
@@ -73,7 +91,7 @@ class MediaAction extends Action
                             $set('height', $image->getHeight());
                         }
 
-                        $upload = $file->{$storeMethod}($component->getDirectory(), $filename  .  '.' . $file->getClientOriginalExtension(), $component->getDiskName());
+                        $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
 
                         return Storage::disk($component->getDiskName())->url($upload);
                     }),
@@ -95,10 +113,14 @@ class MediaAction extends Action
         });
 
         $this->action(function(TiptapEditor $component, $data) {
+            $source = str_starts_with($data['src'], 'http')
+                ? $data['src']
+                : config('app.url') . Storage::url($data['src']);
+
             $component->getLivewire()->dispatchBrowserEvent('insert-media', [
                 'statePath' => $component->getStatePath(),
                 'media' => [
-                    'src' => $data['src'],
+                    'src' => $source,
                     'alt' => $data['alt'] ?? null,
                     'title' => $data['title'],
                     'width' => $data['width'],
