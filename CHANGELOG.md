@@ -2,6 +2,15 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.7 - 2023-03-17
+
+### What's Changed
+
+- Fix: tool focus bug by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/94
+- Fix: fullscreen height bug by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/96
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.6...v2.2.7
+
 ## v2.2.6 - 2023-03-08
 
 ### What's Changed
