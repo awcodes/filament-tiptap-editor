@@ -62,7 +62,7 @@ return [
         'ordered' => 'Ordered List',
         'checked' => 'Checked List',
     ],
-    'media' => 'Insert Media',
+    'media' => 'Insert / Edit Media',
     'redo' => 'Redo',
     'remove_color' => 'Remove Color',
     'small' => 'Small Text',
