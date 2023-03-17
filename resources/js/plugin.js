@@ -157,7 +157,10 @@ document.addEventListener("alpine:init", () => {
             window.filamentTiptapEditors = editors;
 
             document.addEventListener("dblclick", function (e) {
-                if (e.target && (e.target.hasAttribute("data-youtube-video") || e.target.hasAttribute("data-vimeo-video"))) {
+                if (
+                    e.target && (e.target.hasAttribute("data-youtube-video") ||
+                    e.target.hasAttribute("data-vimeo-video"))
+                ) {
                     e.target.firstChild.style.pointerEvents = "all";
                 }
             });
@@ -199,9 +202,6 @@ document.addEventListener("alpine:init", () => {
         editor() {
             return editors[this.id];
         },
-        isActive(type, opts = {}) {
-            return this.editor().isActive(type, opts);
-        },
         getFormattedContent() {
             switch (this.output) {
                 case 'json':
@@ -221,22 +221,25 @@ document.addEventListener("alpine:init", () => {
                 editable: ! disabled,
                 content: content,
                 onUpdate({editor}) {
+                    _this.updatedAt = Date.now();
                     setTimeout(() => {
                         editor.chain().focus()
                     }, 500);
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
                 onSelectionUpdate() {
+                    _this.updatedAt = Date.now();
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
                 onBlur() {
+                    _this.updatedAt = Date.now();
                     _this.focused = false;
                     _this.state = _this.getFormattedContent();
                     _this.$wire.set(_this.statePath, _this.getFormattedContent());
-                    _this.updatedAt = Date.now();
                     _this.$refs.textarea.dispatchEvent(new Event("change"));
                 },
                 onFocus() {
+                    _this.updatedAt = Date.now();
                     _this.focused = true;
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
