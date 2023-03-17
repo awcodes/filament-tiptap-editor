@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.8 - 2023-03-17
+
+### What's Changed
+
+- Feature: allow resetting of media attributes by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/97
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.7...v2.2.8
+
 ## v2.2.7 - 2023-03-17
 
 ### What's Changed
