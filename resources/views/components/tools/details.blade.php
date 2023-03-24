@@ -1,5 +1,5 @@
 <x-filament-tiptap-editor::button
-    action="isActive('details', updatedAt) ? editor().chain().focus().unsetDetails().run() : editor().chain().focus().setDetails().run()"
+    action="editor().isActive('details', updatedAt) ? editor().chain().focus().unsetDetails().run() : editor().chain().focus().setDetails().run()"
     active="'details'"
     label="{{ __('filament-tiptap-editor::editor.details') }}"
     icon="details"

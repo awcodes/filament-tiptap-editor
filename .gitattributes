@@ -2,3 +2,4 @@
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /images             export-ignore
+resources/dist/* -diff
