@@ -2,6 +2,19 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.9 - 2023-03-24
+
+### What's Changed
+
+- Chore(deps): Bump aglipanci/laravel-pint-action from 2.1.0 to 2.2.0 by @dependabot in https://github.com/awcodes/filament-tiptap-editor/pull/98
+- Fix: error when clicking on details tool button by @hofey in https://github.com/awcodes/filament-tiptap-editor/pull/99
+
+### New Contributors
+
+- @hofey made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/99
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.8...v2.2.9
+
 ## v2.2.8 - 2023-03-17
 
 ### What's Changed
