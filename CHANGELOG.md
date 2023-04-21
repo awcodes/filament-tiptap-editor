@@ -2,6 +2,15 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.10 - 2023-04-21
+
+### What's Changed
+
+- Fix: maxFileSize() method default value bug by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/103
+- Feature: Add paragraph tool and heading level indicator by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/104
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.9...v2.2.10
+
 ## v2.2.9 - 2023-03-24
 
 ### What's Changed
