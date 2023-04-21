@@ -39,7 +39,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected ?array $acceptedFileTypes = null;
 
-    protected ?int $maxFileSize = 2042;
+    protected ?int $maxFileSize = null;
 
     protected null | string $output = null;
 
@@ -185,7 +185,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function maxFileSize(?int $maxFileSize): static
+    public function maxFileSize(int $maxFileSize): static
     {
         $this->maxFileSize = $maxFileSize;
 
