@@ -63,6 +63,7 @@ return [
         'checked' => 'Checked List',
     ],
     'media' => 'Insert / Edit Media',
+    'paragraph' => 'Paragraph',
     'redo' => 'Redo',
     'remove_color' => 'Remove Color',
     'small' => 'Small Text',
