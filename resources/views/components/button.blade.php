@@ -4,9 +4,10 @@
     'label' => null,
     'icon' => null,
 ])
-<button type="button"
+<button
+    type="button"
     x-on:click="{{ $action }}"
-    x-tooltip.raw="{{ $label }}"
+    x-tooltip="'{{ $label }}'"
     {{ $attributes }}
     class="tiptap-tool rounded block p-1 hover:bg-gray-200 focus:bg-gray-200 dark:hover:bg-gray-800 dark:focus:bg-gray-800"
     @if ($active)
@@ -14,5 +15,5 @@
     @endif
 >
     {{ $slot }}
-    <x-filament-tiptap-editor::icon icon="{{ $icon }}" />
+    <x-filament-tiptap-editor::icon icon="{{ $icon }}" title="{{ $label }}" />
 </button>
