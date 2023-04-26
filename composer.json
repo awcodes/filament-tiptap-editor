@@ -18,8 +18,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "filament/filament": "^2.0",
-        "illuminate/contracts": "^9.0|^10.0",
+        "filament/filament": "*",
         "intervention/image": "^2.7",
         "spatie/laravel-package-tools": "^1.9.2",
         "ueberdosis/tiptap-php": "^1.1"
@@ -60,6 +59,12 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../filament/packages/*"
+        }
+    ]
 }

@@ -2,6 +2,7 @@
 
 namespace FilamentTiptapEditor\Actions;
 
+use Filament\Actions\StaticAction;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
@@ -11,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use FilamentTiptapEditor\TiptapEditor;
+use Illuminate\Support\HtmlString;
 
 class LinkAction extends Action
 {
@@ -94,16 +96,13 @@ class LinkAction extends Action
             $component->state($component->getState());
         });
 
-        $this->modalActions(array_merge(
-            $this->getModalActions(),
-            [
-                \Filament\Forms\Components\Actions\Modal\Actions\Action::make('remove_link')
-                    ->color('danger')
-                    ->extraAttributes([
-                        'x-on:click' => '$dispatch(\'unset-link\'); close()',
-                        'style' => 'margin-left: auto;'
-                    ])
-            ],
-        ));
+        $this->extraModalActions(fn (Action $action): array => [
+            $action->makeExtraModalAction('remove_link', [])
+                ->color('danger')
+                ->extraAttributes([
+                    'x-on:click' => new HtmlString('$dispatch(\'unset-link\'); close()'),
+                    'style' => 'margin-left: auto;'
+                ])
+        ]);
     }
 }

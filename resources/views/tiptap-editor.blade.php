@@ -4,13 +4,9 @@
     $isDisabled = $isDisabled();
 @endphp
 
-<x-forms::field-wrapper :id="$getId()"
-    :label="$getLabel()"
-    :label-sr-only="$isLabelHidden()"
-    :helper-text="$getHelperText()"
-    :hint="$getHint()"
-    :required="$isRequired()"
-    :state-path="$statePath"
+<x-dynamic-component
+    :component="$getFieldWrapperView()"
+    :field="$field"
 >
     <div @class([
         'tiptap-editor border rounded-md relative bg-white shadow-sm dark:bg-gray-700',
@@ -100,4 +96,4 @@
             ></textarea>
         </div>
     </div>
-</x-forms::field-wrapper>
+</x-dynamic-component>

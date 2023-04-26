@@ -3,24 +3,26 @@
 namespace FilamentTiptapEditor;
 
 use Composer\InstalledVersions;
+use Filament\Support\Assets\AssetManager;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Filament\Facades\Filament;
 use Illuminate\Support\HtmlString;
-use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Illuminate\Contracts\Support\Htmlable;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
+class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-tiptap-editor';
 
-    public static string $version = 'dev';
+    public static string $viewNamespace = 'filament-tiptap-editor';
 
     public function configurePackage(Package $package): void
     {
-        static::$version = InstalledVersions::getVersion('awcodes/filament-tiptap-editor');
-
         $package
             ->name(static::$name)
             ->hasConfigFile()
@@ -29,7 +31,29 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
             ->hasViews();
     }
 
-    public function boot()
+    public function packageRegistered(): void
+    {
+        //        Asset Registration
+        $this->app->resolving(AssetManager::class, function () {
+            FilamentAsset::register($this->getAssets(), $this->getAssetPackage());
+        });
+    }
+
+    protected function getAssets(): array
+    {
+        return [
+            //  AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
+            Css::make('plugin-tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
+            Js::make('plugin-tiptap-editor-scripts', __DIR__.'/../resources/dist/filament-tiptap-editor.js'),
+        ];
+    }
+
+    protected function getAssetPackage(): ?string
+    {
+        return static::$name ?? null;
+    }
+
+    public function boot(): void
     {
         parent::boot();
 
@@ -41,22 +65,6 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
         }
     }
 
-    protected function getStyles(): array
-    {
-        return [
-            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getBeforeCoreScripts(): array
-    {
-        return [
-            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.js',
-        ];
-    }
 
     public function getTiptapEditorStylesLink(): ?Htmlable
     {
