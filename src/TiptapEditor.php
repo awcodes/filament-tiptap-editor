@@ -7,7 +7,10 @@ use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
 use Filament\Forms\Components\Field;
+use Filament\Support\Assets\AssetManager;
+use Filament\Support\Assets\Css;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use Filament\Support\Facades\FilamentAsset;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
@@ -147,6 +150,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                 ? [config('filament-tiptap-editor.media_action')::make()]
                 : [],
         ));
+
+        app()->resolving(AssetManager::class, function () {
+            FilamentAsset::register([
+                Css::make('plugin-tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
+            ], 'filament-tiptap-editor');
+        });
     }
 
     public function profile(?string $profile): static

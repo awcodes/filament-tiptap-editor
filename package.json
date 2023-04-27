@@ -2,9 +2,9 @@
   "private": true,
   "scripts": {
     "dev:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --watch",
-    "dev:js": "esbuild resources/js/plugin.js --bundle --sourcemap=inline --outfile=resources/dist/filament-tiptap-editor.js --watch",
+    "dev:js": "node bin/build --watch",
     "build:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --minify",
-    "build:js": "esbuild resources/js/plugin.js --bundle --minify --outfile=resources/dist/filament-tiptap-editor.js",
+    "build:js": "node bin/build",
     "build:purge": "filament-purge -i resources/dist/filament-tiptap-editor.css -o resources/dist/filament-tiptap-editor.css",
     "dev": "npm-run-all --parallel dev:*",
     "build": "npm-run-all build:*"

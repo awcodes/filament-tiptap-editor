@@ -50,17 +50,21 @@ class LinkAction extends Action
                         ->label(__('filament-tiptap-editor::link-modal.labels.url'))
                         ->columnSpan('full')
                         ->required(),
-                    Select::make('target')->options([
-                        '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
-                        '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
-                        '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                        '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
-                    ]),
+                    Select::make('target')
+                        ->default('')
+                        ->selectablePlaceholder(false)
+                        ->options([
+                            '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
+                            '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
+                            '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
+                            '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
+                        ]),
                     TextInput::make('hreflang')
                         ->label(__('filament-tiptap-editor::link-modal.labels.language')),
                     CheckboxList::make('rel')
                         ->columnSpan('full')
                         ->columns(3)
+                        ->gridDirection('row')
                         ->options([
                             'nofollow' => __('filament-tiptap-editor::link-modal.labels.rel.nofollow'),
                             'noopener' => __('filament-tiptap-editor::link-modal.labels.rel.noopener'),
@@ -101,7 +105,6 @@ class LinkAction extends Action
                 ->color('danger')
                 ->extraAttributes([
                     'x-on:click' => new HtmlString('$dispatch(\'unset-link\'); close()'),
-                    'style' => 'margin-left: auto;'
                 ])
         ]);
     }

@@ -89,16 +89,16 @@ let editorExtensions = {
 
 let localeChanged = false;
 
-document.addEventListener("alpine:init", () => {
-    let editors = window.filamentTiptapEditors || {};
+let editors = window.filamentTiptapEditors || {};
 
-    Alpine.data("tiptap", ({
-        state,
-        statePath,
-        tools = [],
-        output = 'html',
-        disabled = false,
-    }) => ({
+export default function tiptapEditorComponent({
+      state,
+      statePath,
+      tools = [],
+      output = 'html',
+      disabled = false,
+}) {
+    return {
         id: null,
         tools: tools,
         state: state,
@@ -143,7 +143,10 @@ document.addEventListener("alpine:init", () => {
                             if (tool === "align-justify") alignments.push('justify');
                             if (tools.includes("heading")) types.push('heading');
                             let hasTextAlign = exts.find((item) => item.name === 'textAlign');
-                            if (typeof hasTextAlign === "undefined") exts.push(CustomTextAlign.configure({types, alignments}));
+                            if (typeof hasTextAlign === "undefined") exts.push(CustomTextAlign.configure({
+                                types,
+                                alignments
+                            }));
                         }
                     }
                 })
@@ -159,7 +162,7 @@ document.addEventListener("alpine:init", () => {
             document.addEventListener("dblclick", function (e) {
                 if (
                     e.target && (e.target.hasAttribute("data-youtube-video") ||
-                    e.target.hasAttribute("data-vimeo-video"))
+                        e.target.hasAttribute("data-vimeo-video"))
                 ) {
                     e.target.firstChild.style.pointerEvents = "all";
                 }
@@ -218,7 +221,7 @@ document.addEventListener("alpine:init", () => {
             editors[this.id] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(),
-                editable: ! disabled,
+                editable: !disabled,
                 content: content,
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
@@ -244,6 +247,7 @@ document.addEventListener("alpine:init", () => {
                     _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
             });
-        },
-    }));
-});
+        }
+    };
+}
+

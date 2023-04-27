@@ -16,15 +16,18 @@
 
         <div
             wire:ignore
-            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
-            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
-            x-data="tiptap({
+            x-ignore
+            ax-load
+            ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tiptap', 'filament-tiptap-editor') }}"
+            x-data="tiptapEditorComponent({
                 state: $wire.entangle('{{ $statePath }}').defer,
                 statePath: '{{ $statePath }}',
                 tools: @js($tools),
                 output: '{{ $getOutput() }}',
                 disabled: {{ $isDisabled ? 'true' : 'false' }}
             })"
+            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
+            x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-on:keydown.escape="fullScreenMode = false"
             x-trap.noscroll="fullScreenMode"
         >
