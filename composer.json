@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "filament/filament": "v3.0.0-alpha77",
+        "filament/filament": "^3.0",
         "intervention/image": "^2.7",
         "spatie/laravel-package-tools": "^1.9.2",
         "ueberdosis/tiptap-php": "^1.1"
@@ -59,6 +59,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "prefer-stable": true
 }
