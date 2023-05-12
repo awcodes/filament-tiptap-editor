@@ -27,7 +27,8 @@
                 statePath: '{{ $statePath }}',
                 tools: @js($tools),
                 output: '{{ $getOutput() }}',
-                disabled: {{ $isDisabled ? 'true' : 'false' }}
+                disabled: {{ $isDisabled ? 'true' : 'false' }},
+                locale: '{{ app()->getLocale() }}',
             })"
             x-on:keydown.escape="fullScreenMode = false"
             x-trap.noscroll="fullScreenMode"
