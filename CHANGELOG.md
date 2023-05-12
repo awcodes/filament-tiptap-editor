@@ -2,6 +2,16 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.2.11 - 2023-05-12
+
+### What's Changed
+
+- Chore(deps): Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/awcodes/filament-tiptap-editor/pull/105
+- Fix: helperText on MediaAction alt field by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/106
+- Fix: Multiple editors not switching to locale changes. by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/107
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.10...v2.2.11
+
 ## v2.2.10 - 2023-04-21
 
 ### What's Changed
