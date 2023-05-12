@@ -87,7 +87,13 @@ let editorExtensions = {
     underline: [Underline],
 };
 
-let localeChanged = false;
+const localeSwitcher = document.getElementById('activeLocale');
+if (localeSwitcher) {
+    localeSwitcher.addEventListener('change', () => {
+        const localeChange = new CustomEvent('localeChange', { bubbles: true, detail: { locale: localeSwitcher.value } });
+        localeSwitcher.dispatchEvent(localeChange);
+    });
+}
 
 document.addEventListener("alpine:init", () => {
     let editors = window.filamentTiptapEditors || {};
@@ -98,6 +104,7 @@ document.addEventListener("alpine:init", () => {
         tools = [],
         output = 'html',
         disabled = false,
+        locale = 'en',
     }) => ({
         id: null,
         tools: tools,
@@ -107,7 +114,7 @@ document.addEventListener("alpine:init", () => {
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
-        currentLocale: 'en',
+        locale: locale,
         getExtensions() {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
@@ -165,6 +172,10 @@ document.addEventListener("alpine:init", () => {
                 }
             });
 
+            window.addEventListener('localeChange', (event) => {
+                this.locale = event.detail.locale;
+            });
+
             let sortableEl = this.$el.parentElement.closest("[wire\\:sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", () => {
@@ -180,23 +191,17 @@ document.addEventListener("alpine:init", () => {
                 });
             }
 
-            const localeSwitcher = document.getElementById('activeLocale');
-            if (localeSwitcher) {
-                localeSwitcher.addEventListener('change', () => {
-                    localeChanged = true;
-                });
-            }
-
             this.$watch('state', (newState) => {
                 if (this.state !== newState) {
                     this.editor().commands.setContent(newState);
                 }
+            });
 
-                if (localeChanged) {
+            this.$watch('locale', () => {
+                setTimeout(() => {
                     editors[this.id].destroy();
-                    this.initEditor(newState)
-                    localeChanged = false;
-                }
+                    this.initEditor(this.state);
+                }, 200);
             });
         },
         editor() {
