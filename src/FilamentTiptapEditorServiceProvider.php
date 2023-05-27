@@ -66,7 +66,7 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
             $builder = config('filament-tiptap-editor.theme_builder');
 
             if ($builder == 'vite') {
-                $theme = app(Vite::class)($themeFile, config('filament-tiptap-editor.theme_folder'));
+                $theme = Vite::asset($themeFile, config('filament-tiptap-editor.theme_folder'));
             } else {
                 $theme = mix($themeFile);
             }
