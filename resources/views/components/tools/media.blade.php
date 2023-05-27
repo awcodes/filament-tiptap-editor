@@ -30,6 +30,15 @@
             {{ $action }}
         },
         insertMedia(media) {
+            if (Array.isArray(media)) {
+                media.forEach((item) => {
+                    this.executeMediaInsert(item);
+                });
+            } else {
+                this.executeMediaInsert(media);
+            }
+        },
+        executeMediaInsert(media = null) {
             if (media) {
                 const src = media?.url || media?.src;
                 const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
@@ -50,6 +59,6 @@
                     this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
                 }
             }
-        },
+        }
     }"
 />

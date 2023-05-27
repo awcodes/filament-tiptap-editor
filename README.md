@@ -2,6 +2,9 @@
 
 A Tiptap ingtegration for Filament Admin/Forms.
 
+> **Warning**
+> If you are using the Curator integration for media uploads you will need to update to version 2.3.0 or higher.
+
 ![tiptap-editor-og](https://user-images.githubusercontent.com/3596800/225422449-b1aa125f-7704-42c8-9efa-440972d88ca0.png)
 
 - Supports Light/Dark Mode
