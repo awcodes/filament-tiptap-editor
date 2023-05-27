@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.3.0 - 2023-05-27
+
+### What's Changed
+
+- Chore: add support for Curator with multiple images by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/109
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.11...v2.3.0
+
 ## v2.2.11 - 2023-05-12
 
 ### What's Changed
