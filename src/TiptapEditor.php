@@ -66,8 +66,22 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
            }
         });
 
+        $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string|array|null $state) {
+            $tempState = $state;
+
+            if ($state && $this->expectsJSON()) {
+                $component->state($component->getHTML());
+            }
+
+            $livewire->validateOnly($component->getStatePath());
+
+            if ($state && $this->expectsJSON()) {
+                $component->state($tempState);
+            }
+        });
+
         $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
-            if ($state && $this->output === self::OUTPUT_JSON) {
+            if ($state && $this->expectsJSON()) {
                 return is_array($state) ? $state : json_decode($state);
             }
 
@@ -271,10 +285,29 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         }
     }
 
+    public function expectsJSON(): bool
+    {
+        return $this->output === self::OUTPUT_JSON;
+    }
+
     public function getHTML(): string
     {
         return (new Editor)
             ->setContent($this->getState())
             ->getHtml();
+    }
+
+    public function getText(): string
+    {
+        return (new Editor)
+            ->setContent($this->getState())
+            ->getText();
+    }
+
+    public function getJSON(): string
+    {
+        return (new Editor)
+            ->setContent($this->getState())
+            ->getJSON();
     }
 }
