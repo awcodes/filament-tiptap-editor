@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'skip_toolbar' => 'Skip toolbar',
     'align_center' => 'Align Text Center',
     'align_justify' => 'Justify Text',
     'align_left' => 'Align Text Left',

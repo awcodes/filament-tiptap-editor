@@ -230,23 +230,19 @@ document.addEventListener("alpine:init", () => {
                     setTimeout(() => {
                         editor.chain().focus()
                     }, 500);
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
                 onBlur() {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
                     _this.state = _this.getFormattedContent();
                     _this.$wire.set(_this.statePath, _this.getFormattedContent());
-                    _this.$refs.textarea.dispatchEvent(new Event("change"));
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();
                     _this.focused = true;
-                    _this.$refs.textarea.dispatchEvent(new Event("input"));
                 },
             });
         },
