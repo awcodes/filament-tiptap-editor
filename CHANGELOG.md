@@ -2,6 +2,19 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.4.0 - 2023-05-31
+
+### What's Changed
+
+- Fix: vite facade not callable by @phpsa in https://github.com/awcodes/filament-tiptap-editor/pull/110
+- Chore: Remove hidden text input by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/114
+
+### New Contributors
+
+- @phpsa made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/110
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.3.0...v2.4.0
+
 ## v2.3.0 - 2023-05-27
 
 ### What's Changed
