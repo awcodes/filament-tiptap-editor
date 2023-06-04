@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.4.1 - 2023-06-04
+
+### What's Changed
+
+- Fix: use Livewire hook for reinitializing editor by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/116
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.4.0...v2.4.1
+
 ## v2.4.0 - 2023-05-31
 
 ### What's Changed
