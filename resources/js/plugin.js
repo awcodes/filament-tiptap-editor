@@ -198,10 +198,10 @@ document.addEventListener("alpine:init", () => {
             });
 
             this.$watch('locale', () => {
-                setTimeout(() => {
+                Livewire.hook('message.processed', () => {
                     editors[this.id].destroy();
                     this.initEditor(this.state);
-                }, 200);
+                });
             });
         },
         editor() {
