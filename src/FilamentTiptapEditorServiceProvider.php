@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Filament\Facades\Filament;
 use Illuminate\Support\HtmlString;
 use Filament\PluginServiceProvider;
+use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 use Spatie\LaravelPackageTools\Package;
 use Illuminate\Contracts\Support\Htmlable;
 
@@ -29,7 +30,17 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
             ->hasViews();
     }
 
-    public function boot()
+    /**
+     * @throws InvalidPackage
+     */
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->singleton('tiptap-converter', fn (): TiptapConverter => new TiptapConverter());
+    }
+
+    public function boot(): void
     {
         parent::boot();
 
