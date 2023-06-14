@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.5.0 - 2023-06-14
+
+### What's Changed
+
+- Feat: add blade output helper by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/119
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.4.1...v2.5.0
+
 ## v2.4.1 - 2023-06-04
 
 ### What's Changed
