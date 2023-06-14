@@ -39,6 +39,18 @@ TiptapEditor::make('content')
     ->required();
 ```
 
+### Rendering content in Blade files
+
+If you are storing your content as JSON then you will likely need to parse the data to HTML for output in Blade files. To help with this there is a helper function `tiptap_converter` that will convert the data to one of the three supported Tiptap formats. 
+
+Styling the output is entirely up to you.
+
+```blade
+{!! tiptap_converter()->asHTML($post->content) !!}
+{!! tiptap_converter()->asJSON($post->content) !!}
+{!! tiptap_converter()->asText($post->content) !!}
+```
+
 ## Config
 
 Publish the config file.
