@@ -5,10 +5,11 @@
 <x-filament-tiptap-editor::button
     action="openModal()"
     active="'link'"
-    label="{{ __('filament-tiptap-editor::editor.link') }}"
+    label="{{ __('filament-tiptap-editor::editor.link.insert_edit') }}"
     icon="link"
     x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
     x-on:unset-link.window="unsetLink();"
+    data-link-button
     x-data="{
         openModal() {
             let link = this.editor().getAttributes('link');

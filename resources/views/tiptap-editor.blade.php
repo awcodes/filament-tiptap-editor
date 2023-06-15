@@ -67,6 +67,14 @@
                 </div>
             @endif
 
+            @if (in_array('table', $tools))
+                <x-filament-tiptap-editor::tools.table-bubble-menu />
+            @endif
+
+            @if (in_array('link', $tools))
+                <x-filament-tiptap-editor::tools.link-bubble-menu />
+            @endif
+
             <div @class([
                 'tiptap-prosemirror-wrapper mx-auto px-4 w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
                 match ($getMaxContentWidth()) {

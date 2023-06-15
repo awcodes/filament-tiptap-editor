@@ -1,4 +1,5 @@
 import {Editor} from "@tiptap/core";
+import {BubbleMenu} from "@tiptap/extension-bubble-menu";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -115,7 +116,7 @@ document.addEventListener("alpine:init", () => {
         updatedAt: Date.now(),
         focused: false,
         locale: locale,
-        getExtensions() {
+        getExtensions(id) {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
                     return tool;
@@ -139,6 +140,33 @@ document.addEventListener("alpine:init", () => {
                                 exts.push(e)
                                 if (!exts.includes(ListItem)) exts.push(ListItem);
                             } else {
+                                if (tool === 'table') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `tableBubbleMenu${id}`,
+                                        element: this.$refs.tableBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                            appendTo: 'parent',
+                                        },
+                                        shouldShow: ({editor}) => {
+                                            return editor.isActive('table');
+                                        }
+                                    }))
+                                }
+
+                                if (tool === 'link') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `linkBubbleMenu${id}`,
+                                        element: this.$refs.linkBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                            appendTo: 'parent',
+                                        },
+                                        shouldShow: ({editor}) => {
+                                            return editor.isActive('link');
+                                        }
+                                    }))
+                                }
                                 exts.push(e)
                             }
                         })
@@ -222,7 +250,7 @@ document.addEventListener("alpine:init", () => {
             let _this = this;
             editors[this.id] = new Editor({
                 element: this.$refs.element,
-                extensions: this.getExtensions(),
+                extensions: this.getExtensions(this.id),
                 editable: ! disabled,
                 content: content,
                 onUpdate({editor}) {

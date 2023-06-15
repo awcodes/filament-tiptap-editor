@@ -57,7 +57,11 @@ return [
     'hr' => 'Horizontal Rule',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',
-    'link' => 'Insert / Edit Link',
+    'link' => [
+        'insert_edit' => 'Insert / Edit Link',
+        'edit' => 'Edit Link',
+        'remove' => 'Remove Link',
+    ],
     'list' => [
         'bulleted' => 'Unordered List',
         'ordered' => 'Ordered List',

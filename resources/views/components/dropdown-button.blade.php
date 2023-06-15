@@ -3,6 +3,7 @@
     'label' => null,
     'icon' => null,
     'indicator' => null,
+    'list' => true,
 ])
 <div
     x-data="{
@@ -27,12 +28,18 @@
 
     <div
         x-ref="panel"
-        x-float.placement.bottom-start.flip
+        x-float.placement.bottom-start.flip.offset
         x-cloak
         class="absolute z-30 overflow-y-scroll text-white bg-gray-800 rounded-md shadow-md max-h-48 top-full"
     >
-        <ul class="text-sm divide-y divide-gray-700 min-w-[144px]">
-            {{ $slot }}
-        </ul>
+        @if ($list)
+            <ul class="text-sm divide-y divide-gray-700 min-w-[144px]">
+                {{ $slot }}
+            </ul>
+        @else
+            <div class="flex gap-1 items-center p-1">
+                {{ $slot }}
+            </div>
+        @endif
     </div>
 </div>
