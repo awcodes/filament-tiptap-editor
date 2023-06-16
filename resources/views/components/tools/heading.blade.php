@@ -1,6 +1,6 @@
 <x-filament-tiptap-editor::dropdown-button
     label="{{ __('filament-tiptap-editor::editor.heading.label') }}"
-    active="'heading'"
+    active="heading"
     icon="heading"
     indicator="editor().isActive('heading', updatedAt) ? editor().getAttributes('heading').level : null"
     :list="false"

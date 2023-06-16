@@ -1,5 +1,4 @@
-import {Editor} from "@tiptap/core";
-import {BubbleMenu} from "@tiptap/extension-bubble-menu";
+import {Editor, isActive} from "@tiptap/core";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -42,7 +41,9 @@ import {
     DetailsSummary,
     DetailsContent,
     CustomCodeBlockLowlight,
-    Hurdle
+    Hurdle,
+    BubbleMenu,
+    FloatingMenu,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString} from "./utils";
@@ -133,6 +134,27 @@ document.addEventListener("alpine:init", () => {
                 let alignments = [];
                 let types = ['paragraph'];
 
+                exts.push(BubbleMenu.configure({
+                    pluginKey: `defaultBubbleMenu${id}`,
+                    element: this.$refs.defaultBubbleMenu,
+                    tippyOptions: {
+                        duration: [500,0],
+                    },
+                    shouldShow: ({state, from, to}) => {
+                        return ! (from === to || isActive(state, 'link') || isActive(state, 'table') || isActive(state, 'image'));
+                    },
+                }))
+
+                if (tools.some((r) => ['media', 'grid', 'details', 'table', 'oembed', 'code-block'].includes(r))) {
+                    exts.push(FloatingMenu.configure({
+                        pluginKey: `defaultFloatingMenu${id}`,
+                        element: this.$refs.defaultFloatingMenu,
+                        tippyOptions: {
+                            duration: [500,0],
+                        }
+                    }))
+                }
+
                 tools.forEach((tool) => {
                     if (keys.includes(tool)) {
                         editorExtensions[tool].forEach((e) => {
@@ -146,10 +168,9 @@ document.addEventListener("alpine:init", () => {
                                         element: this.$refs.tableBubbleMenu,
                                         tippyOptions: {
                                             duration: [500,0],
-                                            appendTo: 'parent',
                                         },
-                                        shouldShow: ({editor}) => {
-                                            return editor.isActive('table');
+                                        shouldShow: ({state}) => {
+                                            return isActive(state, 'table');
                                         }
                                     }))
                                 }
@@ -160,13 +181,13 @@ document.addEventListener("alpine:init", () => {
                                         element: this.$refs.linkBubbleMenu,
                                         tippyOptions: {
                                             duration: [500,0],
-                                            appendTo: 'parent',
                                         },
-                                        shouldShow: ({editor}) => {
-                                            return editor.isActive('link');
+                                        shouldShow: ({state}) => {
+                                            return isActive(state,'link');
                                         }
                                     }))
                                 }
+
                                 exts.push(e)
                             }
                         })

@@ -5,21 +5,32 @@
     'icon' => null,
     'secondary' => false,
 ])
+
+@php
+    if ($active && ! (str_starts_with($active, '{') || str_starts_with($active, '['))) {
+        $active = "'{$active}'";
+    }
+@endphp
+
 <button
     type="button"
     x-on:click="{{ $action }}"
-    x-tooltip="'{{ $label }}'"
     {{ $attributes }}
+    @if ($label)
+        x-tooltip="'{{ $label }}'"
+    @endif
     @class([
-        'tiptap-tool rounded block p-1',
-        'hover:bg-gray-200 focus:bg-gray-200 dark:hover:bg-gray-800 dark:focus:bg-gray-800' => ! $secondary,
-        'hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-700 dark:focus:bg-gray-700' => $secondary,
+        'tiptap-tool rounded block p-1 outline-none ring-1 ring-transparent hover:ring-primary-500 focus:ring-primary-500',
+        'hover:bg-gray-500/20 focus:bg-gray-500/20' => ! $secondary,
+        'hover:bg-gray-500/40 focus:bg-gray-500/40' => $secondary,
     ])
     @if ($active)
-    x-bind:class="{ 'bg-gray-300 text-gray-800 dark:bg-gray-600 dark:text-gray-300': editor().isActive({{ $active }}, updatedAt) && focused }"
+        x-bind:class="{ '!bg-gray-500/30': editor().isActive({{ $active }}, updatedAt) && focused }"
     @endif
 >
     {{ $slot }}
-    <span class="sr-only">{{ $label }}</span>
-    <x-filament-tiptap-editor::icon icon="{{ $icon }}" />
+    @if ($icon)
+        <span class="sr-only">{{ $label }}</span>
+        <x-filament-tiptap-editor::icon icon="{{ $icon }}" />
+    @endif
 </button>

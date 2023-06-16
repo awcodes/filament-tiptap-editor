@@ -10,7 +10,11 @@ return [
     'bold' => 'Bold',
     'code_block' => 'Code Block',
     'code' => 'Inline Code',
-    'color' => 'Color',
+    'color' => [
+        'label' => 'Color',
+        'choose' => 'Choose',
+        'remove' => 'Remove',
+    ],
     'details' => 'Details',
     'erase' => 'Erase All Content',
     'fullscreen' => [

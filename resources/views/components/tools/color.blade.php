@@ -1,11 +1,45 @@
-<div
-    class="relative p-1.5 cursor-pointer rounded hover:bg-gray-200 hover:dark:bg-gray-800"
-    x-tooltip="'{{ __('filament-tiptap-editor::editor.color') }}'">
-    <label>
-        <input type="color"
-            x-on:input="editor().chain().focus().setColor($event.target.value).run()"
-            x-bind:value="editor().getAttributes('textStyle').color || '#000000'"
-            class="block w-4 h-4 border-0 cursor-pointer">
-        <span class="sr-only">Color</span>
-    </label>
-</div>
+<x-filament-tiptap-editor::dropdown-button
+    label="{{ __('filament-tiptap-editor::editor.color.label') }}"
+    active="color"
+    icon="color"
+    :list="false"
+>
+    <div
+        x-data="{
+            state: editor().getAttributes('textStyle').color || '#000000',
+
+            init: function () {
+                if (!(this.state === null || this.state === '')) {
+                    this.setState(this.state)
+                }
+            },
+
+            setState: function (value) {
+                this.state = value
+            }
+        }"
+        x-on:keydown.esc="isOpen() && $event.stopPropagation()"
+        class="relative flex-1 p-1"
+    >
+        <hex-color-picker x-bind:color="state"></hex-color-picker>
+
+        <div class="w-full flex gap-2 mt-2">
+            <x-filament-support::button
+                x-on:click="editor().chain().focus().setColor(state).run(); $dispatch('close-panel')"
+                size="sm"
+                class="flex-1"
+            >
+                {{ __('filament-tiptap-editor::editor.color.choose') }}
+            </x-filament-support::button>
+
+            <x-filament-support::button
+                x-on:click="editor().chain().focus().unsetColor().run(); $dispatch('close-panel')"
+                size="sm"
+                class="flex-1"
+                color="danger"
+            >
+                {{ __('filament-tiptap-editor::editor.color.remove') }}
+            </x-filament-support::button>
+        </div>
+    </div>
+</x-filament-tiptap-editor::dropdown-button>

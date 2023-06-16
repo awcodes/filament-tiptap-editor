@@ -68,27 +68,30 @@
             @endif
 
             @if (in_array('table', $tools))
-                <x-filament-tiptap-editor::tools.table-bubble-menu />
+                <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
             @endif
 
             @if (in_array('link', $tools))
-                <x-filament-tiptap-editor::tools.link-bubble-menu />
+                <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
             @endif
 
+            <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
+            <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$tools"/>
+
             <div @class([
-                'tiptap-prosemirror-wrapper mx-auto px-4 w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
+                'tiptap-prosemirror-wrapper mx-auto w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
                 match ($getMaxContentWidth()) {
-                    'sm' => 'max-w-sm',
-                    'md' => 'max-w-md',
-                    'lg' => 'max-w-lg',
-                    'xl' => 'max-w-xl',
-                    '2xl' => 'max-w-2xl',
-                    '3xl' => 'max-w-3xl',
-                    '4xl' => 'max-w-4xl',
-                    '6xl' => 'max-w-6xl',
-                    '7xl' => 'max-w-7xl',
-                    'full' => 'max-w-none',
-                    default => 'max-w-5xl',
+                    'sm' => 'prosemirror-w-sm',
+                    'md' => 'prosemirror-w-md',
+                    'lg' => 'prosemirror-w-lg',
+                    'xl' => 'prosemirror-w-xl',
+                    '2xl' => 'prosemirror-w-2xl',
+                    '3xl' => 'prosemirror-w-3xl',
+                    '4xl' => 'prosemirror-w-4xl',
+                    '6xl' => 'prosemirror-w-6xl',
+                    '7xl' => 'prosemirror-w-7xl',
+                    'full' => 'prosemirror-w-none',
+                    default => 'prosemirror-w-5xl',
                 }
             ])>
                 <div

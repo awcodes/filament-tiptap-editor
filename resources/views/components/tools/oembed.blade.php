@@ -4,7 +4,7 @@
 
 <x-filament-tiptap-editor::button
         action="openModal()"
-        active="'oembed'"
+        active="oembed"
         label="{{ __('filament-tiptap-editor::editor.video.oembed') }}"
         icon="oembed"
         x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"

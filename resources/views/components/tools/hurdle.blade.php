@@ -4,7 +4,7 @@
 
 <x-filament-tiptap-editor::dropdown-button
         label="{{ __('filament-tiptap-editor::editor.hurdle.label') }}"
-        active="'hurdle'"
+        active="hurdle"
         icon="hurdle"
 >
     @foreach($colors as $color)

@@ -14,7 +14,7 @@
     action="openModal()"
     x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
     label="{{ __('filament-tiptap-editor::editor.media') }}"
-    active="'image'"
+    active="image"
     icon="media"
     x-data="{
         openModal() {

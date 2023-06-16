@@ -14,3 +14,5 @@ export { DetailsContent } from "./Details/DetailsContent";
 export { CustomCodeBlockLowlight } from "./CodeBlock";
 export { Hurdle } from "./Hurdle";
 export { CustomTextAlign } from "./CustomTextAlign";
+export { BubbleMenu } from "./BubbleMenu";
+export { FloatingMenu } from "./FloatingMenu";

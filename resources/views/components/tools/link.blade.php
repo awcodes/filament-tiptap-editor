@@ -1,12 +1,19 @@
 @props([
     'statePath' => null,
+    'icon' => 'link',
+    'label' => __('filament-tiptap-editor::editor.link.insert_edit'),
+    'active' => true,
 ])
+
+@php
+    $useActive = $active ? 'link' : false;
+@endphp
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    active="'link'"
-    label="{{ __('filament-tiptap-editor::editor.link.insert_edit') }}"
-    icon="link"
+    :active="$useActive"
+    :label="$label"
+    :icon="$icon"
     x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
     x-on:unset-link.window="unsetLink();"
     data-link-button

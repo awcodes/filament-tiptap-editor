@@ -1,3 +1,8 @@
+@props([
+    'statePath' => null,
+    'tools' => [],
+])
+
 <div x-ref="tableBubbleMenu" class="flex gap-1 items-center" x-cloak>
     <x-filament-tiptap-editor::button
         action="editor().chain().focus().addColumnBefore().run()"

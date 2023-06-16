@@ -1,6 +1,6 @@
 <x-filament-tiptap-editor::dropdown-button
     label="{{ __('filament-tiptap-editor::editor.grid.label') }}"
-    active="'grid'"
+    active="grid"
     icon="grid"
 >
     <x-filament-tiptap-editor::dropdown-button-item

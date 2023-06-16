@@ -17,12 +17,6 @@
 
     .tiptap-prosemirror-wrapper {
         max-height: 100%;
-    }
-
-    .tiptap-content {
-        flex: 1 1 0;
-        overflow-y: scroll;
-        max-height: 100% !important;
         padding-block-end: 3rem;
     }
 }
@@ -256,10 +250,8 @@
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
     }
 
@@ -484,10 +476,8 @@
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
     }
 
@@ -582,10 +572,8 @@
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
 
         iframe {
@@ -631,6 +619,20 @@
             }
         }
     }
+}
+
+.tiptap-prosemirror-wrapper {
+    &.prosemirror-w-sm { padding: 0 calc((100% - theme('maxWidth.sm')) / 2); }
+    &.prosemirror-w-md { padding: 0 calc((100% - theme('maxWidth.md')) / 2); }
+    &.prosemirror-w-lg { padding: 0 calc((100% - theme('maxWidth.lg')) / 2); }
+    &.prosemirror-w-xl { padding: 0 calc((100% - theme('maxWidth.xl')) / 2); }
+    &.prosemirror-w-2xl { padding: 0 calc((100% - theme('maxWidth.2xl')) / 2); }
+    &.prosemirror-w-3xl { padding: 0 calc((100% - theme('maxWidth.3xl')) / 2); }
+    &.prosemirror-w-4xl { padding: 0 calc((100% - theme('maxWidth.4xl')) / 2); }
+    &.prosemirror-w-5xl { padding: 0 calc((100% - theme('maxWidth.5xl')) / 2); }
+    &.prosemirror-w-6xl { padding: 0 calc((100% - theme('maxWidth.6xl')) / 2); }
+    &.prosemirror-w-7xl { padding: 0 calc((100% - theme('maxWidth.7xl')) / 2); }
+    &.prosemirror-w-none { padding: 0 theme('padding.4'); }
 }
 
 .dark {
@@ -826,5 +828,5 @@
 }
 
 .filament-tiptap-editor-source-modal textarea {
-    font-family: theme("fontFamily.mono");
+    font-family: theme("fontFamily.mono") monospace;
 }
