@@ -36,6 +36,11 @@
                 locale: '{{ app()->getLocale() }}',
             })"
             x-on:keydown.escape="fullScreenMode = false"
+            x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
+            x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"
+            x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
+            x-on:unset-link.window="$event.detail.statePath === '{{ $statePath }}' ? unsetLink() : null"
+            x-on:insert-source.window="$event.detail.statePath === '{{ $statePath }}' ? insertSource($event.detail.source) : null"
             x-trap.noscroll="fullScreenMode"
         >
 

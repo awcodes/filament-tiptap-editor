@@ -18,9 +18,9 @@ class SourceAction extends Action
     {
         parent::setUp();
 
-        $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
+        $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
             return $form->fill([
-                'source' => app('tiptap-converter')->asHTML($component->getState())
+                'source' => $arguments['html']
             ]);
         });
 

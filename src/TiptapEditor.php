@@ -95,12 +95,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
         $this->registerListeners([
             'tiptap::setSourceContent' => [
-                function (TiptapEditor $component, string $statePath): void {
+                function (TiptapEditor $component, string $statePath, string $html): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
                         return;
                     }
 
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source');
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source', ['html' => $html]);
                 },
             ],
             'tiptap::setVimeoContent' => [

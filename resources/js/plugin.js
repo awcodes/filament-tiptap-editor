@@ -141,7 +141,7 @@ document.addEventListener("alpine:init", () => {
                         duration: [500,0],
                     },
                     shouldShow: ({state, from, to}) => {
-                        return ! (from === to || isActive(state, 'link') || isActive(state, 'table') || isActive(state, 'image'));
+                        return ! (from === to || isActive(state, 'link') || isActive(state, 'table') || isActive(state, 'image') || isActive(state, 'oembed'));
                     },
                 }))
 
@@ -295,5 +295,98 @@ document.addEventListener("alpine:init", () => {
                 },
             });
         },
+        insertMedia(media) {
+            if (Array.isArray(media)) {
+                media.forEach((item) => {
+                    this.executeMediaInsert(item);
+                });
+            } else {
+                this.executeMediaInsert(media);
+            }
+        },
+        executeMediaInsert(media = null) {
+            if (! media || media?.url === null) {
+                return;
+            }
+
+            if (media) {
+                const src = media?.url || media?.src;
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+
+                if (imageTypes.includes(src.split('.').pop())) {
+                    this.editor()
+                        .chain()
+                        .focus()
+                        .setImage({
+                            src: src,
+                            alt: media?.alt,
+                            title: media?.title,
+                            width: media?.width,
+                            height: media?.height,
+                        })
+                        .run();
+                } else {
+                    this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
+                }
+            }
+        },
+        insertVideo(video) {
+            if (! video || video.url === null) {
+                return;
+            }
+
+            if (video.embed_type === 'youtube') {
+                this.editor().chain().focus().setYoutubeVideo({
+                    src: video.url,
+                    width: video.width ?? 640,
+                    height: video.height ?? 480,
+                    responsive: video.responsive ?? true,
+                }).run();
+            } else {
+                this.editor().chain().focus().setVimeoVideo({
+                    src: video.url,
+                    width: video.width ?? 640,
+                    height: video.height ?? 480,
+                    autoplay: video.autoplay ? 1 : 0,
+                    loop: video.loop ? 1 : 0,
+                    title: video.show_title ? 1 : 0,
+                    byline: video.byline ? 1 : 0,
+                    portrait: video.portrait ? 1 : 0,
+                    responsive: video.responsive ?? true,
+                }).run();
+            }
+        },
+        insertLink(link) {
+            if (link.href === null) {
+                return;
+            }
+
+            if (link.href === '') {
+                this.unsetLink();
+                return;
+            }
+
+            this.editor()
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({
+                    href: link.href,
+                    target: link.target ?? null,
+                    hreflang: link.hreflang ?? null,
+                    rel: link.rel.length ? link.rel.join(' ') : null,
+                    as_button: !!link.as_button,
+                    button_theme: link.button_theme ?? '',
+                    class: link.as_button ? `btn btn-${link.button_theme}` : null
+                })
+                .selectTextblockEnd()
+                .run();
+        },
+        insertSource(source) {
+            this.editor().commands.setContent(source, {emitUpdate: true});
+        },
+        unsetLink() {
+            this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
+        }
     }));
 });

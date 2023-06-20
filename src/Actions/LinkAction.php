@@ -94,16 +94,15 @@ class LinkAction extends Action
             $component->state($component->getState());
         });
 
-        $this->modalActions(array_merge(
-            $this->getModalActions(),
-            [
+        $this->extraModalActions(function (TiptapEditor $component) {
+            return [
                 \Filament\Forms\Components\Actions\Modal\Actions\Action::make('remove_link')
                     ->color('danger')
                     ->extraAttributes([
-                        'x-on:click' => '$dispatch(\'unset-link\'); close()',
+                        'x-on:click' => '$dispatch(\'unset-link\', {statePath: \'' . $component->getStatePath() . '\'}); close()',
                         'style' => 'margin-left: auto;'
                     ])
-            ],
-        ));
+            ];
+        });
     }
 }

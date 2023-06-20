@@ -42,7 +42,7 @@ class Grid extends Node
             [
                 'tag' => 'div',
                 'getAttrs' => function ($DOMNode) {
-                    return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-grid') && null;
+                    return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-grid');
                 },
             ],
         ];
