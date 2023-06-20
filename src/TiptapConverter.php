@@ -31,7 +31,9 @@ class TiptapConverter
     public function getExtensions(): array
     {
         return [
-            new StarterKit(),
+            new StarterKit([
+                'paragraph' => false,
+            ]),
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),

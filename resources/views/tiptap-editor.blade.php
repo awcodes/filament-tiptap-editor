@@ -67,16 +67,21 @@
                 </div>
             @endif
 
-            @if (in_array('table', $tools))
+            @if (in_array('table', $tools) && ! $isBubbleMenusDisabled())
                 <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
             @endif
 
-            @if (in_array('link', $tools))
+            @if (in_array('link', $tools) && ! $isBubbleMenusDisabled())
                 <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
             @endif
 
-            <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
-            <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$tools"/>
+            @if (! $isBubbleMenusDisabled())
+                <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
+            @endif
+
+            @if (! $isFloatingMenusDisabled())
+                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$tools"/>
+            @endif
 
             <div @class([
                 'tiptap-prosemirror-wrapper mx-auto w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',

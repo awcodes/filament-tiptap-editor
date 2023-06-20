@@ -45,10 +45,15 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected array $extensions = [];
 
+    protected bool|null $shouldShowFloatingMenus = null;
+
+    protected bool|null $shouldShowBubbleMenus = null;
+
     protected null | string | Closure $maxContentWidth = null;
 
     /**
      * @throws InvalidOutputFormatException|BindingResolutionException
+     * @throws \Exception
      */
     protected function setUp(): void
     {
@@ -224,6 +229,20 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    public function disableFloatingMenus(bool|Closure $condition = true): static
+    {
+        $this->shouldShowFloatingMenus = $condition;
+
+        return $this;
+    }
+
+    public function disableBubbleMenus(bool|Closure $condition = true): static
+    {
+        $this->shouldShowBubbleMenus = $condition;
+
+        return $this;
+    }
+
     public function getTools(): array
     {
         $extensions = collect($this->extensions);
@@ -267,6 +286,16 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->maxContentWidth
             ? $this->evaluate($this->maxContentWidth)
             : config('filament-tiptap-editor.max_content_width');
+    }
+
+    public function isFloatingMenusDisabled(): bool
+    {
+        return $this->evaluate($this->shouldShowFloatingMenus) ?? config('filament-tiptap-editor.disable_floating_menus');
+    }
+
+    public function isBubbleMenusDisabled(): bool
+    {
+        return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
     }
 
     /**

@@ -180,6 +180,23 @@ TiptapEditor::make('barebone')
     ->extraInputAttributes(['style' => 'min-height: 12rem;']),
 ```
 
+## Bubble and Floating Menus
+
+By default, the editor uses Bubble and Floating menus to help with creating content in line so you don't have to use the toolbar. If you'd prefer to not use the menus you can disable them on a per-instance basis or globally in the config file.
+
+```php
+TiptapEditor::make('content')
+    ->disableFloatingMenus()
+    ->disableBubbleMenus();
+```
+    
+```php
+[
+    'disable_floating_menus' => true,
+    'disable_bubble_menus' => true,
+    ...
+]
+```
 ## Usage in Standalone Forms Package
 
 1. Publish the JS/CSS assets

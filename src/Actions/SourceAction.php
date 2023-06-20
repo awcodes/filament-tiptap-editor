@@ -20,7 +20,7 @@ class SourceAction extends Action
 
         $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
             return $form->fill([
-                'source' => $component->getState()
+                'source' => app('tiptap-converter')->asHTML($component->getState())
             ]);
         });
 
