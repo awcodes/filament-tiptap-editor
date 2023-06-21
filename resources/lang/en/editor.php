@@ -36,6 +36,9 @@ return [
         'asymmetric_left_fourths' => 'Asymmetric Left - Fourths',
         'asymmetric_right_fourths' => 'Asymmetric Right - Fourths',
     ],
+    'grid-builder' => [
+        'label' => 'Grid Builder',
+    ],
     'heading' => [
         'label' => 'Heading',
         'h1' => 'Heading 1',

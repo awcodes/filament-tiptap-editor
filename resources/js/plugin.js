@@ -35,6 +35,8 @@ import {
     Small,
     Grid,
     GridColumn,
+    GridBuilder,
+    GridBuilderColumn,
     Youtube,
     Vimeo,
     Details,
@@ -63,6 +65,7 @@ let editorExtensions = {
     color: [Color, TextStyle],
     details: [Details, DetailsSummary, DetailsContent],
     grid: [Grid, GridColumn],
+    'grid-builder': [GridBuilder, GridBuilderColumn],
     heading: [Heading.configure({levels: [1, 2, 3, 4, 5, 6]})],
     highlight: [Highlight],
     hr: [HorizontalRule],
@@ -141,11 +144,17 @@ document.addEventListener("alpine:init", () => {
                         duration: [500,0],
                     },
                     shouldShow: ({state, from, to}) => {
-                        return ! (from === to || isActive(state, 'link') || isActive(state, 'table') || isActive(state, 'image') || isActive(state, 'oembed'));
+                        return ! (
+                            from === to ||
+                            isActive(state, 'link') ||
+                            isActive(state, 'table') ||
+                            isActive(state, 'image') ||
+                            isActive(state, 'oembed')
+                        );
                     },
                 }))
 
-                if (tools.some((r) => ['media', 'grid', 'details', 'table', 'oembed', 'code-block'].includes(r))) {
+                if (tools.some((r) => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block'].includes(r))) {
                     exts.push(FloatingMenu.configure({
                         pluginKey: `defaultFloatingMenu${id}`,
                         element: this.$refs.defaultFloatingMenu,
@@ -387,6 +396,27 @@ document.addEventListener("alpine:init", () => {
         },
         unsetLink() {
             this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
+        },
+        insertGridBuilder(grid) {
+            let type = 'responsive';
+            const asymmetricLeft = parseInt(grid.asymmetric_left) ?? null;
+            const asymmetricRight = parseInt(grid.asymmetric_right) ?? null;
+
+            if (grid.fixed) {
+                type = 'fixed';
+            }
+
+            if (grid.asymmetric) {
+                type = 'asymmetric';
+            }
+
+            this.editor().chain().focus().insertGridBuilder({
+                cols: grid.columns,
+                type,
+                stackAt: grid.stack_at,
+                asymmetricLeft,
+                asymmetricRight
+            }).run();
         }
     }));
 });

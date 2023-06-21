@@ -41,6 +41,7 @@
             x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
             x-on:unset-link.window="$event.detail.statePath === '{{ $statePath }}' ? unsetLink() : null"
             x-on:insert-source.window="$event.detail.statePath === '{{ $statePath }}' ? insertSource($event.detail.source) : null"
+            x-on:insert-grid-builder.window="$event.detail.statePath === '{{ $statePath }}' ? insertGridBuilder($event.detail.data) : null"
             x-trap.noscroll="fullScreenMode"
         >
 

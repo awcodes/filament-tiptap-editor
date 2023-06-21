@@ -321,18 +321,26 @@
         cursor: col-resize;
     }
 
+    pre {
+        padding: .75rem 1rem;
+        border-radius: .25rem;
+        font-size: .875rem;
+    }
+
     code:not([class*="language-"]) {
         background-color: theme("colors.gray.300");
         border-radius: 0.25rem;
         padding-inline: 0.25rem;
     }
 
-    .filament-tiptap-grid {
+    .filament-tiptap-grid,
+    .filament-tiptap-grid-builder {
         display: grid;
         gap: 1rem;
         box-sizing: border-box;
 
-        .filament-tiptap-grid__column {
+        .filament-tiptap-grid__column,
+        .filament-tiptap-grid-builder__column {
             box-sizing: border-box;
             border-style: dashed;
             border-width: 1px;
@@ -352,12 +360,39 @@
         }
     }
 
-    .filament-tiptap-grid[type="asymetric-right-thirds"],
-    .filament-tiptap-grid[type="asymetric-left-thirds"],
-    .filament-tiptap-grid[type="asymetric-left-fourths"],
-    .filament-tiptap-grid[type="asymetric-left-fourths"] {
+    .filament-tiptap-grid[type^="asymetric"] {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+    }
+
+    @media (max-width: theme('screens.sm')) {
+        .filament-tiptap-grid-builder[data-stack-at="sm"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.md')) {
+        .filament-tiptap-grid-builder[data-stack-at="md"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.lg')) {
+        .filament-tiptap-grid-builder[data-stack-at="lg"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
     }
 
     .filament-tiptap-grid[type="asymetric-right-thirds"] {
@@ -374,9 +409,7 @@
 
     .filament-tiptap-grid[type="asymetric-right-fourths"] {
         @screen md {
-            @screen md {
-                grid-template-columns: 1fr 3fr;
-            }
+            grid-template-columns: 1fr 3fr;
         }
     }
 
