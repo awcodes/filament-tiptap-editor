@@ -47,6 +47,8 @@ class TiptapConverter
             new Nodes\DetailsContent(),
             new Nodes\Grid(),
             new Nodes\GridColumn(),
+            new Nodes\GridBuilder(),
+            new Nodes\GridBuilderColumn(),
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Hurdle(),
