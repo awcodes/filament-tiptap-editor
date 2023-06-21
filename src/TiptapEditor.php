@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
+use Exception;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
@@ -52,9 +53,11 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected null | string | Closure $maxContentWidth = null;
 
+    protected array | Closure | null $floatingMenuTools = null;
+
     /**
      * @throws InvalidOutputFormatException|BindingResolutionException
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -254,6 +257,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
+    public function floatingMenuTools(array | Closure $tools): static
+    {
+        $this->floatingMenuTools = $tools;
+
+        return $this;
+    }
+
     public function getTools(): array
     {
         $extensions = collect($this->extensions);
@@ -309,6 +319,11 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
     }
 
+    public function getFloatingMenuTools(): array
+    {
+        return $this->evaluate($this->floatingMenuTools) ?? config('filament-tiptap-editor.floating_menu_tools');
+    }
+
     /**
      * @throws InvalidOutputFormatException
      */
@@ -332,22 +347,16 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     public function getHTML(): string
     {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getHtml();
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asHTML($this->getState());
     }
 
     public function getText(): string
     {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getText();
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asText($this->getState());
     }
 
     public function getJSON(): string
     {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getJSON();
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asJSON($this->getState());
     }
 }

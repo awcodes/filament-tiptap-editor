@@ -56,7 +56,6 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
     {
         return [
             'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',
-            'plugin-tiptap-hljs-theme-' . static::$version => __DIR__ . '/../resources/dist/night-owl.css',
         ];
     }
 

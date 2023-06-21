@@ -1,3 +1,5 @@
+@import './night-owl.css';
+
 @tailwind utilities;
 
 .tiptap-wrapper.tiptap-fullscreen {
@@ -203,14 +205,14 @@
     }
 
     blockquote {
-        border-left: 0.25rem solid theme("colors.gray.300");
+        border-left: 0.25rem solid theme("colors.gray.400");
         padding-inline-start: 0.5rem;
         margin-inline-start: 1rem;
         font-size: 1.25rem;
     }
 
     hr {
-        border-color: theme("colors.gray.300");
+        border-color: theme("colors.gray.400");
     }
 
     a {
@@ -267,7 +269,7 @@
 
     table td,
     table th {
-        border: 1px solid theme("colors.gray.300");
+        border: 1px solid theme("colors.gray.400");
         min-width: 1em;
         padding: 3px 5px;
         vertical-align: top;
@@ -327,10 +329,14 @@
         font-size: .875rem;
     }
 
-    code:not([class*="language-"]) {
+    code {
         background-color: theme("colors.gray.300");
         border-radius: 0.25rem;
         padding-inline: 0.25rem;
+    }
+
+    pre.hljs code {
+        background-color: transparent;
     }
 
     .filament-tiptap-grid,
@@ -344,7 +350,7 @@
             box-sizing: border-box;
             border-style: dashed;
             border-width: 1px;
-            border-color: theme("colors.gray.300");
+            border-color: theme("colors.gray.400");
             padding: 0.5rem;
             border-radius: theme("borderRadius.DEFAULT");
 
@@ -489,7 +495,7 @@
         box-sizing: border-box;
         border-style: dashed;
         border-width: 1px;
-        border-color: theme("colors.gray.300");
+        border-color: theme("colors.gray.400");
         border-radius: theme("borderRadius.DEFAULT");
         position: relative;
 
@@ -539,7 +545,7 @@
             color: theme("colors.blue.400");
         }
 
-        code:not([class*="language-"]) {
+        code {
             background-color: theme("colors.gray.800");
         }
 
@@ -559,18 +565,18 @@
             }
 
             &.ProseMirror-selectednode {
-                outline-color: theme("colors.gray.300");
+                outline-color: theme("colors.gray.400");
             }
         }
 
         img.ProseMirror-selectednode {
-            outline-color: theme("colors.gray.300");
+            outline-color: theme("colors.gray.400");
         }
 
         [data-youtube-video],
         [data-vimeo-video] {
             &.ProseMirror-selectednode {
-                outline-color: theme("colors.gray.300");
+                outline-color: theme("colors.gray.400");
             }
         }
 

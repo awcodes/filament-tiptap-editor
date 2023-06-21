@@ -182,7 +182,7 @@ TiptapEditor::make('barebone')
 
 ## Bubble and Floating Menus
 
-By default, the editor uses Bubble and Floating menus to help with creating content in line so you don't have to use the toolbar. If you'd prefer to not use the menus you can disable them on a per-instance basis or globally in the config file.
+By default, the editor uses Bubble and Floating menus to help with creating content inline, so you don't have to use the toolbar. If you'd prefer to not use the menus you can disable them on a per-instance basis or globally in the config file.
 
 ```php
 TiptapEditor::make('content')
@@ -197,6 +197,21 @@ TiptapEditor::make('content')
     ...
 ]
 ```
+
+You can also provide you own tools to for the floating menu, should you choose. Defaults can be overwritten via the config file.
+
+```php
+TiptapEditor::make('content')
+    ->floatingMenuTools(['grid-builder', 'media', 'link'])
+```
+
+```php
+[
+    ...
+    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
+]
+```
+
 ## Usage in Standalone Forms Package
 
 1. Publish the JS/CSS assets
@@ -207,7 +222,7 @@ php artisan vendor:publish --tag="filament-tiptap-editor-assets"
 
 2. Include the CSS files in your page / layout
 2. Include the JS files in your page / layout before Filament's scripts
-3. Include a `@stack('modals')` in your page / layout if it doesn't exist
+2. Include a `@stack('modals')` in your page / layout if it doesn't exist
 
 ## Theming
 

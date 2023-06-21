@@ -110,6 +110,7 @@ document.addEventListener("alpine:init", () => {
         output = 'html',
         disabled = false,
         locale = 'en',
+        floatingMenuTools = [],
     }) => ({
         id: null,
         tools: tools,
@@ -120,6 +121,7 @@ document.addEventListener("alpine:init", () => {
         updatedAt: Date.now(),
         focused: false,
         locale: locale,
+        floatingMenuTools: floatingMenuTools,
         getExtensions(id) {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
@@ -154,7 +156,7 @@ document.addEventListener("alpine:init", () => {
                     },
                 }))
 
-                if (tools.some((r) => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block'].includes(r))) {
+                if (this.floatingMenuTools.length) {
                     exts.push(FloatingMenu.configure({
                         pluginKey: `defaultFloatingMenu${id}`,
                         element: this.$refs.defaultFloatingMenu,
@@ -162,6 +164,12 @@ document.addEventListener("alpine:init", () => {
                             duration: [500,0],
                         }
                     }))
+
+                    this.floatingMenuTools.forEach((tool) => {
+                        if (! tools.includes(tool)) {
+                            tools.push(tool);
+                        }
+                    });
                 }
 
                 tools.forEach((tool) => {

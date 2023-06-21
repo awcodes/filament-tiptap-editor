@@ -1,5 +1,6 @@
 @php
     $tools = $getTools();
+    $floatingMenuTools = $getFloatingMenuTools();
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
 @endphp
@@ -34,6 +35,7 @@
                 output: '{{ $getOutput() }}',
                 disabled: {{ $isDisabled ? 'true' : 'false' }},
                 locale: '{{ app()->getLocale() }}',
+                floatingMenuTools: @js($floatingMenuTools),
             })"
             x-on:keydown.escape="fullScreenMode = false"
             x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
@@ -85,8 +87,8 @@
                 <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
             @endif
 
-            @if (! $isFloatingMenusDisabled())
-                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$tools"/>
+            @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
+                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools"/>
             @endif
 
             <div @class([
