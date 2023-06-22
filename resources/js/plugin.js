@@ -46,6 +46,7 @@ import {
     Hurdle,
     BubbleMenu,
     FloatingMenu,
+    Video,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString} from "./utils";
@@ -82,7 +83,7 @@ let editorExtensions = {
         },
     })],
     media: [CustomImage.configure({inline: true})],
-    oembed: [Youtube, Vimeo],
+    oembed: [Youtube, Vimeo, Video],
     'ordered-list': [OrderedList],
     small: [Small],
     strike: [Strike],
@@ -153,7 +154,8 @@ document.addEventListener("alpine:init", () => {
                             isActive(state, 'image') ||
                             isActive(state, 'oembed') ||
                             isActive(state, 'vimeo') ||
-                            isActive(state, 'youtube')
+                            isActive(state, 'youtube') ||
+                            isActive(state, 'video')
                         );
                     },
                 }))
@@ -234,7 +236,8 @@ document.addEventListener("alpine:init", () => {
             document.addEventListener("dblclick", function (e) {
                 if (
                     e.target && (e.target.hasAttribute("data-youtube-video") ||
-                    e.target.hasAttribute("data-vimeo-video"))
+                    e.target.hasAttribute("data-vimeo-video")) ||
+                    e.target.hasAttribute("data-native-video")
                 ) {
                     e.target.firstChild.style.pointerEvents = "all";
                 }
@@ -354,24 +357,37 @@ document.addEventListener("alpine:init", () => {
                 return;
             }
 
-            if (video.embed_type === 'youtube') {
+            let commonOptions = {
+                src: video.url,
+                width: video.responsive ? video.width * 100 : video.width,
+                height: video.responsive ? video.height * 100 : video.height,
+                responsive: video.responsive ?? true,
+                'data-aspect-width': video.width,
+                'data-aspect-height': video.height,
+            }
+
+            if (video.url.includes('youtube') || video.url.includes('youtu.be')) {
                 this.editor().chain().focus().setYoutubeVideo({
-                    src: video.url,
-                    width: video.width ?? 640,
-                    height: video.height ?? 480,
-                    responsive: video.responsive ?? true,
+                    ...commonOptions,
+                    controls: video.youtube_options.includes('controls'),
+                    nocookie: video.youtube_options.includes('nocookie'),
+                    start: video.start_at ?? 0,
+                }).run();
+            } else if (video.url.includes('vimeo')) {
+                this.editor().chain().focus().setVimeoVideo({
+                    ...commonOptions,
+                    autoplay: video.vimeo_options.includes('autoplay'),
+                    loop: video.vimeo_options.includes('loop'),
+                    title: video.vimeo_options.includes('show_title'),
+                    byline: video.vimeo_options.includes('byline'),
+                    portrait: video.vimeo_options.includes('portrait'),
                 }).run();
             } else {
-                this.editor().chain().focus().setVimeoVideo({
-                    src: video.url,
-                    width: video.width ?? 640,
-                    height: video.height ?? 480,
-                    autoplay: video.autoplay ? 1 : 0,
-                    loop: video.loop ? 1 : 0,
-                    title: video.show_title ? 1 : 0,
-                    byline: video.byline ? 1 : 0,
-                    portrait: video.portrait ? 1 : 0,
-                    responsive: video.responsive ?? true,
+                this.editor().chain().focus().setVideo({
+                    ...commonOptions,
+                    autoplay: video.native_options.includes('autoplay'),
+                    loop: video.native_options.includes('loop'),
+                    controls: video.native_options.includes('controls'),
                 }).run();
             }
         },

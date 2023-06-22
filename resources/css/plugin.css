@@ -477,7 +477,8 @@
     }
 
     [data-youtube-video],
-    [data-vimeo-video] {
+    [data-vimeo-video],
+    [data-native-video] {
         border: dashed 1px transparent;
 
         &.ProseMirror-selectednode {
@@ -486,7 +487,8 @@
             outline: theme("colors.gray.900") dashed 2px;
         }
 
-        iframe {
+        iframe,
+        video {
             pointer-events: none;
         }
     }
@@ -574,7 +576,8 @@
         }
 
         [data-youtube-video],
-        [data-vimeo-video] {
+        [data-vimeo-video],
+        [data-native-video] {
             &.ProseMirror-selectednode {
                 outline-color: theme("colors.gray.400");
             }

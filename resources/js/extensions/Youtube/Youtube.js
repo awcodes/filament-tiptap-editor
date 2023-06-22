@@ -14,10 +14,7 @@ export const Youtube = Node.create({
   addOptions() {
     return {
       inline: false,
-      controls: true,
       HTMLAttributes: {},
-      nocookie: false,
-      allowFullscreen: false,
       width: 640,
       height: 480,
     };
@@ -40,9 +37,6 @@ export const Youtube = Node.create({
       src: {
         default: null,
       },
-      start: {
-        default: 0,
-      },
       width: {
         default: this.options.width,
         parseHTML: (element) => element.getAttribute("width"),
@@ -54,13 +48,22 @@ export const Youtube = Node.create({
       responsive: {
         default: true,
       },
-      aspectWidth: {
-        default: 16,
-        parseHTML: (element) => element.getAttribute("aspect-width"),
+      start: {
+        default: 0,
       },
-      aspectHeight: {
-        default: 9,
-        parseHTML: (element) => element.getAttribute("aspect-height"),
+      controls: {
+        default: true,
+      },
+      nocookie: {
+        default: false,
+      },
+      'data-aspect-width': {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-aspect-width"),
+      },
+      'data-aspect-height': {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-aspect-height"),
       },
     };
   },
@@ -93,8 +96,8 @@ export const Youtube = Node.create({
   renderHTML({ HTMLAttributes }) {
     const embedUrl = getEmbedURLFromYoutubeURL({
       url: HTMLAttributes.src,
-      controls: this.options.controls,
-      nocookie: this.options.nocookie,
+      controls: HTMLAttributes.controls,
+      nocookie: HTMLAttributes.nocookie,
       startAt: HTMLAttributes.start || 0,
     });
 
@@ -103,15 +106,15 @@ export const Youtube = Node.create({
       { "data-youtube-video": "", class: HTMLAttributes.responsive ? "responsive" : null },
       [
         "iframe",
-        mergeAttributes(this.options.HTMLAttributes, {
+        {
           src: embedUrl,
-          width: this.options.width,
-          height: this.options.height,
+          width: HTMLAttributes.width,
+          height: HTMLAttributes.height,
           allowfullscreen: this.options.allowFullscreen,
-          style: HTMLAttributes.responsive ? `aspect-ratio: ${HTMLAttributes.aspectWidth} / ${HTMLAttributes.aspectHeight}; width: 100%; height: auto;` : null,
-          aspectWidth: HTMLAttributes.responsive ? HTMLAttributes.aspectWidth : HTMLAttributes.width,
-          aspectHeight: HTMLAttributes.responsive ? HTMLAttributes.aspectHeight : HTMLAttributes.height,
-        }),
+          style: HTMLAttributes.responsive ? `aspect-ratio: ${HTMLAttributes['data-aspect-width']} / ${HTMLAttributes['data-aspect-height']}; width: 100%; height: auto;` : null,
+          'data-aspect-width': HTMLAttributes.responsive ? HTMLAttributes['data-aspect-width'] : null,
+          'data-aspect-height': HTMLAttributes.responsive ? HTMLAttributes['data-aspect-height'] : null,
+        },
       ],
     ];
   },

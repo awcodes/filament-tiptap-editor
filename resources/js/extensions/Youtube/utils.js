@@ -37,6 +37,8 @@ export const getEmbedURLFromYoutubeURL = (options) => {
 
   if (!controls) {
     params.push("controls=0");
+  } else {
+    params.push("controls=1");
   }
 
   if (startAt) {

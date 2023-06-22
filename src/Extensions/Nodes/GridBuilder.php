@@ -56,7 +56,7 @@ class GridBuilder extends Node
             [
                 'tag' => 'div',
                 'getAttrs' => function ($DOMNode) {
-                    return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-grid-builder');
+                    return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-grid-builder') && ! str_contains($DOMNode->getAttribute('class'), '__column');
                 },
             ],
         ];

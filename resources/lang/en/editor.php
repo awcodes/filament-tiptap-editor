@@ -108,6 +108,6 @@ return [
     'video' => [
         'youtube' => 'Insert YouTube Video',
         'vimeo' => 'Insert Vimeo Video',
-        'oembed' => 'Insert OEmbed'
+        'oembed' => 'Insert Video',
     ],
 ];

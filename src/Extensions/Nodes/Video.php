@@ -5,15 +5,19 @@ namespace FilamentTiptapEditor\Extensions\Nodes;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;
 
-class Vimeo extends Node
+class Video extends Node
 {
-    public static $name = 'vimeo';
+    public static $name = 'video';
 
     public function addOptions(): array
     {
         return [
             'inline' => false,
-            'HTMLAttributes' => [],
+            'HTMLAttributes' => [
+                'autoplay' => null,
+                'controls' => null,
+                'loop' => null,
+            ],
             'allowFullscreen' => true,
             'width' => 640,
             'height' => 480,
@@ -23,6 +27,9 @@ class Vimeo extends Node
     public function addAttributes(): array
     {
         return [
+            'responsive' => [
+                'default' => true,
+            ],
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
@@ -48,37 +55,34 @@ class Vimeo extends Node
                 },
             ],
             'autoplay' => [
-                'default' => 0,
+                'default' => null,
                 'parseHTML' => function ($DOMNode) {
                     return $DOMNode->firstChild->getAttribute("autoplay");
                 },
             ],
             'loop' => [
-                'default' => 0,
+                'default' => null,
                 'parseHTML' => function ($DOMNode) {
                     return $DOMNode->firstChild->getAttribute("loop");
                 },
             ],
-            'title' => [
-                'default' => 0,
+            'controls' => [
+                'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("title");
+                    return $DOMNode->firstChild->getAttribute("controls");
                 },
             ],
-            'byline' => [
-                'default' => 0,
+            'data-aspect-width' => [
+                'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("byline");
+                    return $DOMNode->firstChild->getAttribute("data-aspect-width");
                 },
             ],
-            'portrait' => [
-                'default' => 0,
+            'data-aspect-height' => [
+                'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("portrait");
+                    return $DOMNode->firstChild->getAttribute("data-aspect-height");
                 },
-            ],
-            'responsive' => [
-                'default' => true,
             ],
         ];
     }
@@ -87,7 +91,7 @@ class Vimeo extends Node
     {
         return [
             [
-                'tag' => 'div[data-vimeo-video]',
+                'tag' => 'div[data-native-video]',
             ]
         ];
     }
@@ -97,18 +101,19 @@ class Vimeo extends Node
         return [
             'div',
             [
-                'data-vimeo-video' => true,
+                'data-native-video' => true,
                 'class' => $node->attrs->responsive ? 'responsive' : null
             ],
             [
-                'iframe',
+                'video',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
                     'src' => $node->attrs->src,
-                    'width' => $this->options['width'],
-                    'height' => $this->options['height'],
-                    'allowfullscreen' => true,
-                    'allow' => 'autoplay; fullscreen; picture-in-picture',
-                    'style' => $node->attrs->style,
+                    'width' => $node->attrs->width,
+                    'height' => $node->attrs->height,
+                    'autoplay' => $node->attrs->autoplay ? 'true' : null,
+                    'loop' => $node->attrs->loop ? 'true' : null,
+                    'controls' => $node->attrs->controls ? 'true' : null,
+                    'style' => $node->attrs->style ?? null,
                 ]),
             ]
         ];

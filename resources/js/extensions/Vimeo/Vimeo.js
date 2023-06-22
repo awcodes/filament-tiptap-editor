@@ -63,13 +63,13 @@ export const Vimeo = Node.create({
       responsive: {
         default: true,
       },
-      aspectWidth: {
-        default: 16,
-        parseHTML: (element) => element.getAttribute("aspect-width"),
+      'data-aspect-width': {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-aspect-width"),
       },
-      aspectHeight: {
-        default: 9,
-        parseHTML: (element) => element.getAttribute("aspect-height"),
+      'data-aspect-height': {
+        default: null,
+        parseHTML: (element) => element.getAttribute("data-aspect-height"),
       },
     };
   },
@@ -114,17 +114,17 @@ export const Vimeo = Node.create({
       { "data-vimeo-video": "", class: HTMLAttributes.responsive ? "responsive" : null },
       [
         "iframe",
-        mergeAttributes(this.options.HTMLAttributes, {
+        {
           src: embedUrl,
-          width: this.options.width,
-          height: this.options.height,
-          allowfullscreen: "",
+          width: HTMLAttributes.width,
+          height: HTMLAttributes.height,
+          allowfullscreen: this.options.allowfullscreen,
           frameborder: 0,
           allow: "autoplay; fullscreen; picture-in-picture",
-          style: HTMLAttributes.responsive ? `aspect-ratio: ${HTMLAttributes.aspectWidth} / ${HTMLAttributes.aspectHeight}; width: 100%; height: auto;` : null,
-          aspectWidth: HTMLAttributes.responsive ? HTMLAttributes.aspectWidth : HTMLAttributes.width,
-          aspectHeight: HTMLAttributes.responsive ? HTMLAttributes.aspectHeight : HTMLAttributes.height,
-        }),
+          style: HTMLAttributes.responsive ? `aspect-ratio: ${HTMLAttributes['data-aspect-width']} / ${HTMLAttributes['data-aspect-height']}; width: 100%; height: auto;` : null,
+          'data-aspect-width': HTMLAttributes.responsive ? HTMLAttributes['data-aspect-width'] : null,
+          'data-aspect-height': HTMLAttributes.responsive ? HTMLAttributes['data-aspect-height'] : null,
+        },
       ],
     ];
   },
