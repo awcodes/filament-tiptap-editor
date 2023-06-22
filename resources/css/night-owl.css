@@ -29,11 +29,12 @@ SOFTWARE.
 
 .tiptap-editor .ProseMirror {
     .hljs {
-        background: #011627;
+        background: theme('colors.gray.800');
         color: #d6deeb;
         padding: 0.5rem 1rem;
         border-radius: 0.5rem;
         font-size: 0.875rem;
+        font-family: theme('fontFamily.mono'), monospace;
     }
 
     /* General Purpose */

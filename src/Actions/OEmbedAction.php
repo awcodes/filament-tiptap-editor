@@ -127,9 +127,7 @@ class OEmbedAction extends Action
             return '';
         }
 
-        $outputUrl = "https://player.vimeo.com/video/{$matches[1]}";
-
-        return $outputUrl;
+        return "https://player.vimeo.com/video/{$matches[1]}";
     }
 
     public static function getYoutubeUrl(string $url): string
@@ -144,8 +142,6 @@ class OEmbedAction extends Action
             return '';
         }
 
-        $outputUrl = "https://www.youtube.com/embed/{$matches[1]}";
-
-        return $outputUrl;
+        return "https://www.youtube.com/embed/{$matches[1]}";
     }
 }

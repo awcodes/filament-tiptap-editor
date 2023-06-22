@@ -151,7 +151,9 @@ document.addEventListener("alpine:init", () => {
                             isActive(state, 'link') ||
                             isActive(state, 'table') ||
                             isActive(state, 'image') ||
-                            isActive(state, 'oembed')
+                            isActive(state, 'oembed') ||
+                            isActive(state, 'vimeo') ||
+                            isActive(state, 'youtube')
                         );
                     },
                 }))

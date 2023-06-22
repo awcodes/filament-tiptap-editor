@@ -1,7 +1,7 @@
 pre {
     background-color: theme("colors.gray.100");
     color: theme("colors.gray.900");
-    font-family: "JetBrainsMono", monospace;
+    font-family: theme('fontFamily.mono'), monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 

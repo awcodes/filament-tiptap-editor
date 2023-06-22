@@ -15,7 +15,7 @@ use Filament\Forms\Components\ViewField;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Str;
 
-class GridAction extends Action
+class GridBuilderAction extends Action
 {
     public static function getDefaultName(): ?string
     {

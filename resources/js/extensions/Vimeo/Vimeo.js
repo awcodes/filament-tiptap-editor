@@ -1,5 +1,4 @@
 import { mergeAttributes, Node } from "@tiptap/core";
-
 import { getEmbedURLFromVimeoURL, isValidVimeoUrl } from "./utils";
 
 export const Vimeo = Node.create({
