@@ -12,9 +12,8 @@
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
     label="{{ __('filament-tiptap-editor::editor.media') }}"
-    active="'image'"
+    active="image"
     icon="media"
     x-data="{
         openModal() {
@@ -28,37 +27,6 @@
             };
 
             {{ $action }}
-        },
-        insertMedia(media) {
-            if (Array.isArray(media)) {
-                media.forEach((item) => {
-                    this.executeMediaInsert(item);
-                });
-            } else {
-                this.executeMediaInsert(media);
-            }
-        },
-        executeMediaInsert(media = null) {
-            if (media) {
-                const src = media?.url || media?.src;
-                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
-
-                if (imageTypes.includes(src.split('.').pop())) {
-                    this.editor()
-                        .chain()
-                        .focus()
-                        .setImage({
-                            src: src,
-                            alt: media?.alt,
-                            title: media?.title,
-                            width: media?.width,
-                            height: media?.height,
-                        })
-                        .run();
-                } else {
-                    this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
-                }
-            }
         }
     }"
 />

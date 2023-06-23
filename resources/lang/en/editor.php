@@ -10,7 +10,11 @@ return [
     'bold' => 'Bold',
     'code_block' => 'Code Block',
     'code' => 'Inline Code',
-    'color' => 'Color',
+    'color' => [
+        'label' => 'Color',
+        'choose' => 'Choose',
+        'remove' => 'Remove',
+    ],
     'details' => 'Details',
     'erase' => 'Erase All Content',
     'fullscreen' => [
@@ -31,6 +35,9 @@ return [
         'asymmetric_right_thirds' => 'Asymmetric Right - Thirds',
         'asymmetric_left_fourths' => 'Asymmetric Left - Fourths',
         'asymmetric_right_fourths' => 'Asymmetric Right - Fourths',
+    ],
+    'grid-builder' => [
+        'label' => 'Grid Builder',
     ],
     'heading' => [
         'label' => 'Heading',
@@ -57,7 +64,11 @@ return [
     'hr' => 'Horizontal Rule',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',
-    'link' => 'Insert / Edit Link',
+    'link' => [
+        'insert_edit' => 'Insert / Edit Link',
+        'edit' => 'Edit Link',
+        'remove' => 'Remove Link',
+    ],
     'list' => [
         'bulleted' => 'Unordered List',
         'ordered' => 'Ordered List',
@@ -97,6 +108,6 @@ return [
     'video' => [
         'youtube' => 'Insert YouTube Video',
         'vimeo' => 'Insert Vimeo Video',
-        'oembed' => 'Insert OEmbed'
+        'oembed' => 'Insert Video',
     ],
 ];

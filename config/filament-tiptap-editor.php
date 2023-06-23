@@ -31,38 +31,9 @@ return [
     */
     'profiles' => [
         'default' => [
-            'heading',
-            'bullet-list',
-            'ordered-list',
-            'checked-list',
-            'blockquote',
-            'hr',
-            '|',
-            'bold',
-            'italic',
-            'strike',
-            'underline',
-            'superscript',
-            'subscript',
-            'lead',
-            'small',
-            'color',
-            'highlight',
-            'align-left',
-            'align-center',
-            'align-right',
-            '|',
-            'link',
-            'media',
-            'oembed',
-            'table',
-            'grid',
-            'details',
-            'hurdle',
-            '|',
-            'code',
-            'code-block',
-            'source',
+            'heading', 'bullet-list', 'ordered-list', 'checked-list', 'blockquote', 'hr', '|',
+            'bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'color', 'highlight', 'align-left', 'align-center', 'align-right', '|',
+            'link', 'media', 'oembed', 'table', 'grid', 'details', 'hurdle', '|', 'code', 'code-block', 'source',
         ],
         'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
         'barebone' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
@@ -113,4 +84,14 @@ return [
     'image_crop_aspect_ratio' => null,
     'image_resize_target_width' => null,
     'image_resize_target_height' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Menus
+    |--------------------------------------------------------------------------
+    |
+    */
+    'disable_floating_menus' => false,
+    'disable_bubble_menus' => false,
+    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
 ];

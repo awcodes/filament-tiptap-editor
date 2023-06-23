@@ -31,7 +31,9 @@ class TiptapConverter
     public function getExtensions(): array
     {
         return [
-            new StarterKit(),
+            new StarterKit([
+                'paragraph' => false,
+            ]),
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
@@ -45,8 +47,11 @@ class TiptapConverter
             new Nodes\DetailsContent(),
             new Nodes\Grid(),
             new Nodes\GridColumn(),
+            new Nodes\GridBuilder(),
+            new Nodes\GridBuilderColumn(),
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
+            new Nodes\Video(),
             new Nodes\Hurdle(),
             new Table(),
             new TableHeader(),

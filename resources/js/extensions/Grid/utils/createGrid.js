@@ -5,6 +5,8 @@ export function createGrid(schema, colsCount, type, colContent) {
   const types = getGridNodeTypes(schema);
   const cols = [];
 
+  console.log(types);
+
   for (let index = 0; index < colsCount; index += 1) {
     const col = createColumn(types.column, colContent);
 

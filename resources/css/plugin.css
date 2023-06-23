@@ -1,3 +1,5 @@
+@import './night-owl.css';
+
 @tailwind utilities;
 
 .tiptap-wrapper.tiptap-fullscreen {
@@ -17,28 +19,27 @@
 
     .tiptap-prosemirror-wrapper {
         max-height: 100%;
-    }
-
-    .tiptap-content {
-        flex: 1 1 0;
-        overflow-y: scroll;
-        max-height: 100% !important;
         padding-block-end: 3rem;
     }
-}
-
-.tiptap-editor .tiptap-toolbar input[type="color"] {
-    -webkit-appearance: none;
-    border: 0 solid theme("colors.gray.300");
-}
-
-.tiptap-editor .tiptap-toolbar input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
 }
 
 .tiptap-editor .tiptap-content {
     display: flex;
     flex-direction: column;
+}
+
+.tiptap-prosemirror-wrapper {
+    &.prosemirror-w-sm { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.sm')) / 2)); }
+    &.prosemirror-w-md { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.md')) / 2)); }
+    &.prosemirror-w-lg { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.lg')) / 2)); }
+    &.prosemirror-w-xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.xl')) / 2)); }
+    &.prosemirror-w-2xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.2xl')) / 2)); }
+    &.prosemirror-w-3xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.3xl')) / 2)); }
+    &.prosemirror-w-4xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.4xl')) / 2)); }
+    &.prosemirror-w-5xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.5xl')) / 2)); }
+    &.prosemirror-w-6xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.6xl')) / 2)); }
+    &.prosemirror-w-7xl { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.7xl')) / 2)); }
+    &.prosemirror-w-none { padding: 0 theme('padding.4'); }
 }
 
 .tiptap-editor .ProseMirror {
@@ -116,12 +117,6 @@
         outline: none;
     }
 
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
-
     > * + * {
         margin-block-start: 1rem;
     }
@@ -178,6 +173,7 @@
 
     ul,
     ol {
+        @apply space-y-2;
         padding-inline-start: 1rem;
         margin-inline-start: 1rem;
     }
@@ -202,20 +198,21 @@
     }
 
     ul.checked-list li::before {
-        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="black" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>');
+        content: '✓';
         width: 1.25rem;
         height: 1.25rem;
         flex-shrink: 0;
     }
 
     blockquote {
-        border-left: 0.5rem solid theme("colors.gray.300");
+        border-left: 0.25rem solid theme("colors.gray.400");
         padding-inline-start: 0.5rem;
         margin-inline-start: 1rem;
+        font-size: 1.25rem;
     }
 
     hr {
-        border-color: theme("colors.gray.300");
+        border-color: theme("colors.gray.400");
     }
 
     a {
@@ -256,10 +253,8 @@
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
     }
 
@@ -269,16 +264,16 @@
         overflow: hidden;
         table-layout: fixed;
         width: 100%;
+        position: relative;
     }
 
     table td,
     table th {
-        border: 2px solid theme("colors.gray.300");
-        box-sizing: border-box;
+        border: 1px solid theme("colors.gray.400");
         min-width: 1em;
         padding: 3px 5px;
-        position: relative;
         vertical-align: top;
+        background-clip: padding-box
     }
 
     table td > *,
@@ -328,152 +323,34 @@
         cursor: col-resize;
     }
 
+    pre {
+        padding: .75rem 1rem;
+        border-radius: .25rem;
+        font-size: .875rem;
+    }
+
     code {
         background-color: theme("colors.gray.300");
         border-radius: 0.25rem;
         padding-inline: 0.25rem;
     }
 
-    pre {
-        background-color: theme("colors.gray.100");
-        color: theme("colors.gray.900");
-        font-family: "JetBrainsMono", monospace;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-
-        code {
-            color: inherit;
-            padding: 0;
-            background: none !important;
-            font-size: 0.8rem;
-        }
-
-        .hljs {
-            color: #24292e;
-            background: #ffffff;
-        }
-
-        .hljs-doctag,
-        .hljs-keyword,
-        .hljs-meta .hljs-keyword,
-        .hljs-template-tag,
-        .hljs-template-variable,
-        .hljs-type,
-        .hljs-variable.language_ {
-            /* prettylights-syntax-keyword */
-            color: #d73a49;
-        }
-
-        .hljs-title,
-        .hljs-title.class_,
-        .hljs-title.class_.inherited__,
-        .hljs-title.function_ {
-            /* prettylights-syntax-entity */
-            color: #6f42c1;
-        }
-
-        .hljs-attr,
-        .hljs-attribute,
-        .hljs-literal,
-        .hljs-meta,
-        .hljs-number,
-        .hljs-operator,
-        .hljs-variable,
-        .hljs-selector-attr,
-        .hljs-selector-class,
-        .hljs-selector-id {
-            /* prettylights-syntax-constant */
-            color: #005cc5;
-        }
-
-        .hljs-regexp,
-        .hljs-string,
-        .hljs-meta .hljs-string {
-            /* prettylights-syntax-string */
-            color: #032f62;
-        }
-
-        .hljs-built_in,
-        .hljs-symbol {
-            /* prettylights-syntax-variable */
-            color: #e36209;
-        }
-
-        .hljs-comment,
-        .hljs-code,
-        .hljs-formula {
-            /* prettylights-syntax-comment */
-            color: #6a737d;
-        }
-
-        .hljs-name,
-        .hljs-quote,
-        .hljs-selector-tag,
-        .hljs-selector-pseudo {
-            /* prettylights-syntax-entity-tag */
-            color: #22863a;
-        }
-
-        .hljs-subst {
-            /* prettylights-syntax-storage-modifier-import */
-            color: #24292e;
-        }
-
-        .hljs-section {
-            /* prettylights-syntax-markup-heading */
-            color: #005cc5;
-            font-weight: bold;
-        }
-
-        .hljs-bullet {
-            /* prettylights-syntax-markup-list */
-            color: #735c0f;
-        }
-
-        .hljs-emphasis {
-            /* prettylights-syntax-markup-italic */
-            color: #24292e;
-            font-style: italic;
-        }
-
-        .hljs-strong {
-            /* prettylights-syntax-markup-bold */
-            color: #24292e;
-            font-weight: bold;
-        }
-
-        .hljs-addition {
-            /* prettylights-syntax-markup-inserted */
-            color: #22863a;
-            background-color: #f0fff4;
-        }
-
-        .hljs-deletion {
-            /* prettylights-syntax-markup-deleted */
-            color: #b31d28;
-            background-color: #ffeef0;
-        }
-
-        .hljs-char.escape_,
-        .hljs-link,
-        .hljs-params,
-        .hljs-property,
-        .hljs-punctuation,
-        .hljs-tag {
-            /* purposely ignored */
-        }
+    pre.hljs code {
+        background-color: transparent;
     }
 
-    .filament-tiptap-grid {
+    .filament-tiptap-grid,
+    .filament-tiptap-grid-builder {
         display: grid;
         gap: 1rem;
         box-sizing: border-box;
 
-        .filament-tiptap-grid__column {
+        .filament-tiptap-grid__column,
+        .filament-tiptap-grid-builder__column {
             box-sizing: border-box;
             border-style: dashed;
             border-width: 1px;
-            border-color: theme("colors.gray.300");
+            border-color: theme("colors.gray.400");
             padding: 0.5rem;
             border-radius: theme("borderRadius.DEFAULT");
 
@@ -484,19 +361,44 @@
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
     }
 
-    .filament-tiptap-grid[type="asymetric-right-thirds"],
-    .filament-tiptap-grid[type="asymetric-left-thirds"],
-    .filament-tiptap-grid[type="asymetric-left-fourths"],
-    .filament-tiptap-grid[type="asymetric-left-fourths"] {
+    .filament-tiptap-grid[type^="asymetric"] {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
+    }
+
+    @media (max-width: theme('screens.sm')) {
+        .filament-tiptap-grid-builder[data-stack-at="sm"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.md')) {
+        .filament-tiptap-grid-builder[data-stack-at="md"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
+    }
+
+    @media (max-width: theme('screens.lg')) {
+        .filament-tiptap-grid-builder[data-stack-at="lg"] {
+            grid-template-columns: 1fr !important;
+
+            .filament-tiptap-grid-builder__column {
+                grid-column: span 1 !important;
+            }
+        }
     }
 
     .filament-tiptap-grid[type="asymetric-right-thirds"] {
@@ -513,9 +415,7 @@
 
     .filament-tiptap-grid[type="asymetric-right-fourths"] {
         @screen md {
-            @screen md {
-                grid-template-columns: 1fr 3fr;
-            }
+            grid-template-columns: 1fr 3fr;
         }
     }
 
@@ -577,18 +477,18 @@
     }
 
     [data-youtube-video],
-    [data-vimeo-video] {
+    [data-vimeo-video],
+    [data-native-video] {
         border: dashed 1px transparent;
 
         &.ProseMirror-selectednode {
             border-radius: theme("borderRadius.DEFAULT");
-            outline-color: theme("colors.gray.900");
             outline-offset: 2px;
-            outline-width: 2px;
-            outline-style: dashed;
+            outline: theme("colors.gray.900") dashed 2px;
         }
 
-        iframe {
+        iframe,
+        video {
             pointer-events: none;
         }
     }
@@ -597,7 +497,7 @@
         box-sizing: border-box;
         border-style: dashed;
         border-width: 1px;
-        border-color: theme("colors.gray.300");
+        border-color: theme("colors.gray.400");
         border-radius: theme("borderRadius.DEFAULT");
         position: relative;
 
@@ -636,7 +536,7 @@
 .dark {
     .tiptap-editor .ProseMirror {
         blockquote {
-            border-left: 0.5rem solid theme("colors.gray.500");
+            border-left-color: theme("colors.gray.500");
         }
 
         hr {
@@ -647,144 +547,18 @@
             color: theme("colors.blue.400");
         }
 
-        ul.checked-list li::before {
-            content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>');
+        code {
+            background-color: theme("colors.gray.800");
         }
 
         table td,
         table th {
-            border: 1px solid theme("colors.gray.600");
+            border-color: theme("colors.gray.600");
         }
 
         table th {
-            background-color: theme("colors.gray.500");
-            color: theme("colors.gray.900");
-        }
-
-        code {
-            background-color: theme("colors.gray.500");
-        }
-
-        pre {
-            background-color: theme("colors.gray.900");
-            color: white;
-
-            code {
-                .hljs {
-                    color: #c9d1d9;
-                    background: #0d1117;
-                }
-
-                .hljs-doctag,
-                .hljs-keyword,
-                .hljs-meta .hljs-keyword,
-                .hljs-template-tag,
-                .hljs-template-variable,
-                .hljs-type,
-                .hljs-variable.language_ {
-                    /* prettylights-syntax-keyword */
-                    color: #ff7b72;
-                }
-
-                .hljs-title,
-                .hljs-title.class_,
-                .hljs-title.class_.inherited__,
-                .hljs-title.function_ {
-                    /* prettylights-syntax-entity */
-                    color: #d2a8ff;
-                }
-
-                .hljs-attr,
-                .hljs-attribute,
-                .hljs-literal,
-                .hljs-meta,
-                .hljs-number,
-                .hljs-operator,
-                .hljs-variable,
-                .hljs-selector-attr,
-                .hljs-selector-class,
-                .hljs-selector-id {
-                    /* prettylights-syntax-constant */
-                    color: #79c0ff;
-                }
-
-                .hljs-regexp,
-                .hljs-string,
-                .hljs-meta .hljs-string {
-                    /* prettylights-syntax-string */
-                    color: #a5d6ff;
-                }
-
-                .hljs-built_in,
-                .hljs-symbol {
-                    /* prettylights-syntax-variable */
-                    color: #ffa657;
-                }
-
-                .hljs-comment,
-                .hljs-code,
-                .hljs-formula {
-                    /* prettylights-syntax-comment */
-                    color: #8b949e;
-                }
-
-                .hljs-name,
-                .hljs-quote,
-                .hljs-selector-tag,
-                .hljs-selector-pseudo {
-                    /* prettylights-syntax-entity-tag */
-                    color: #7ee787;
-                }
-
-                .hljs-subst {
-                    /* prettylights-syntax-storage-modifier-import */
-                    color: #c9d1d9;
-                }
-
-                .hljs-section {
-                    /* prettylights-syntax-markup-heading */
-                    color: #1f6feb;
-                    font-weight: bold;
-                }
-
-                .hljs-bullet {
-                    /* prettylights-syntax-markup-list */
-                    color: #f2cc60;
-                }
-
-                .hljs-emphasis {
-                    /* prettylights-syntax-markup-italic */
-                    color: #c9d1d9;
-                    font-style: italic;
-                }
-
-                .hljs-strong {
-                    /* prettylights-syntax-markup-bold */
-                    color: #c9d1d9;
-                    font-weight: bold;
-                }
-
-                .hljs-addition {
-                    /* prettylights-syntax-markup-inserted */
-                    color: #aff5b4;
-                    background-color: #033a16;
-                }
-
-                .hljs-deletion {
-                    /* prettylights-syntax-markup-deleted */
-                    color: #ffdcd7;
-                    background-color: #67060c;
-                }
-
-                .hljs-char.escape_,
-                .hljs-link,
-                .hljs-params,
-                .hljs-property,
-                .hljs-punctuation,
-                .hljs-tag {
-                    /* purposely ignored */
-                }
-            }
+            background-color: theme("colors.gray.800");
+            color: theme('colors.gray.100');
         }
 
         .filament-tiptap-grid {
@@ -793,18 +567,19 @@
             }
 
             &.ProseMirror-selectednode {
-                outline-color: theme("colors.gray.300");
+                outline-color: theme("colors.gray.400");
             }
         }
 
         img.ProseMirror-selectednode {
-            outline-color: theme("colors.gray.300");
+            outline-color: theme("colors.gray.400");
         }
 
         [data-youtube-video],
-        [data-vimeo-video] {
+        [data-vimeo-video],
+        [data-native-video] {
             &.ProseMirror-selectednode {
-                outline-color: theme("colors.gray.300");
+                outline-color: theme("colors.gray.400");
             }
         }
 
@@ -826,5 +601,5 @@
 }
 
 .filament-tiptap-editor-source-modal textarea {
-    font-family: theme("fontFamily.mono");
+    font-family: theme("fontFamily.mono") monospace;
 }

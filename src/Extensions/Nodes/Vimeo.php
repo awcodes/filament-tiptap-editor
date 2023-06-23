@@ -26,53 +26,59 @@ class Vimeo extends Node
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("style");
+                    return $DOMNode->firstChild->getAttribute("style");
                 },
             ],
             'src' => [
                 'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("src");
+                },
             ],
             'width' => [
                 'default' => $this->options['width'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("width");
+                    return $DOMNode->firstChild->getAttribute("width");
                 },
             ],
             'height' => [
                 'default' => $this->options['height'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("height");
+                    return $DOMNode->firstChild->getAttribute("height");
                 },
             ],
             'autoplay' => [
                 'default' => 0,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("autoplay");
+                },
             ],
             'loop' => [
                 'default' => 0,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("loop");
+                },
             ],
             'title' => [
                 'default' => 0,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("title");
+                },
             ],
             'byline' => [
                 'default' => 0,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("byline");
+                },
             ],
             'portrait' => [
                 'default' => 0,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("portrait");
+                },
             ],
             'responsive' => [
                 'default' => true,
-            ],
-            'aspectWidth' => [
-                'default' => 16,
-                'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("aspect-width");
-                },
-            ],
-            'aspectHeight' => [
-                'default' => 9,
-                'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("aspect-height");
-                },
             ],
         ];
     }
@@ -81,7 +87,7 @@ class Vimeo extends Node
     {
         return [
             [
-                'tag' => 'div[data-vimeo-video] iframe',
+                'tag' => 'div[data-vimeo-video]',
             ]
         ];
     }
@@ -97,39 +103,14 @@ class Vimeo extends Node
             [
                 'iframe',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
-                    'src' => $this->buildSrc($node),
+                    'src' => $node->attrs->src,
                     'width' => $this->options['width'],
                     'height' => $this->options['height'],
                     'allowfullscreen' => true,
                     'allow' => 'autoplay; fullscreen; picture-in-picture',
-                    'style' => $node->attrs->responsive
-                        ? "aspect-ratio:{$node->attrs->aspectWidth}/{$node->attrs->aspectHeight}; width: 100%; height: auto;"
-                        : null,
-                    'aspectWidth' => $node->attrs->responsive
-                        ? $node->attrs->aspectWidth
-                        : $node->attrs->width,
-                    'aspectHeight' => $node->attrs->responsive
-                        ? $node->attrs->aspectHeight
-                        : $node->attrs->height,
+                    'style' => $node->attrs->style,
                 ]),
-                0
             ]
         ];
     }
-
-    public function buildSrc($node): string
-    {
-        $videoId = basename($node->attrs->src);
-
-        $query = [
-            'autoplay' => $node->attrs->autoplay,
-            'loop' => $node->attrs->loop,
-            'title' => $node->attrs->title,
-            'byline' => $node->attrs->byline,
-            'portrait' => $node->attrs->portrait,
-        ];
-
-        return "https://player.vimeo.com/video/{$videoId}?" . http_build_query($query);
-    }
-
 }

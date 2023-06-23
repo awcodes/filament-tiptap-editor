@@ -1,4 +1,4 @@
-import {Editor} from "@tiptap/core";
+import {Editor, isActive} from "@tiptap/core";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -35,13 +35,18 @@ import {
     Small,
     Grid,
     GridColumn,
+    GridBuilder,
+    GridBuilderColumn,
     Youtube,
     Vimeo,
     Details,
     DetailsSummary,
     DetailsContent,
     CustomCodeBlockLowlight,
-    Hurdle
+    Hurdle,
+    BubbleMenu,
+    FloatingMenu,
+    Video,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString} from "./utils";
@@ -61,6 +66,7 @@ let editorExtensions = {
     color: [Color, TextStyle],
     details: [Details, DetailsSummary, DetailsContent],
     grid: [Grid, GridColumn],
+    'grid-builder': [GridBuilder, GridBuilderColumn],
     heading: [Heading.configure({levels: [1, 2, 3, 4, 5, 6]})],
     highlight: [Highlight],
     hr: [HorizontalRule],
@@ -77,7 +83,7 @@ let editorExtensions = {
         },
     })],
     media: [CustomImage.configure({inline: true})],
-    oembed: [Youtube, Vimeo],
+    oembed: [Youtube, Vimeo, Video],
     'ordered-list': [OrderedList],
     small: [Small],
     strike: [Strike],
@@ -105,6 +111,7 @@ document.addEventListener("alpine:init", () => {
         output = 'html',
         disabled = false,
         locale = 'en',
+        floatingMenuTools = [],
     }) => ({
         id: null,
         tools: tools,
@@ -115,7 +122,8 @@ document.addEventListener("alpine:init", () => {
         updatedAt: Date.now(),
         focused: false,
         locale: locale,
-        getExtensions() {
+        floatingMenuTools: floatingMenuTools,
+        getExtensions(id) {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
                     return tool;
@@ -132,6 +140,42 @@ document.addEventListener("alpine:init", () => {
                 let alignments = [];
                 let types = ['paragraph'];
 
+                exts.push(BubbleMenu.configure({
+                    pluginKey: `defaultBubbleMenu${id}`,
+                    element: this.$refs.defaultBubbleMenu,
+                    tippyOptions: {
+                        duration: [500,0],
+                    },
+                    shouldShow: ({state, from, to}) => {
+                        return ! (
+                            from === to ||
+                            isActive(state, 'link') ||
+                            isActive(state, 'table') ||
+                            isActive(state, 'image') ||
+                            isActive(state, 'oembed') ||
+                            isActive(state, 'vimeo') ||
+                            isActive(state, 'youtube') ||
+                            isActive(state, 'video')
+                        );
+                    },
+                }))
+
+                if (this.floatingMenuTools.length) {
+                    exts.push(FloatingMenu.configure({
+                        pluginKey: `defaultFloatingMenu${id}`,
+                        element: this.$refs.defaultFloatingMenu,
+                        tippyOptions: {
+                            duration: [500,0],
+                        }
+                    }))
+
+                    this.floatingMenuTools.forEach((tool) => {
+                        if (! tools.includes(tool)) {
+                            tools.push(tool);
+                        }
+                    });
+                }
+
                 tools.forEach((tool) => {
                     if (keys.includes(tool)) {
                         editorExtensions[tool].forEach((e) => {
@@ -139,6 +183,32 @@ document.addEventListener("alpine:init", () => {
                                 exts.push(e)
                                 if (!exts.includes(ListItem)) exts.push(ListItem);
                             } else {
+                                if (tool === 'table') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `tableBubbleMenu${id}`,
+                                        element: this.$refs.tableBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                        },
+                                        shouldShow: ({state}) => {
+                                            return isActive(state, 'table');
+                                        }
+                                    }))
+                                }
+
+                                if (tool === 'link') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `linkBubbleMenu${id}`,
+                                        element: this.$refs.linkBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                        },
+                                        shouldShow: ({state}) => {
+                                            return isActive(state,'link');
+                                        }
+                                    }))
+                                }
+
                                 exts.push(e)
                             }
                         })
@@ -166,7 +236,8 @@ document.addEventListener("alpine:init", () => {
             document.addEventListener("dblclick", function (e) {
                 if (
                     e.target && (e.target.hasAttribute("data-youtube-video") ||
-                    e.target.hasAttribute("data-vimeo-video"))
+                    e.target.hasAttribute("data-vimeo-video")) ||
+                    e.target.hasAttribute("data-native-video")
                 ) {
                     e.target.firstChild.style.pointerEvents = "all";
                 }
@@ -222,7 +293,7 @@ document.addEventListener("alpine:init", () => {
             let _this = this;
             editors[this.id] = new Editor({
                 element: this.$refs.element,
-                extensions: this.getExtensions(),
+                extensions: this.getExtensions(this.id),
                 editable: ! disabled,
                 content: content,
                 onUpdate({editor}) {
@@ -246,5 +317,132 @@ document.addEventListener("alpine:init", () => {
                 },
             });
         },
+        insertMedia(media) {
+            if (Array.isArray(media)) {
+                media.forEach((item) => {
+                    this.executeMediaInsert(item);
+                });
+            } else {
+                this.executeMediaInsert(media);
+            }
+        },
+        executeMediaInsert(media = null) {
+            if (! media || media?.url === null) {
+                return;
+            }
+
+            if (media) {
+                const src = media?.url || media?.src;
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+
+                if (imageTypes.includes(src.split('.').pop())) {
+                    this.editor()
+                        .chain()
+                        .focus()
+                        .setImage({
+                            src: src,
+                            alt: media?.alt,
+                            title: media?.title,
+                            width: media?.width,
+                            height: media?.height,
+                        })
+                        .run();
+                } else {
+                    this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
+                }
+            }
+        },
+        insertVideo(video) {
+            if (! video || video.url === null) {
+                return;
+            }
+
+            let commonOptions = {
+                src: video.url,
+                width: video.responsive ? video.width * 100 : video.width,
+                height: video.responsive ? video.height * 100 : video.height,
+                responsive: video.responsive ?? true,
+                'data-aspect-width': video.width,
+                'data-aspect-height': video.height,
+            }
+
+            if (video.url.includes('youtube') || video.url.includes('youtu.be')) {
+                this.editor().chain().focus().setYoutubeVideo({
+                    ...commonOptions,
+                    controls: video.youtube_options.includes('controls'),
+                    nocookie: video.youtube_options.includes('nocookie'),
+                    start: video.start_at ?? 0,
+                }).run();
+            } else if (video.url.includes('vimeo')) {
+                this.editor().chain().focus().setVimeoVideo({
+                    ...commonOptions,
+                    autoplay: video.vimeo_options.includes('autoplay'),
+                    loop: video.vimeo_options.includes('loop'),
+                    title: video.vimeo_options.includes('show_title'),
+                    byline: video.vimeo_options.includes('byline'),
+                    portrait: video.vimeo_options.includes('portrait'),
+                }).run();
+            } else {
+                this.editor().chain().focus().setVideo({
+                    ...commonOptions,
+                    autoplay: video.native_options.includes('autoplay'),
+                    loop: video.native_options.includes('loop'),
+                    controls: video.native_options.includes('controls'),
+                }).run();
+            }
+        },
+        insertLink(link) {
+            if (link.href === null) {
+                return;
+            }
+
+            if (link.href === '') {
+                this.unsetLink();
+                return;
+            }
+
+            this.editor()
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({
+                    href: link.href,
+                    target: link.target ?? null,
+                    hreflang: link.hreflang ?? null,
+                    rel: link.rel.length ? link.rel.join(' ') : null,
+                    as_button: !!link.as_button,
+                    button_theme: link.button_theme ?? '',
+                    class: link.as_button ? `btn btn-${link.button_theme}` : null
+                })
+                .selectTextblockEnd()
+                .run();
+        },
+        insertSource(source) {
+            this.editor().commands.setContent(source, {emitUpdate: true});
+        },
+        unsetLink() {
+            this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
+        },
+        insertGridBuilder(grid) {
+            let type = 'responsive';
+            const asymmetricLeft = parseInt(grid.asymmetric_left) ?? null;
+            const asymmetricRight = parseInt(grid.asymmetric_right) ?? null;
+
+            if (grid.fixed) {
+                type = 'fixed';
+            }
+
+            if (grid.asymmetric) {
+                type = 'asymmetric';
+            }
+
+            this.editor().chain().focus().insertGridBuilder({
+                cols: grid.columns,
+                type,
+                stackAt: grid.stack_at,
+                asymmetricLeft,
+                asymmetricRight
+            }).run();
+        }
     }));
 });

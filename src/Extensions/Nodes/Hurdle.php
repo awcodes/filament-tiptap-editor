@@ -50,9 +50,7 @@ class Hurdle extends Node
             [
                 'tag' => 'div',
                 'getAttrs' => function ($DOMNode) {
-                    return [
-                        'color' => str_contains($DOMNode->getAttribute('data-color'), 'filament-tiptap-hurdle'),
-                    ];
+                    return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-hurdle') && null;
                 },
             ]
         ];

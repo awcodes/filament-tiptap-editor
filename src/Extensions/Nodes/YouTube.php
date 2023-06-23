@@ -31,6 +31,9 @@ class YouTube extends Node
             ],
             'src' => [
                 'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute("src");
+                },
             ],
             'start' => [
                 'default' => 0,
@@ -38,29 +41,17 @@ class YouTube extends Node
             'width' => [
                 'default' => $this->options['width'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("width");
+                    return $DOMNode->firstChild->getAttribute("width");
                 },
             ],
             'height' => [
                 'default' => $this->options['height'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("height");
+                    return $DOMNode->firstChild->getAttribute("height");
                 },
             ],
             'responsive' => [
                 'default' => true,
-            ],
-            'aspectWidth' => [
-                'default' => 16,
-                'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("aspect-width");
-                },
-            ],
-            'aspectHeight' => [
-                'default' => 9,
-                'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("aspect-height");
-                },
             ],
         ];
     }
@@ -69,7 +60,7 @@ class YouTube extends Node
     {
         return [
             [
-                'tag' => 'div[data-youtube-video] iframe',
+                'tag' => 'div[data-youtube-video]',
             ]
         ];
     }
@@ -85,36 +76,18 @@ class YouTube extends Node
             [
                 'iframe',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
-                    'src' => $this->buildSrc($node),
+                    'src' => $node->attrs->src,
                     'width' => $this->options['width'],
                     'height' => $this->options['height'],
                     'allowfullscreen' => true,
                     'allow' => 'autoplay; fullscreen; picture-in-picture',
                     'style' => $node->attrs->responsive
-                        ? "aspect-ratio:{$node->attrs->aspectWidth}/{$node->attrs->aspectHeight}; width: 100%; height: auto;"
+                        ? "aspect-ratio:{$node->attrs->width}/{$node->attrs->height}; width: 100%; height: auto;"
                         : null,
-                    'aspectWidth' => $node->attrs->responsive
-                        ? $node->attrs->aspectWidth
-                        : $node->attrs->width,
-                    'aspectHeight' => $node->attrs->responsive
-                        ? $node->attrs->aspectHeight
-                        : $node->attrs->height,
                 ]),
                 0
             ]
         ];
-    }
-
-    public function buildSrc($node): string
-    {
-        $videoId = basename($node->attrs->src);
-
-        $query = [
-            'start' => $node->attrs->start,
-            'controls' => $node->attrs?->controls ?? null,
-        ];
-
-        return "https://www.youtube.com/embed/{$videoId}?" . http_build_query($query);
     }
 
 }

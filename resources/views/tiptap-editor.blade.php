@@ -1,5 +1,6 @@
 @php
     $tools = $getTools();
+    $floatingMenuTools = $getFloatingMenuTools();
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
 @endphp
@@ -34,8 +35,15 @@
                 output: '{{ $getOutput() }}',
                 disabled: {{ $isDisabled ? 'true' : 'false' }},
                 locale: '{{ app()->getLocale() }}',
+                floatingMenuTools: @js($floatingMenuTools),
             })"
             x-on:keydown.escape="fullScreenMode = false"
+            x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
+            x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"
+            x-on:insert-link.window="$event.detail.statePath === '{{ $statePath }}' ? insertLink($event.detail) : null"
+            x-on:unset-link.window="$event.detail.statePath === '{{ $statePath }}' ? unsetLink() : null"
+            x-on:insert-source.window="$event.detail.statePath === '{{ $statePath }}' ? insertSource($event.detail.source) : null"
+            x-on:insert-grid-builder.window="$event.detail.statePath === '{{ $statePath }}' ? insertGridBuilder($event.detail.data) : null"
             x-trap.noscroll="fullScreenMode"
         >
 
@@ -67,20 +75,36 @@
                 </div>
             @endif
 
+            @if (in_array('table', $tools) && ! $isBubbleMenusDisabled())
+                <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
+            @endif
+
+            @if (in_array('link', $tools) && ! $isBubbleMenusDisabled())
+                <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
+            @endif
+
+            @if (! $isBubbleMenusDisabled())
+                <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
+            @endif
+
+            @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
+                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools"/>
+            @endif
+
             <div @class([
-                'tiptap-prosemirror-wrapper mx-auto px-4 w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
+                'tiptap-prosemirror-wrapper mx-auto w-full h-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
                 match ($getMaxContentWidth()) {
-                    'sm' => 'max-w-sm',
-                    'md' => 'max-w-md',
-                    'lg' => 'max-w-lg',
-                    'xl' => 'max-w-xl',
-                    '2xl' => 'max-w-2xl',
-                    '3xl' => 'max-w-3xl',
-                    '4xl' => 'max-w-4xl',
-                    '6xl' => 'max-w-6xl',
-                    '7xl' => 'max-w-7xl',
-                    'full' => 'max-w-none',
-                    default => 'max-w-5xl',
+                    'sm' => 'prosemirror-w-sm',
+                    'md' => 'prosemirror-w-md',
+                    'lg' => 'prosemirror-w-lg',
+                    'xl' => 'prosemirror-w-xl',
+                    '2xl' => 'prosemirror-w-2xl',
+                    '3xl' => 'prosemirror-w-3xl',
+                    '4xl' => 'prosemirror-w-4xl',
+                    '6xl' => 'prosemirror-w-6xl',
+                    '7xl' => 'prosemirror-w-7xl',
+                    'full' => 'prosemirror-w-none',
+                    default => 'prosemirror-w-5xl',
                 }
             ])>
                 <div

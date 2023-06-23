@@ -1,5 +1,5 @@
 export const isValidYoutubeUrl = (url) => {
-  return url.match(/^(https?:\/\/)?(www\.|music\.)?(youtube\.com|youtu\.be)(.+)?$/);
+  return url.match(/(youtube\.com|youtu\.be)(.+)?$/);
 };
 
 export const getYoutubeEmbedUrl = (nocookie = false) => {
@@ -37,6 +37,8 @@ export const getEmbedURLFromYoutubeURL = (options) => {
 
   if (!controls) {
     params.push("controls=0");
+  } else {
+    params.push("controls=1");
   }
 
   if (startAt) {

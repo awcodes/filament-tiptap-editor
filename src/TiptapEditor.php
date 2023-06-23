@@ -3,17 +3,18 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
+use Exception;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
-use Tiptap\Editor;
 
 class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 {
@@ -25,30 +26,37 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     public const OUTPUT_JSON = 'json';
     public const OUTPUT_TEXT = 'text';
 
-    protected string $view = 'filament-tiptap-editor::tiptap-editor';
-
-    protected ?Closure $saveUploadedFileUsing = null;
-
-    public string $profile = 'default';
-
-    protected ?array $tools = [];
-
-    protected ?string $disk = null;
+    protected array | null $acceptedFileTypes = null;
 
     protected string | Closure | null $directory = null;
 
-    protected ?array $acceptedFileTypes = null;
-
-    protected ?int $maxFileSize = null;
-
-    protected null | string $output = null;
+    protected string | Closure | null $disk = null;
 
     protected array $extensions = [];
 
-    protected null | string | Closure $maxContentWidth = null;
+    protected array | Closure | null $floatingMenuTools = null;
+
+    protected string | Closure | null $maxContentWidth = null;
+
+    protected int | null $maxFileSize = null;
+
+    protected string | null $output = null;
+
+    protected string $profile = 'default';
+
+    protected Closure | null $saveUploadedFileUsing = null;
+
+    protected bool | null $shouldShowBubbleMenus = null;
+
+    protected bool | null $shouldShowFloatingMenus = null;
+
+    protected ?array $tools = [];
+
+    protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
     /**
      * @throws InvalidOutputFormatException|BindingResolutionException
+     * @throws Exception
      */
     protected function setUp(): void
     {
@@ -60,13 +68,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
-        $this->afterStateHydrated(function(TiptapEditor $component, string|array|null $state) {
+        $this->afterStateHydrated(function(TiptapEditor $component, string | array | null $state) {
            if (! $state) {
                $component->state('<p></p>');
            }
         });
 
-        $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string|array|null $state) {
+        $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string | array | null $state) {
             $tempState = $state;
 
             if ($state && $this->expectsJSON()) {
@@ -89,13 +97,22 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         });
 
         $this->registerListeners([
-            'tiptap::setSourceContent' => [
+            'tiptap::setGridBuilderContent' => [
                 function (TiptapEditor $component, string $statePath): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
                         return;
                     }
 
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source');
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_grid');
+                },
+            ],
+            'tiptap::setSourceContent' => [
+                function (TiptapEditor $component, string $statePath, string $html): void {
+                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
+                        return;
+                    }
+
+                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source', ['html' => $html]);
                 },
             ],
             'tiptap::setVimeoContent' => [
@@ -153,6 +170,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
             [
                 SourceAction::make(),
                 OEmbedAction::make(),
+                GridBuilderAction::make(),
             ],
             [
                 config('filament-tiptap-editor.link_action')::make(),
@@ -163,38 +181,51 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         ));
     }
 
-    public function profile(?string $profile): static
+    public function acceptedFileTypes(array $acceptedFileTypes): static
     {
-        $this->profile = $profile;
-        $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
+        $this->acceptedFileTypes = $acceptedFileTypes;
 
         return $this;
     }
 
-    public function tools(array $tools): static
-    {
-        $this->tools = $tools;
-
-        return $this;
-    }
-
-    public function disk(?string $disk): static
-    {
-        $this->disk = $disk;
-
-        return $this;
-    }
-
-    public function directory(string | Closure | null $directory): static
+    public function directory(string | Closure $directory): static
     {
         $this->directory = $directory;
 
         return $this;
     }
 
-    public function acceptedFileTypes(?array $acceptedFileTypes): static
+    public function disableBubbleMenus(bool | Closure | null $condition = true): static
     {
-        $this->acceptedFileTypes = $acceptedFileTypes;
+        $this->shouldShowBubbleMenus = $condition;
+
+        return $this;
+    }
+
+    public function disableFloatingMenus(bool | Closure | null $condition = true): static
+    {
+        $this->shouldShowFloatingMenus = $condition;
+
+        return $this;
+    }
+
+    public function disk(string | Closure $disk): static
+    {
+        $this->disk = $disk;
+
+        return $this;
+    }
+
+    public function floatingMenuTools(array | Closure $tools): static
+    {
+        $this->floatingMenuTools = $tools;
+
+        return $this;
+    }
+
+    public function maxContentWidth(string | Closure $width): static
+    {
+        $this->maxContentWidth = $width;
 
         return $this;
     }
@@ -217,11 +248,56 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function maxContentWidth(string|null|Closure $width = null): static
+    public function profile(string $profile): static
     {
-        $this->maxContentWidth = $width;
+        $this->profile = $profile;
+        $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
 
         return $this;
+    }
+
+    public function tools(array $tools): static
+    {
+        $this->tools = $tools;
+
+        return $this;
+    }
+
+    public function getAcceptedFileTypes(): array
+    {
+        return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
+    }
+
+    public function getDirectory(): string
+    {
+        return $this->directory ? $this->evaluate($this->directory) : config('filament-tiptap-editor.directory');
+    }
+
+    public function getDisk(): string
+    {
+        return $this->disk ? $this->evaluate($this->disk) : config('filament-tiptap-editor.disk');
+    }
+
+    public function getFloatingMenuTools(): array
+    {
+        return $this->evaluate($this->floatingMenuTools) ?? config('filament-tiptap-editor.floating_menu_tools');
+    }
+
+    public function getMaxContentWidth(): string
+    {
+        return $this->maxContentWidth
+            ? $this->evaluate($this->maxContentWidth)
+            : config('filament-tiptap-editor.max_content_width');
+    }
+
+    public function getMaxFileSize(): int
+    {
+        return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
+    }
+
+    public function getOutput(): string
+    {
+        return $this->output;
     }
 
     public function getTools(): array
@@ -237,36 +313,29 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->tools;
     }
 
-    public function getDisk(): string
+    public function getHTML(): string
     {
-        return $this->disk ?? config('filament-tiptap-editor.disk');
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asHTML($this->getState());
     }
 
-    public function getDirectory(): string
+    public function getText(): string
     {
-        return $this->directory ? $this->evaluate($this->directory) : config('filament-tiptap-editor.directory');
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asText($this->getState());
     }
 
-    public function getAcceptedFileTypes(): array
+    public function getJSON(): string
     {
-        return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
+        return \FilamentTiptapEditor\Facades\TiptapConverter::asJSON($this->getState());
     }
 
-    public function getMaxFileSize(): int
+    public function isFloatingMenusDisabled(): bool
     {
-        return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
+        return $this->evaluate($this->shouldShowFloatingMenus) ?? config('filament-tiptap-editor.disable_floating_menus');
     }
 
-    public function getOutput(): string
+    public function isBubbleMenusDisabled(): bool
     {
-        return $this->output;
-    }
-
-    public function getMaxContentWidth(): string
-    {
-        return $this->maxContentWidth
-            ? $this->evaluate($this->maxContentWidth)
-            : config('filament-tiptap-editor.max_content_width');
+        return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
     }
 
     /**
@@ -280,34 +349,18 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
             self::OUTPUT_TEXT,
         ];
 
-        if (!in_array($this->output, $availableFormats)) {
+        if (! in_array($this->output, $availableFormats)) {
             throw new InvalidOutputFormatException;
         }
+    }
+
+    public function expectsHTML(): bool
+    {
+        return $this->output === self::OUTPUT_HTML;
     }
 
     public function expectsJSON(): bool
     {
         return $this->output === self::OUTPUT_JSON;
-    }
-
-    public function getHTML(): string
-    {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getHtml();
-    }
-
-    public function getText(): string
-    {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getText();
-    }
-
-    public function getJSON(): string
-    {
-        return (new Editor)
-            ->setContent($this->getState())
-            ->getJSON();
     }
 }

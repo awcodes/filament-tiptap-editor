@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'heading' => 'Insert OEmbed Video',
+    'heading' => 'Insert Video',
     'buttons' => [
         'cancel' => 'Cancel',
         'insert' => 'Insert',
@@ -16,6 +16,10 @@ return [
         'loop' => 'Loop',
         'title' => 'Title',
         'byline' => 'Byline',
-        'portrait' => 'Portrait'
+        'portrait' => 'Portrait',
+        'controls' => 'Controls',
+        'nocookie' => 'No Cookie',
+        'start_at' => 'Start At',
+        'local' => 'Local',
     ],
 ];
