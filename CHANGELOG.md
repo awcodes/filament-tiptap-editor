@@ -2,6 +2,21 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.0 - 2023-06-23
+
+### What's Changed
+
+- Better drop downs
+- Bubble Menu Support
+- Floating Menu Support
+- Grid Builder
+- Enhanced Color Picker
+- Enhanced Video with native support *see note below
+
+‼️ New video extension has the potential to break videos. Please make sure to update your content to change any references of `aspectWidth`, `aspectwidth`, `aspectHeight` or `aspectheight` to `data-aspect-width` and `data-aspect-height` respectively.
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.5.0...v2.6.0
+
 ## v2.5.0 - 2023-06-14
 
 ### What's Changed
