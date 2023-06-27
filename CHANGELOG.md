@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.1 - 2023-06-27
+
+### What's Changed
+
+- Fix: helper text anchor tags in MediaAction by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/125
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.0...v2.6.1
+
 ## v2.6.0 - 2023-06-23
 
 ### What's Changed
