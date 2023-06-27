@@ -13,7 +13,7 @@ return [
         'file' => 'File',
         'link_text' => 'Link Text',
         'alt' => 'Description',
-        'alt_helper_text' => 'Learn how to describe the purpose of the image</a>. Leave empty if the image is purely decorative.',
+        'alt_helper_text' => 'Learn how to describe the purpose of the image.',
         'title' => 'Title',
     ]
 ];
