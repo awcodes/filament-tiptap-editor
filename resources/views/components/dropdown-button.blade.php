@@ -37,7 +37,7 @@
         }"
         x-cloak
         @class([
-            'absolute z-30 bg-gray-800 rounded-md shadow-md top-full',
+            'absolute z-30 bg-gray-300 dark:bg-gray-800 rounded-md shadow-md top-full',
             'overflow-y-scroll max-h-48' => ! $active,
         ])
     >
