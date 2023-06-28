@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.3 - 2023-06-28
+
+### What's Changed
+
+- Fix: standalone instructions and minor style tweaks by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/127
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.2...v2.6.3
+
 ## v2.6.2 - 2023-06-28
 
 ### What's Changed
