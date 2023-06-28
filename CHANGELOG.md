@@ -2,6 +2,18 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.2 - 2023-06-28
+
+### What's Changed
+
+- Fix text and background colors in dark mode by @atmonshi in https://github.com/awcodes/filament-tiptap-editor/pull/126
+
+### New Contributors
+
+- @atmonshi made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/126
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.1...v2.6.2
+
 ## v2.6.1 - 2023-06-27
 
 ### What's Changed
