@@ -43,7 +43,7 @@
     >
         <div x-ref="arrow" class="absolute z-0 bg-inherit w-2 h-2 transform rotate-45"></div>
         @if ($list)
-            <ul class="text-sm divide-y divide-gray-700 min-w-[144px]">
+            <ul class="text-sm divide-y divide-gray-300 dark:divide-gray-700 min-w-[144px]">
                 {{ $slot }}
             </ul>
         @else
