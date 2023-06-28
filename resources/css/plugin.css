@@ -50,6 +50,7 @@
     margin-inline: auto;
     position: relative;
     width: 100%;
+    color: theme('colors.black');
 
     .filament-tiptap-hurdle {
         width: 100%;
@@ -535,6 +536,8 @@
 
 .dark {
     .tiptap-editor .ProseMirror {
+        color: theme('colors.gray.200');
+
         blockquote {
             border-left-color: theme("colors.gray.500");
         }

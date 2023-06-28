@@ -19,7 +19,7 @@
     :state-path="$statePath"
 >
     <div @class([
-        'tiptap-editor border rounded-md relative bg-white shadow-sm dark:bg-gray-700 text-gray-600 dark:text-gray-200',
+        'tiptap-editor border rounded-md relative bg-white shadow-sm dark:bg-gray-700 text-gray-700 dark:text-gray-200',
         'border-gray-200 dark:border-gray-600' => ! $errors->has($statePath),
         'border-danger-600 ring-danger-600' => $errors->has($statePath),
     ])>
