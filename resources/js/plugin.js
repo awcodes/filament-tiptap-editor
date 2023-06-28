@@ -309,7 +309,7 @@ document.addEventListener("alpine:init", () => {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
                     _this.state = _this.getFormattedContent();
-                    _this.$wire.set(_this.statePath, _this.getFormattedContent());
+                    // _this.$wire.set(_this.statePath, _this.getFormattedContent());
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();

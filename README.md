@@ -214,15 +214,27 @@ TiptapEditor::make('content')
 
 ## Usage in Standalone Forms Package
 
-1. Publish the JS/CSS assets
+1. Install tippy.js and @ryangjchandler/alpine-tooltip
 
 ```bash
-php artisan vendor:publish --tag="filament-tiptap-editor-assets"
+npm install -D tippy.js @ryangjchandler/alpine-tooltip
 ```
 
-2. Include the CSS files in your page / layout
-2. Include the JS files in your page / layout before Filament's scripts
-2. Include a `@stack('modals')` in your page / layout if it doesn't exist
+2. Import the plugin's JS file into your app's JS file and register Alpine Tooltip
+
+```js
+import Tooltip from '@ryangjchandler/alpine-tooltip'
+import '../../vendor/awcodes/filament-tiptap-editor/resources/js/plugin.js'
+
+Alpine.plugin(Tooltip);
+```
+
+3. Import the plugin's CSS and Tippy's CSS file into your app's CSS file
+
+```css
+@import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@import '../../node_modules/tippy.js/dist/tippy.css';
+```
 
 ## Theming
 
