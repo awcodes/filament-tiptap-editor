@@ -264,7 +264,7 @@ document.addEventListener("alpine:init", () => {
 
             this.$watch('state', (newState) => {
                 if (this.state !== newState) {
-                    this.editor().commands.setContent(newState);
+                    this.updateEditorContent(newState);
                 }
             });
 
@@ -316,6 +316,9 @@ document.addEventListener("alpine:init", () => {
                     _this.focused = true;
                 },
             });
+        },
+        updateEditorContent(content) {
+            this.editor().commands.setContent(content);
         },
         insertMedia(media) {
             if (Array.isArray(media)) {
