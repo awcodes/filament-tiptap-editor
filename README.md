@@ -1,6 +1,6 @@
 # Filament Tiptap Editor
 
-A Tiptap ingtegration for Filament Admin/Forms.
+A Tiptap integration for Filament Admin/Forms.
 
 > **Warning**
 > If you are using the Curator integration for media uploads you will need to update to version 2.3.0 or higher.
