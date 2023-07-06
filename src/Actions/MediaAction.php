@@ -116,7 +116,7 @@ class MediaAction extends Action
         $this->action(function(TiptapEditor $component, $data) {
             $source = str_starts_with($data['src'], 'http')
                 ? $data['src']
-                : config('app.url') . Storage::url($data['src']);
+                : config('app.url') . $data['src'];
 
             $component->getLivewire()->dispatchBrowserEvent('insert-media', [
                 'statePath' => $component->getStatePath(),
