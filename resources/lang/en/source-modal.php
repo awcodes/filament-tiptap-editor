@@ -7,6 +7,6 @@ return [
         'update' => 'Update',
     ],
     'labels' => [
-        'source' => 'Source'
-    ]
+        'source' => 'Source',
+    ],
 ];

@@ -21,7 +21,7 @@ class DetailsContent extends Node
         return [
             [
                 'tag' => 'div[data-type="details-content"]',
-            ]
+            ],
         ];
     }
 
@@ -30,7 +30,7 @@ class DetailsContent extends Node
         return [
             'div',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes, ['data-type' => 'details-content']),
-            0
+            0,
         ];
     }
 }

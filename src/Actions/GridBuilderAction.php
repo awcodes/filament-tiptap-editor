@@ -3,17 +3,12 @@
 namespace FilamentTiptapEditor\Actions;
 
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ViewField;
 use FilamentTiptapEditor\TiptapEditor;
-use Illuminate\Support\Str;
 
 class GridBuilderAction extends Action
 {
@@ -77,7 +72,7 @@ class GridBuilderAction extends Action
                         ->maxValue(12)
                         ->numeric()
                         ->visible(fn (callable $get) => $get('asymmetric')),
-                ])
+                ]),
         ]);
 
         $this->modalActions(function ($action) {
@@ -88,7 +83,7 @@ class GridBuilderAction extends Action
             ];
         });
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-grid-builder', [
                 'statePath' => $component->getStatePath(),
                 'data' => $data,

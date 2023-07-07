@@ -33,55 +33,55 @@ class Video extends Node
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("style");
+                    return $DOMNode->firstChild->getAttribute('style');
                 },
             ],
             'src' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("src");
+                    return $DOMNode->firstChild->getAttribute('src');
                 },
             ],
             'width' => [
                 'default' => $this->options['width'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("width");
+                    return $DOMNode->firstChild->getAttribute('width');
                 },
             ],
             'height' => [
                 'default' => $this->options['height'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("height");
+                    return $DOMNode->firstChild->getAttribute('height');
                 },
             ],
             'autoplay' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("autoplay");
+                    return $DOMNode->firstChild->getAttribute('autoplay');
                 },
             ],
             'loop' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("loop");
+                    return $DOMNode->firstChild->getAttribute('loop');
                 },
             ],
             'controls' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("controls");
+                    return $DOMNode->firstChild->getAttribute('controls');
                 },
             ],
             'data-aspect-width' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("data-aspect-width");
+                    return $DOMNode->firstChild->getAttribute('data-aspect-width');
                 },
             ],
             'data-aspect-height' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("data-aspect-height");
+                    return $DOMNode->firstChild->getAttribute('data-aspect-height');
                 },
             ],
         ];
@@ -92,7 +92,7 @@ class Video extends Node
         return [
             [
                 'tag' => 'div[data-native-video]',
-            ]
+            ],
         ];
     }
 
@@ -102,7 +102,7 @@ class Video extends Node
             'div',
             [
                 'data-native-video' => true,
-                'class' => $node->attrs->responsive ? 'responsive' : null
+                'class' => $node->attrs->responsive ? 'responsive' : null,
             ],
             [
                 'video',
@@ -115,7 +115,7 @@ class Video extends Node
                     'controls' => $node->attrs->controls ? 'true' : null,
                     'style' => $node->attrs->style ?? null,
                 ]),
-            ]
+            ],
         ];
     }
 }

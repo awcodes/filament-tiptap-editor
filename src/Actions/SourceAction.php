@@ -20,7 +20,7 @@ class SourceAction extends Action
 
         $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
             return $form->fill([
-                'source' => $arguments['html']
+                'source' => $arguments['html'],
             ]);
         });
 
@@ -32,7 +32,7 @@ class SourceAction extends Action
                 ->rows(10),
         ]);
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-source', [
                 'statePath' => $component->getStatePath(),
                 'source' => $data['source'],

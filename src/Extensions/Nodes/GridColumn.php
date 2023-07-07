@@ -35,7 +35,7 @@ class GridColumn extends Node
         return [
             'div',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

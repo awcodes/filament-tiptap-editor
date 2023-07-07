@@ -32,7 +32,7 @@ class YoutubeAction extends Action
                 ->label(__('filament-tiptap-editor::youtube-modal.labels.responsive'))
                 ->helperText(__('filament-tiptap-editor::youtube-modal.labels.responsive_helper'))
                 ->reactive()
-                ->afterStateUpdated(function(callable $set, $state) {
+                ->afterStateUpdated(function (callable $set, $state) {
                     if ($state) {
                         $set('width', '16');
                         $set('height', '9');
@@ -51,7 +51,7 @@ class YoutubeAction extends Action
             ])->columns(['md' => 2]),
         ]);
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-video', [
                 'statePath' => $component->getStatePath(),
                 'video' => $data,

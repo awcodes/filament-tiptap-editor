@@ -3,14 +3,14 @@
 namespace FilamentTiptapEditor;
 
 use Composer\InstalledVersions;
-use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\Str;
 use Filament\Facades\Filament;
-use Illuminate\Support\HtmlString;
 use Filament\PluginServiceProvider;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 use Spatie\LaravelPackageTools\Package;
-use Illuminate\Contracts\Support\Htmlable;
 
 class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
 {
@@ -55,17 +55,14 @@ class FilamentTiptapEditorServiceProvider extends PluginServiceProvider
     protected function getStyles(): array
     {
         return [
-            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.css',
+            'plugin-tiptap-editor-'.static::$version => __DIR__.'/../resources/dist/filament-tiptap-editor.css',
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getBeforeCoreScripts(): array
     {
         return [
-            'plugin-tiptap-editor-' . static::$version => __DIR__ . '/../resources/dist/filament-tiptap-editor.js',
+            'plugin-tiptap-editor-'.static::$version => __DIR__.'/../resources/dist/filament-tiptap-editor.js',
         ];
     }
 

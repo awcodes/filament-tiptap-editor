@@ -28,7 +28,7 @@ class MediaAction extends Action
 
         $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
             $source = $component->getLivewire()->mediaProps['src'] !== ''
-                ? $component->getDirectory() . Str::of($component->getLivewire()->mediaProps['src'])
+                ? $component->getDirectory().Str::of($component->getLivewire()->mediaProps['src'])
                     ->after($component->getDirectory())
                 : null;
 
@@ -41,14 +41,15 @@ class MediaAction extends Action
             ]);
         });
 
-        $this->modalHeading(function(TiptapEditor $component) {
+        $this->modalHeading(function (TiptapEditor $component) {
             $context = blank($component->getLivewire()->mediaProps['src']) ? 'insert' : 'update';
-            return __('filament-tiptap-editor::media-modal.heading.' . $context);
+
+            return __('filament-tiptap-editor::media-modal.heading.'.$context);
         });
 
         $this->modalWidth('md');
 
-        $this->form(function(TiptapEditor $component) {
+        $this->form(function (TiptapEditor $component) {
 
             return [
                 FileUpload::make('src')
@@ -77,8 +78,8 @@ class MediaAction extends Action
 
                         $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
 
-                        if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $file->getClientOriginalExtension(), '/'))) {
-                            $filename = $filename . '-' . time();
+                        if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory().'/'.$filename.'.'.$file->getClientOriginalExtension(), '/'))) {
+                            $filename = $filename.'-'.time();
                         }
 
                         if (Str::contains($file->getMimeType(), 'image')) {
@@ -92,7 +93,7 @@ class MediaAction extends Action
                             $set('height', $image->getHeight());
                         }
 
-                        $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
+                        $upload = $file->{$storeMethod}($component->getDirectory(), $filename.'.'.$file->getClientOriginalExtension(), $component->getDiskName());
 
                         return Storage::disk($component->getDiskName())->url($upload);
                     }),
@@ -103,7 +104,7 @@ class MediaAction extends Action
                 TextInput::make('alt')
                     ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
                     ->hidden(fn (callable $get) => $get('type') == 'document')
-                    ->helperText(new HtmlString('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">' . __('filament-tiptap-editor::media-modal.labels.alt_helper_text') . '</a></span>')),
+                    ->helperText(new HtmlString('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">'.__('filament-tiptap-editor::media-modal.labels.alt_helper_text').'</a></span>')),
                 TextInput::make('title')
                     ->label(__('filament-tiptap-editor::media-modal.labels.title')),
                 Hidden::make('width'),
@@ -113,10 +114,10 @@ class MediaAction extends Action
             ];
         });
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $source = str_starts_with($data['src'], 'http')
                 ? $data['src']
-                : config('app.url') . Storage::url($data['src']);
+                : config('app.url').Storage::url($data['src']);
 
             $component->getLivewire()->dispatchBrowserEvent('insert-media', [
                 'statePath' => $component->getStatePath(),

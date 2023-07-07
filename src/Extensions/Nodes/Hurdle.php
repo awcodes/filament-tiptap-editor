@@ -52,7 +52,7 @@ class Hurdle extends Node
                 'getAttrs' => function ($DOMNode) {
                     return str_contains($DOMNode->getAttribute('class'), 'filament-tiptap-hurdle') && null;
                 },
-            ]
+            ],
         ];
     }
 
@@ -61,7 +61,7 @@ class Hurdle extends Node
         return [
             'div',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

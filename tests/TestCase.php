@@ -2,8 +2,8 @@
 
 namespace FilamentTiptapEditor\Tests;
 
-use FilamentTiptapEditor\FilamentTiptapEditorServiceProvider;
 use Filament\FilamentServiceProvider;
+use FilamentTiptapEditor\FilamentTiptapEditorServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

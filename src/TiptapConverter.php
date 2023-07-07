@@ -2,6 +2,9 @@
 
 namespace FilamentTiptapEditor;
 
+use FilamentTiptapEditor\Extensions\Extensions;
+use FilamentTiptapEditor\Extensions\Marks;
+use FilamentTiptapEditor\Extensions\Nodes;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
@@ -13,9 +16,6 @@ use Tiptap\Nodes\Table;
 use Tiptap\Nodes\TableCell;
 use Tiptap\Nodes\TableHeader;
 use Tiptap\Nodes\TableRow;
-use FilamentTiptapEditor\Extensions\Nodes;
-use FilamentTiptapEditor\Extensions\Marks;
-use FilamentTiptapEditor\Extensions\Extensions;
 
 class TiptapConverter
 {

@@ -19,3 +19,4 @@ export { BubbleMenu } from "./BubbleMenu";
 export { FloatingMenu } from "./FloatingMenu";
 export { GridBuilder } from "./GridBuilder/GridBuilder";
 export { GridBuilderColumn } from "./GridBuilder/GridBuilderColumn";
+export { CustomHeading } from './Heading';

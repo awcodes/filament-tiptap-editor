@@ -18,7 +18,7 @@ return [
             'default' => 'Default',
             'new_window' => 'New Window',
             'parent' => 'Parent',
-            'top' => 'Top'
+            'top' => 'Top',
         ],
         'rel' => [
             'nofollow' => 'No Follow',
@@ -31,6 +31,6 @@ return [
             'secondary' => 'Secondary',
             'tertiary' => 'Tertiary',
             'accent' => 'Accent',
-        ]
-    ]
+        ],
+    ],
 ];

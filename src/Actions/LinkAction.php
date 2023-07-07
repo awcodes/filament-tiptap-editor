@@ -36,9 +36,10 @@ class LinkAction extends Action
 
         $this->modalWidth('md');
 
-        $this->modalHeading(function(TiptapEditor $component) {
+        $this->modalHeading(function (TiptapEditor $component) {
             $context = blank($component->getLivewire()->linkProps['href']) ? 'insert' : 'update';
-            return __('filament-tiptap-editor::link-modal.heading.' . $context);
+
+            return __('filament-tiptap-editor::link-modal.heading.'.$context);
         });
 
         $this->form([
@@ -52,7 +53,7 @@ class LinkAction extends Action
                         '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
                         '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
                         '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                        '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
+                        '_top' => __('filament-tiptap-editor::link-modal.labels.target.top'),
                     ]),
                     TextInput::make('hreflang')
                         ->label(__('filament-tiptap-editor::link-modal.labels.language')),
@@ -77,10 +78,10 @@ class LinkAction extends Action
                             'tertiary' => __('filament-tiptap-editor::link-modal.labels.button_theme.tertiary'),
                             'accent' => __('filament-tiptap-editor::link-modal.labels.button_theme.accent'),
                         ]),
-                ])
+                ]),
         ]);
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-link', [
                 'statePath' => $component->getStatePath(),
                 'href' => $data['href'],
@@ -99,9 +100,9 @@ class LinkAction extends Action
                 \Filament\Forms\Components\Actions\Modal\Actions\Action::make('remove_link')
                     ->color('danger')
                     ->extraAttributes([
-                        'x-on:click' => '$dispatch(\'unset-link\', {statePath: \'' . $component->getStatePath() . '\'}); close()',
-                        'style' => 'margin-left: auto;'
-                    ])
+                        'x-on:click' => '$dispatch(\'unset-link\', {statePath: \''.$component->getStatePath().'\'}); close()',
+                        'style' => 'margin-left: auto;',
+                    ]),
             ];
         });
     }

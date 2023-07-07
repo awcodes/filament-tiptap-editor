@@ -11,9 +11,9 @@ class Paragraph extends BaseParagraph
         return [
             [
                 'class' => [
-                    'default' => null
-                ]
-            ]
+                    'default' => null,
+                ],
+            ],
         ];
     }
 }

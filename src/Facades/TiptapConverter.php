@@ -15,6 +15,6 @@ class TiptapConverter extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-       return 'tiptap-converter';
+        return 'tiptap-converter';
     }
 }

@@ -47,6 +47,7 @@ import {
     BubbleMenu,
     FloatingMenu,
     Video,
+    CustomHeading,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString} from "./utils";
@@ -67,7 +68,7 @@ let editorExtensions = {
     details: [Details, DetailsSummary, DetailsContent],
     grid: [Grid, GridColumn],
     'grid-builder': [GridBuilder, GridBuilderColumn],
-    heading: [Heading.configure({levels: [1, 2, 3, 4, 5, 6]})],
+    heading: [CustomHeading.configure({levels: [1, 2, 3, 4, 5, 6]})],
     highlight: [Highlight],
     hr: [HorizontalRule],
     hurdle: [Hurdle],

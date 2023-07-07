@@ -31,7 +31,7 @@ class GridBuilderColumn extends Node
 
                     return [
                         'data-cols' => $attributes['data-col-span'],
-                        'style' => 'grid-column: span ' . $attributes['data-col-span'] . ';',
+                        'style' => 'grid-column: span '.$attributes['data-col-span'].';',
                     ];
                 },
             ],
@@ -55,7 +55,7 @@ class GridBuilderColumn extends Node
         return [
             'div',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

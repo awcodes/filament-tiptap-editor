@@ -37,7 +37,7 @@ class GridBuilder extends Node
 
                     return [
                         'data-cols' => $attributes['data-cols'],
-                        'style' => 'grid-template-columns: repeat(' . $attributes['data-cols'] . ', 1fr);',
+                        'style' => 'grid-template-columns: repeat('.$attributes['data-cols'].', 1fr);',
                     ];
                 },
             ],
@@ -67,7 +67,7 @@ class GridBuilder extends Node
         return [
             'div',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

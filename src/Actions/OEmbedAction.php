@@ -77,12 +77,13 @@ class OEmbedAction extends Action
                         }
 
                         $state = CarbonInterval::seconds($state)->cascade();
-                        $component->state(Carbon::parse($state->h . ':' . $state->i . ':' . $state->s)->format('Y-m-d H:i:s'));
+                        $component->state(Carbon::parse($state->h.':'.$state->i.':'.$state->s)->format('Y-m-d H:i:s'));
                     })
                     ->dehydrateStateUsing(function ($state): int {
                         if (! $state) {
                             return 0;
                         }
+
                         return Carbon::parse($state)->diffInSeconds('00:00:00');
                     }),
             ])->visible(function (callable $get) {
@@ -116,7 +117,7 @@ class OEmbedAction extends Action
             ])->columns(['md' => 2]),
         ]);
 
-        $this->action(function(TiptapEditor $component, $data) {
+        $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatchBrowserEvent('insert-video', [
                 'statePath' => $component->getStatePath(),
                 'video' => $data,

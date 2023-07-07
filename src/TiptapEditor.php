@@ -23,32 +23,34 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     use HasExtraAlpineAttributes;
 
     public const OUTPUT_HTML = 'html';
+
     public const OUTPUT_JSON = 'json';
+
     public const OUTPUT_TEXT = 'text';
 
-    protected array | null $acceptedFileTypes = null;
+    protected array|null $acceptedFileTypes = null;
 
-    protected string | Closure | null $directory = null;
+    protected string|Closure|null $directory = null;
 
-    protected string | Closure | null $disk = null;
+    protected string|Closure|null $disk = null;
 
     protected array $extensions = [];
 
-    protected array | Closure | null $floatingMenuTools = null;
+    protected array|Closure|null $floatingMenuTools = null;
 
-    protected string | Closure | null $maxContentWidth = null;
+    protected string|Closure|null $maxContentWidth = null;
 
-    protected int | null $maxFileSize = null;
+    protected int|null $maxFileSize = null;
 
-    protected string | null $output = null;
+    protected string|null $output = null;
 
     protected string $profile = 'default';
 
-    protected Closure | null $saveUploadedFileUsing = null;
+    protected Closure|null $saveUploadedFileUsing = null;
 
-    protected bool | null $shouldShowBubbleMenus = null;
+    protected bool|null $shouldShowBubbleMenus = null;
 
-    protected bool | null $shouldShowFloatingMenus = null;
+    protected bool|null $shouldShowFloatingMenus = null;
 
     protected ?array $tools = [];
 
@@ -68,13 +70,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
-        $this->afterStateHydrated(function(TiptapEditor $component, string | array | null $state) {
-           if (! $state) {
-               $component->state('<p></p>');
-           }
+        $this->afterStateHydrated(function (TiptapEditor $component, string|array|null $state) {
+            if (! $state) {
+                $component->state('<p></p>');
+            }
         });
 
-        $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string | array | null $state) {
+        $this->afterStateUpdated(function (TiptapEditor $component, $livewire, string|array|null $state) {
             $tempState = $state;
 
             if ($state && $this->expectsJSON()) {
@@ -88,7 +90,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
             }
         });
 
-        $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
+        $this->dehydrateStateUsing(function (TiptapEditor $component, string|array|null $state) {
             if ($state && $this->expectsJSON()) {
                 return is_array($state) ? $state : json_decode($state);
             }
@@ -188,42 +190,42 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    public function directory(string | Closure $directory): static
+    public function directory(string|Closure $directory): static
     {
         $this->directory = $directory;
 
         return $this;
     }
 
-    public function disableBubbleMenus(bool | Closure | null $condition = true): static
+    public function disableBubbleMenus(bool|Closure|null $condition = true): static
     {
         $this->shouldShowBubbleMenus = $condition;
 
         return $this;
     }
 
-    public function disableFloatingMenus(bool | Closure | null $condition = true): static
+    public function disableFloatingMenus(bool|Closure|null $condition = true): static
     {
         $this->shouldShowFloatingMenus = $condition;
 
         return $this;
     }
 
-    public function disk(string | Closure $disk): static
+    public function disk(string|Closure $disk): static
     {
         $this->disk = $disk;
 
         return $this;
     }
 
-    public function floatingMenuTools(array | Closure $tools): static
+    public function floatingMenuTools(array|Closure $tools): static
     {
         $this->floatingMenuTools = $tools;
 
         return $this;
     }
 
-    public function maxContentWidth(string | Closure $width): static
+    public function maxContentWidth(string|Closure $width): static
     {
         $this->maxContentWidth = $width;
 
@@ -251,7 +253,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     public function profile(string $profile): static
     {
         $this->profile = $profile;
-        $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
+        $this->tools = config('filament-tiptap-editor.profiles.'.$profile);
 
         return $this;
     }
