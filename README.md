@@ -236,7 +236,7 @@ Alpine.plugin(Tooltip);
 @import '../../node_modules/tippy.js/dist/tippy.css';
 ```
 
-4. If you're using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
+4. If you are using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
 
 ```php
 <form wire:submit.prevent="submit">
