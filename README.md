@@ -236,6 +236,21 @@ Alpine.plugin(Tooltip);
 @import '../../node_modules/tippy.js/dist/tippy.css';
 ```
 
+4. If you're using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
+
+```php
+<form wire:submit.prevent="submit">
+    {{ $this->form }}
+
+    <button type="submit">
+        Save
+    </button>
+</form>
+
+{{ $this->modal }}
+```
+
+
 ## Theming
 
 If you are using a custom theme for Filament you will need to add this plugin's views to your Tailwind CSS config.
