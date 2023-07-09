@@ -2,6 +2,15 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.5 - 2023-07-09
+
+### What's Changed
+
+- Chore: Update README.md by @pboivin in https://github.com/awcodes/filament-tiptap-editor/pull/132
+- Feat: Add refresh-tiptap-editors event handler by @pboivin in https://github.com/awcodes/filament-tiptap-editor/pull/135
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.4...v2.6.5
+
 ## v2.6.4 - 2023-07-01
 
 ### What's Changed
