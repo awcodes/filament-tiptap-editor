@@ -162,10 +162,10 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
                 GridBuilderAction::make(),
             ],
             [
-                app(config('filament-tiptap-editor.link_action'))::make(),
+                config('filament-tiptap-editor.link_action')::make(),
             ],
             Str::of(config('filament-tiptap-editor.media_action'))->contains('\\')
-                ? [app(config('filament-tiptap-editor.media_action'))::make()]
+                ? [config('filament-tiptap-editor.media_action')::make()]
                 : [],
         ));
     }
