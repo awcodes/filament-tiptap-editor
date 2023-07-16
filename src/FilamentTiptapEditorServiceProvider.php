@@ -2,8 +2,6 @@
 
 namespace FilamentTiptapEditor;
 
-use Composer\InstalledVersions;
-use Filament\Support\Assets\AssetManager;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
@@ -19,8 +17,6 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-tiptap-editor';
 
-    public static string $viewNamespace = 'filament-tiptap-editor';
-
     public function configurePackage(Package $package): void
     {
         $package
@@ -31,31 +27,12 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             ->hasViews();
     }
 
-    public function packageRegistered(): void
+    public function packageBooted(): void
     {
-        //        Asset Registration
-        $this->app->resolving(AssetManager::class, function () {
-            FilamentAsset::register($this->getAssets(), $this->getAssetPackage());
-        });
-    }
-
-    protected function getAssets(): array
-    {
-        return [
-            //  AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            Css::make('plugin-tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
-            Js::make('plugin-tiptap-editor-scripts', __DIR__.'/../resources/dist/filament-tiptap-editor.js'),
-        ];
-    }
-
-    protected function getAssetPackage(): ?string
-    {
-        return static::$name ?? null;
-    }
-
-    public function boot(): void
-    {
-        parent::boot();
+        FilamentAsset::register(
+            $this->getAssets(),
+            'awcodes/tiptap-editor'
+        );
 
         if ($theme = $this->getTiptapEditorStylesLink()) {
             Filament::registerRenderHook(
@@ -65,6 +42,14 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
         }
     }
 
+    protected function getAssets(): array
+    {
+        return [
+            //  AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
+            Css::make('tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
+            Js::make('tiptap-editor-scripts', __DIR__.'/../resources/dist/filament-tiptap-editor.js'),
+        ];
+    }
 
     public function getTiptapEditorStylesLink(): ?Htmlable
     {

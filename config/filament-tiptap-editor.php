@@ -55,14 +55,11 @@ return [
     | Output format
     |--------------------------------------------------------------------------
     |
-    | Which output format should be the default.
-    | Available formats:
-    | > TiptapEditor::OUTPUT_HTML | TiptapEditor::OUTPUT_JSON | TiptapEditor::OUTPUT_TEXT
-    | > or only as string: 'html', 'json', 'text'
+    | Which output format should be stored in the Database.
     |
     | See: https://tiptap.dev/guide/output
     */
-    'output' => FilamentTiptapEditor\TiptapEditor::OUTPUT_HTML,
+    'output' => FilamentTiptapEditor\Enums\TiptapOutput::Html,
 
     /*
     |--------------------------------------------------------------------------

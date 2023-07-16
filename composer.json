@@ -17,7 +17,7 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "filament/filament": "*",
         "intervention/image": "^2.7",
         "spatie/laravel-package-tools": "^1.9.2",

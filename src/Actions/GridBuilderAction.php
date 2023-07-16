@@ -48,7 +48,7 @@ class GridBuilderAction extends Action
                     Select::make('stack_at')
                         ->label(__('filament-tiptap-editor::grid-modal.labels.stack_at'))
                         ->reactive()
-                        ->disablePlaceholderSelection()
+                        ->selectablePlaceholder(false)
                         ->options([
                             'none' => __('filament-tiptap-editor::grid-modal.labels.dont_stack'),
                             'sm' => 'sm',
@@ -80,7 +80,7 @@ class GridBuilderAction extends Action
                 ])
         ]);
 
-        $this->modalActions(function ($action) {
+        $this->modalFooterActions(function ($action) {
             return [
                 $action->getModalSubmitAction()
                     ->label(__('filament-tiptap-editor::grid-modal.labels.submit')),

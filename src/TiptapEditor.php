@@ -12,6 +12,7 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
@@ -21,10 +22,6 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
     use CanBeLengthConstrained;
     use HasExtraInputAttributes;
     use HasExtraAlpineAttributes;
-
-    public const OUTPUT_HTML = 'html';
-    public const OUTPUT_JSON = 'json';
-    public const OUTPUT_TEXT = 'text';
 
     protected array | null $acceptedFileTypes = null;
 
@@ -40,7 +37,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected int | null $maxFileSize = null;
 
-    protected string | null $output = null;
+    protected TiptapOutput | null $output = null;
 
     protected string $profile = 'default';
 
@@ -54,17 +51,12 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
-    /**
-     * @throws InvalidOutputFormatException|BindingResolutionException
-     * @throws Exception
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->tools = config('filament-tiptap-editor.profiles.default');
         $this->output(config('filament-tiptap-editor.output'));
-        $this->validateOutputFormat();
 
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
@@ -173,10 +165,10 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
                 GridBuilderAction::make(),
             ],
             [
-                config('filament-tiptap-editor.link_action')::make(),
+                app(config('filament-tiptap-editor.link_action'))::make(),
             ],
             Str::of(config('filament-tiptap-editor.media_action'))->contains('\\')
-                ? [config('filament-tiptap-editor.media_action')::make()]
+                ? [app(config('filament-tiptap-editor.media_action'))::make()]
                 : [],
         ));
     }
@@ -237,13 +229,9 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this;
     }
 
-    /**
-     * @throws InvalidOutputFormatException
-     */
-    public function output(string $output): static
+    public function output(TiptapOutput $output): static
     {
         $this->output = $output;
-        $this->validateOutputFormat();
 
         return $this;
     }
@@ -295,7 +283,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
     }
 
-    public function getOutput(): string
+    public function getOutput(): TiptapOutput
     {
         return $this->output;
     }
@@ -338,29 +326,13 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
     }
 
-    /**
-     * @throws InvalidOutputFormatException
-     */
-    protected function validateOutputFormat(): void
-    {
-        $availableFormats = [
-            self::OUTPUT_HTML,
-            self::OUTPUT_JSON,
-            self::OUTPUT_TEXT,
-        ];
-
-        if (! in_array($this->output, $availableFormats)) {
-            throw new InvalidOutputFormatException;
-        }
-    }
-
     public function expectsHTML(): bool
     {
-        return $this->output === self::OUTPUT_HTML;
+        return $this->output === TiptapOutput::Html;
     }
 
     public function expectsJSON(): bool
     {
-        return $this->output === self::OUTPUT_JSON;
+        return $this->output === TiptapOutput::Json;
     }
 }

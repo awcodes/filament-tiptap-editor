@@ -96,7 +96,7 @@ class LinkAction extends Action
             $component->state($component->getState());
         });
 
-        $this->extraModalActions(fn (Action $action): array => [
+        $this->extraModalFooterActions(fn (Action $action): array => [
             $action->makeExtraModalAction('remove_link', [])
                 ->color('danger')
                 ->extraAttributes([
