@@ -54,6 +54,9 @@
             "providers": [
                 "FilamentTiptapEditor\\FilamentTiptapEditorServiceProvider"
             ]
+        },
+        "aliases": {
+            "TiptapConverter": "FilamentTiptapEditor\\Facades\\TiptapConverter"
         }
     },
     "scripts": {

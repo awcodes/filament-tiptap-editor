@@ -50,6 +50,7 @@ import {
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString} from "./utils";
+import 'vanilla-colorful/hex-color-picker.js';
 
 let editorExtensions = {
     blockquote: [Blockquote],
@@ -101,18 +102,18 @@ if (localeSwitcher) {
     });
 }
 
-document.addEventListener("alpine:init", () => {
+export default function tiptap({
+   state,
+   statePath,
+   tools = [],
+   output = 'html',
+   disabled = false,
+   locale = 'en',
+   floatingMenuTools = [],
+}) {
     let editors = window.filamentTiptapEditors || {};
 
-    Alpine.data("tiptap", ({
-        state,
-        statePath,
-        tools = [],
-        output = 'html',
-        disabled = false,
-        locale = 'en',
-        floatingMenuTools = [],
-    }) => ({
+    return {
         id: null,
         tools: tools,
         state: state,
@@ -236,7 +237,7 @@ document.addEventListener("alpine:init", () => {
             document.addEventListener("dblclick", function (e) {
                 if (
                     e.target && (e.target.hasAttribute("data-youtube-video") ||
-                    e.target.hasAttribute("data-vimeo-video")) ||
+                        e.target.hasAttribute("data-vimeo-video")) ||
                     e.target.hasAttribute("data-native-video")
                 ) {
                     e.target.firstChild.style.pointerEvents = "all";
@@ -447,5 +448,5 @@ document.addEventListener("alpine:init", () => {
                 asymmetricRight
             }).run();
         }
-    }));
-});
+    };
+}

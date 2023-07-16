@@ -17,6 +17,9 @@
 
         <div
             wire:ignore
+            x-ignore
+            ax-load
+            ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tiptap', 'awcodes/tiptap-editor') }}"
             class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({

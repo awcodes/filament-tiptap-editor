@@ -37,7 +37,7 @@ return [
 'source',
         ],
         'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
-        'barebone' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
+        'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
     ],
 
     /*

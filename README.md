@@ -20,21 +20,48 @@ Install the package via composer
 composer require awcodes/filament-tiptap-editor
 ```
 
+In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
+
+> **Info**
+> If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
+
+1. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
+
+```css
+@import '../../../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@import 'tippy.js/dist/tippy.css';
+```
+
+2. Add the plugin's views to your `tailwind.config.js` file.
+
+```js
+content: [
+    ...
+    './vendor/awcodes/filament-tiptap-editor/resources/**/*.blade.php',
+]
+```
+
+## Upgrading from 2.x to 3.x
+
+1. Output is now set with an Enum, please update your files to use `TiptapOutput` in all place where you are setting the output, including the config file.
+2. `barebone` profile setting was renamed to `minimal`
+
 ## Usage
 
 The editor extends the default Field class so most other methods available on that class can be used when adding it to a form.
 
 ```php
 use FilamentTiptapEditor\TiptapEditor;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 
 TiptapEditor::make('content')
-    ->profile('default|simple|barebone|custom')
+    ->profile('default|simple|minimal|custom')
     ->tools([]) // individual tools to use in the editor, overwrites profile
     ->disk('string') // optional, defaults to config setting
     ->directory('string or Closure returning a string') // optional, defaults to config setting
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
     ->maxFileSize('integer in KB') // optional, defaults to config setting
-    ->output('json') // optional, change the output format. defaults is html
+    ->output(TiptapOutput::Html) // optional, change the output format. defaults is html
     ->maxContentWidth('5xl')
     ->required();
 ```
@@ -53,7 +80,7 @@ Styling the output is entirely up to you.
 
 ## Config
 
-Publish the config file.
+The plugin will work without publishing the config, but should you need to change any of the default settings you can publish the config file with the following Artisan command:
 
 ```bash
 php artisan vendor:publish --tag="filament-tiptap-editor-config"
@@ -65,11 +92,11 @@ The package comes with 3 profiles for buttons/tools out of the box.
 
 - default: includes all available tools
 - simple
-- barebone
+- minimal
 
 See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor or to create your own.
 
-Tools can also be added on a per instance basis. Using the `->tools()` modifier will overwrite the profile set for the instance. A full list of tools can be found in the `filament-tiptap-editor.php` config file under the default profile setting.
+Tools can also be added on a per-instance basis by using the `->tools()` modifier to overwrite the profile set for the instance. A full list of tools can be found in the `filament-tiptap-editor.php` config file under the default profile setting.
 
 ### Media / Images
 
@@ -85,41 +112,29 @@ Tools can also be added on a per instance basis. Using the `->tools()` modifier 
 
 ### Output format
 
-Tiptap editor has 3 different output formats.
+Tiptap has 3 different output formats.
 See: https://tiptap.dev/guide/output
 
-If you want to change the output format you can change the default config or specify it in each form instances.
-For each form field instances you can add the following option:
+If you want to change the output format that is stored in the database you can change the default config or specify it in each instance.
 
 ```php
-    TiptapEditor::make('content')
-        // ... other options
-        ->output(FilamentTiptapEditor\TiptapEditor::OUTPUT_JSON);
+use FilamentTiptapEditor\Enums\TiptapOutput;
+
+TiptapEditor::make('content')
+    ->output(FilamentTiptapEditor\TiptapOutput::Json);
 ```
 
-- HTML (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_HTML`)
-- JSON (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_JSON`)
-- Text (Format type: `FilamentTiptapEditor\TiptapEditor::OUTPUT_TEXT`)
-
-**or as string**
-```php
-    TiptapEditor::make('content')
-        // ... other options
-        ->output('json');
-```
-
-- HTML (`html`)
-- JSON (`json`)
-- Text (`text`)
-
-**Note:**
-
-If you want to store the editor content as array / json you have to set the database column as `longText` or `json` type. And cast it appropriately in your model class.
-
-For example:
+> **Note:**
+> If you want to store the editor content as array / json you have to set the database column as `longText` or `json` type. And cast it appropriately in your model class.
 
 ```php
-   $table->json('content');
+// in your migration
+$table->json('content');
+
+// in your model
+protected $casts = [
+    'content' => 'json' // or 'array'
+];
 ```
 
 ### RTL Support
@@ -128,23 +143,19 @@ In order for things like text align to work properly with RTL languages you
 can switch the `direction` key in the config to 'rtl'.
 
 ```php
-[
-    'direction' => 'rtl'
-    ...
-]
+// config/filament-tiptap-editor.php
+'direction' => 'rtl'
 ```
 
 ### Max Content Width
 
 To adjust the max content width of the editor globally set `max_content_width` 
 key in the config to one of the tailwind max width sizes or `full` for full width. 
-This could also be set on a per instance basis with the `->maxContentWidth()` method.
+This could also be set on a per-instance basis with the `->maxContentWidth()` method.
 
 ```php
-[
-    'max_content_width' => 'full'
-    ...
-]
+// config/filament-tiptap-editor.php
+'max_content_width' => 'full'
 ```
 
 ```php
@@ -175,8 +186,7 @@ See `vendor/awcodes/filament-tiptap-editor/src/Actions/MediaAction.php` for impl
 You can add extra input attributes to the field with the `extraInputAttributes()` method. This allows you to do things like set the initial height of the editor.
 
 ```php
-TiptapEditor::make('barebone')
-    ->profile('barebone')
+TiptapEditor::make('content')
     ->extraInputAttributes(['style' => 'min-height: 12rem;']),
 ```
 
@@ -191,11 +201,9 @@ TiptapEditor::make('content')
 ```
     
 ```php
-[
-    'disable_floating_menus' => true,
-    'disable_bubble_menus' => true,
-    ...
-]
+// config/filament-tiptap-editor.php
+'disable_floating_menus' => true,
+'disable_bubble_menus' => true,
 ```
 
 You can also provide you own tools to for the floating menu, should you choose. Defaults can be overwritten via the config file.
@@ -206,10 +214,8 @@ TiptapEditor::make('content')
 ```
 
 ```php
-[
-    ...
-    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
-]
+// config/filament-tiptap-editor.php
+'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
 ```
 
 ## Usage in Standalone Forms Package

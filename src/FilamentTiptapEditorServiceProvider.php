@@ -2,8 +2,8 @@
 
 namespace FilamentTiptapEditor;
 
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
@@ -45,9 +45,8 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            //  AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            Css::make('tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
-            Js::make('tiptap-editor-scripts', __DIR__.'/../resources/dist/filament-tiptap-editor.js'),
+            AlpineComponent::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.js'),
+//            Css::make('tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
         ];
     }
 

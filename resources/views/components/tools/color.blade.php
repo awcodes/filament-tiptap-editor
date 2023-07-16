@@ -24,22 +24,22 @@
         <hex-color-picker x-bind:color="state" x-on:color-changed="setState($event.detail.value)"></hex-color-picker>
 
         <div class="w-full flex gap-2 mt-2">
-            <x-filament-support::button
+            <x-filament::button
                 x-on:click="editor().chain().focus().setColor(state).run(); $dispatch('close-panel')"
                 size="sm"
                 class="flex-1"
             >
                 {{ __('filament-tiptap-editor::editor.color.choose') }}
-            </x-filament-support::button>
+            </x-filament::button>
 
-            <x-filament-support::button
+            <x-filament::button
                 x-on:click="editor().chain().focus().unsetColor().run(); $dispatch('close-panel')"
                 size="sm"
                 class="flex-1"
                 color="danger"
             >
                 {{ __('filament-tiptap-editor::editor.color.remove') }}
-            </x-filament-support::button>
+            </x-filament::button>
         </div>
     </div>
 </x-filament-tiptap-editor::dropdown-button>
