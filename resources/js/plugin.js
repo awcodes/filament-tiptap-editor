@@ -321,6 +321,9 @@ export default function tiptap({
         updateEditorContent(content) {
             this.editor().commands.setContent(content);
         },
+        refreshEditorContent() {
+            this.updateEditorContent(this.state);
+        },
         insertMedia(media) {
             if (Array.isArray(media)) {
                 media.forEach((item) => {
