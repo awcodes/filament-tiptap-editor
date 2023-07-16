@@ -22,7 +22,7 @@ composer require awcodes/filament-tiptap-editor
 
 In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
 
-> **Info**
+> **Note**
 > If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
 
 1. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
@@ -124,7 +124,7 @@ TiptapEditor::make('content')
     ->output(FilamentTiptapEditor\TiptapOutput::Json);
 ```
 
-> **Note:**
+> **Note**
 > If you want to store the editor content as array / json you have to set the database column as `longText` or `json` type. And cast it appropriately in your model class.
 
 ```php
@@ -240,17 +240,6 @@ Alpine.plugin(Tooltip);
 ```css
 @import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
 @import '../../node_modules/tippy.js/dist/tippy.css';
-```
-
-## Theming
-
-If you are using a custom theme for Filament you will need to add this plugin's views to your Tailwind CSS config.
-
-```js
-content: [
-    ...
-    "./vendor/awcodes/filament-tiptap-editor/resources/views/**/*.blade.php",
-],
 ```
 
 ## Versioning
