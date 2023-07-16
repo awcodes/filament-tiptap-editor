@@ -97,11 +97,11 @@ class LinkAction extends Action
         });
 
         $this->extraModalFooterActions(fn (Action $action): array => [
-            $action->makeExtraModalAction('remove_link', [])
+            $action->makeModalSubmitAction('remove_link', [])
                 ->color('danger')
                 ->extraAttributes([
                     'x-on:click' => new HtmlString('$dispatch(\'unset-link\'); close()'),
-                    'style' => 'margin-left: auto;'
+                    'style' => 'margin-inline-start: auto;'
                 ])
         ]);
     }

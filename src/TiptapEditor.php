@@ -3,21 +3,18 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Exception;
 use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
-use Filament\Forms\Components\Contracts\CanBeLengthConstrained as CanBeLengthConstrainedContract;
+use Filament\Forms\Components\Contracts\CanBeLengthConstrained as FilamentCanBeLengthConstrained;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Enums\TiptapOutput;
-use FilamentTiptapEditor\Exceptions\InvalidOutputFormatException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
 
-class TiptapEditor extends Field implements CanBeLengthConstrainedContract
+class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
 {
     use CanBeLengthConstrained;
     use HasExtraInputAttributes;

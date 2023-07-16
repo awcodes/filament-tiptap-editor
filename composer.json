@@ -6,7 +6,9 @@
         "framework",
         "laravel",
         "filament",
-        "tiptap"
+        "tiptap",
+        "wysiwyg",
+        "editor"
     ],
     "license": "MIT",
     "authors": [
@@ -54,9 +56,10 @@
             ]
         }
     },
+    "scripts": {
+        "pint": "vendor/bin/pint"
+    },
     "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true

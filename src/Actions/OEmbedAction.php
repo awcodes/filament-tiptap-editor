@@ -33,7 +33,7 @@ class OEmbedAction extends Action
                 ->reactive()
                 ->required(),
             CheckboxList::make('native_options')
-                ->disableLabel()
+                ->hiddenLabel()
                 ->gridDirection('row')
                 ->columns(3)
                 ->visible(function (callable $get) {
@@ -45,7 +45,7 @@ class OEmbedAction extends Action
                     'controls' => __('filament-tiptap-editor::oembed-modal.labels.controls'),
                 ]),
             CheckboxList::make('vimeo_options')
-                ->disableLabel()
+                ->hiddenLabel()
                 ->gridDirection('row')
                 ->columns(3)
                 ->visible(function (callable $get) {
@@ -60,7 +60,7 @@ class OEmbedAction extends Action
                 ]),
             Group::make([
                 CheckboxList::make('youtube_options')
-                    ->disableLabel()
+                    ->hiddenLabel()
                     ->gridDirection('row')
                     ->columns(3)
                     ->options([
@@ -70,7 +70,7 @@ class OEmbedAction extends Action
                 TimePicker::make('start_at')
                     ->label(__('filament-tiptap-editor::oembed-modal.labels.start_at'))
                     ->reactive()
-                    ->withoutDate()
+                    ->date(false)
                     ->afterStateHydrated(function (TimePicker $component, $state): void {
                         if (! $state) {
                             return;

@@ -1,18 +1,21 @@
 {
   "private": true,
   "scripts": {
-    "dev:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --watch",
-    "dev:js": "esbuild resources/js/plugin.js --bundle --sourcemap=inline --outfile=resources/dist/filament-tiptap-editor.js --watch",
-    "build:css": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --minify",
-    "build:js": "esbuild resources/js/plugin.js --bundle --minify --outfile=resources/dist/filament-tiptap-editor.js",
-    "build:purge": "filament-purge -i resources/dist/filament-tiptap-editor.css -o resources/dist/filament-tiptap-editor.css",
+    "dev:styles": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --watch",
+    "dev:scripts": "node bin/build.js --dev",
+    "build:styles": "npx tailwindcss -i resources/css/plugin.css -o resources/dist/filament-tiptap-editor.css --postcss --minify",
+    "build:scripts": "node bin/build.js",
+    "build:purge": "filament-purge -i resources/dist/filament-tiptap-editor.css -o resources/dist/filament-tiptap-editor.css -v 3.x",
     "dev": "npm-run-all --parallel dev:*",
-    "build": "npm-run-all build:*"
+    "build": "npm-run-all build:*",
+    "prettier": "npx prettier --write ."
   },
   "author": "Adam Weston <awcodes1@gmail.com> (https://github.com/awcodes)",
   "license": "MIT",
   "devDependencies": {
-    "@awcodes/filament-plugin-purge": "^1.0.1",
+    "@awcodes/filament-plugin-purge": "^1.1.1",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/typography": "^0.5.9",
     "@tiptap/core": "^2.0.0",
     "@tiptap/extension-blockquote": "^2.0.0",
     "@tiptap/extension-bold": "^2.0.0",
@@ -48,13 +51,16 @@
     "@tiptap/extension-text-style": "^2.0.0",
     "@tiptap/extension-underline": "^2.0.0",
     "@tiptap/pm": "^2.0.3",
-    "alpinejs": "^3.9.6",
+    "alpinejs": "^3.10.5",
     "autoprefixer": "^10.4.7",
-    "esbuild": "^0.14.49",
+    "esbuild": "^0.17.0",
     "highlight.js": "^11.5.0",
-    "lowlight": "^2.6.1",
     "npm-run-all": "^4.1.5",
-    "postcss-import": "^14.1.0",
-    "tailwindcss": "^3.0.23"
+    "postcss": "^8.4.14",
+    "postcss-import": "^15.1.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-blade": "^1.5.3",
+    "prettier-plugin-tailwindcss": "^0.1.13",
+    "tailwindcss": "^3.3.3"
   }
 }
