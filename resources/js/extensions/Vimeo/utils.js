@@ -1,5 +1,5 @@
 export const isValidVimeoUrl = (url) => {
-  return url.match(/^(https?:\/\/)?(www\.)?(vimeo\.com)(.+)?$/);
+  return url.match(/(vimeo\.com)(.+)?$/);
 };
 
 export const getEmbedURLFromVimeoURL = (options) => {

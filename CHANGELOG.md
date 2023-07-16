@@ -2,6 +2,108 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.4 - 2023-07-01
+
+### What's Changed
+
+- Feat: Add update-editor-content event handler by @pboivin in https://github.com/awcodes/filament-tiptap-editor/pull/129
+
+### New Contributors
+
+- @pboivin made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/129
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.3...v2.6.4
+
+## v2.6.3 - 2023-06-28
+
+### What's Changed
+
+- Fix: standalone instructions and minor style tweaks by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/127
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.2...v2.6.3
+
+## v2.6.2 - 2023-06-28
+
+### What's Changed
+
+- Fix text and background colors in dark mode by @atmonshi in https://github.com/awcodes/filament-tiptap-editor/pull/126
+
+### New Contributors
+
+- @atmonshi made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/126
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.1...v2.6.2
+
+## v2.6.1 - 2023-06-27
+
+### What's Changed
+
+- Fix: helper text anchor tags in MediaAction by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/125
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.0...v2.6.1
+
+## v2.6.0 - 2023-06-23
+
+### What's Changed
+
+- Better drop downs
+- Bubble Menu Support
+- Floating Menu Support
+- Grid Builder
+- Enhanced Color Picker
+- Enhanced Video with native support *see note below
+
+‼️ New video extension has the potential to break videos. Please make sure to update your content to change any references of `aspectWidth`, `aspectwidth`, `aspectHeight` or `aspectheight` to `data-aspect-width` and `data-aspect-height` respectively.
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.5.0...v2.6.0
+
+## v2.5.0 - 2023-06-14
+
+### What's Changed
+
+- Feat: add blade output helper by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/119
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.4.1...v2.5.0
+
+## v2.4.1 - 2023-06-04
+
+### What's Changed
+
+- Fix: use Livewire hook for reinitializing editor by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/116
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.4.0...v2.4.1
+
+## v2.4.0 - 2023-05-31
+
+### What's Changed
+
+- Fix: vite facade not callable by @phpsa in https://github.com/awcodes/filament-tiptap-editor/pull/110
+- Chore: Remove hidden text input by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/114
+
+### New Contributors
+
+- @phpsa made their first contribution in https://github.com/awcodes/filament-tiptap-editor/pull/110
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.3.0...v2.4.0
+
+## v2.3.0 - 2023-05-27
+
+### What's Changed
+
+- Chore: add support for Curator with multiple images by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/109
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.11...v2.3.0
+
+## v2.2.11 - 2023-05-12
+
+### What's Changed
+
+- Chore(deps): Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/awcodes/filament-tiptap-editor/pull/105
+- Fix: helperText on MediaAction alt field by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/106
+- Fix: Multiple editors not switching to locale changes. by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/107
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.2.10...v2.2.11
+
 ## v2.2.10 - 2023-04-21
 
 ### What's Changed

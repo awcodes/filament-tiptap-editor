@@ -1,6 +1,9 @@
 # Filament Tiptap Editor
 
-A Tiptap ingtegration for Filament Admin/Forms.
+A Tiptap integration for Filament Admin/Forms.
+
+> **Warning**
+> If you are using the Curator integration for media uploads you will need to update to version 2.3.0 or higher.
 
 ![tiptap-editor-og](https://user-images.githubusercontent.com/3596800/225422449-b1aa125f-7704-42c8-9efa-440972d88ca0.png)
 
@@ -34,6 +37,18 @@ TiptapEditor::make('content')
     ->output('json') // optional, change the output format. defaults is html
     ->maxContentWidth('5xl')
     ->required();
+```
+
+### Rendering content in Blade files
+
+If you are storing your content as JSON then you will likely need to parse the data to HTML for output in Blade files. To help with this there is a helper function `tiptap_converter` that will convert the data to one of the three supported Tiptap formats. 
+
+Styling the output is entirely up to you.
+
+```blade
+{!! tiptap_converter()->asHTML($post->content) !!}
+{!! tiptap_converter()->asJSON($post->content) !!}
+{!! tiptap_converter()->asText($post->content) !!}
 ```
 
 ## Config
@@ -165,17 +180,61 @@ TiptapEditor::make('barebone')
     ->extraInputAttributes(['style' => 'min-height: 12rem;']),
 ```
 
-## Usage in Standalone Forms Package
+## Bubble and Floating Menus
 
-1. Publish the JS/CSS assets
+By default, the editor uses Bubble and Floating menus to help with creating content inline, so you don't have to use the toolbar. If you'd prefer to not use the menus you can disable them on a per-instance basis or globally in the config file.
 
-```bash
-php artisan vendor:publish --tag="filament-tiptap-editor-assets"
+```php
+TiptapEditor::make('content')
+    ->disableFloatingMenus()
+    ->disableBubbleMenus();
+```
+    
+```php
+[
+    'disable_floating_menus' => true,
+    'disable_bubble_menus' => true,
+    ...
+]
 ```
 
-2. Include the CSS files in your page / layout
-2. Include the JS files in your page / layout before Filament's scripts
-3. Include a `@stack('modals')` in your page / layout if it doesn't exist
+You can also provide you own tools to for the floating menu, should you choose. Defaults can be overwritten via the config file.
+
+```php
+TiptapEditor::make('content')
+    ->floatingMenuTools(['grid-builder', 'media', 'link'])
+```
+
+```php
+[
+    ...
+    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
+]
+```
+
+## Usage in Standalone Forms Package
+
+1. Install tippy.js and @ryangjchandler/alpine-tooltip
+
+```bash
+npm install -D tippy.js @ryangjchandler/alpine-tooltip
+```
+
+2. Import the plugin's JS file into your app's JS file and register Alpine Tooltip
+
+```js
+import Tooltip from '@ryangjchandler/alpine-tooltip'
+import '../../vendor/awcodes/filament-tiptap-editor/resources/js/plugin.js'
+
+Alpine.plugin(Tooltip);
+```
+
+3. Import the plugin's CSS and Tippy's CSS file into your app's CSS file
+
+```css
+@import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@import '../../node_modules/tippy.js/dist/tippy.css';
+```
 
 ## Theming
 

@@ -10,6 +10,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Livewire\TemporaryUploadedFile;
@@ -102,7 +103,7 @@ class MediaAction extends Action
                 TextInput::make('alt')
                     ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
                     ->hidden(fn (callable $get) => $get('type') == 'document')
-                    ->helperText('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">' . __('filament-tiptap-editor::media-modal.labels.alt_helper_text') . '</span>'),
+                    ->helperText(new HtmlString('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">' . __('filament-tiptap-editor::media-modal.labels.alt_helper_text') . '</a></span>')),
                 TextInput::make('title')
                     ->label(__('filament-tiptap-editor::media-modal.labels.title')),
                 Hidden::make('width'),
