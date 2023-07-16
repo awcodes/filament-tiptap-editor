@@ -64,7 +64,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../../filament/packages/*"
+            "url": "../../../filament/filament/packages/*"
         }
     ]
 }
