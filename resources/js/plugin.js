@@ -270,9 +270,13 @@ export default function tiptap({
             });
 
             this.$watch('locale', () => {
-                Livewire.hook('message.processed', () => {
-                    editors[this.id].destroy();
-                    this.initEditor(this.state);
+                Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
+                    succeed(({ snapshot, effect }) => {
+                        queueMicrotask(() => {
+                            editors[this.id].destroy();
+                            this.initEditor(this.state);
+                        })
+                    })
                 });
             });
         },
