@@ -118,9 +118,10 @@ class MediaAction extends Action
                 ? $data['src']
                 : config('app.url') . Storage::url($data['src']);
 
-            $component->getLivewire()->dispatchBrowserEvent('insert-media', [
-                'statePath' => $component->getStatePath(),
-                'media' => [
+            $component->getLivewire()->dispatch(
+                'insert-media',
+                statePath: $component->getStatePath(),
+                media: [
                     'src' => $source,
                     'alt' => $data['alt'] ?? null,
                     'title' => $data['title'],
@@ -128,7 +129,7 @@ class MediaAction extends Action
                     'height' => $data['height'],
                     'link_text' => $data['link_text'] ?? null,
                 ],
-            ]);
+            );
         });
     }
 }

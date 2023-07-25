@@ -52,10 +52,11 @@ class YoutubeAction extends Action
         ]);
 
         $this->action(function(TiptapEditor $component, $data) {
-            $component->getLivewire()->dispatchBrowserEvent('insert-video', [
-                'statePath' => $component->getStatePath(),
-                'video' => $data,
-            ]);
+            $component->getLivewire()->dispatch(
+                'insert-video',
+                statePath: $component->getStatePath(),
+                video: $data,
+            );
         });
     }
 }
