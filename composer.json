@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "filament/filament": "*",
+        "filament/filament": "^3.0",
         "intervention/image": "^2.7",
         "spatie/laravel-package-tools": "^1.9.2",
         "ueberdosis/tiptap-php": "^1.1"
@@ -69,11 +69,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../../filament/filament/packages/*"
-        }
-    ]
+    "prefer-stable": true
 }
