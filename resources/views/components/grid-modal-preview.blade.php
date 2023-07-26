@@ -1,5 +1,7 @@
 @php
-    $data = $getLivewire()->mountedFormComponentActionData;
+    $mountedFormComponentActionsData = $getLivewire()->mountedFormComponentActionsData;
+
+    $data = $mountedFormComponentActionsData[array_key_last($mountedFormComponentActionsData)];
 @endphp
 
 <div class="rounded-lg p-4 bg-gray-100 dark:bg-gray-900">
