@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Livewire\TemporaryUploadedFile;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class MediaAction extends Action
 {
@@ -27,22 +27,22 @@ class MediaAction extends Action
         parent::setUp();
 
         $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
-            $source = $component->getLivewire()->mediaProps['src'] !== ''
+            $source = $component->getLivewire()->mediaProps['src'] ?? '' !== ''
                 ? $component->getDirectory() . Str::of($component->getLivewire()->mediaProps['src'])
                     ->after($component->getDirectory())
                 : null;
 
             $form->fill([
                 'src' => $source,
-                'alt' => $component->getLivewire()->mediaProps['alt'],
-                'title' => $component->getLivewire()->mediaProps['title'],
-                'width' => $component->getLivewire()->mediaProps['width'],
-                'height' => $component->getLivewire()->mediaProps['height'],
+                'alt' => $component->getLivewire()->mediaProps['alt'] ?? '',
+                'title' => $component->getLivewire()->mediaProps['title'] ?? '',
+                'width' => $component->getLivewire()->mediaProps['width'] ?? '',
+                'height' => $component->getLivewire()->mediaProps['height'] ?? '',
             ]);
         });
 
         $this->modalHeading(function(TiptapEditor $component) {
-            $context = blank($component->getLivewire()->mediaProps['src']) ? 'insert' : 'update';
+            $context = blank($component->getLivewire()->mediaProps['src'] ?? null) ? 'insert' : 'update';
             return __('filament-tiptap-editor::media-modal.heading.' . $context);
         });
 
