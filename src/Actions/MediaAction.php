@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use Livewire\TemporaryUploadedFile;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class MediaAction extends Action
 {
@@ -27,22 +27,22 @@ class MediaAction extends Action
         parent::setUp();
 
         $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form) {
-            $source = $component->getLivewire()->mediaProps['src'] !== ''
+            $source = $component->getLivewire()->mediaProps['src'] ?? '' !== ''
                 ? $component->getDirectory() . Str::of($component->getLivewire()->mediaProps['src'])
                     ->after($component->getDirectory())
                 : null;
 
             $form->fill([
                 'src' => $source,
-                'alt' => $component->getLivewire()->mediaProps['alt'],
-                'title' => $component->getLivewire()->mediaProps['title'],
-                'width' => $component->getLivewire()->mediaProps['width'],
-                'height' => $component->getLivewire()->mediaProps['height'],
+                'alt' => $component->getLivewire()->mediaProps['alt'] ?? '',
+                'title' => $component->getLivewire()->mediaProps['title'] ?? '',
+                'width' => $component->getLivewire()->mediaProps['width'] ?? '',
+                'height' => $component->getLivewire()->mediaProps['height'] ?? '',
             ]);
         });
 
         $this->modalHeading(function(TiptapEditor $component) {
-            $context = blank($component->getLivewire()->mediaProps['src']) ? 'insert' : 'update';
+            $context = blank($component->getLivewire()->mediaProps['src'] ?? null) ? 'insert' : 'update';
             return __('filament-tiptap-editor::media-modal.heading.' . $context);
         });
 
@@ -118,9 +118,10 @@ class MediaAction extends Action
                 ? $data['src']
                 : config('app.url') . Storage::url($data['src']);
 
-            $component->getLivewire()->dispatchBrowserEvent('insert-media', [
-                'statePath' => $component->getStatePath(),
-                'media' => [
+            $component->getLivewire()->dispatch(
+                'insert-media',
+                statePath: $component->getStatePath(),
+                media: [
                     'src' => $source,
                     'alt' => $data['alt'] ?? null,
                     'title' => $data['title'],
@@ -128,7 +129,7 @@ class MediaAction extends Action
                     'height' => $data['height'],
                     'link_text' => $data['link_text'] ?? null,
                 ],
-            ]);
+            );
         });
     }
 }

@@ -89,10 +89,11 @@ class GridBuilderAction extends Action
         });
 
         $this->action(function(TiptapEditor $component, $data) {
-            $component->getLivewire()->dispatchBrowserEvent('insert-grid-builder', [
-                'statePath' => $component->getStatePath(),
-                'data' => $data,
-            ]);
+            $component->getLivewire()->dispatch(
+                'insert-grid-builder',
+                statePath: $component->getStatePath(),
+                data: $data,
+            );
         });
     }
 }
