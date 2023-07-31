@@ -61,6 +61,14 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
            if (! $state) {
                $component->state('<p></p>');
            }
+
+           /**
+            * @TODO
+            * Force html for state temporarily for possible LW3 bug.
+            * Revisit this later. Seems like LW is hijacking Tiptap's
+            * internal state and trying to diff it with Alpine.
+            */
+           $component->state($component->getHTML());
         });
 
         $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string | array | null $state) {

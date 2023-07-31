@@ -1,7 +1,5 @@
 @import './night-owl.css';
 
-@tailwind utilities;
-
 .tiptap-wrapper.tiptap-fullscreen {
     position: fixed;
     top: 0;

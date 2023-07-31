@@ -289,15 +289,11 @@ export default function tiptap({
                 extensions: this.getExtensions(this.id),
                 editable: ! disabled,
                 content: content,
-                onCreate({editor}) {
-                  console.log(_this.state)
-                },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
                     setTimeout(() => {
                         editor.chain().focus()
                     }, 500);
-                    _this.state = _this.editor().getHTML();
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
@@ -305,8 +301,7 @@ export default function tiptap({
                 onBlur() {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
-                    _this.state = _this.editor().getJSON();
-                    console.log(_this.state)
+                    _this.state = _this.editor().getHTML();
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();

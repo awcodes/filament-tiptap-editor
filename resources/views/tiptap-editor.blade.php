@@ -23,7 +23,7 @@
             class="relative z-0 tiptap-wrapper rounded-md dark:bg-gray-900"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
-                state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
+                state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
                 statePath: '{{ $statePath }}',
                 tools: @js($tools),
                 disabled: {{ $isDisabled ? 'true' : 'false' }},
