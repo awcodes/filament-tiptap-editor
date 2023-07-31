@@ -2,7 +2,6 @@
 
 namespace FilamentTiptapEditor\Actions;
 
-use Filament\Actions\StaticAction;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;

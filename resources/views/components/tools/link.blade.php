@@ -14,7 +14,6 @@
     :active="$useActive"
     :label="$label"
     :icon="$icon"
-    data-link-button
     x-data="{
         openModal() {
             let link = this.editor().getAttributes('link');

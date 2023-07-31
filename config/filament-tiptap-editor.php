@@ -33,8 +33,7 @@ return [
         'default' => [
             'heading', 'bullet-list', 'ordered-list', 'checked-list', 'blockquote', 'hr', '|',
             'bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'color', 'highlight', 'align-left', 'align-center', 'align-right', '|',
-            'link', 'media', 'oembed', 'table', 'grid', 'grid-builder', 'details', 'hurdle', '|', 'code', 'code-block',
-'source',
+            'link', 'media', 'oembed', 'table', 'grid', 'grid-builder', 'details', 'hurdle', '|', 'code', 'code-block', 'source',
         ],
         'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],

@@ -10,9 +10,9 @@
     :field="$field"
 >
     <div @class([
-        'tiptap-editor border rounded-md relative bg-white shadow-sm dark:bg-gray-700 text-gray-700 dark:text-gray-200',
-        'border-gray-200 dark:border-gray-600' => ! $errors->has($statePath),
-        'border-danger-600 ring-danger-600' => $errors->has($statePath),
+        'tiptap-editor rounded-md relative text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white',
+        'ring-gray-950/10 dark:ring-white/20' => ! $errors->has($statePath),
+        'ring-danger-600 dark:ring-danger-600' => $errors->has($statePath),
     ])>
 
         <div
@@ -20,13 +20,12 @@
             x-ignore
             ax-load
             ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tiptap', 'awcodes/tiptap-editor') }}"
-            class="relative z-0 tiptap-wrapper bg-white dark:bg-gray-700 rounded-md"
+            class="relative z-0 tiptap-wrapper rounded-md dark:bg-gray-900"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
-                state: $wire.entangle('{{ $statePath }}'),
+                state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')") }},
                 statePath: '{{ $statePath }}',
                 tools: @js($tools),
-                output: '{{ $getOutput() }}',
                 disabled: {{ $isDisabled ? 'true' : 'false' }},
                 locale: '{{ app()->getLocale() }}',
                 floatingMenuTools: @js($floatingMenuTools),
@@ -46,13 +45,13 @@
             @if (! $isDisabled)
                 <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ __('filament-tiptap-editor::editor.skip_toolbar') }}</button>
 
-                <div class="tiptap-toolbar border-b border-gray-200 bg-gray-50 divide-x divide-gray-300 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:border-gray-900 dark:bg-gray-900 dark:divide-gray-700">
+                <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
 
                     <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
                         <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
                         @foreach($tools as $tool)
                             @if ($tool === '|')
-                                <div class="border-l border-gray-300 dark:border-gray-700 h-5"></div>
+                                <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
                             @elseif (is_array($tool))
                                 <x-dynamic-component component="{{ $tool['view'] }}" :state-path="$statePath" />
                             @else

@@ -106,7 +106,6 @@ export default function tiptap({
    state,
    statePath,
    tools = [],
-   output = 'html',
    disabled = false,
    locale = 'en',
    floatingMenuTools = [],
@@ -118,7 +117,6 @@ export default function tiptap({
         tools: tools,
         state: state,
         statePath: statePath,
-        output: output,
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
@@ -283,16 +281,6 @@ export default function tiptap({
         editor() {
             return editors[this.id];
         },
-        getFormattedContent() {
-            switch (this.output) {
-                case 'json':
-                    return this.editor().getJSON();
-                case 'text':
-                    return this.editor().getText();
-                default:
-                    return this.editor().getHTML();
-            }
-        },
         initEditor(content) {
             this.id = randomString(8);
             let _this = this;
@@ -301,11 +289,15 @@ export default function tiptap({
                 extensions: this.getExtensions(this.id),
                 editable: ! disabled,
                 content: content,
+                onCreate({editor}) {
+                  console.log(_this.state)
+                },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
                     setTimeout(() => {
                         editor.chain().focus()
                     }, 500);
+                    _this.state = _this.editor().getHTML();
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
@@ -313,8 +305,8 @@ export default function tiptap({
                 onBlur() {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
-                    _this.state = _this.getFormattedContent();
-                    // _this.$wire.set(_this.statePath, _this.getFormattedContent());
+                    _this.state = _this.editor().getJSON();
+                    console.log(_this.state)
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();

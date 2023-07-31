@@ -3,7 +3,6 @@
 namespace FilamentTiptapEditor;
 
 use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
@@ -15,39 +14,35 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-tiptap-editor';
-
     public function configurePackage(Package $package): void
     {
         $package
-            ->name(static::$name)
+            ->name('filament-tiptap-editor')
             ->hasConfigFile()
             ->hasAssets()
             ->hasTranslations()
             ->hasViews();
     }
 
-    public function packageBooted(): void
+    public function packageRegistered(): void
     {
-        FilamentAsset::register(
-            $this->getAssets(),
-            'awcodes/tiptap-editor'
-        );
-
-        if ($theme = $this->getTiptapEditorStylesLink()) {
-            Filament::registerRenderHook(
-                'styles.end',
-                fn (): string => $theme,
-            );
-        }
+        $this->app->singleton('tiptap-converter', function () {
+            return new TiptapConverter();
+        });
     }
 
-    protected function getAssets(): array
+    public function packageBooted(): void
     {
-        return [
+        FilamentAsset::register([
             AlpineComponent::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.js'),
-//            Css::make('tiptap-editor-styles', __DIR__.'/../resources/dist/filament-tiptap-editor.css'),
-        ];
+        ], 'awcodes/tiptap-editor');
+
+        if ($theme = $this->getTiptapEditorStylesLink()) {
+            Filament::getCurrentPanel()->renderHook(
+                name: 'styles.end',
+                hook: fn (): string => $theme,
+            );
+        }
     }
 
     public function getTiptapEditorStylesLink(): ?Htmlable
