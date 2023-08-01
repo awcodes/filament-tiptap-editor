@@ -5,7 +5,7 @@ A Tiptap integration for Filament Admin/Forms.
 > **Warning**
 > If you are using the Curator integration for media uploads you will need to update to version 2.3.0 or higher.
 
-![tiptap-editor-og](https://github.com/awcodes/filament-tiptap-editor/assets/3596800/c672a215-274e-4aab-ba1d-1a4b372bc3e8)
+![tiptap-editor-og](https://res.cloudinary.com/aw-codes/image/upload/w_1200,f_auto,q_auto/plugins/tiptap-editor/awcodes-tiptap-editor.jpg)
 
 - Supports Light/Dark Mode
 - Fullscreen editing
