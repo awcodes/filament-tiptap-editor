@@ -32,13 +32,37 @@ In an effort to align with Filament's theming methodology you will need to use a
 @import 'tippy.js/dist/tippy.css';
 ```
 
-2. Add the plugin's views to your `tailwind.config.js` file.
+2. Add the tippy.js package to your dev dependencies.
+
+```sh
+npm install --save-dev tippy.js
+```
+
+3. Add the plugin's views to your `tailwind.config.js` file.
 
 ```js
 content: [
     ...
     './vendor/awcodes/filament-tiptap-editor/resources/**/*.blade.php',
 ]
+```
+
+4. Add the `tailwindcss/nesting` plugin to your `postcss.config.js` file.
+
+```js
+module.exports = {
+    plugins: {
+        'tailwindcss/nesting': {},
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+}
+```
+
+5. Rebuild your custom theme.
+
+```sh
+npm run build
 ```
 
 ## Upgrading from 2.x to 3.x
