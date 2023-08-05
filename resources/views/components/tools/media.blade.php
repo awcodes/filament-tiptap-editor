@@ -4,9 +4,9 @@
 
 @php
     if (str(config('filament-tiptap-editor.media_action'))->contains('\\')) {
-        $action = "\$wire.dispatchFormEvent('tiptap::setMediaContent', '" . $statePath . "', mediaProps);";
+        $action = "\$wire.dispatchFormEvent('tiptap::setMediaContent', '" . $statePath . "', arguments);";
     } else {
-        $action = "this.\$dispatch('open-modal', {id: '" . config('filament-tiptap-editor.media_action') . "', statePath: '" . $statePath . "'}, mediaProps)";
+        $action = "this.\$dispatch('open-modal', {id: '" . config('filament-tiptap-editor.media_action') . "', statePath: '" . $statePath . "'}, arguments)";
     }
 @endphp
 
@@ -18,7 +18,7 @@
     x-data="{
         openModal() {
             let media = this.editor().getAttributes('image');
-            let mediaProps = {
+            let arguments = {
                 src: media.src || '',
                 alt: media.alt || '',
                 title: media.title || '',

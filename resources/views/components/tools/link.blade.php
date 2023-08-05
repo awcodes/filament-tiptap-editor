@@ -17,7 +17,7 @@
     x-data="{
         openModal() {
             let link = this.editor().getAttributes('link');
-            let linkProps = {
+            let arguments = {
                 href: link.href || '',
                 target: link.target || null,
                 hreflang: link.hreflang || null,
@@ -26,7 +26,7 @@
                 button_theme: link.button_theme || '',
             };
 
-            $wire.dispatchFormEvent('tiptap::setLinkContent', '{{ $statePath }}', linkProps);
+            $wire.dispatchFormEvent('tiptap::setLinkContent', '{{ $statePath }}', arguments);
         }
     }"
 />

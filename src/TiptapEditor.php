@@ -112,24 +112,6 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
                     $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source', ['html' => $html]);
                 },
             ],
-            'tiptap::setVimeoContent' => [
-                function (TiptapEditor $component, string $statePath): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_vimeo');
-                },
-            ],
-            'tiptap::setYoutubeContent' => [
-                function (TiptapEditor $component, string $statePath): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_youtube');
-                },
-            ],
             'tiptap::setOEmbedContent' => [
                 function (TiptapEditor $component, string $statePath): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
@@ -140,25 +122,23 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
                 },
             ],
             'tiptap::setLinkContent' => [
-                function (TiptapEditor $component, string $statePath, array $linkProps): void {
+                function (TiptapEditor $component, string $statePath, array $arguments): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
                         return;
                     }
 
                     $livewire = $component->getLivewire();
-                    data_set($livewire, 'linkProps', $linkProps);
-                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_link');
+                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_link', $arguments);
                 },
             ],
             'tiptap::setMediaContent' => [
-                function (TiptapEditor $component, string $statePath, array $mediaProps): void {
+                function (TiptapEditor $component, string $statePath, array $arguments): void {
                     if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
                         return;
                     }
 
                     $livewire = $component->getLivewire();
-                    data_set($livewire, 'mediaProps', $mediaProps);
-                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_media');
+                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_media', $arguments);
                 },
             ],
         ]);

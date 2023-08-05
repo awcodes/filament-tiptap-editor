@@ -18,28 +18,26 @@ class SourceAction extends Action
     {
         parent::setUp();
 
-        $this->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
-            return $form->fill([
-                'source' => $arguments['html']
-            ]);
-        });
+        $this
+            ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
+                return $form->fill([
+                    'source' => $arguments['html']
+                ]);
+            })
+            ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
+            ->form([
+                TextArea::make('source')
+                    ->label(__('filament-tiptap-editor::source-modal.labels.source'))
+                    ->rows(10),
+            ])
+            ->action(function(TiptapEditor $component, $data) {
+                $component->getLivewire()->dispatch(
+                    'insert-source',
+                    statePath: $component->getStatePath(),
+                    source: $data['source'],
+                );
 
-        $this->modalHeading(__('filament-tiptap-editor::source-modal.heading'));
-
-        $this->form([
-            TextArea::make('source')
-                ->label(__('filament-tiptap-editor::source-modal.labels.source'))
-                ->rows(10),
-        ]);
-
-        $this->action(function(TiptapEditor $component, $data) {
-            $component->getLivewire()->dispatch(
-                'insert-source',
-                statePath: $component->getStatePath(),
-                source: $data['source'],
-            );
-
-            $component->state($data['source']);
-        });
+                $component->state($data['source']);
+            });
     }
 }

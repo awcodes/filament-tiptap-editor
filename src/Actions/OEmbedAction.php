@@ -23,11 +23,10 @@ class OEmbedAction extends Action
     {
         parent::setUp();
 
-        $this->modalHeading(__('filament-tiptap-editor::oembed-modal.heading'));
-
-        $this->modalWidth('lg');
-
-        $this->form([
+        $this
+            ->modalWidth('lg')
+            ->modalHeading(__('filament-tiptap-editor::oembed-modal.heading'))
+            ->form([
             TextInput::make('url')
                 ->label(__('filament-tiptap-editor::oembed-modal.labels.url'))
                 ->reactive()
@@ -114,9 +113,8 @@ class OEmbedAction extends Action
                     ->label(__('filament-tiptap-editor::oembed-modal.labels.height'))
                     ->default('9'),
             ])->columns(['md' => 2]),
-        ]);
-
-        $this->action(function(TiptapEditor $component, $data) {
+        ])
+            ->action(function(TiptapEditor $component, $data) {
             $component->getLivewire()->dispatch(
                 'insert-video',
                 statePath: $component->getStatePath(),
