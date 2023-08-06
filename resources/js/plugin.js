@@ -313,7 +313,9 @@ export default function tiptap({
             this.editor().commands.setContent(content);
         },
         refreshEditorContent() {
-            this.updateEditorContent(this.state);
+            // Using $nextTick to delay the UI update after the entangled state updates.
+            // This matters when the method is triggered as part of a batched request.
+            this.$nextTick(() => this.updateEditorContent(this.state));
         },
         insertMedia(media) {
             if (Array.isArray(media)) {
