@@ -88,13 +88,22 @@ class LinkAction extends Action
                 );
 
                 $component->state($component->getState());
-            })->extraModalFooterActions(fn (Action $action): array => [
-                $action->makeModalSubmitAction('remove_link', [])
-                    ->color('danger')
-                    ->extraAttributes([
-                        'x-on:click' => new HtmlString('$dispatch(\'unset-link\'); close()'),
-                        'style' => 'margin-inline-start: auto;'
-                    ])
-            ]);
+            })->extraModalFooterActions(function (Action $action): array {
+
+                if ($action->getArguments()['href'] !== '') {
+                    return [
+                        $action->makeModalSubmitAction('remove_link', [])
+                            ->color('danger')
+                            ->extraAttributes(function () use ($action) {
+                                return [
+                                    'x-on:click' => new HtmlString("\$dispatch('unset-link', {'statePath': '{$action->getComponent()->getStatePath()}'}); close()"),
+                                    'style' => 'margin-inline-start: auto;'
+                                ];
+                            })
+                    ];
+                }
+
+                return [];
+            });
     }
 }
