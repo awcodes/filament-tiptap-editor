@@ -20,7 +20,7 @@
             x-ignore
             ax-load
             ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tiptap', 'awcodes/tiptap-editor') }}"
-            class="relative z-0 tiptap-wrapper rounded-md dark:bg-gray-900"
+            class="relative z-0 tiptap-wrapper rounded-md bg-white dark:bg-gray-900"
             x-bind:class="{ 'tiptap-fullscreen': fullScreenMode, 'ring ring-primary-500': focused }"
             x-data="tiptap({
                 state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
