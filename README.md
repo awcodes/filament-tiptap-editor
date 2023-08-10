@@ -79,7 +79,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 
 TiptapEditor::make('content')
-    ->profile('default|simple|minimal|custom')
+    ->profile('default|simple|minimal|none|custom')
     ->tools([]) // individual tools to use in the editor, overwrites profile
     ->disk('string') // optional, defaults to config setting
     ->directory('string or Closure returning a string') // optional, defaults to config setting

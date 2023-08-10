@@ -253,7 +253,12 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
 
     public function getFloatingMenuTools(): array
     {
-        return $this->evaluate($this->floatingMenuTools) ?? config('filament-tiptap-editor.floating_menu_tools');
+        if ($this->floatingMenuTools) {
+            return $this->evaluate($this->floatingMenuTools);
+        } elseif ($this->profile !== 'none') {
+            return config('filament-tiptap-editor.floating_menu_tools');
+        }
+        return [];
     }
 
     public function getMaxContentWidth(): string
