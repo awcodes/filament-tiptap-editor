@@ -219,26 +219,36 @@
         text-decoration: underline;
     }
 
-    a.btn {
+    a[id] {
+        color: theme('colors.black');
+        text-decoration: none;
+        &::before {
+            content: '# ';
+            color: theme("colors.gray.500");
+            opacity: 50;
+        }
+    }
+
+    a[data-as-button="true"] {
         background-color: theme("colors.gray.900");
         color: white !important;
         text-decoration: none;
         display: inline-block;
         @apply rounded-md py-2 px-5;
 
-        &.btn-primary {
+        &[data-as-button-theme="primary"] {
             background-color: theme("colors.primary.600");
         }
 
-        &.btn-secondary {
+        &[data-as-button-theme="secondary"] {
             background-color: theme("colors.warning.600");
         }
 
-        &.btn-tertiary {
+        &[data-as-button-theme="tertiary"] {
             background-color: theme("colors.success.600");
         }
 
-        &.btn-accent {
+        &[data-as-button-theme="accent"] {
             background-color: theme("colors.danger.600");
         }
     }
@@ -550,6 +560,10 @@
 
         a {
             color: theme("colors.blue.400");
+        }
+
+        a[id] {
+            color: theme('colors.gray.200');
         }
 
         code {

@@ -246,7 +246,7 @@ export default function tiptap({
                 this.locale = event.detail.locale;
             });
 
-            let sortableEl = this.$el.parentElement.closest("[wire\\:sortable]");
+            let sortableEl = this.$el.parentElement.closest("[x-sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", () => {
                     Object.values(editors).forEach(function (editor) {
@@ -392,11 +392,11 @@ export default function tiptap({
             }
         },
         insertLink(link) {
-            if (link.href === null) {
+            if (link.href === null && link.id === null) {
                 return;
             }
 
-            if (link.href === '') {
+            if (link.href === '' && link.id === null) {
                 this.unsetLink();
                 return;
             }
@@ -407,12 +407,13 @@ export default function tiptap({
                 .extendMarkRange('link')
                 .setLink({
                     href: link.href,
+                    id: link.id ?? null,
                     target: link.target ?? null,
                     hreflang: link.hreflang ?? null,
-                    rel: link.rel.length ? link.rel.join(' ') : null,
-                    as_button: !!link.as_button,
-                    button_theme: link.button_theme ?? '',
-                    class: link.as_button ? `btn btn-${link.button_theme}` : null
+                    rel: link.rel ?? null,
+                    referrerpolicy: link.referrerpolicy ?? null,
+                    as_button: link.as_button ?? null,
+                    button_theme: link.button_theme ?? null,
                 })
                 .selectTextblockEnd()
                 .run();

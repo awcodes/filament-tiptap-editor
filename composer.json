@@ -27,8 +27,8 @@
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^6.0|^7.0",
-        "orchestra/testbench": "^7.0|^8.0",
+        "nunomaduro/collision": "^7.0",
+        "orchestra/testbench": "^8.0",
         "spatie/laravel-ray": "^1.26"
     },
     "autoload": {

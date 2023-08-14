@@ -167,6 +167,10 @@ export class BubbleMenuView {
             return
         }
 
+        if (state.selection.$anchor.pos !== oldState?.selection.$anchor.pos) {
+            this.update(view, state);
+        }
+
         this.tippy?.setProps({
             getReferenceClientRect:
                 this.tippyOptions?.getReferenceClientRect
@@ -199,6 +203,8 @@ export class BubbleMenuView {
     }
 
     hide() {
+        this.element.style.position = 'absolute'
+        this.element.style.visibility = 'hidden'
         this.tippy?.hide()
     }
 

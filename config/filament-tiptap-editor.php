@@ -3,21 +3,7 @@
 return [
     'direction' => 'ltr',
     'max_content_width' => '5xl',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Theme overrides
-    |--------------------------------------------------------------------------
-    |
-    | Theme overrides can be used to style parts of the editor content.
-    | theme_builder : 'mix' | 'vite'
-    | theme_file : resources/css/tiptap-editor-styles.css
-    | theme_folder : 'build'
-    |
-    */
-    'theme_builder' => 'mix',
-    'theme_file' => null,
-    'theme_folder' => 'build',
+    'disable_stylesheet' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -79,6 +65,7 @@ return [
     'visibility' => 'public',
     'preserve_file_names' => false,
     'max_file_size' => 2042,
+    'image_resize_mode' => null,
     'image_crop_aspect_ratio' => null,
     'image_resize_target_width' => null,
     'image_resize_target_height' => null,

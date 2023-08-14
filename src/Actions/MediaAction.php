@@ -62,11 +62,12 @@ class MediaAction extends Action
                         ->acceptedFileTypes($component->getAcceptedFileTypes())
                         ->maxFiles(1)
                         ->maxSize($component->getMaxFileSize())
+                        ->imageResizeMode(config('filament-tiptap-editor.image_resize_mode'))
                         ->imageCropAspectRatio(config('filament-tiptap-editor.image_crop_aspect_ratio'))
                         ->imageResizeTargetWidth(config('filament-tiptap-editor.image_resize_target_width'))
                         ->imageResizeTargetHeight(config('filament-tiptap-editor.image_resize_target_height'))
                         ->required()
-                        ->reactive()
+                        ->live()
                         ->afterStateUpdated(function (TemporaryUploadedFile $state, callable $set) {
                             if (Str::contains($state->getMimeType(), 'image')) {
                                 $set('type', 'image');
@@ -105,7 +106,11 @@ class MediaAction extends Action
                     TextInput::make('alt')
                         ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
                         ->hidden(fn (callable $get) => $get('type') == 'document')
-                        ->helperText(new HtmlString('<span class="text-xs"><a href="https://www.w3.org/WAI/tutorials/images/decision-tree" target="_blank" rel="noopener" class="underline text-primary-500 hover:text-primary-600 focus:text-primary-600">' . __('filament-tiptap-editor::media-modal.labels.alt_helper_text') . '</a></span>')),
+                        ->hintAction(Action::make('alt_hint_action')
+                            ->label('?')
+                            ->color('primary')
+                            ->url('https://www.w3.org/WAI/tutorials/images/decision-tree', true)
+                        ),
                     TextInput::make('title')
                         ->label(__('filament-tiptap-editor::media-modal.labels.title')),
                     Hidden::make('width'),
@@ -116,7 +121,7 @@ class MediaAction extends Action
             })->action(function(TiptapEditor $component, $data) {
                 $source = str_starts_with($data['src'], 'http')
                     ? $data['src']
-                    : config('app.url') . Storage::url($data['src']);
+                    : Storage::disk(config('filament-tiptap-editor.disk'))->url($data['src']);
 
                 $component->getLivewire()->dispatch(
                     'insert-media',

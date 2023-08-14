@@ -24,6 +24,9 @@ class Link extends BaseLink
             'href' => [
                 'default' => null,
             ],
+            'id' => [
+                'default' => null,
+            ],
             'target' => [
                 'default' => $this->options['HTMLAttributes']['target'] ?? null,
             ],
@@ -33,14 +36,47 @@ class Link extends BaseLink
             'rel' => [
                 'default' => null,
             ],
+            'referrerpolicy' => [
+                'default' => null,
+            ],
             'class' => [
                 'default' => null,
             ],
             'as_button' => [
                 'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return
+                        $DOMNode->getAttribute('data-as-button') ||
+                        $DOMNode->getAttribute('as_button') ?: null;
+                },
+                'renderHTML' => function ($attributes) {
+                    return [
+                        'data-as-button' => $attributes->as_button ?? null,
+                    ];
+                },
             ],
             'button_theme' => [
-                'default' => '',
+                'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    if ($theme = $DOMNode->getAttribute('data-as-button-theme')) {
+                        return $theme;
+                    }
+
+                    if ($theme = $DOMNode->getAttribute('button_theme')) {
+                        return $theme;
+                    }
+
+                    return null;
+                },
+                'renderHTML' => function ($attributes) {
+                    if (! property_exists($attributes, 'button_theme')) {
+                        return null;
+                    }
+
+                    return [
+                        'data-as-button-theme' => $attributes->button_theme,
+                    ];
+                },
             ],
         ];
     }

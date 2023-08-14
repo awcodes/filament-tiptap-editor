@@ -20,11 +20,7 @@ return [
             'parent' => 'Parent',
             'top' => 'Top'
         ],
-        'rel' => [
-            'nofollow' => 'No Follow',
-            'noopener' => 'No Opener',
-            'noreferrer' => 'No Referrer',
-        ],
+        'referrer_policy' => 'Referrer Policy',
         'as_button' => 'As Button',
         'button_theme' => [
             'primary' => 'Primary',

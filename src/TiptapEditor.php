@@ -3,28 +3,21 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
-use Filament\Forms\Components\Concerns\CanBeLengthConstrained;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
-use Filament\Forms\Components\Contracts\CanBeLengthConstrained as FilamentCanBeLengthConstrained;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
+use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use Illuminate\Support\Str;
 
-class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
+class TiptapEditor extends Field
 {
-    use CanBeLengthConstrained;
     use HasExtraInputAttributes;
     use HasExtraAlpineAttributes;
-
-    protected array | null $acceptedFileTypes = null;
-
-    protected string | Closure | null $directory = null;
-
-    protected string | Closure | null $disk = null;
+    use InteractsWithMedia;
 
     protected array $extensions = [];
 
@@ -32,17 +25,15 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
 
     protected string | Closure | null $maxContentWidth = null;
 
-    protected int | null $maxFileSize = null;
-
     protected TiptapOutput | null $output = null;
 
     protected string $profile = 'default';
 
-    protected Closure | null $saveUploadedFileUsing = null;
-
     protected bool | null $shouldShowBubbleMenus = null;
 
     protected bool | null $shouldShowFloatingMenus = null;
+
+    protected bool | null $shouldDisableStylesheet = null;
 
     protected ?array $tools = [];
 
@@ -158,20 +149,6 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
         ));
     }
 
-    public function acceptedFileTypes(array $acceptedFileTypes): static
-    {
-        $this->acceptedFileTypes = $acceptedFileTypes;
-
-        return $this;
-    }
-
-    public function directory(string | Closure $directory): static
-    {
-        $this->directory = $directory;
-
-        return $this;
-    }
-
     public function disableBubbleMenus(bool | Closure | null $condition = true): static
     {
         $this->shouldShowBubbleMenus = $condition;
@@ -186,13 +163,6 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
         return $this;
     }
 
-    public function disk(string | Closure $disk): static
-    {
-        $this->disk = $disk;
-
-        return $this;
-    }
-
     public function floatingMenuTools(array | Closure $tools): static
     {
         $this->floatingMenuTools = $tools;
@@ -203,13 +173,6 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
     public function maxContentWidth(string | Closure $width): static
     {
         $this->maxContentWidth = $width;
-
-        return $this;
-    }
-
-    public function maxFileSize(int $maxFileSize): static
-    {
-        $this->maxFileSize = $maxFileSize;
 
         return $this;
     }
@@ -236,21 +199,6 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
         return $this;
     }
 
-    public function getAcceptedFileTypes(): array
-    {
-        return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
-    }
-
-    public function getDirectory(): string
-    {
-        return $this->directory ? $this->evaluate($this->directory) : config('filament-tiptap-editor.directory');
-    }
-
-    public function getDisk(): string
-    {
-        return $this->disk ? $this->evaluate($this->disk) : config('filament-tiptap-editor.disk');
-    }
-
     public function getFloatingMenuTools(): array
     {
         if ($this->floatingMenuTools) {
@@ -268,9 +216,16 @@ class TiptapEditor extends Field implements FilamentCanBeLengthConstrained
             : config('filament-tiptap-editor.max_content_width');
     }
 
-    public function getMaxFileSize(): int
+    public function disableStylesheet(): static
     {
-        return $this->maxFileSize ?? config('filament-tiptap-editor.max_file_size');
+        $this->shouldDisableStylesheet = true;
+
+        return $this;
+    }
+
+    public function shouldDisableStylesheet(): bool
+    {
+        return $this->shouldDisableStylesheet ?? config('filament-tiptap-editor.disable_stylesheet');
     }
 
     public function getOutput(): TiptapOutput

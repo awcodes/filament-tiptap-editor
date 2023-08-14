@@ -19,11 +19,13 @@
             let link = this.editor().getAttributes('link');
             let arguments = {
                 href: link.href || '',
+                id: link.id || null,
                 target: link.target || null,
                 hreflang: link.hreflang || null,
-                rel: link.rel ? link.rel.split(' ') : null,
+                rel: link.rel || null,
+                referrerpolicy: link.referrerpolicy || null,
                 as_button: link.as_button || null,
-                button_theme: link.button_theme || '',
+                button_theme: link.button_theme || null,
             };
 
             $wire.dispatchFormEvent('tiptap::setLinkContent', '{{ $statePath }}', arguments);

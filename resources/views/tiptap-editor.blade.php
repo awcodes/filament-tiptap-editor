@@ -9,12 +9,17 @@
     :component="$getFieldWrapperView()"
     :field="$field"
 >
-    <div @class([
-        'tiptap-editor rounded-md relative text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white',
-        'ring-gray-950/10 dark:ring-white/20' => ! $errors->has($statePath),
-        'ring-danger-600 dark:ring-danger-600' => $errors->has($statePath),
-    ])>
-
+    <div
+        @class([
+            'tiptap-editor rounded-md relative text-gray-950 bg-white shadow-sm ring-1 dark:bg-white/5 dark:text-white',
+            'ring-gray-950/10 dark:ring-white/20' => ! $errors->has($statePath),
+            'ring-danger-600 dark:ring-danger-600' => $errors->has($statePath),
+        ])
+        @if (! $shouldDisableStylesheet())
+            x-data="{}"
+            x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('tiptap', 'awcodes/tiptap-editor'))]"
+        @endif
+    >
         <div
             wire:ignore
             x-ignore
@@ -28,7 +33,7 @@
                 tools: @js($tools),
                 disabled: {{ $isDisabled ? 'true' : 'false' }},
                 locale: '{{ app()->getLocale() }}',
-                floatingMenuTools: @js($floatingMenuTools),
+                floatingMenuTools: @js($floatingMenuTools)
             })"
             x-on:keydown.escape="fullScreenMode = false"
             x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"

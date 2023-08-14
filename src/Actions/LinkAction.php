@@ -4,7 +4,6 @@ namespace FilamentTiptapEditor\Actions;
 
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
@@ -25,12 +24,14 @@ class LinkAction extends Action
         parent::setUp();
 
         $this
-            ->modalWidth('md')
+            ->modalWidth('lg')
             ->arguments([
                 'href' => '',
+                'id' => '',
                 'hreflang' => '',
                 'target' => '',
-                'rel' => [],
+                'rel' => '',
+                'referrerpolicy' => '',
                 'as_button' => false,
                 'button_theme' => '',
             ])->mountUsing(function (ComponentContainer $form, array $arguments) {
@@ -39,28 +40,29 @@ class LinkAction extends Action
                 $context = blank($arguments['href']) ? 'insert' : 'update';
                 return __('filament-tiptap-editor::link-modal.heading.' . $context);
             })->form([
-                Grid::make(['md' => 2])
+                Grid::make(['md' => 3])
                     ->schema([
                         TextInput::make('href')
                             ->label(__('filament-tiptap-editor::link-modal.labels.url'))
                             ->columnSpan('full')
-                            ->required(),
-                        Select::make('target')->options([
-                            '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
-                            '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
-                            '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                            '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
-                        ]),
+                            ->requiredWithout('id')
+                            ->validationAttribute('URL'),
+                        TextInput::make('id'),
+                        Select::make('target')
+                            ->selectablePlaceholder(false)
+                            ->options([
+                                '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
+                                '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
+                                '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
+                                '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
+                            ]),
                         TextInput::make('hreflang')
                             ->label(__('filament-tiptap-editor::link-modal.labels.language')),
-                        CheckboxList::make('rel')
-                            ->columnSpan('full')
-                            ->columns(3)
-                            ->options([
-                                'nofollow' => __('filament-tiptap-editor::link-modal.labels.rel.nofollow'),
-                                'noopener' => __('filament-tiptap-editor::link-modal.labels.rel.noopener'),
-                                'noreferrer' => __('filament-tiptap-editor::link-modal.labels.rel.noreferrer'),
-                            ]),
+                        TextInput::make('rel')
+                            ->columnSpan('full'),
+                        TextInput::make('referrerpolicy')
+                            ->label(__('filament-tiptap-editor::link-modal.labels.referrer_policy'))
+                            ->columnSpan('full'),
                         Toggle::make('as_button')
                             ->label(__('filament-tiptap-editor::link-modal.labels.as_button'))
                             ->reactive(),
@@ -80,9 +82,11 @@ class LinkAction extends Action
                     'insert-link',
                     statePath: $component->getStatePath(),
                     href: $data['href'],
+                    id: $data['id'],
                     hreflang: $data['hreflang'],
                     target: $data['target'],
                     rel: $data['rel'],
+                    referrerpolicy: $data['referrerpolicy'],
                     as_button: $data['as_button'],
                     button_theme: $data['as_button'] ? $data['button_theme'] : '',
                 );

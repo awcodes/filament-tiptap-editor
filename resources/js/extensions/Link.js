@@ -17,6 +17,9 @@ export const CustomLink = Link.extend({
       href: {
         default: null,
       },
+      id: {
+        default: null,
+      },
       target: {
         default: this.options.HTMLAttributes.target,
       },
@@ -26,14 +29,29 @@ export const CustomLink = Link.extend({
       rel: {
         default: null,
       },
+      referrerpolicy: {
+        default: null,
+      },
       class: {
         default: null,
       },
       as_button: {
-        default: false,
+        default: null,
+        parseHTML: element => element.getAttribute('data-as-button') || element.getAttribute('as_button'),
+        renderHTML: attributes => {
+          return {
+            'data-as-button': attributes.as_button,
+          }
+        }
       },
       button_theme: {
-        default: "",
+        default: null,
+        parseHTML: element => element.getAttribute('data-as-button-theme') || element.getAttribute('button_theme'),
+        renderHTML: attributes => {
+          return {
+            'data-as-button-theme': attributes.button_theme,
+          }
+        }
       },
     };
   },
