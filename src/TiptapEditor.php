@@ -63,22 +63,16 @@ class TiptapEditor extends Field
         });
 
         $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string | array | null $state) {
-            $tempState = $state;
-
-            if ($state && $this->expectsJSON()) {
-                $component->state($component->getHTML());
-            }
-
             $livewire->validateOnly($component->getStatePath());
-
-            if ($state && $this->expectsJSON()) {
-                $component->state($tempState);
-            }
         });
 
         $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
             if ($state && $this->expectsJSON()) {
-                return is_array($state) ? $state : json_decode($state);
+                return $component->getJSON();
+            }
+
+            if ($state && $this->expectsText()) {
+                return $component->getText();
             }
 
             return $state;
@@ -279,5 +273,10 @@ class TiptapEditor extends Field
     public function expectsJSON(): bool
     {
         return $this->output === TiptapOutput::Json;
+    }
+
+    public function expectsText(): bool
+    {
+        return $this->output === TiptapOutput::Text;
     }
 }
