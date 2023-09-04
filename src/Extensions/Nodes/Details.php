@@ -21,7 +21,7 @@ class Details extends Node
         return [
             [
                 'tag' => 'details',
-            ]
+            ],
         ];
     }
 
@@ -30,7 +30,7 @@ class Details extends Node
         return [
             'details',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

@@ -21,7 +21,7 @@ class SourceAction extends Action
         $this
             ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
                 return $form->fill([
-                    'source' => $arguments['html']
+                    'source' => $arguments['html'],
                 ]);
             })
             ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
@@ -30,7 +30,7 @@ class SourceAction extends Action
                     ->label(__('filament-tiptap-editor::source-modal.labels.source'))
                     ->rows(10),
             ])
-            ->action(function(TiptapEditor $component, $data) {
+            ->action(function (TiptapEditor $component, $data) {
                 $component->getLivewire()->dispatch(
                     'insert-source',
                     statePath: $component->getStatePath(),

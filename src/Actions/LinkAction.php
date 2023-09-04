@@ -36,8 +36,9 @@ class LinkAction extends Action
                 'button_theme' => '',
             ])->mountUsing(function (ComponentContainer $form, array $arguments) {
                 $form->fill($arguments);
-            })->modalHeading(function(array $arguments) {
+            })->modalHeading(function (array $arguments) {
                 $context = blank($arguments['href']) ? 'insert' : 'update';
+
                 return __('filament-tiptap-editor::link-modal.heading.' . $context);
             })->form([
                 Grid::make(['md' => 3])
@@ -54,7 +55,7 @@ class LinkAction extends Action
                                 '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
                                 '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
                                 '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                                '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
+                                '_top' => __('filament-tiptap-editor::link-modal.labels.target.top'),
                             ]),
                         TextInput::make('hreflang')
                             ->label(__('filament-tiptap-editor::link-modal.labels.language')),
@@ -76,8 +77,8 @@ class LinkAction extends Action
                                 'tertiary' => __('filament-tiptap-editor::link-modal.labels.button_theme.tertiary'),
                                 'accent' => __('filament-tiptap-editor::link-modal.labels.button_theme.accent'),
                             ]),
-                    ])
-            ])->action(function(TiptapEditor $component, $data) {
+                    ]),
+            ])->action(function (TiptapEditor $component, $data) {
                 $component->getLivewire()->dispatch(
                     'insert-link',
                     statePath: $component->getStatePath(),
@@ -101,9 +102,9 @@ class LinkAction extends Action
                             ->extraAttributes(function () use ($action) {
                                 return [
                                     'x-on:click' => new HtmlString("\$dispatch('unset-link', {'statePath': '{$action->getComponent()->getStatePath()}'}); close()"),
-                                    'style' => 'margin-inline-start: auto;'
+                                    'style' => 'margin-inline-start: auto;',
                                 ];
-                            })
+                            }),
                     ];
                 }
 

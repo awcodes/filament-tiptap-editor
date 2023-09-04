@@ -9,31 +9,27 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
+use FilamentTiptapEditor\Concerns\CanStoreOutput;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
-use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\Concerns\InteractsWithMenus;
 use Illuminate\Support\Str;
+use Livewire\Component;
 
 class TiptapEditor extends Field
 {
-    use HasExtraInputAttributes;
+    use CanStoreOutput;
     use HasExtraAlpineAttributes;
+    use HasExtraInputAttributes;
     use InteractsWithMedia;
+    use InteractsWithMenus;
 
     protected array $extensions = [];
 
-    protected array | Closure | null $floatingMenuTools = null;
-
     protected string | Closure | null $maxContentWidth = null;
-
-    protected TiptapOutput | null $output = null;
 
     protected string $profile = 'default';
 
-    protected bool | null $shouldShowBubbleMenus = null;
-
-    protected bool | null $shouldShowFloatingMenus = null;
-
-    protected bool | null $shouldDisableStylesheet = null;
+    protected ?bool $shouldDisableStylesheet = null;
 
     protected ?array $tools = [];
 
@@ -44,29 +40,21 @@ class TiptapEditor extends Field
         parent::setUp();
 
         $this->tools = config('filament-tiptap-editor.profiles.default');
-        $this->output(config('filament-tiptap-editor.output'));
-
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
-        $this->afterStateHydrated(function(TiptapEditor $component, string | array | null $state) {
-           if (! $state) {
-               $component->state('<p></p>');
-           }
+        $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state) {
+            if (! $state) {
+                $component->state('<p></p>');
+            }
 
-           /**
-            * @TODO
-            * Force html for state temporarily for possible LW3 bug.
-            * Revisit this later. Seems like LW is hijacking Tiptap's
-            * internal state and trying to diff it with Alpine.
-            */
-           $component->state($component->getHTML());
+            $component->state($component->getHTML());
         });
 
-        $this->afterStateUpdated(function(TiptapEditor $component, $livewire, string | array | null $state) {
+        $this->afterStateUpdated(function (TiptapEditor $component, Component $livewire) {
             $livewire->validateOnly($component->getStatePath());
         });
 
-        $this->dehydrateStateUsing(function(TiptapEditor $component, string | array | null $state) {
+        $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state) {
             if ($state && $this->expectsJSON()) {
                 return $component->getJSON();
             }
@@ -143,37 +131,9 @@ class TiptapEditor extends Field
         ));
     }
 
-    public function disableBubbleMenus(bool | Closure | null $condition = true): static
-    {
-        $this->shouldShowBubbleMenus = $condition;
-
-        return $this;
-    }
-
-    public function disableFloatingMenus(bool | Closure | null $condition = true): static
-    {
-        $this->shouldShowFloatingMenus = $condition;
-
-        return $this;
-    }
-
-    public function floatingMenuTools(array | Closure $tools): static
-    {
-        $this->floatingMenuTools = $tools;
-
-        return $this;
-    }
-
     public function maxContentWidth(string | Closure $width): static
     {
         $this->maxContentWidth = $width;
-
-        return $this;
-    }
-
-    public function output(TiptapOutput $output): static
-    {
-        $this->output = $output;
 
         return $this;
     }
@@ -191,16 +151,6 @@ class TiptapEditor extends Field
         $this->tools = $tools;
 
         return $this;
-    }
-
-    public function getFloatingMenuTools(): array
-    {
-        if ($this->floatingMenuTools) {
-            return $this->evaluate($this->floatingMenuTools);
-        } elseif ($this->profile !== 'none') {
-            return config('filament-tiptap-editor.floating_menu_tools');
-        }
-        return [];
     }
 
     public function getMaxContentWidth(): string
@@ -222,11 +172,6 @@ class TiptapEditor extends Field
         return $this->shouldDisableStylesheet ?? config('filament-tiptap-editor.disable_stylesheet');
     }
 
-    public function getOutput(): TiptapOutput
-    {
-        return $this->output;
-    }
-
     public function getTools(): array
     {
         $extensions = collect($this->extensions);
@@ -238,45 +183,5 @@ class TiptapEditor extends Field
         }
 
         return $this->tools;
-    }
-
-    public function getHTML(): string
-    {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asHTML($this->getState());
-    }
-
-    public function getText(): string
-    {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asText($this->getState());
-    }
-
-    public function getJSON(): string
-    {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asJSON($this->getState());
-    }
-
-    public function isFloatingMenusDisabled(): bool
-    {
-        return $this->evaluate($this->shouldShowFloatingMenus) ?? config('filament-tiptap-editor.disable_floating_menus');
-    }
-
-    public function isBubbleMenusDisabled(): bool
-    {
-        return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
-    }
-
-    public function expectsHTML(): bool
-    {
-        return $this->output === TiptapOutput::Html;
-    }
-
-    public function expectsJSON(): bool
-    {
-        return $this->output === TiptapOutput::Json;
-    }
-
-    public function expectsText(): bool
-    {
-        return $this->output === TiptapOutput::Text;
     }
 }

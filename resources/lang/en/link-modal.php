@@ -18,7 +18,7 @@ return [
             'default' => 'Default',
             'new_window' => 'New Window',
             'parent' => 'Parent',
-            'top' => 'Top'
+            'top' => 'Top',
         ],
         'referrer_policy' => 'Referrer Policy',
         'as_button' => 'As Button',
@@ -27,6 +27,6 @@ return [
             'secondary' => 'Secondary',
             'tertiary' => 'Tertiary',
             'accent' => 'Accent',
-        ]
-    ]
+        ],
+    ],
 ];

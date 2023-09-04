@@ -10,5 +10,5 @@ return [
         'asymmetric_left' => 'Left Column Span',
         'asymmetric_right' => 'Right Column Span',
         'dont_stack' => 'Don\'t Stack',
-    ]
+    ],
 ];

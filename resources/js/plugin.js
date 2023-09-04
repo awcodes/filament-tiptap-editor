@@ -235,7 +235,7 @@ export default function tiptap({
             document.addEventListener("dblclick", function (e) {
                 if (
                     e.target && (e.target.hasAttribute("data-youtube-video") ||
-                        e.target.hasAttribute("data-vimeo-video")) ||
+                    e.target.hasAttribute("data-vimeo-video")) ||
                     e.target.hasAttribute("data-native-video")
                 ) {
                     e.target.firstChild.style.pointerEvents = "all";

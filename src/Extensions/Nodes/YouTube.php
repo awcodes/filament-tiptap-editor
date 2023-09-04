@@ -26,13 +26,13 @@ class YouTube extends Node
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute("style");
+                    return $DOMNode->getAttribute('style');
                 },
             ],
             'src' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("src");
+                    return $DOMNode->firstChild->getAttribute('src');
                 },
             ],
             'start' => [
@@ -41,13 +41,13 @@ class YouTube extends Node
             'width' => [
                 'default' => $this->options['width'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("width");
+                    return $DOMNode->firstChild->getAttribute('width');
                 },
             ],
             'height' => [
                 'default' => $this->options['height'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("height");
+                    return $DOMNode->firstChild->getAttribute('height');
                 },
             ],
             'responsive' => [
@@ -61,7 +61,7 @@ class YouTube extends Node
         return [
             [
                 'tag' => 'div[data-youtube-video]',
-            ]
+            ],
         ];
     }
 
@@ -71,7 +71,7 @@ class YouTube extends Node
             'div',
             [
                 'data-vimeo-video' => true,
-                'class' => $node->attrs->responsive ? 'responsive' : null
+                'class' => $node->attrs->responsive ? 'responsive' : null,
             ],
             [
                 'iframe',
@@ -85,9 +85,8 @@ class YouTube extends Node
                         ? "aspect-ratio:{$node->attrs->width}/{$node->attrs->height}; width: 100%; height: auto;"
                         : null,
                 ]),
-                0
-            ]
+                0,
+            ],
         ];
     }
-
 }

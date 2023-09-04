@@ -15,5 +15,5 @@ return [
         'alt' => 'Alt Text',
         'alt_helper_text' => 'Learn how to describe the purpose of the image.',
         'title' => 'Title',
-    ]
+    ],
 ];

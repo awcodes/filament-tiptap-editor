@@ -21,7 +21,7 @@ class DetailsSummary extends Node
         return [
             [
                 'tag' => 'summary',
-            ]
+            ],
         ];
     }
 
@@ -30,7 +30,7 @@ class DetailsSummary extends Node
         return [
             'summary',
             HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
-            0
+            0,
         ];
     }
 }

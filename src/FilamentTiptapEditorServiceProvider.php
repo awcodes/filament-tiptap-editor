@@ -31,7 +31,7 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
     {
         FilamentAsset::register([
             AlpineComponent::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.js'),
-            Css::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.css')->loadedOnRequest()
+            Css::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.css')->loadedOnRequest(),
         ], 'awcodes/tiptap-editor');
     }
 }

@@ -26,55 +26,55 @@ class Vimeo extends Node
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("style");
+                    return $DOMNode->firstChild->getAttribute('style');
                 },
             ],
             'src' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("src");
+                    return $DOMNode->firstChild->getAttribute('src');
                 },
             ],
             'width' => [
                 'default' => $this->options['width'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("width");
+                    return $DOMNode->firstChild->getAttribute('width');
                 },
             ],
             'height' => [
                 'default' => $this->options['height'],
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("height");
+                    return $DOMNode->firstChild->getAttribute('height');
                 },
             ],
             'autoplay' => [
                 'default' => 0,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("autoplay");
+                    return $DOMNode->firstChild->getAttribute('autoplay');
                 },
             ],
             'loop' => [
                 'default' => 0,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("loop");
+                    return $DOMNode->firstChild->getAttribute('loop');
                 },
             ],
             'title' => [
                 'default' => 0,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("title");
+                    return $DOMNode->firstChild->getAttribute('title');
                 },
             ],
             'byline' => [
                 'default' => 0,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("byline");
+                    return $DOMNode->firstChild->getAttribute('byline');
                 },
             ],
             'portrait' => [
                 'default' => 0,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute("portrait");
+                    return $DOMNode->firstChild->getAttribute('portrait');
                 },
             ],
             'responsive' => [
@@ -88,7 +88,7 @@ class Vimeo extends Node
         return [
             [
                 'tag' => 'div[data-vimeo-video]',
-            ]
+            ],
         ];
     }
 
@@ -98,7 +98,7 @@ class Vimeo extends Node
             'div',
             [
                 'data-vimeo-video' => true,
-                'class' => $node->attrs->responsive ? 'responsive' : null
+                'class' => $node->attrs->responsive ? 'responsive' : null,
             ],
             [
                 'iframe',
@@ -110,7 +110,7 @@ class Vimeo extends Node
                     'allow' => 'autoplay; fullscreen; picture-in-picture',
                     'style' => $node->attrs->style,
                 ]),
-            ]
+            ],
         ];
     }
 }

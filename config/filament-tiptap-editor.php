@@ -23,7 +23,7 @@ return [
         ],
         'simple' => ['heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list', '|', 'bold', 'italic', 'lead', 'small', '|', 'link', 'media'],
         'minimal' => ['bold', 'italic', 'link', 'bullet-list', 'ordered-list'],
-        'none' => []
+        'none' => [],
     ],
 
     /*
@@ -33,7 +33,7 @@ return [
     |
     */
     'media_action' => FilamentTiptapEditor\Actions\MediaAction::class,
-//    'media_action' => Awcodes\Curator\Actions\MediaAction::class,
+    //    'media_action' => Awcodes\Curator\Actions\MediaAction::class,
     'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
 
     /*
@@ -56,7 +56,7 @@ return [
     | inserting media. They follow the same conventions as the
     | Filament Forms FileUpload field.
     |
-    | See https://filamentphp.com/docs/2.x/forms/fields#file-upload
+    | See https://filamentphp.com/docs/3.x/panels/installation#file-upload
     |
     */
     'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
@@ -78,5 +78,5 @@ return [
     */
     'disable_floating_menus' => false,
     'disable_bubble_menus' => false,
-    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
+    'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block'],
 ];

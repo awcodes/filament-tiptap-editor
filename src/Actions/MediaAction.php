@@ -10,7 +10,6 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -48,10 +47,11 @@ class MediaAction extends Action
                     'width' => $arguments['width'] ?? '',
                     'height' => $arguments['height'] ?? '',
                 ]);
-            })->modalHeading(function(TiptapEditor $component, array $arguments) {
+            })->modalHeading(function (TiptapEditor $component, array $arguments) {
                 $context = blank($arguments['src'] ?? null) ? 'insert' : 'update';
+
                 return __('filament-tiptap-editor::media-modal.heading.' . $context);
-            })->form(function(TiptapEditor $component) {
+            })->form(function (TiptapEditor $component) {
                 return [
                     FileUpload::make('src')
                         ->label(__('filament-tiptap-editor::media-modal.labels.file'))
@@ -106,10 +106,11 @@ class MediaAction extends Action
                     TextInput::make('alt')
                         ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
                         ->hidden(fn (callable $get) => $get('type') == 'document')
-                        ->hintAction(Action::make('alt_hint_action')
-                            ->label('?')
-                            ->color('primary')
-                            ->url('https://www.w3.org/WAI/tutorials/images/decision-tree', true)
+                        ->hintAction(
+                            Action::make('alt_hint_action')
+                                ->label('?')
+                                ->color('primary')
+                                ->url('https://www.w3.org/WAI/tutorials/images/decision-tree', true)
                         ),
                     TextInput::make('title')
                         ->label(__('filament-tiptap-editor::media-modal.labels.title')),
@@ -118,7 +119,7 @@ class MediaAction extends Action
                     Hidden::make('type')
                         ->default('document'),
                 ];
-            })->action(function(TiptapEditor $component, $data) {
+            })->action(function (TiptapEditor $component, $data) {
                 $source = str_starts_with($data['src'], 'http')
                     ? $data['src']
                     : Storage::disk(config('filament-tiptap-editor.disk'))->url($data['src']);

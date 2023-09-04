@@ -6,13 +6,13 @@ use Closure;
 
 trait InteractsWithMedia
 {
-    protected array | null $acceptedFileTypes = null;
+    protected ?array $acceptedFileTypes = null;
 
     protected string | Closure | null $directory = null;
 
     protected string | Closure | null $disk = null;
 
-    protected int | null $maxFileSize = null;
+    protected ?int $maxFileSize = null;
 
     protected bool | Closure | null $shouldPreserveFileNames = null;
 
