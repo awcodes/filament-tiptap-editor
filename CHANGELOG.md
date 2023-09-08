@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.7 - 2023-09-08
+
+### What's Changed
+
+- Fix: reset editor when create and create another action by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/163
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.6...v2.6.7
+
 ## v2.6.6 - 2023-09-07
 
 ### What's Changed
