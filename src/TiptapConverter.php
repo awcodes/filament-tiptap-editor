@@ -63,6 +63,7 @@ class TiptapConverter
             new Subscript(),
             new Marks\Link(),
             new Marks\Small(),
+            new Marks\Color(),
         ];
     }
 
