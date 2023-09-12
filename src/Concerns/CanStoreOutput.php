@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor\Concerns;
 
 use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\Facades\TiptapConverter;
 
 trait CanStoreOutput
 {
@@ -22,17 +23,17 @@ trait CanStoreOutput
 
     public function getHTML(): string
     {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asHTML($this->getState());
+        return TiptapConverter::asHTML($this->getState());
     }
 
     public function getText(): string
     {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asText($this->getState());
+        return TiptapConverter::asText($this->getState());
     }
 
     public function getJSON(): string
     {
-        return \FilamentTiptapEditor\Facades\TiptapConverter::asJSON($this->getState());
+        return TiptapConverter::asJSON($this->getState());
     }
 
     public function expectsHTML(): bool
