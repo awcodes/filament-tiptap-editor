@@ -10,6 +10,7 @@ use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
 use Tiptap\Marks\Subscript;
 use Tiptap\Marks\Superscript;
+use Tiptap\Marks\TextStyle;
 use Tiptap\Marks\Underline;
 use Tiptap\Nodes\CodeBlockHighlight;
 use Tiptap\Nodes\Table;
@@ -34,9 +35,11 @@ class TiptapConverter
             new StarterKit([
                 'paragraph' => false,
             ]),
+            new TextStyle(),
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
+            new Extensions\Color(),
             new CodeBlockHighlight(),
             new Nodes\Paragraph(),
             new Nodes\Lead(),

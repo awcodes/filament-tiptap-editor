@@ -3,7 +3,7 @@ import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
 import Code from "@tiptap/extension-code";
-import {Color} from "@tiptap/extension-color";
+import Color from "@tiptap/extension-color";
 import Document from "@tiptap/extension-document";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import Gapcursor from "@tiptap/extension-gapcursor";
@@ -64,7 +64,7 @@ let editorExtensions = {
             class: "hljs",
         },
     })],
-    color: [Color, TextStyle],
+    color: [Color],
     details: [Details, DetailsSummary, DetailsContent],
     grid: [Grid, GridColumn],
     'grid-builder': [GridBuilder, GridBuilderColumn],
@@ -131,7 +131,7 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle];
 
             if (tools.length) {
 
