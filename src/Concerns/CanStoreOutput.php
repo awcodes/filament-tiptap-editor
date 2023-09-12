@@ -50,5 +50,4 @@ trait CanStoreOutput
     {
         return $this->getOutput() === TiptapOutput::Text;
     }
-
 }

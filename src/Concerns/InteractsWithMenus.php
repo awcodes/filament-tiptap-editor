@@ -53,5 +53,4 @@ trait InteractsWithMenus
     {
         return $this->evaluate($this->shouldShowBubbleMenus) ?? config('filament-tiptap-editor.disable_bubble_menus');
     }
-
 }

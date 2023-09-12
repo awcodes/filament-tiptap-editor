@@ -33,11 +33,11 @@ class Color extends Extension
                             }
 
                             return [
-                                'style' => "color: {$attributes->color}"
+                                'style' => "color: {$attributes->color}",
                             ];
-                        }
-                    ]
-                ]
+                        },
+                    ],
+                ],
             ],
         ];
     }
