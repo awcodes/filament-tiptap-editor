@@ -25,17 +25,17 @@ In an effort to align with Filament's theming methodology you will need to use a
 > **Note**
 > If you have not set up a custom theme and are using a Panel follow the instructions in the [Filament Docs](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) first. The following applies to both the Panels Package and the standalone Forms package.
 
-1. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
+1. Add the tippy.js package to your dev dependencies.
+
+```bash
+npm install --save-dev tippy.js
+```
+
+2. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
 
 ```css
 @import '../../../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
 @import 'tippy.js/dist/tippy.css';
-```
-
-2. Add the tippy.js package to your dev dependencies.
-
-```sh
-npm install --save-dev tippy.js
 ```
 
 3. Add the plugin's views to your `tailwind.config.js` file.
@@ -61,8 +61,14 @@ module.exports = {
 
 5. Rebuild your custom theme.
 
-```sh
+```bash
 npm run build
+```
+
+6. **IMPORTANT**: In order to get the icons to work, you will need to publish the Blade Icons config, uncomment the `default` set in the config and create a directory at `resources/svg`. (if you haven't already done so)
+
+```bash
+php artisan vendor:publish --tag=blade-icons
 ```
 
 ## Upgrading from 2.x to 3.x

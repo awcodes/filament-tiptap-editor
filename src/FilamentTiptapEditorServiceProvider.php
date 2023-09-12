@@ -2,6 +2,7 @@
 
 namespace FilamentTiptapEditor;
 
+use BladeUI\Icons\Factory;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -24,6 +25,13 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton('tiptap-converter', function () {
             return new TiptapConverter();
+        });
+
+        $this->callAfterResolving(Factory::class, function (Factory $factory): void {
+            $factory->add('tiptap', [
+                'path' => __DIR__ . '/../resources/svg',
+                'prefix' => 'tiptap',
+            ]);
         });
     }
 

@@ -25,6 +25,7 @@
         "ueberdosis/tiptap-php": "^1.1"
     },
     "require-dev": {
+        "blade-ui-kit/blade-icons": "^1.5",
         "filament/filament": "^3.0",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0",

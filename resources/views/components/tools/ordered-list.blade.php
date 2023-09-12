@@ -2,5 +2,5 @@
     action="editor().chain().focus().toggleOrderedList().run()"
     active="orderedlist"
     label="{{ __('filament-tiptap-editor::editor.list.ordered') }}"
-    icon="orderedlist"
+    icon="list-ordered"
 />
