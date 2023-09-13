@@ -17,7 +17,7 @@ A Tiptap integration for Filament Admin/Forms.
 Install the package via composer
 
 ```bash
-composer require awcodes/filament-tiptap-editor
+composer require awcodes/filament-tiptap-editor:"^3.0"
 ```
 
 In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
