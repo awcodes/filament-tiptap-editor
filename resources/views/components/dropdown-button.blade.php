@@ -5,6 +5,7 @@
     'indicator' => null,
     'list' => true,
     'scrollable' => false,
+    'customIcon' => null,
 ])
 <div
     x-data="{
@@ -26,7 +27,11 @@
         :active="$active"
         :label="$label"
         :icon="$icon"
-    />
+    >
+        @if (! $icon)
+            {!! $customIcon !!}
+        @endif
+    </x-filament-tiptap-editor::button>
 
     <div
         x-ref="panel"

@@ -25,10 +25,7 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
         $this->app->singleton('tiptap-converter', function () {
             return new TiptapConverter();
         });
-    }
 
-    public function packageBooted(): void
-    {
         FilamentAsset::register([
             AlpineComponent::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.js'),
             Css::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.css')->loadedOnRequest(),

@@ -31,6 +31,11 @@ class TiptapConverter
 
     public function getExtensions(): array
     {
+        $customExtensions = collect(config('filament-tiptap-editor.extensions', []))
+            ->transform(function ($ext) {
+                return new $ext['parser'];
+            })->toArray();
+
         return [
             new StarterKit([
                 'paragraph' => false,
@@ -55,7 +60,6 @@ class TiptapConverter
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Video(),
-            new Nodes\Hurdle(),
             new Table(),
             new TableHeader(),
             new TableRow(),
@@ -66,6 +70,7 @@ class TiptapConverter
             new Subscript(),
             new Marks\Link(),
             new Marks\Small(),
+            ...$customExtensions,
         ];
     }
 
