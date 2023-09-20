@@ -2,15 +2,7 @@
 
 A Tiptap integration for Filament Admin/Forms.
 
-> **Warning**
-> If you are using the Curator integration for media uploads you will need to update to version 2.3.0 or higher.
-
 ![tiptap-editor-og](https://res.cloudinary.com/aw-codes/image/upload/w_1200,f_auto,q_auto/plugins/tiptap-editor/awcodes-tiptap-editor.jpg)
-
-- Supports Light/Dark Mode
-- Fullscreen editing
-- Overrideable Media uploading
-- Profile based toolbars to simplify reusing features
 
 ## Installation
 
@@ -28,26 +20,19 @@ In an effort to align with Filament's theming methodology you will need to use a
 1. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
 
 ```css
-@import '../../../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
-@import 'tippy.js/dist/tippy.css';
+@import '<path-to-vendor>/awcodes/filament-tiptap-editor/resources/css/plugin.css';
 ```
 
-2. Add the tippy.js package to your dev dependencies.
-
-```sh
-npm install --save-dev tippy.js
-```
-
-3. Add the plugin's views to your `tailwind.config.js` file.
+2. Add the plugin's views to your `tailwind.config.js` file.
 
 ```js
 content: [
     ...
-    './vendor/awcodes/filament-tiptap-editor/resources/**/*.blade.php',
+    '<path-to-vendor>/awcodes/filament-tiptap-editor/resources/**/*.blade.php',
 ]
 ```
 
-4. Add the `tailwindcss/nesting` plugin to your `postcss.config.js` file.
+3. Add the `tailwindcss/nesting` plugin to your `postcss.config.js` file.
 
 ```js
 module.exports = {
@@ -59,7 +44,7 @@ module.exports = {
 }
 ```
 
-5. Rebuild your custom theme.
+4. Rebuild your custom theme.
 
 ```sh
 npm run build
@@ -85,7 +70,7 @@ TiptapEditor::make('content')
     ->directory('string or Closure returning a string') // optional, defaults to config setting
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
     ->maxFileSize('integer in KB') // optional, defaults to config setting
-    ->output(TiptapOutput::Html) // optional, change the output format. defaults is html
+    ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
     ->maxContentWidth('5xl')
     ->required();
 ```
@@ -112,27 +97,46 @@ php artisan vendor:publish --tag="filament-tiptap-editor-config"
 
 ### Profiles / Tools
 
-The package comes with 3 profiles for buttons/tools out of the box.
+The package comes with 3 profiles (or toolbars) out of the box. You can also use a pipe `|` to separate tools into groups. The default profile is the full set of tools.
 
-- default: includes all available tools
-- simple
-- minimal
+```php
+'profiles' => [
+    'default' => [
+        'heading', 'bullet-list', 'ordered-list', 'checked-list', 'blockquote', 'hr',
+        'bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'align-left', 'align-center', 'align-right',
+        'link', 'media', 'oembed', 'table', 'grid-builder', 'details',
+        'code', 'code-block', 'source',
+    ],
+    'simple' => [
+        'heading', 'hr', 'bullet-list', 'ordered-list', 'checked-list',
+        'bold', 'italic', 'lead', 'small',
+        'link', 'media',
+    ],
+    'minimal' => [
+        'bold', 'italic', 'link', 'bullet-list', 'ordered-list',
+    ],
+],
+```
 
-See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor or to create your own.
+See `filament-tiptap-editor.php` config file for modifying profiles to add / remove buttons from the editor or to add your own.
 
 Tools can also be added on a per-instance basis by using the `->tools()` modifier to overwrite the profile set for the instance. A full list of tools can be found in the `filament-tiptap-editor.php` config file under the default profile setting.
 
 ### Media / Images
 
-- accepted_file_types: ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf']
-- disk: 'public'
-- directory: 'images'
-- visibility: 'public'
-- preserve_file_names: false
-- max_file_size: 2042
-- image_crop_aspect_ratio: null
-- image_resize_target_width: null
-- image_resize_target_height: null
+```php
+[
+    'accepted_file_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf'],
+    'disk' => 'public',
+    'directory' => 'images',
+    'visibility' => 'public',
+    'preserve_file_names' => false,
+    'max_file_size' => 2042,
+    'image_crop_aspect_ratio' => null,
+    'image_resize_target_width' => null,
+    'image_resize_target_height' => null,
+]
+```
 
 ### Output format
 
@@ -178,7 +182,6 @@ key in the config to one of the tailwind max width sizes or `full` for full widt
 This could also be set on a per-instance basis with the `->maxContentWidth()` method.
 
 ```php
-// config/filament-tiptap-editor.php
 'max_content_width' => 'full'
 ```
 
@@ -225,7 +228,6 @@ TiptapEditor::make('content')
 ```
     
 ```php
-// config/filament-tiptap-editor.php
 'disable_floating_menus' => true,
 'disable_bubble_menus' => true,
 ```
@@ -238,35 +240,12 @@ TiptapEditor::make('content')
 ```
 
 ```php
-// config/filament-tiptap-editor.php
-'floating_menu_tools' => ['media', 'grid', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
+'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
 ```
 
 ## Usage in Standalone Forms Package
 
-1. Install tippy.js and @ryangjchandler/alpine-tooltip
-
-```bash
-npm install -D tippy.js @ryangjchandler/alpine-tooltip
-```
-
-2. Import the plugin's JS file into your app's JS file and register Alpine Tooltip
-
-```js
-import Tooltip from '@ryangjchandler/alpine-tooltip'
-import '../../vendor/awcodes/filament-tiptap-editor/resources/js/plugin.js'
-
-Alpine.plugin(Tooltip);
-```
-
-3. Import the plugin's CSS and Tippy's CSS file into your app's CSS file
-
-```css
-@import '../../vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
-@import '../../node_modules/tippy.js/dist/tippy.css';
-```
-
-4. If you are using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
+If you are using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
 
 ```php
 <form wire:submit.prevent="submit">
@@ -280,9 +259,133 @@ Alpine.plugin(Tooltip);
 {{ $this->modal }}
 ```
 
+## Custom Extensions
+
+You can add your own extensions to the editor by creating the necessary files and adding them to the config file extensions array.
+
+***This only support CSS and JS with Vite.***
+
+You can read more about custom extensions at [https://tiptap.dev/guide/custom-extensions](https://tiptap.dev/guide/custom-extensions).
+
+### JS
+
+First, create a directory for you custom extensions at `resources/js/tiptap` and add your extension files.
+
+```js
+import { Node, mergeAttributes } from "@tiptap/core";
+
+const Hero = Node.create({
+    name: "hero",
+    ...
+})
+
+export default Hero
+
+```
+
+Next, create at a file at `resources/js/tiptap/extensions.js` and add the following code.
+
+***Note that when adding your extension to the array you must register them a key:array set.***
+
+```js
+import Hero from "./hero.js";
+
+window.TiptapEditorExtensions = {
+    hero: [Hero]
+}
+```
+
+### CSS
+
+Create a css file for your custom extensions at `resources/css/tiptap/extensions.css`. All styles should be scoped to the parent class of `.tiptap-content`.
+
+```css
+.tiptap-content {
+    .hero-block {
+        ...
+    }
+}
+```
+
+### Vite Config
+
+Now you need to add these to your `vite.config.js` file and run a build to generate the files.
+
+```js
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                ...
+                'resources/js/tiptap/extensions.js',
+                'resources/css/tiptap/extensions.css',
+            ],
+            refresh: true,
+        }),
+    ],
+});
+```
+
+### PHP Parser
+
+You will also need to create a PHP version of your extension in order for the content to be read from the database and rendered in the editor or to your front end display. You are free to create this anywhere in your app, a good place is something like `app/TiptapExtensions/YourExtenion.php`.
+
+You can read more about the php parsers at [https://github.com/ueberdosis/tiptap-php](https://github.com/ueberdosis/tiptap-php)
+
+```php
+namespace App\TiptapExtensions;
+
+use Tiptap\Core\Node;
+
+class Hero extends Node
+{
+    public static $name = 'hero';
+    ...
+}
+```
+
+### Toolbar Button
+
+You will also need to crate a dedicated view for you toolbar button. This should be placed somewhere in your app's `resources/views/components` directory. You are free to code the buttons as you see fit, but it is recommended to use the plugin's view components for uniformity.
+
+```blade
+<x-filament-tiptap-editor::button
+    label="Hero"
+    active="hero"
+    action="editor().commands.toggleHero()"
+>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.413-.588T3 19V5q0-.825.588-1.413T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.588 1.413T19 21H5Zm0-2h14v-5H5v5Z"/></svg>
+    
+    <span class="sr-only">{{ $label }}</span>
+</x-filament-tiptap-editor::button>
+```
+
+### Registering the Extensions
+
+Finally, you need to register your extensions in the config file and add the new extension to the appropriate `profile`.
+
+```php
+'profiles' => [
+    'minimal' => [
+        ..., 
+        'hero',
+    ],
+],
+'extensions_script' => 'resources/js/tiptap/extensions.js',
+'extensions_styles' => 'resources/css/tiptap/extensions.css',
+'extensions' => [
+    [
+        'id' => 'hero',
+        'name' => 'Hero',
+        'button' => 'tools.hero',
+        'parser' => \App\TiptapExtensions\Hero::class,
+    ],
+],
+```
+
 ## Versioning
 
-This projects follow the [Semantic Versioning](https://semver.org/) guidelines.
+This project follow the [Semantic Versioning](https://semver.org/) guidelines.
 
 ## License
 

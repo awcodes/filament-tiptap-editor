@@ -6,7 +6,10 @@
 @endphp
 
 @if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
-    @vite([config('filament-tiptap-editor.extensions_script', null), config('filament-tiptap-editor.extensions_styles', null)])
+    @vite([
+        config('filament-tiptap-editor.extensions_script', null),
+        config('filament-tiptap-editor.extensions_styles', null)
+    ])
 @endif
 
 <x-dynamic-component
@@ -62,7 +65,7 @@
                             @if ($tool === '|')
                                 <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
                             @elseif (is_array($tool))
-                                <x-dynamic-component component="{{ $tool['view'] }}" :state-path="$statePath" />
+                                <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
                             @else
                                 <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                             @endif
