@@ -49,10 +49,10 @@ import {
     Video,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
-import {randomString} from "./utils";
+import {randomString, dispatch} from "./utils";
 import 'vanilla-colorful/hex-color-picker.js';
 
-let editorExtensions = {
+let coreExtensions = {
     blockquote: [Blockquote],
     bold: [Bold],
     'bullet-list': [BulletList],
@@ -93,6 +93,9 @@ let editorExtensions = {
     table: [Table.configure({resizable: true}), TableHeader, TableCell, TableRow],
     underline: [Underline],
 };
+
+let customExtensions = window.TiptapEditorExtensions || {};
+let editorExtensions = {...coreExtensions, ...customExtensions};
 
 const localeSwitcher = document.getElementById('activeLocale');
 if (localeSwitcher) {

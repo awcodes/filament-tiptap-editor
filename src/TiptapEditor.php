@@ -186,4 +186,12 @@ class TiptapEditor extends Field
 
         return $this->tools;
     }
+
+    public function getExtensionScripts(): array
+    {
+        return collect(config('filament-tiptap-editor.extensions') ?? [])
+            ->transform(function ($ext) {
+                return $ext['source'];
+            })->toArray();
+    }
 }
