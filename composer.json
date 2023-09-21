@@ -25,23 +25,25 @@
         "ueberdosis/tiptap-php": "^1.1"
     },
     "require-dev": {
+        "awcodes/html-faker": "^0.1.0",
         "filament/filament": "^3.0",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0",
         "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.19",
+        "pestphp/pest-plugin-laravel": "^2.2",
+        "pestphp/pest-plugin-livewire": "^2.1",
         "spatie/laravel-ray": "^1.26"
     },
     "autoload": {
         "files": [
-            "src/helpers.php"
+            "src/helpers.php",
+            "tests/helpers.php"
         ],
         "psr-4": {
-            "FilamentTiptapEditor\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "FilamentTiptapEditor\\Tests\\": "tests/"
+            "FilamentTiptapEditor\\": "src/",
+            "FilamentTiptapEditor\\Tests\\": "tests/src",
+            "FilamentTiptapEditor\\Tests\\Database\\Factories\\": "tests/database/factories"
         }
     },
     "extra": {
@@ -55,7 +57,8 @@
         }
     },
     "scripts": {
-        "pint": "vendor/bin/pint"
+        "pint": "vendor/bin/pint",
+        "test": "vendor/bin/pest"
     },
     "config": {
         "sort-packages": true,

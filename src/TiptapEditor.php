@@ -45,7 +45,6 @@ class TiptapEditor extends Field
         $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state) {
             if (! $state) {
                 $component->state('<p></p>');
-
                 return;
             }
 
