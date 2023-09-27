@@ -38,6 +38,7 @@ export const Video = Node.create({
             },
             responsive: {
                 default: true,
+                parseHTML: (element) => element.classList.contains("responsive") ?? false,
             },
             src: {
                 default: null,

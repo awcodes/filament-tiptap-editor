@@ -47,6 +47,7 @@ export const Youtube = Node.create({
       },
       responsive: {
         default: true,
+        parseHTML: (element) => element.classList.contains("responsive") ?? false,
       },
       start: {
         default: 0,
@@ -103,7 +104,10 @@ export const Youtube = Node.create({
 
     return [
       "div",
-      { "data-youtube-video": "", class: HTMLAttributes.responsive ? "responsive" : null },
+      {
+        "data-youtube-video": "",
+        class: HTMLAttributes.responsive ? "responsive" : null
+      },
       [
         "iframe",
         {

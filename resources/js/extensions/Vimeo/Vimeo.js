@@ -62,6 +62,7 @@ export const Vimeo = Node.create({
       },
       responsive: {
         default: true,
+        parseHTML: (element) => element.classList.contains("responsive") ?? false,
       },
       'data-aspect-width': {
         default: null,

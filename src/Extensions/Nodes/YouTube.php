@@ -52,6 +52,9 @@ class YouTube extends Node
             ],
             'responsive' => [
                 'default' => true,
+                'parseHTML' => function ($DOMNode) {
+                    return str_contains($DOMNode->getAttribute('class'), 'responsive') ?? false;
+                },
             ],
         ];
     }
@@ -70,7 +73,7 @@ class YouTube extends Node
         return [
             'div',
             [
-                'data-vimeo-video' => true,
+                'data-youtube-video' => true,
                 'class' => $node->attrs->responsive ? 'responsive' : null,
             ],
             [
