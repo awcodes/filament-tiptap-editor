@@ -87,7 +87,10 @@ it('updates proper json', function() {
             'title' => $newData->title,
             'content' => $newData->content,
         ])
-        ->call('save');
+        ->call('save')
+        ->assertHasNoFormErrors();
+
+    ray($newData);
 
     expect($page->refresh())
         ->content->toBe(tiptap_converter()->asJSON($newData->content));

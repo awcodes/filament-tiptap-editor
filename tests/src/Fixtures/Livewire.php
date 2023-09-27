@@ -36,17 +36,17 @@ class Livewire extends Component implements HasForms
 
     public function save(): void
     {
-        $record = $this->form->getState();
+        $data = $this->form->getState();
         $model = app($this->form->getModel());
 
-        $model->update($record);
+        $model->update($data);
     }
 
     public function create(): void
     {
-        $record = $this->form->getState();
+        $data = $this->form->getState();
         $model = app($this->form->getModel());
 
-        $model->create($record);
+        $model->create($data);
     }
 }
