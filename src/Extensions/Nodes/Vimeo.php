@@ -79,6 +79,9 @@ class Vimeo extends Node
             ],
             'responsive' => [
                 'default' => true,
+                'parseHTML' => function ($DOMNode) {
+                    return str_contains($DOMNode->getAttribute('class'), 'responsive') ?? false;
+                },
             ],
         ];
     }
