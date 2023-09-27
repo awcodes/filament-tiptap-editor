@@ -49,6 +49,8 @@ class TiptapEditor extends Field
                 return;
             }
 
+            ray($component->getHTML());
+
             $component->state($component->getHTML());
         });
 
