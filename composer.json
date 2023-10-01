@@ -37,8 +37,7 @@
     },
     "autoload": {
         "files": [
-            "src/helpers.php",
-            "tests/helpers.php"
+            "src/helpers.php"
         ],
         "psr-4": {
             "FilamentTiptapEditor\\": "src/",

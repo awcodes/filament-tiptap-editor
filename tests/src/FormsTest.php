@@ -3,17 +3,15 @@
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use FilamentTiptapEditor\Tests\Models\Page;
-use FilamentTiptapEditor\Tests\Fixtures\Livewire;
-use FilamentTiptapEditor\Tests\Resources\PageResource;
+use FilamentTiptapEditor\Tests\Fixtures\Livewire as LivewireFixture;
 use FilamentTiptapEditor\Tests\Resources\PageResource\Pages\CreatePage;
 use FilamentTiptapEditor\Tests\Resources\PageResource\Pages\EditPage;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Contracts\View\View;
-
-use function FilamentTiptapEditor\Tests\livewire;
+use Livewire\Livewire;
 
 it('has editor field', function() {
-    livewire(TestComponentWithForm::class)
+    Livewire::test(TestComponentWithForm::class)
        ->assertFormFieldExists('html_content')
        ->assertFormFieldExists('json_content')
        ->assertFormFieldExists('text_content');
@@ -22,7 +20,7 @@ it('has editor field', function() {
 it('has proper html', function() {
     $page = Page::factory()->make();
 
-    livewire(TestComponentWithForm::class)
+    Livewire::test(TestComponentWithForm::class)
         ->fillForm($page->toArray())
         ->assertFormSet([
             'html_content' => $page->html_content,
@@ -34,7 +32,7 @@ it('has proper html', function() {
 it('creates proper data', function() {
     $page = Page::factory()->make();
 
-    livewire(CreatePage::class)
+    Livewire::test(CreatePage::class)
         ->fillForm([
             'title' => $page->title,
             'html_content' => $page->html_content,
@@ -54,7 +52,7 @@ it('updates proper html', function() {
     $page = Page::factory()->create();
     $newData = Page::factory()->make();
 
-    livewire(EditPage::class, [
+    Livewire::test(EditPage::class, [
         'record' => $page->getRouteKey(),
     ])
         ->fillForm([
@@ -70,7 +68,7 @@ it('updates proper html', function() {
         ->json_content->toBe($newData->json_content);
 });
 
-class TestComponentWithForm extends Livewire
+class TestComponentWithForm extends LivewireFixture
 {
     public function form(Form $form): Form
     {
