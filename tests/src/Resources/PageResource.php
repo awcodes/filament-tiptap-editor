@@ -2,6 +2,7 @@
 
 namespace FilamentTiptapEditor\Tests\Resources;
 
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Tests\Resources\PageResource\Pages;
 use FilamentTiptapEditor\Tests\Models\Page;
 use Filament\Forms;
@@ -17,18 +18,16 @@ class PageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function getTiptapField(?TiptapEditor $override = null): TiptapEditor
-    {
-        return $override ?? TiptapEditor::make('content');
-    }
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required(),
-                self::getTiptapField(),
+                Forms\Components\TextInput::make('title'),
+                TiptapEditor::make('html_content'),
+                TiptapEditor::make('json_content')
+                    ->output(TiptapOutput::Json),
+                TiptapEditor::make('text_content')
+                    ->output(TiptapOutput::Text),
             ])->columns(1);
     }
 

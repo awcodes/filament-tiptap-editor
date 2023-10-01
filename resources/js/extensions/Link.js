@@ -37,12 +37,8 @@ export const CustomLink = Link.extend({
       },
       as_button: {
         default: null,
-        parseHTML: element => element.getAttribute('data-as-button') || element.getAttribute('as_button'),
+        parseHTML: element => element.getAttribute('data-as-button'),
         renderHTML: attributes => {
-          if (! attributes.as_button) {
-            return {}
-          }
-
           return {
             'data-as-button': attributes.as_button,
           }
@@ -50,12 +46,8 @@ export const CustomLink = Link.extend({
       },
       button_theme: {
         default: null,
-        parseHTML: element => element.getAttribute('data-as-button-theme') || element.getAttribute('button_theme'),
+        parseHTML: element => element.getAttribute('data-as-button-theme'),
         renderHTML: attributes => {
-          if (! attributes.button_theme || attributes.button_theme.length === 0) {
-            return {}
-          }
-
           return {
             'data-as-button-theme': attributes.button_theme,
           }

@@ -12,14 +12,11 @@ return new class extends Migration
             $table->id();
 
             $table->string('title');
-            $table->text('content')->nullable();
+            $table->longText('html_content')->nullable();
+            $table->longText('json_content')->nullable();
+            $table->longText('text_content')->nullable();
 
             $table->timestamps();
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('pages');
     }
 };

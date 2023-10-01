@@ -14,7 +14,9 @@ use function FilamentTiptapEditor\Tests\livewire;
 
 it('has editor field', function() {
     livewire(TestComponentWithForm::class)
-       ->assertFormFieldExists('content');
+       ->assertFormFieldExists('html_content')
+       ->assertFormFieldExists('json_content')
+       ->assertFormFieldExists('text_content');
 });
 
 it('has proper html', function() {
@@ -23,24 +25,28 @@ it('has proper html', function() {
     livewire(TestComponentWithForm::class)
         ->fillForm($page->toArray())
         ->assertFormSet([
-            'content' => $page->content
+            'html_content' => $page->html_content,
+            'json_content' => $page->json_content,
+            'text_content' => $page->text_content,
         ]);
 });
 
-it('creates proper html', function() {
+it('creates proper data', function() {
     $page = Page::factory()->make();
 
     livewire(CreatePage::class)
         ->fillForm([
             'title' => $page->title,
-            'content' => $page->content,
+            'html_content' => $page->html_content,
+            'json_content' => $page->json_content,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Page::class, [
         'title' => $page->title,
-        'content' => $page->content,
+        'html_content' => $page->html_content,
+        'json_content' => $page->json_content,
     ]);
 });
 
@@ -53,47 +59,15 @@ it('updates proper html', function() {
     ])
         ->fillForm([
             'title' => $newData->title,
-            'content' => $newData->content,
+            'html_content' => $newData->html_content,
+            'json_content' => $newData->json_content,
         ])
         ->call('save')
         ->assertHasNoFormErrors();
 
     expect($page->refresh())
-        ->content->toBe($newData->content);
-});
-
-it('creates proper json', function() {
-    $page = Page::factory()->make();
-
-    livewire(TestComponentWithJsonForm::class)
-        ->fillForm($page->toArray())
-        ->assertFormSet([
-            'content' => $page->content
-        ])
-        ->call('create');
-
-    $this->assertDatabaseHas(Page::class, [
-        'title' => $page->title,
-        'content' => tiptap_converter()->asJSON($page->content),
-    ]);
-});
-
-it('updates proper json', function() {
-    $page = Page::factory()->json()->create();
-    $newData = Page::factory()->make();
-
-    livewire(TestComponentWithJsonForm::class)
-        ->fillForm([
-            'title' => $newData->title,
-            'content' => $newData->content,
-        ])
-        ->call('save')
-        ->assertHasNoFormErrors();
-
-    ray($newData);
-
-    expect($page->refresh())
-        ->content->toBe(tiptap_converter()->asJSON($newData->content));
+        ->html_content->toBe($newData->html_content)
+        ->json_content->toBe($newData->json_content);
 });
 
 class TestComponentWithForm extends Livewire
@@ -105,27 +79,11 @@ class TestComponentWithForm extends Livewire
             ->model(Page::class)
             ->schema([
                 TextInput::make('title'),
-                TiptapEditor::make('content'),
-            ]);
-    }
-
-    public function render(): View
-    {
-        return view('fixtures.form');
-    }
-}
-
-class TestComponentWithJsonForm extends Livewire
-{
-    public function form(Form $form): Form
-    {
-        return $form
-            ->statePath('data')
-            ->model(Page::class)
-            ->schema([
-                TextInput::make('title'),
-                TiptapEditor::make('content')
+                TiptapEditor::make('html_content'),
+                TiptapEditor::make('json_content')
                     ->output(\FilamentTiptapEditor\Enums\TiptapOutput::Json),
+                TiptapEditor::make('text_content')
+                    ->output(\FilamentTiptapEditor\Enums\TiptapOutput::Text),
             ]);
     }
 

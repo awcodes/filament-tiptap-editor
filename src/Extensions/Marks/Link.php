@@ -45,12 +45,14 @@ class Link extends BaseLink
             'as_button' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return
-                        $DOMNode->getAttribute('data-as-button') ||
-                        $DOMNode->getAttribute('as_button') ?: null;
+                    if ($DOMNode->getAttribute('as_button') === 'true') {
+                        return true;
+                    }
+
+                    return $DOMNode->getAttribute('data-as-button') ?: null;
                 },
                 'renderHTML' => function ($attributes) {
-                    if (! (property_exists($attributes, 'as_button'))) {
+                    if (! property_exists($attributes, 'as_button')) {
                         return null;
                     }
 

@@ -14,10 +14,22 @@ class PageFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'content' => HtmlFaker::make()
+            'html_content' => HtmlFaker::make()
                 ->heading()
                 ->paragraphs(withRandomLinks: true)
                 ->generate(),
+            'json_content' => tiptap_converter()->asJSON(
+                HtmlFaker::make()
+                    ->heading()
+                    ->paragraphs(withRandomLinks: true)
+                    ->generate()
+            ),
+            'text_content' => tiptap_converter()->asText(
+                HtmlFaker::make()
+                    ->heading()
+                    ->paragraphs(withRandomLinks: true)
+                    ->generate()
+            ),
         ];
     }
 
