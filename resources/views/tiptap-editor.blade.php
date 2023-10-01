@@ -42,6 +42,7 @@
                 locale: '{{ app()->getLocale() }}',
                 floatingMenuTools: @js($floatingMenuTools)
             })"
+            x-on:click.away="focused = false"
             x-on:keydown.escape="fullScreenMode = false"
             x-on:insert-media.window="$event.detail.statePath === '{{ $statePath }}' ? insertMedia($event.detail.media) : null"
             x-on:insert-video.window="$event.detail.statePath === '{{ $statePath }}' ? insertVideo($event.detail.video) : null"
