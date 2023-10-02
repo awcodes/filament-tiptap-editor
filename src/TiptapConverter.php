@@ -7,7 +7,6 @@ use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
-use Tiptap\Marks\Code;
 use Tiptap\Marks\Highlight;
 use Tiptap\Marks\Subscript;
 use Tiptap\Marks\Superscript;
@@ -46,7 +45,6 @@ class TiptapConverter
                 'types' => ['heading', 'paragraph'],
             ]),
             new Extensions\Color(),
-            new Code(),
             new CodeBlockHighlight(),
             new Nodes\Paragraph(),
             new Nodes\Lead(),
