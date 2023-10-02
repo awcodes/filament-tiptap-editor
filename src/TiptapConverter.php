@@ -46,7 +46,6 @@ class TiptapConverter
                 'types' => ['heading', 'paragraph'],
             ]),
             new Extensions\Color(),
-            new Code(),
             new CodeBlockHighlight(),
             new Nodes\Paragraph(),
             new Nodes\Lead(),
