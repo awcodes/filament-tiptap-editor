@@ -7,7 +7,6 @@ use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
-use Tiptap\Marks\Code;
 use Tiptap\Marks\Highlight;
 use Tiptap\Marks\Subscript;
 use Tiptap\Marks\Superscript;
