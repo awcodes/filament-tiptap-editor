@@ -299,9 +299,6 @@ export default function tiptap({
                 content: content,
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
-                    setTimeout(() => {
-                        editor.chain().focus()
-                    }, 500);
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
