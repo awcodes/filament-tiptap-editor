@@ -52,6 +52,7 @@
             x-on:insert-grid-builder.window="$event.detail.statePath === '{{ $statePath }}' ? insertGridBuilder($event.detail.data) : null"
             x-on:update-editor-content.window="$event.detail.statePath === '{{ $statePath }}' ? updateEditorContent($event.detail.content) : null"
             x-on:refresh-tiptap-editors.window="refreshEditorContent()"
+            x-on:insert-block.window="insertBlock($event.detail.data)"
             x-trap.noscroll="fullScreenMode"
         >
 
@@ -71,6 +72,10 @@
                                 <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                             @endif
                         @endforeach
+                        <button
+                            type="button"
+                            x-on:click="$dispatch('render-bus', { view: 'blah-block', data: @Js(['test' => 'blah']) })"
+                        >bus</button>
                     </div>
 
                     <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">

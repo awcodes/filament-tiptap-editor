@@ -47,6 +47,7 @@ import {
     BubbleMenu,
     FloatingMenu,
     Video,
+    TiptapBlock,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import {randomString, dispatch} from "./utils";
@@ -134,7 +135,7 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock];
 
             if (tools.length) {
 
@@ -455,6 +456,11 @@ export default function tiptap({
                 asymmetricLeft,
                 asymmetricRight
             }).run();
+        },
+        insertBlock(data) {
+            this.editor().commands.insertBlock({
+                data: data
+            });
         }
     };
 }
