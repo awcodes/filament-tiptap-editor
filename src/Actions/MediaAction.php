@@ -120,9 +120,13 @@ class MediaAction extends Action
                         ->default('document'),
                 ];
             })->action(function (TiptapEditor $component, $data) {
-                $source = str_starts_with($data['src'], 'http')
-                    ? $data['src']
-                    : Storage::disk(config('filament-tiptap-editor.disk'))->url($data['src']);
+                if (config('filament-tiptap-editor.use_relative_paths')) {
+                    $source = Str::replace(config('app.url'), '', $data['src']);
+                } else {
+                    $source = str_starts_with($data['src'], 'http')
+                        ? $data['src']
+                        : Storage::disk(config('filament-tiptap-editor.disk'))->url($data['src']);
+                }
 
                 $component->getLivewire()->dispatch(
                     'insert-media',
