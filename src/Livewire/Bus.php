@@ -28,7 +28,12 @@ class Bus extends Component
         $data = $data ?? $this->data;
 
         if ($id === 'tiptap-bus') {
-            $this->dispatch('insert-block', data: $data);
+            if ($data !== $this->data) {
+                ray('update-block');
+                $this->dispatch('update-block', view: $this->view, data: $data);
+            } else {
+                $this->dispatch('insert-block', view: $this->view, data: $data);
+            }
         }
     }
 

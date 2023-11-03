@@ -457,9 +457,10 @@ export default function tiptap({
                 asymmetricRight
             }).run();
         },
-        insertBlock(data) {
+        insertBlock({view, data}) {
             this.editor().commands.insertBlock({
-                data: data
+                view,
+                blockData: data
             });
         }
     };

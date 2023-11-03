@@ -52,7 +52,7 @@
             x-on:insert-grid-builder.window="$event.detail.statePath === '{{ $statePath }}' ? insertGridBuilder($event.detail.data) : null"
             x-on:update-editor-content.window="$event.detail.statePath === '{{ $statePath }}' ? updateEditorContent($event.detail.content) : null"
             x-on:refresh-tiptap-editors.window="refreshEditorContent()"
-            x-on:insert-block.window="insertBlock($event.detail.data)"
+            x-on:insert-block.window="insertBlock($event.detail)"
             x-trap.noscroll="fullScreenMode"
         >
 
