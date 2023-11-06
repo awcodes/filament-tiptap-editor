@@ -158,7 +158,8 @@ export default function tiptap({
                             isActive(state, 'oembed') ||
                             isActive(state, 'vimeo') ||
                             isActive(state, 'youtube') ||
-                            isActive(state, 'video')
+                            isActive(state, 'video') ||
+                            isActive(state, 'tiptapBlock')
                         );
                     },
                 }))
@@ -457,10 +458,13 @@ export default function tiptap({
                 asymmetricRight
             }).run();
         },
-        insertBlock({view, data}) {
+        insertBlock({view, data, preview}) {
             this.editor().commands.insertBlock({
-                view,
-                blockData: data
+                block: {
+                    view,
+                    blockData: data,
+                },
+                preview
             });
         }
     };

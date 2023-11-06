@@ -74,7 +74,7 @@
                         @endforeach
                         <button
                             type="button"
-                            x-on:click="$dispatch('render-bus', { view: 'blah-block', data: @Js(['test' => 'blah']) })"
+                            x-on:click="$dispatch('render-bus', { view: 'blah-block', data: @Js(['name' => 'robin', 'color' => 'yellow']) })"
                         >bus</button>
                     </div>
 

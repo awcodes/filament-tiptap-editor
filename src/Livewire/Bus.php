@@ -23,16 +23,16 @@ class Bus extends Component
     }
 
     #[On('close-modal')]
-    public function insertBlock($id, $data = null): void
+    public function insertBlock($id, $data = null, $preview = ''): void
     {
         $data = $data ?? $this->data;
 
         if ($id === 'tiptap-bus') {
             if ($data !== $this->data) {
                 ray('update-block');
-                $this->dispatch('update-block', view: $this->view, data: $data);
+                $this->dispatch('update-block', view: $this->view, data: $data, preview: $preview);
             } else {
-                $this->dispatch('insert-block', view: $this->view, data: $data);
+                $this->dispatch('insert-block', view: $this->view, data: $data, preview: $preview);
             }
         }
     }

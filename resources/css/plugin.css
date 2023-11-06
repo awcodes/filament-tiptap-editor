@@ -50,6 +50,24 @@
     width: 100%;
     color: theme('colors.black');
 
+    .tiptap-block-wrapper {
+        @apply rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700;
+
+        .tiptap-block {
+            .tiptap-block-heading {
+                @apply flex items-center justify-between bg-gray-300 dark:bg-gray-800 py-1 px-3 leading-none;
+
+                .tiptap-block-title {
+                    @apply text-sm uppercase font-bold opacity-80;
+                }
+            }
+
+            .preview {
+                @apply p-4;
+            }
+        }
+    }
+
     .filament-tiptap-hurdle {
         width: 100%;
         max-width: 100vw;

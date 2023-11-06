@@ -289,6 +289,48 @@ SOFTWARE.
   color: #000;
 }
 
+.tiptap-editor .ProseMirror .tiptap-block-wrapper {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-200), var(--tw-bg-opacity));
+}
+
+:is(.dark .tiptap-editor .ProseMirror .tiptap-block-wrapper) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-700), var(--tw-bg-opacity));
+}
+
+.tiptap-editor .ProseMirror .tiptap-block-wrapper .tiptap-block .tiptap-block-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-300), var(--tw-bg-opacity));
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  line-height: 1;
+}
+
+:is(.dark .tiptap-editor .ProseMirror .tiptap-block-wrapper .tiptap-block .tiptap-block-heading) {
+  --tw-bg-opacity: 1;
+  background-color: rgba(var(--gray-800), var(--tw-bg-opacity));
+}
+
+.tiptap-editor .ProseMirror .tiptap-block-wrapper .tiptap-block .tiptap-block-heading .tiptap-block-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.tiptap-editor .ProseMirror .tiptap-block-wrapper .tiptap-block .preview {
+  padding: 1rem;
+}
+
 .tiptap-editor .ProseMirror .filament-tiptap-hurdle {
   width: 100%;
   max-width: 100vw;
