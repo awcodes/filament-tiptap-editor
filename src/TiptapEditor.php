@@ -33,6 +33,8 @@ class TiptapEditor extends Field
 
     protected ?array $tools = [];
 
+    protected ?array $blocks = [];
+
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
     protected function setUp(): void
@@ -147,6 +149,13 @@ class TiptapEditor extends Field
         return $this;
     }
 
+    public function blocks(array $blocks): static
+    {
+        $this->blocks = $blocks;
+
+        return $this;
+    }
+
     public function tools(array $tools): static
     {
         $this->tools = $tools;
@@ -171,6 +180,13 @@ class TiptapEditor extends Field
     public function shouldDisableStylesheet(): bool
     {
         return $this->shouldDisableStylesheet ?? config('filament-tiptap-editor.disable_stylesheet');
+    }
+
+    public function getBlocks(): array
+    {
+        return collect($this->blocks)->mapWithKeys(function ($block, $key) {
+            return [$key => app($block)];
+        })->toArray();
     }
 
     public function getTools(): array

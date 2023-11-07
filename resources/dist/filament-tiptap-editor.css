@@ -331,6 +331,17 @@ SOFTWARE.
   padding: 1rem;
 }
 
+.tiptap-editor .ProseMirror .tiptap-block-wrapper.ProseMirror-selectednode {
+  outline-style: dashed;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: rgba(var(--gray-700), 1);
+}
+
+:is(.dark .tiptap-editor .ProseMirror .tiptap-block-wrapper.ProseMirror-selectednode) {
+  outline-color: rgba(var(--gray-300), 1);
+}
+
 .tiptap-editor .ProseMirror .filament-tiptap-hurdle {
   width: 100%;
   max-width: 100vw;

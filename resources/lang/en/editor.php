@@ -7,6 +7,10 @@ return [
     'align_left' => 'Align Text Left',
     'align_right' => 'Align Text Right',
     'blockquote' => 'Blockquote',
+    'blocks' => [
+        'insert' => 'Insert Block',
+        'update' => 'Update Block',
+    ],
     'bold' => 'Bold',
     'code_block' => 'Code Block',
     'code' => 'Inline Code',

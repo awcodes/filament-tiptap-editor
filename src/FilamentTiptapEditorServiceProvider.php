@@ -7,6 +7,7 @@ use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use FilamentTiptapEditor\Livewire\Bus;
+use FilamentTiptapEditor\Livewire\TiptapBlock;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;

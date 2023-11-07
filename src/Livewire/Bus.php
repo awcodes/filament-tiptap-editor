@@ -4,37 +4,111 @@ namespace FilamentTiptapEditor\Livewire;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Bus extends Component
 {
-    public ?string $view = null;
+    public ?string $type = null;
 
     public array $data = [];
 
-    #[On('render-bus')]
-    public function renderBus($view, $data): void
+    public string $context = 'insert';
+
+    public string $heading = '';
+
+    public string $modalWidth = 'sm';
+
+    public bool $slideOver = false;
+
+    public string $blockId;
+
+    public string $blockLabel;
+
+    #[On('close-modal')]
+    public function resetBus($id): void
     {
-        $this->view = $view;
+        if ($id === 'tiptap-bus') {
+            $this->type = null;
+            $this->data = [];
+            $this->context = 'insert';
+        }
+    }
+
+    #[On('render-bus')]
+    public function renderBus(
+        string $type,
+        string $label,
+        array $data = [],
+        string $context = 'insert',
+        string $width = 'sm',
+        bool $slideOver = false,
+    ): void {
+        $this->type = $type;
+        $this->blockLabel = $label;
         $this->data = $data;
+        $this->context = $context;
+        $this->modalWidth = $width;
+        $this->slideOver = $slideOver;
+        $this->heading = $context === 'insert'
+            ? trans('filament-tiptap-editor::editor.blocks.insert')
+            : trans('filament-tiptap-editor::editor.blocks.update');
 
         $this->dispatch('open-modal', id: 'tiptap-bus');
     }
 
-    #[On('close-modal')]
-    public function insertBlock($id, $data = null, $preview = ''): void
+    #[On('render-preview')]
+    public function renderPreview(
+        string $type,
+        array $data = [],
+    ): string {
+        $block = app($type);
+        return view($block->preview, $data)->render();
+    }
+
+    #[On('insert-bus-block')]
+    public function insertBlock(array $data = [], string $preview = ''): void
     {
         $data = $data ?? $this->data;
 
-        if ($id === 'tiptap-bus') {
-            if ($data !== $this->data) {
-                ray('update-block');
-                $this->dispatch('update-block', view: $this->view, data: $data, preview: $preview);
-            } else {
-                $this->dispatch('insert-block', view: $this->view, data: $data, preview: $preview);
-            }
-        }
+        $this->blockId = Str::ulid();
+
+        $this->dispatch(
+            event: 'insert-block',
+            settings: [
+                'id' => $this->blockId,
+                'type' => $this->type,
+                'label' => $this->blockLabel,
+                'data' => $data,
+                'width' => $this->modalWidth,
+                'slideOver' => $this->slideOver,
+            ],
+            preview: $preview,
+        );
+
+        $this->dispatch('close-modal', id: 'tiptap-bus');
+    }
+
+    #[On('update-bus-block')]
+    public function updateBlock(array $data = [], string $preview = ''): void
+    {
+        $data = $data ?? $this->data;
+
+        $this->dispatch(
+            event: 'update-block',
+            settings: [
+                'id' => $this->blockId,
+                'type' => $this->type,
+                'label' => $this->blockLabel,
+                'data' => $data,
+                'width' => $this->modalWidth,
+                'slideOver' => $this->slideOver,
+            ],
+            preview: $preview,
+        );
+
+        $this->dispatch('close-modal', id: 'tiptap-bus');
     }
 
     public function render(): View

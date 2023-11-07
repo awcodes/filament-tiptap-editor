@@ -3,10 +3,12 @@
         id="tiptap-bus"
         :visible="true"
         display-classes="block"
-        heading="Insert Block"
+        :heading="$heading"
+        :width="$modalWidth"
+        :slide-over="$slideOver"
     >
-        @if ($view && $data)
-            @livewire($view, ['data' => $data])
+        @if ($type)
+            @livewire($type, ['data' => $data, 'context' => $context])
         @endif
     </x-filament::modal>
 </div>

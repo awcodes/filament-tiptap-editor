@@ -10,28 +10,22 @@ export const TiptapBlock = Node.create({
     defining: true,
     allowGapCursor: true,
     inline: false,
-    addStorage() {
-        return {
-            preview: null
-        }
-    },
     addAttributes() {
         return {
-            view: {
+            preview: {
                 default: null,
-                parseHTML: element => element.getAttribute('data-block-view'),
-                renderHTML: attributes => {
-                    return {
-                        'data-block-view': attributes.view ?? null
-                    }
-                }
+                rendered: false
             },
-            blockData: {
+            settings: {
                 default: null,
-                parseHTML: element => element.getAttribute('data-block-data'),
+                parseHTML: element => element.getAttribute('data-settings'),
                 renderHTML: attributes => {
+                    if (! attributes.settings) {
+                        return null
+                    }
+
                     return {
-                        'data-block-data': attributes.blockData ?? ''
+                        'data-settings': JSON.stringify(attributes.settings)
                     }
                 }
             },
@@ -52,14 +46,27 @@ export const TiptapBlock = Node.create({
             const dom = document.createElement('div')
             dom.classList.add('tiptap-block-wrapper')
 
+            const settings = JSON.parse(node.attrs.settings)
+
             dom.innerHTML = `
-                <div x-data='{
-                    openSettings() {
-                        this.$dispatch("render-bus", {view: "${node.attrs.view}", data: ${JSON.stringify(node.attrs.blockData)}})
-                    }
-                }' class="tiptap-block" style="min-height: 3rem;">
+                <div 
+                    x-data='{
+                        openSettings() {
+                            this.$dispatch("render-bus", {
+                                type: "${settings.type}", 
+                                label: "${settings.label}",
+                                data: ${JSON.stringify(settings.data)}, 
+                                context: "update",
+                                width: "${settings.width}",
+                                slideOver: ${settings.slideOver},
+                            })
+                        }
+                    }'
+                    class="tiptap-block" 
+                    style="min-height: 3rem;"
+                >
                     <div class="tiptap-block-heading">
-                        <h3 class="tiptap-block-title">${node.attrs.name ?? 'Custom Block'}</h3>
+                        <h3 class="tiptap-block-title">${settings.label}</h3>
                         <div class="tiptap-block-actions">
                             <button type="button" x-on:click="openSettings">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -74,13 +81,8 @@ export const TiptapBlock = Node.create({
             `;
 
             let preview = dom.querySelector('.preview')
-            preview.innerHTML = extension.storage.preview
 
-            window.addEventListener('update-block', (event) => {
-                node.attrs.blockData = JSON.stringify(event.detail.data)
-                preview.innerHTML = event.detail.preview
-                editor.commands.setNodeSelection(getPos())
-            })
+            preview.innerHTML = node.attrs.preview
 
             return {
                 dom,
@@ -90,8 +92,10 @@ export const TiptapBlock = Node.create({
     addCommands() {
         return {
             insertBlock: (attributes) => ({ commands }) => {
-                this.storage.preview = attributes.preview
-                return commands.setNode(this.name, attributes.block)
+                return commands.setNode(this.name, attributes)
+            },
+            updateBlock: (attributes) => ({commands}) => {
+                return commands.setNode(this.name, attributes)
             },
             removeBlock: () => ({ commands }) => {
                 return commands.deleteNode(this.name)

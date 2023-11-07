@@ -3,6 +3,7 @@
     $floatingMenuTools = $getFloatingMenuTools();
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
+    $blocks = $getBlocks();
 @endphp
 
 @if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
@@ -53,6 +54,7 @@
             x-on:update-editor-content.window="$event.detail.statePath === '{{ $statePath }}' ? updateEditorContent($event.detail.content) : null"
             x-on:refresh-tiptap-editors.window="refreshEditorContent()"
             x-on:insert-block.window="insertBlock($event.detail)"
+            x-on:update-block.window="updateBlock($event.detail)"
             x-trap.noscroll="fullScreenMode"
         >
 
@@ -72,10 +74,9 @@
                                 <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                             @endif
                         @endforeach
-                        <button
-                            type="button"
-                            x-on:click="$dispatch('render-bus', { view: 'blah-block', data: @Js(['name' => 'robin', 'color' => 'yellow']) })"
-                        >bus</button>
+                        @if ($blocks)
+                            <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" />
+                        @endif
                     </div>
 
                     <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">

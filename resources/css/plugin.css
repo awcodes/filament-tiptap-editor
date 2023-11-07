@@ -66,6 +66,10 @@
                 @apply p-4;
             }
         }
+
+        &.ProseMirror-selectednode {
+            @apply outline-2 outline-offset-2 outline-dashed outline-gray-700 dark:outline-gray-300;
+        }
     }
 
     .filament-tiptap-hurdle {

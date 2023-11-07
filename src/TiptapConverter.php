@@ -60,6 +60,7 @@ class TiptapConverter
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Video(),
+            new Nodes\TiptapBlock(),
             new Table(),
             new TableHeader(),
             new TableRow(),
