@@ -65,7 +65,7 @@
 
                     <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
                         <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
-                        @foreach($tools as $tool)
+                        @foreach ($tools as $tool)
                             @if ($tool === '|')
                                 <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
                             @elseif (is_array($tool))
