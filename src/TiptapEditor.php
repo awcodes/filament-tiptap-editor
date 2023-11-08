@@ -37,6 +37,29 @@ class TiptapEditor extends Field
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
+    public function renderBlockPreviews(array $document): array
+    {
+        $content = $document['content'];
+
+        foreach ($content as $k => $block) {
+            if ($block['type'] === 'tiptapBlock') {
+//                dd($block);
+                $settings = json_decode($block['attrs']['settings'], true);
+                $block = $this->getBlocks()[$settings['type']];
+
+                $preview = view($block->preview, $settings['data'])->render();
+
+                $content[$k]['attrs']['preview'] = $preview;
+            } elseif (array_key_exists('content', $block)) {
+                $content[$k] = $this->renderBlockPreviews($block);
+            }
+        }
+
+        $document['content'] = $content;
+
+        return $document;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -50,7 +73,11 @@ class TiptapEditor extends Field
                 return;
             }
 
-            $component->state($component->getHTML());
+            if ($this->getBlocks()) {
+                $state = $this->renderBlockPreviews($state);
+            }
+
+            $component->state($state);
         });
 
         $this->afterStateUpdated(function (TiptapEditor $component, Component $livewire) {
@@ -59,6 +86,7 @@ class TiptapEditor extends Field
 
         $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state) {
             if ($state && $this->expectsJSON()) {
+                dd($component->getJSON());
                 return $component->getJSON();
             }
 

@@ -460,15 +460,18 @@ export default function tiptap({
         },
         insertBlock({settings, preview}) {
             this.editor().commands.insertBlock({
-                settings: JSON.stringify(settings),
+                settings: settings,
                 preview,
             });
         },
         updateBlock({settings, preview}) {
             this.editor().commands.updateBlock({
-                settings: JSON.stringify(settings),
+                settings: settings,
                 preview,
             });
+        },
+        deleteBlock() {
+            this.editor().commands.removeBlock();
         }
     };
 }

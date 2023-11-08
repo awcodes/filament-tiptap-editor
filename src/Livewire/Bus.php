@@ -39,18 +39,17 @@ class Bus extends Component
     #[On('render-bus')]
     public function renderBus(
         string $type,
-        string $label,
         array $data = [],
         string $context = 'insert',
-        string $width = 'sm',
-        bool $slideOver = false,
     ): void {
         $this->type = $type;
-        $this->blockLabel = $label;
         $this->data = $data;
         $this->context = $context;
-        $this->modalWidth = $width;
-        $this->slideOver = $slideOver;
+
+        $block = app($this->type);
+        $this->blockLabel = $block->getLabel();
+        $this->modalWidth = $block->getWidth();
+        $this->slideOver = $block->slideOver();
         $this->heading = $context === 'insert'
             ? trans('filament-tiptap-editor::editor.blocks.insert')
             : trans('filament-tiptap-editor::editor.blocks.update');
