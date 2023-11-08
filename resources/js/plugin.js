@@ -458,17 +458,16 @@ export default function tiptap({
                 asymmetricRight
             }).run();
         },
-        insertBlock({settings, preview}) {
+        insertBlock({type, data, preview, label}) {
             this.editor().commands.insertBlock({
-                settings: settings,
+                type,
+                data,
                 preview,
+                label,
             });
         },
-        updateBlock({settings, preview}) {
-            this.editor().commands.updateBlock({
-                settings: settings,
-                preview,
-            });
+        updateBlock(settings) {
+            this.$wire.dispatchFormEvent("tiptap::updateBlock", statePath, settings);
         },
         deleteBlock() {
             this.editor().commands.removeBlock();

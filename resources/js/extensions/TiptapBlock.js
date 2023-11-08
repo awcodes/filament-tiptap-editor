@@ -16,18 +16,37 @@ export const TiptapBlock = Node.create({
                 default: null,
                 rendered: false
             },
-            settings: {
+            type: {
                 default: null,
                 parseHTML: element => {
-                    return element.getAttribute('data-settings')
+                    return element.getAttribute('data-type')
                 },
                 renderHTML: attributes => {
-                    if (! attributes.settings) {
+                    if (! attributes.type) {
                         return null
                     }
 
                     return {
-                        'data-settings': attributes.settings
+                        'data-type': attributes.type
+                    }
+                }
+            },
+            label: {
+                default: null,
+                rendered: false
+            },
+            data: {
+                default: null,
+                parseHTML: element => {
+                    return element.getAttribute('data-data')
+                },
+                renderHTML: attributes => {
+                    if (! attributes.data) {
+                        return null
+                    }
+
+                    return {
+                        'data-data': JSON.stringify(attributes.data)
                     }
                 }
             },
@@ -48,15 +67,13 @@ export const TiptapBlock = Node.create({
             const dom = document.createElement('div')
             dom.classList.add('tiptap-block-wrapper')
 
-            const settings = node.attrs.settings
-
             dom.innerHTML = `
                 <div 
                     x-data='{
                         openSettings() {
-                            this.$dispatch("render-bus", {
-                                type: "${settings.type}", 
-                                data: JSON.parse(\`${JSON.stringify(settings.data)}\`), 
+                            this.$dispatch("update-block", {
+                                type: "${node.attrs.type}", 
+                                data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`), 
                                 context: "update",
                             })
                         },
@@ -68,7 +85,7 @@ export const TiptapBlock = Node.create({
                     style="min-height: 3rem;"
                 >
                     <div class="tiptap-block-heading">
-                        <h3 class="tiptap-block-title">${settings.label}</h3>
+                        <h3 class="tiptap-block-title">${node.attrs.label}</h3>
                         <div class="tiptap-block-actions">
                             <button type="button" x-on:click="openSettings">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -101,11 +118,8 @@ export const TiptapBlock = Node.create({
             insertBlock: (attributes) => ({ commands }) => {
                 return commands.setNode(this.name, attributes)
             },
-            updateBlock: (attributes) => ({commands}) => {
-                return commands.setNode(this.name, attributes)
-            },
-            removeBlock: () => ({ commands }) => {
-                return commands.deleteNode(this.name)
+            removeBlock: (attributes) => ({ commands }) => {
+                return commands.toggleNode(this.name, 'paragraph', attributes)
             }
         }
     },

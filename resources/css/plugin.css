@@ -51,11 +51,11 @@
     color: theme('colors.black');
 
     .tiptap-block-wrapper {
-        @apply rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700;
+        @apply rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800;
 
         .tiptap-block {
             .tiptap-block-heading {
-                @apply flex items-center justify-between bg-gray-300 dark:bg-gray-800 py-1 px-3 leading-none;
+                @apply flex items-center justify-between bg-gray-200 dark:bg-gray-950 py-1 px-3 leading-none;
 
                 .tiptap-block-title {
                     @apply text-sm uppercase font-bold opacity-80;

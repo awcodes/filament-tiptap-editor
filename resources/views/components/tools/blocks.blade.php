@@ -1,20 +1,17 @@
 @props([
-    'blocks' => []
+    'blocks' => [],
+    'statePath' => null
 ])
 
 <x-filament-tiptap-editor::dropdown-button
-        label="{{ __('filament-tiptap-editor::editor.blocks.insert') }}"
-        icon="blocks"
+    label="{{ __('filament-tiptap-editor::editor.blocks.insert') }}"
+    icon="blocks"
+    :active="true"
 >
     @foreach($blocks as $key => $block)
         <x-filament-tiptap-editor::dropdown-button-item
-            action="$dispatch('render-bus', {
-                type: '{{ $key }}',
-                label: '{{ $block->getLabel() }}',
-                data: [],
-                context: 'insert',
-                width: '{{ $block->getModalWidth() }}',
-                slideOver: {{ $block->isSlideOver() ? 'true' : 'false' }},
+            action="$wire.mountFormComponentAction('{{ $statePath }}', 'insertBlock', {
+                type: '{{ $key }}'
             })"
         >
             {{ $block->getLabel() }}

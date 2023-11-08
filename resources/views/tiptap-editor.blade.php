@@ -55,6 +55,7 @@
             x-on:refresh-tiptap-editors.window="refreshEditorContent()"
             x-on:insert-block.window="insertBlock($event.detail)"
             x-on:update-block.window="updateBlock($event.detail)"
+            x-on:delete-block.window="deleteBlock($event.detail)"
             x-trap.noscroll="fullScreenMode"
         >
 
@@ -75,7 +76,7 @@
                             @endif
                         @endforeach
                         @if ($blocks)
-                            <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" />
+                            <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" :state-path="$statePath" />
                         @endif
                     </div>
 
@@ -102,7 +103,7 @@
             @endif
 
             @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
-                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools"/>
+                <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks"/>
             @endif
 
             <div @class([

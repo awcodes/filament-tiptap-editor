@@ -2,8 +2,7 @@
 
 namespace FilamentTiptapEditor\Extensions\Nodes;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Js;
+use FilamentTiptapEditor\TiptapEditor;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;
 
@@ -18,14 +17,25 @@ class TiptapBlock extends Node
                 'default' => null,
                 'rendered' => false,
             ],
-            'settings' => [
+            'type' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute('data-settings') ?: null;
+                    return $DOMNode->getAttribute('data-type');
                 },
                 'renderHTML' => function ($attributes) {
                     return [
-                        'data-settings' => $attributes->settings ?? null,
+                        'data-type' => $attributes->type
+                    ];
+                },
+            ],
+            'data' => [
+                'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return json_decode($DOMNode->getAttribute('data-data'), true);
+                },
+                'renderHTML' => function ($attributes) {
+                    return [
+                        'data-data' => json_encode($attributes->data, true)
                     ];
                 },
             ],
@@ -43,11 +53,13 @@ class TiptapBlock extends Node
 
     public function renderHTML($node, $HTMLAttributes = []): array
     {
-//        View::make($attributes->settings['type'], ['data' => $attributes->settings['data']])
+        $blocks = TiptapEditor::make('get_blocks')->getBlocks();
+        $view = view($blocks[$node->attrs->type]->rendered, (array) $node->attrs->data)->render();
+
         return [
             'tiptap-block',
             HTML::mergeAttributes($HTMLAttributes),
-            0,
+            'content' => $view,
         ];
     }
 }
