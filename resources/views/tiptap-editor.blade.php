@@ -72,13 +72,14 @@
                                 <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
                             @elseif (is_array($tool))
                                 <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
+                            @elseif ($tool === 'blocks')
+                                @if ($blocks)
+                                    <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" :state-path="$statePath" />
+                                @endif
                             @else
                                 <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
                             @endif
                         @endforeach
-                        @if ($blocks)
-                            <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" :state-path="$statePath" />
-                        @endif
                     </div>
 
                     <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
