@@ -39,26 +39,6 @@ class TiptapEditor extends Field
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
-    public function renderBlockPreviews(array $document): array
-    {
-        $content = $document['content'];
-
-        foreach ($content as $k => $block) {
-            if ($block['type'] === 'tiptapBlock') {
-                $instance = $this->getBlocks()[$block['attrs']['type']];
-                $preview = view($instance->preview, $block['attrs']['data'])->render();
-                $content[$k]['attrs']['preview'] = $preview;
-                $content[$k]['attrs']['label'] = $instance->getLabel();
-            } elseif (array_key_exists('content', $block)) {
-                $content[$k] = $this->renderBlockPreviews($block);
-            }
-        }
-
-        $document['content'] = $content;
-
-        return $document;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -242,7 +222,7 @@ class TiptapEditor extends Field
                             $preview = view(view: $block->preview, data: $data)->render();
 
                             $livewire->dispatch(
-                                event: 'insert-block',
+                                event: 'update-block',
                                 type: $arguments['type'],
                                 data: $data,
                                 preview: $preview,
@@ -252,6 +232,26 @@ class TiptapEditor extends Field
                 }
             ]
         ));
+    }
+
+    public function renderBlockPreviews(array $document): array
+    {
+        $content = $document['content'];
+
+        foreach ($content as $k => $block) {
+            if ($block['type'] === 'tiptapBlock') {
+                $instance = $this->getBlocks()[$block['attrs']['type']];
+                $preview = view($instance->preview, $block['attrs']['data'])->render();
+                $content[$k]['attrs']['preview'] = $preview;
+                $content[$k]['attrs']['label'] = $instance->getLabel();
+            } elseif (array_key_exists('content', $block)) {
+                $content[$k] = $this->renderBlockPreviews($block);
+            }
+        }
+
+        $document['content'] = $content;
+
+        return $document;
     }
 
     public function maxContentWidth(string | Closure $width): static

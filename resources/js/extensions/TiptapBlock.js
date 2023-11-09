@@ -2,12 +2,12 @@ import {mergeAttributes, Node} from "@tiptap/core"
 
 export const TiptapBlock = Node.create({
     name: 'tiptapBlock',
-    content: 'inline+',
+    content: 'inline',
     group: 'block',
     atom: true,
     draggable: true,
     selectable: true,
-    defining: true,
+    isolating: true,
     allowGapCursor: true,
     inline: false,
     addAttributes() {
@@ -65,16 +65,16 @@ export const TiptapBlock = Node.create({
     addNodeView() {
         return ({node, extension, getPos, editor}) => {
             const dom = document.createElement('div')
+            dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
 
             dom.innerHTML = `
                 <div 
                     x-data='{
                         openSettings() {
-                            this.$dispatch("update-block", {
+                            this.$dispatch("open-block-settings", {
                                 type: "${node.attrs.type}", 
                                 data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`), 
-                                context: "update",
                             })
                         },
                         deleteBlock() {
@@ -115,11 +115,24 @@ export const TiptapBlock = Node.create({
     },
     addCommands() {
         return {
-            insertBlock: (attributes) => ({ commands }) => {
+            insertBlock: (attributes) => ({ chain, state }) => {
+                const { $to: $originTo } = state.selection
+
+                const currentChain = chain()
+
+                if ($originTo.parentOffset === 0) {
+                    currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: 'paragraph' })
+                } else {
+                    currentChain.insertContent({ type: 'paragraph' })
+                }
+
+                return currentChain.setNode(this.name, attributes).insertContent({ type: 'paragraph' })
+            },
+            updateBlock: (attributes) => ({commands}) => {
                 return commands.setNode(this.name, attributes)
             },
-            removeBlock: (attributes) => ({ commands }) => {
-                return commands.toggleNode(this.name, 'paragraph', attributes)
+            removeBlock: () => ({ commands }) => {
+                return commands.deleteSelection()
             }
         }
     },

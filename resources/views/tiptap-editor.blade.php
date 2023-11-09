@@ -55,6 +55,7 @@
             x-on:refresh-tiptap-editors.window="refreshEditorContent()"
             x-on:insert-block.window="insertBlock($event.detail)"
             x-on:update-block.window="updateBlock($event.detail)"
+            x-on:open-block-settings.window="openBlockSettings($event.detail)"
             x-on:delete-block.window="deleteBlock($event.detail)"
             x-trap.noscroll="fullScreenMode"
         >

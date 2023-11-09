@@ -466,8 +466,16 @@ export default function tiptap({
                 label,
             });
         },
-        updateBlock(settings) {
+        openBlockSettings(settings) {
             this.$wire.dispatchFormEvent("tiptap::updateBlock", statePath, settings);
+        },
+        updateBlock({type, data, preview, label}) {
+            this.editor().commands.updateBlock({
+                type,
+                data,
+                preview,
+                label,
+            });
         },
         deleteBlock() {
             this.editor().commands.removeBlock();

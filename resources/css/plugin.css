@@ -50,6 +50,10 @@
     width: 100%;
     color: theme('colors.black');
 
+    &.ProseMirror-focused .ProseMirror-selectednode {
+        @apply outline-2 outline-offset-2 outline-dashed outline-gray-700 dark:outline-gray-300;
+    }
+
     .tiptap-block-wrapper {
         @apply rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800;
 
@@ -62,13 +66,13 @@
                 }
             }
 
+            .tiptap-block-actions {
+                @apply flex items-center gap-2;
+            }
+
             .preview {
                 @apply p-4;
             }
-        }
-
-        &.ProseMirror-selectednode {
-            @apply outline-2 outline-offset-2 outline-dashed outline-gray-700 dark:outline-gray-300;
         }
     }
 
