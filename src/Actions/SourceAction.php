@@ -19,12 +19,8 @@ class SourceAction extends Action
         parent::setUp();
 
         $this
-            ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
-                return $form->fill([
-                    'source' => $arguments['html'],
-                ]);
-            })
             ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
+            ->fillForm(fn ($arguments) => ['source' => $arguments['html']])
             ->form([
                 TextArea::make('source')
                     ->label(__('filament-tiptap-editor::source-modal.labels.source'))

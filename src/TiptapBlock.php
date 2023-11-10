@@ -40,4 +40,19 @@ abstract class TiptapBlock
     {
         return $this->slideOver ?? false;
     }
+
+    public function getFormSchema(): array
+    {
+        return [];
+    }
+
+    public function getPreview(array | null $data = []): string
+    {
+        return view($this->preview, $data)->render();
+    }
+
+    public function getRendered(array | null $data = []): string
+    {
+        return view($this->rendered, $data)->render();
+    }
 }

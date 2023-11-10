@@ -9,8 +9,11 @@
     :active="true"
 >
     @foreach($blocks as $key => $block)
+        @php
+            $action = $block->getFormSchema() ? 'insertBlock' : 'insertStaticBlock';
+        @endphp
         <x-filament-tiptap-editor::dropdown-button-item
-            action="$wire.mountFormComponentAction('{{ $statePath }}', 'insertBlock', {
+            action="$wire.mountFormComponentAction('{{ $statePath }}', '{{ $action }}', {
                 type: '{{ $key }}'
             })"
         >

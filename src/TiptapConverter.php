@@ -81,9 +81,11 @@ class TiptapConverter
         return $this->editor->setContent($content)->getHTML();
     }
 
-    public function asJSON(string | array $content): string
+    public function asJSON(string | array $content, bool $decoded = false): string | array
     {
-        return $this->editor->setContent($content)->getJSON();
+        $content = $this->editor->setContent($content)->getJSON();
+
+        return $decoded ? json_decode($content, true) : $content;
     }
 
     public function asText(string | array $content): string
