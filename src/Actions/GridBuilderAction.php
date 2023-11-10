@@ -60,7 +60,7 @@ class GridBuilderAction extends Action
                         ->label(__('filament-tiptap-editor::grid-modal.labels.asymmetric_left'))
                         ->required()
                         ->reactive()
-                        ->minValue(2)
+                        ->minValue(1)
                         ->maxValue(12)
                         ->numeric()
                         ->visible(fn (callable $get) => $get('asymmetric')),
@@ -68,7 +68,7 @@ class GridBuilderAction extends Action
                         ->label(__('filament-tiptap-editor::grid-modal.labels.asymmetric_right'))
                         ->required()
                         ->reactive()
-                        ->minValue(2)
+                        ->minValue(1)
                         ->maxValue(12)
                         ->numeric()
                         ->visible(fn (callable $get) => $get('asymmetric')),
