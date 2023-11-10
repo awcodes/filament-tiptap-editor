@@ -61,6 +61,7 @@ class TiptapConverter
             new Nodes\YouTube(),
             new Nodes\Video(),
             new Nodes\TiptapBlock(),
+            new Nodes\Hurdle(),
             new Table(),
             new TableHeader(),
             new TableRow(),
