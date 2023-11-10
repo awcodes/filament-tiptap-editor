@@ -59,7 +59,7 @@
 
         .tiptap-block {
             .tiptap-block-heading {
-                @apply flex items-center justify-between bg-gray-200 dark:bg-gray-950 py-1 px-3 leading-none;
+                @apply flex items-center justify-between py-1 px-3 leading-none text-gray-900 bg-gray-200 dark:text-white dark:bg-gray-950;
 
                 .tiptap-block-title {
                     @apply text-sm uppercase font-bold opacity-80;
