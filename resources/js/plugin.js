@@ -327,13 +327,25 @@ export default function tiptap({
             // This matters when the method is triggered as part of a batched request.
             this.$nextTick(() => this.updateEditorContent(this.state));
         },
-        insertMedia(media) {
-            if (Array.isArray(media)) {
-                media.forEach((item) => {
+        insertContent(event) {
+            if (event.detail.statePath !== this.statePath) return
+
+            switch(event.detail.type) {
+                case 'media': this.insertMedia(event); return;
+                case 'video': this.insertVideo(event); return;
+                case 'link': this.insertLink(event); return;
+                case 'source': this.insertSource(event); return;
+                case 'grid': this.insertGridBuilder(event); return;
+                default: return;
+            }
+        },
+        insertMedia(event) {
+            if (Array.isArray(event.detail.media)) {
+                event.detail.media.forEach((item) => {
                     this.executeMediaInsert(item);
                 });
             } else {
-                this.executeMediaInsert(media);
+                this.executeMediaInsert(event.detail.media);
             }
         },
         executeMediaInsert(media = null) {
@@ -365,7 +377,9 @@ export default function tiptap({
                 }
             }
         },
-        insertVideo(video) {
+        insertVideo(event) {
+            let video = event.detail.video;
+
             if (! video || video.url === null) {
                 return;
             }
@@ -404,7 +418,9 @@ export default function tiptap({
                 }).run();
             }
         },
-        insertLink(link) {
+        insertLink(event) {
+            let link = event.detail;
+
             if (link.href === null && link.id === null) {
                 return;
             }
@@ -431,13 +447,11 @@ export default function tiptap({
                 .selectTextblockEnd()
                 .run();
         },
-        insertSource(source) {
-            this.editor().commands.setContent(source, {emitUpdate: true});
+        insertSource(event) {
+            this.updateEditorContent(event.detail.source);
         },
-        unsetLink() {
-            this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
-        },
-        insertGridBuilder(grid) {
+        insertGridBuilder(event) {
+            let grid = event.detail.data;
             let type = 'responsive';
             const asymmetricLeft = parseInt(grid.asymmetric_left) ?? null;
             const asymmetricRight = parseInt(grid.asymmetric_right) ?? null;
@@ -458,23 +472,23 @@ export default function tiptap({
                 asymmetricRight
             }).run();
         },
-        insertBlock({type, data, preview, label}) {
+        insertBlock(event) {
             this.editor().commands.insertBlock({
-                type,
-                data,
-                preview,
-                label,
+                type: event.detail.type,
+                data: event.detail.data,
+                preview: event.detail.preview,
+                label: event.detail.label,
             });
         },
-        openBlockSettings(settings) {
-            this.$wire.dispatchFormEvent("tiptap::updateBlock", statePath, settings);
+        openBlockSettings(event) {
+            this.$wire.dispatchFormEvent("tiptap::updateBlock", statePath, event.detail);
         },
-        updateBlock({type, data, preview, label}) {
+        updateBlock(event) {
             this.editor().commands.updateBlock({
-                type,
-                data,
-                preview,
-                label,
+                type: event.detail.type,
+                data: event.detail.data,
+                preview: event.detail.preview,
+                label: event.detail.label,
             });
         },
         deleteBlock() {

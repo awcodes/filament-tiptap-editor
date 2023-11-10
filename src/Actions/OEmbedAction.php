@@ -117,7 +117,8 @@ class OEmbedAction extends Action
             ])
             ->action(function (TiptapEditor $component, $data) {
                 $component->getLivewire()->dispatch(
-                    'insert-video',
+                    'insert-content',
+                    type: 'video',
                     statePath: $component->getStatePath(),
                     video: $data,
                 );

@@ -19,6 +19,7 @@
         openModal() {
             let media = this.editor().getAttributes('image');
             let arguments = {
+                type: 'media',
                 src: media.src || '',
                 alt: media.alt || '',
                 title: media.title || '',

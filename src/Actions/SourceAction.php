@@ -28,7 +28,8 @@ class SourceAction extends Action
             ])
             ->action(function (TiptapEditor $component, $data) {
                 $component->getLivewire()->dispatch(
-                    'insert-source',
+                    'insert-content',
+                    type: 'source',
                     statePath: $component->getStatePath(),
                     source: $data['source'],
                 );

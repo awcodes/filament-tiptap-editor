@@ -80,7 +80,8 @@ class LinkAction extends Action
                     ]),
             ])->action(function (TiptapEditor $component, $data) {
                 $component->getLivewire()->dispatch(
-                    'insert-link',
+                    'insert-content',
+                    type: 'link',
                     statePath: $component->getStatePath(),
                     href: $data['href'],
                     id: $data['id'],
