@@ -50,7 +50,6 @@ import {
     TiptapBlock,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
-import {randomString, dispatch} from "./utils";
 import 'vanilla-colorful/hex-color-picker.js';
 
 let coreExtensions = {
@@ -268,7 +267,7 @@ export default function tiptap({
 
             this.$watch('state', (newState) => {
                 if (newState === '<p></p>' && newState !== this.editor().getHTML()) {
-                    editors[this.id].destroy();
+                    editors[this.statePath].destroy();
                     this.initEditor(newState);
                 }
 
@@ -281,7 +280,7 @@ export default function tiptap({
                 Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
                     succeed(({ snapshot, effect }) => {
                         queueMicrotask(() => {
-                            editors[this.id].destroy();
+                            editors[this.statePath].destroy();
                             this.initEditor(this.state);
                         })
                     })
