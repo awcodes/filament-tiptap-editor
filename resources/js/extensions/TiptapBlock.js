@@ -2,9 +2,9 @@ import {mergeAttributes, Node} from "@tiptap/core"
 
 export const TiptapBlock = Node.create({
     name: 'tiptapBlock',
-    content: 'inline',
     group: 'block',
     atom: true,
+    defining: true,
     draggable: true,
     selectable: true,
     isolating: true,
@@ -13,6 +13,10 @@ export const TiptapBlock = Node.create({
     addAttributes() {
         return {
             preview: {
+                default: null,
+                rendered: false
+            },
+            statePath: {
                 default: null,
                 rendered: false
             },
@@ -75,6 +79,7 @@ export const TiptapBlock = Node.create({
                         openSettings() {
                             this.$dispatch("open-block-settings", {
                                 type: "${node.attrs.type}", 
+                                statePath: "${node.attrs.statePath}",
                                 data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`), 
                             })
                         },
@@ -101,13 +106,11 @@ export const TiptapBlock = Node.create({
                             </button>
                         </div>
                     </div>
-                    <div class="preview"></div>
+                    <div class="preview">
+                        ${node.attrs.preview}
+                    </div>
                 </div>
             `;
-
-            let preview = dom.querySelector('.preview')
-
-            preview.innerHTML = node.attrs.preview
 
             return {
                 dom,
@@ -117,20 +120,38 @@ export const TiptapBlock = Node.create({
     addCommands() {
         return {
             insertBlock: (attributes) => ({ chain, state }) => {
-                const { $to: $originTo } = state.selection
+                const { selection } = state
+                const { $from, $to } = selection
+                const range = $from.blockRange($to)
+
+                if (!range) {
+                    return false
+                }
 
                 const currentChain = chain()
 
-                if ($originTo.parentOffset === 0) {
-                    currentChain.insertContentAt(Math.max($originTo.pos - 1, 0), { type: 'paragraph' })
+                if ($to.parentOffset === 0) {
+                    currentChain.insertContentAt(Math.max($to.pos - 1, 0), { type: this.name, attrs: attributes })
                 } else {
-                    currentChain.insertContent({ type: 'paragraph' })
+                    currentChain.insertContentAt({ from: range.start, to: range.end }, { type: this.name, attrs: attributes })
                 }
 
-                return currentChain.setNode(this.name, attributes).insertContent({ type: 'paragraph' })
+                return currentChain.setTextSelection(range.end)
             },
-            updateBlock: (attributes) => ({commands}) => {
-                return commands.setNode(this.name, attributes)
+            updateBlock: (attributes) => ({ chain, state }) => {
+                const { selection } = state
+                const { $from, $to } = selection
+                const range = $from.blockRange($to)
+
+                if (!range) {
+                    return false
+                }
+
+                const currentChain = chain()
+
+                currentChain.insertContentAt({ from: range.start, to: range.end }, { type: this.name, attrs: attributes })
+
+                return currentChain.focus(range.end + 1)
             },
             removeBlock: () => ({ commands }) => {
                 return commands.deleteSelection()

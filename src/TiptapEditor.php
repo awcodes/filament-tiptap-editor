@@ -173,6 +173,7 @@ class TiptapEditor extends Field
 
                 $livewire->dispatch(
                     event: 'insert-block',
+                    statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: [],
                     preview: $block->getPreview(),
@@ -205,6 +206,7 @@ class TiptapEditor extends Field
 
                 $livewire->dispatch(
                     event: 'insert-block',
+                    statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: $data,
                     preview: $block->getPreview($data),
@@ -238,6 +240,7 @@ class TiptapEditor extends Field
 
                 $livewire->dispatch(
                     event: 'update-block',
+                    statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: $data,
                     preview: $block->getPreview($data),

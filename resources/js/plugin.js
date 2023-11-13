@@ -300,9 +300,9 @@ export default function tiptap({
                 content: content,
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
-                    setTimeout(() => {
+                    _this.$nextTick(() => {
                         editor.chain().focus()
-                    }, 500);
+                    });
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
@@ -310,7 +310,7 @@ export default function tiptap({
                 onBlur() {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
-                    _this.state = _this.editor().getHTML();
+                    _this.state = _this.editor().getJSON();
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();
@@ -472,19 +472,27 @@ export default function tiptap({
             }).run();
         },
         insertBlock(event) {
+            if (event.detail.statePath !== this.statePath) return
+
             this.editor().commands.insertBlock({
                 type: event.detail.type,
+                statePath: event.detail.statePath,
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
             });
         },
         openBlockSettings(event) {
-            this.$wire.dispatchFormEvent("tiptap::updateBlock", statePath, event.detail);
+            if (event.detail.statePath !== this.statePath) return
+
+            this.$wire.dispatchFormEvent("tiptap::updateBlock", this.statePath, event.detail);
         },
         updateBlock(event) {
+            if (event.detail.statePath !== this.statePath) return
+
             this.editor().commands.updateBlock({
                 type: event.detail.type,
+                statePath: event.detail.statePath,
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
