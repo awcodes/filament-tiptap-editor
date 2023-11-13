@@ -289,14 +289,13 @@ export default function tiptap({
             });
         },
         editor() {
-            return editors[this.id];
+            return editors[this.statePath];
         },
         initEditor(content) {
-            this.id = randomString(8);
             let _this = this;
-            editors[this.id] = new Editor({
+            editors[this.statePath] = new Editor({
                 element: this.$refs.element,
-                extensions: this.getExtensions(this.id),
+                extensions: this.getExtensions(this.statePath),
                 editable: ! disabled,
                 content: content,
                 onUpdate({editor}) {
