@@ -10,6 +10,12 @@ export const TiptapBlock = Node.create({
     isolating: true,
     allowGapCursor: true,
     inline: false,
+    addStorage() {
+        return {
+            preview: null,
+            label: null,
+        }
+    },
     addAttributes() {
         return {
             preview: {
@@ -33,7 +39,7 @@ export const TiptapBlock = Node.create({
             },
             label: {
                 default: null,
-                rendered: false
+                rendered: false,
             },
             data: {
                 default: null,
@@ -59,14 +65,22 @@ export const TiptapBlock = Node.create({
             }
         ]
     },
-    renderHTML({ HTMLAttributes }) {
-        return ['tiptap-block', mergeAttributes(HTMLAttributes), 0]
+    renderHTML({ node, HTMLAttributes }) {
+        return ['tiptap-block', mergeAttributes(HTMLAttributes)]
     },
     addNodeView() {
         return ({node, extension, getPos, editor}) => {
             const dom = document.createElement('div')
             dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
+
+            if (! extension.storage.preview) {
+                extension.storage.preview = node.attrs.preview
+            }
+
+            if (! extension.storage.label) {
+                extension.storage.label = node.attrs.label
+            }
 
             dom.innerHTML = `
                 <div 
@@ -86,7 +100,7 @@ export const TiptapBlock = Node.create({
                     style="min-height: 3rem;"
                 >
                     <div class="tiptap-block-heading">
-                        <h3 class="tiptap-block-title">${node.attrs.label}</h3>
+                        <h3 class="tiptap-block-title">${extension.storage.label}</h3>
                         <div class="tiptap-block-actions">
                             <button x-show="showOptionsButton" type="button" x-on:click="openSettings">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -107,7 +121,7 @@ export const TiptapBlock = Node.create({
 
             let preview = dom.querySelector('.preview')
 
-            preview.innerHTML = node.attrs.preview
+            preview.innerHTML = extension.storage.preview
 
             return {
                 dom,
@@ -116,18 +130,11 @@ export const TiptapBlock = Node.create({
     },
     addCommands() {
         return {
-            insertBlock: (attributes) => ({ chain, state }) => {
-                const { $to: $originTo } = state.selection
-
-                const currentChain = chain()
-
-                if ($originTo.parentOffset === 0) {
-                    currentChain.insertContentAt(Math.max($originTo.pos - 2, 0), { type: 'paragraph' })
-                } else {
-                    currentChain.insertContent({ type: 'paragraph' })
-                }
-
-                return currentChain.setNode(this.name, attributes).insertContent({ type: 'paragraph' })
+            insertBlock: (attributes) => ({ chain }) => {
+                return chain()
+                    .insertContent({ type: 'paragraph' })
+                    .setNode(this.name, attributes)
+                    .insertContent({ type: 'paragraph' })
             },
             updateBlock: (attributes) => ({commands}) => {
                 return commands.setNode(this.name, attributes)
