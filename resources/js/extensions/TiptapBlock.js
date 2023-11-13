@@ -124,19 +124,29 @@ export const TiptapBlock = Node.create({
                 const { $from, $to } = selection
                 const range = $from.blockRange($to)
 
-                if (!range) {
-                    return false
-                }
-
                 const currentChain = chain()
 
-                if ($to.parentOffset === 0) {
-                    currentChain.insertContentAt(Math.max($to.pos - 1, 0), { type: this.name, attrs: attributes })
-                } else {
-                    currentChain.insertContentAt({ from: range.start, to: range.end }, { type: this.name, attrs: attributes })
-                }
+                if (!range) {
+                    if ($to.parentOffset === 0) {
+                        currentChain
+                            .insertContentAt(Math.max($to.pos - 1, 0), { type: 'paragraph' })
+                            .insertContentAt({ from: $from.pos, to: $to.pos }, { type: this.name, attrs: attributes })
+                    } else {
+                        currentChain
+                            .setNode({ type: 'paragraph' })
+                            .insertContentAt({ from: $from.pos, to: $to.pos }, { type: this.name, attrs: attributes })
+                    }
 
-                return currentChain.setTextSelection(range.end)
+                    return currentChain.setTextSelection($to.pos + 1)
+                } else {
+                    if ($to.parentOffset === 0) {
+                        currentChain.insertContentAt(Math.max($to.pos - 1, 0), { type: this.name, attrs: attributes })
+                    } else {
+                        currentChain.insertContentAt({ from: range.start, to: range.end }, { type: this.name, attrs: attributes })
+                    }
+
+                    return currentChain.setTextSelection(range.end)
+                }
             },
             updateBlock: (attributes) => ({ chain, state }) => {
                 const { selection } = state
