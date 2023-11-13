@@ -20,7 +20,7 @@ abstract class TiptapBlock
 
     public function getIdentifier(): string
     {
-        return $this->identifier ?? Str::kebab(class_basename($this));
+        return $this->identifier ?? Str::camel(class_basename($this));
     }
 
     public function getLabel(): string
