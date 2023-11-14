@@ -51,9 +51,26 @@ class TiptapBlock extends Node
         ];
     }
 
+    public function getBlocks(): array
+    {
+        $customBlocks = $this->options['blocks'] ?? null;
+
+        if (blank($customBlocks)) {
+            return TiptapEditor::make('get_blocks')->getBlocks();
+        }
+
+        return collect($customBlocks)
+            ->mapWithKeys(function (string $block): array {
+                $blockInstance = app($block);
+
+                return [$blockInstance->getIdentifier() => $blockInstance];
+            })
+            ->all();
+    }
+
     public function renderHTML($node, $HTMLAttributes = []): array
     {
-        $blocks = TiptapEditor::make('get_blocks')->getBlocks();
+        $blocks = $this->getBlocks();
         $view = view($blocks[$node->attrs->type]->rendered, (array) $node->attrs->data)->render();
 
         return [
