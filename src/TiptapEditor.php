@@ -121,7 +121,7 @@ class TiptapEditor extends Field
                     string $statePath,
                     array $arguments
                 ) => $this->getCustomListener('updateBlock', $component, $statePath, $arguments),
-            ]
+            ],
         ]);
 
         $this->registerActions([

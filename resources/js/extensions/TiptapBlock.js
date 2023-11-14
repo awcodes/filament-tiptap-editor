@@ -63,7 +63,7 @@ export const TiptapBlock = Node.create({
             }
         ]
     },
-    renderHTML({ node, HTMLAttributes }) {
+    renderHTML({ HTMLAttributes }) {
         return ['tiptap-block', mergeAttributes(HTMLAttributes)]
     },
     addNodeView() {
