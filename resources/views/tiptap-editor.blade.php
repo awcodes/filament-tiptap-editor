@@ -156,7 +156,7 @@
                         <div
                             draggable="true"
                             x-on:dragstart="$event?.dataTransfer?.setData('blockType', @js($block->getIdentifier()))"
-                            class="cursor-move grid-col-1 rounded border bg-gray-800 text-sm px-3 py-2 dark:border-gray-700"
+                            class="cursor-move grid-col-1 rounded border dark:bg-gray-800 text-sm px-3 py-2 dark:border-gray-700"
                         >
                             {{ $block->getLabel() }}
                         </div>
