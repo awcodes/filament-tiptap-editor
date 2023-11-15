@@ -109,60 +109,77 @@
                         <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks"/>
                     @endif
 
-                    <div @class([
-                        'tiptap-prosemirror-wrapper mx-auto w-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
-                        match ($getMaxContentWidth()) {
-                            'sm' => 'prosemirror-w-sm',
-                            'md' => 'prosemirror-w-md',
-                            'lg' => 'prosemirror-w-lg',
-                            'xl' => 'prosemirror-w-xl',
-                            '2xl' => 'prosemirror-w-2xl',
-                            '3xl' => 'prosemirror-w-3xl',
-                            '4xl' => 'prosemirror-w-4xl',
-                            '6xl' => 'prosemirror-w-6xl',
-                            '7xl' => 'prosemirror-w-7xl',
-                            'full' => 'prosemirror-w-none',
-                            default => 'prosemirror-w-5xl',
-                        }
-                    ])>
-                        <div
-                            x-ref="element"
-                            {{ $getExtraInputAttributeBag()->class(['tiptap-content']) }}
-                        ></div>
+                    <div class="flex h-full">
+                        <div @class([
+                            'tiptap-prosemirror-wrapper mx-auto w-full max-h-[40rem] min-h-[56px] h-auto overflow-y-scroll overflow-x-hidden rounded-b-md',
+                            match ($getMaxContentWidth()) {
+                                'sm' => 'prosemirror-w-sm',
+                                'md' => 'prosemirror-w-md',
+                                'lg' => 'prosemirror-w-lg',
+                                'xl' => 'prosemirror-w-xl',
+                                '2xl' => 'prosemirror-w-2xl',
+                                '3xl' => 'prosemirror-w-3xl',
+                                '4xl' => 'prosemirror-w-4xl',
+                                '6xl' => 'prosemirror-w-6xl',
+                                '7xl' => 'prosemirror-w-7xl',
+                                'full' => 'prosemirror-w-none',
+                                default => 'prosemirror-w-5xl',
+                            }
+                        ])>
+                            <div
+                                x-ref="element"
+                                {{ $getExtraInputAttributeBag()->class(['tiptap-content']) }}
+                            ></div>
+                        </div>
+
+                        @if (count($blocks))
+                            <div
+                                x-data="{
+                                    isCollapsed: false,
+                                }"
+                                class="hidden shrink-0 space-y-2 max-w-sm md:flex flex-col h-full"
+                                x-bind:class="{
+                                    'bg-gray-50 dark:bg-gray-950/20': ! isCollapsed,
+                                    'h-full': ! isCollapsed && fullScreenMode,
+                                    'px-2': ! fullScreenMode,
+                                    'px-3': fullScreenMode
+                                }"
+                            >
+                                <div class="flex items-center mt-2">
+                                    <p class="text-xs font-bold" x-show="! isCollapsed">Blocks</p>
+
+                                    <button x-on:click="isCollapsed = false" x-show="isCollapsed" x-cloak type="button" class="ml-auto">
+                                        <x-heroicon-m-bars-3 class="w-5 h-5" />
+                                    </button>
+
+                                    <button x-on:click="isCollapsed = true" x-show="! isCollapsed" type="button" class="ml-auto">
+                                        <x-heroicon-m-x-mark class="w-5 h-5" />
+                                    </button>
+                                </div>
+
+                                <div x-show="! isCollapsed" class="overflow-y-auto space-y-1 h-full pb-2">
+                                    @foreach ($blocks as $block)
+                                        <div
+                                            draggable="true"
+                                            x-on:dragstart="$event?.dataTransfer?.setData('blockType', @js($block->getIdentifier()))"
+                                            class="cursor-move grid-col-1 flex items-center gap-2 rounded border text-xs px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700"
+                                        >
+                                            @if ($block->getIcon())
+                                                <x-filament::icon
+                                                    :icon="$block->getIcon()"
+                                                    class="h-5 w-5"
+                                                />
+                                            @endif
+
+                                            {{ $block->getLabel() }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-
-        @if (count($blocks))
-            <div
-                x-data="{
-                    isCollapsed: false,
-                }"
-                class="hidden shrink-0 space-y-3 max-w-sm md:block"
-            >
-                <div class="flex justify-end">
-                    <button x-on:click="isCollapsed = false" x-show="isCollapsed" x-cloak type="button">
-                        <x-heroicon-m-bars-3 class="w-5 h-5" />
-                    </button>
-
-                    <button x-on:click="isCollapsed = true" x-show="! isCollapsed" type="button">
-                        <x-heroicon-m-x-mark class="w-5 h-5" />
-                    </button>
-                </div>
-
-                <div x-show="! isCollapsed" x-collapse class="space-y-1">
-                    @foreach ($blocks as $block)
-                        <div
-                            draggable="true"
-                            x-on:dragstart="$event?.dataTransfer?.setData('blockType', @js($block->getIdentifier()))"
-                            class="cursor-move grid-col-1 rounded border dark:bg-gray-800 text-sm px-3 py-2 dark:border-gray-700"
-                        >
-                            {{ $block->getLabel() }}
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endif
     </div>
 </x-dynamic-component>

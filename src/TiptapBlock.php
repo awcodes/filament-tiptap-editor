@@ -2,10 +2,13 @@
 
 namespace FilamentTiptapEditor;
 
+use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Str;
 
 abstract class TiptapBlock
 {
+    use EvaluatesClosures;
+
     public string $preview = 'filament-tiptap-editor::tiptap-block-preview';
 
     public string $rendered = 'filament-tiptap-editor::tiptap-block-preview';
@@ -17,6 +20,8 @@ abstract class TiptapBlock
     public string $width = 'sm';
 
     public bool $slideOver = false;
+
+    public ?string $icon = null;
 
     public function getIdentifier(): string
     {
@@ -54,5 +59,10 @@ abstract class TiptapBlock
     public function getRendered(array | null $data = []): string
     {
         return view($this->rendered, $data)->render();
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->evaluate($this->icon);
     }
 }

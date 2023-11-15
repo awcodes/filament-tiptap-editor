@@ -68,6 +68,10 @@
 
             .tiptap-block-actions {
                 @apply flex items-center gap-2;
+
+                button {
+                    @apply opacity-75 hover:opacity-100 focus:opacity-100 hover:text-primary-500 focus:text-primary-500;
+                }
             }
 
             .preview {

@@ -193,12 +193,16 @@ class TiptapEditor extends Field
                     ->getFormSchema();
             })
             ->modalHeading(fn (): string => trans('filament-tiptap-editor::editor.blocks.insert'))
-            ->modalWidth(function(TiptapEditor $component, array $arguments): string {
+            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
                 return isset($arguments['type'])
                     ? $component->getBlock($arguments['type'])->getModalWidth()
                     : 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, array $arguments): string {
+            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
                 return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
             })
             ->action(function (TiptapEditor $component, Component $livewire, array $arguments, $data): void {
@@ -221,12 +225,16 @@ class TiptapEditor extends Field
         return Action::make('updateBlock')
             ->fillForm(fn (array $arguments) => $arguments['data'])
             ->modalHeading(fn () => trans('filament-tiptap-editor::editor.blocks.update'))
-            ->modalWidth(function(TiptapEditor $component, array $arguments): string {
+            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
                 return isset($arguments['type'])
                     ? $component->getBlock($arguments['type'])->getModalWidth()
                     : 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, array $arguments): string {
+            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
                 return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
             })
             ->form(function(TiptapEditor $component, Component $livewire): array {
