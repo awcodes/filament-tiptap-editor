@@ -1,4 +1,6 @@
-import {mergeAttributes, Node} from "@tiptap/core"
+import {mergeAttributes, Extension, Node} from "@tiptap/core"
+import { Plugin } from 'prosemirror-state'
+import { DOMParser } from 'prosemirror-model'
 
 export const TiptapBlock = Node.create({
     name: 'tiptapBlock',
@@ -73,21 +75,21 @@ export const TiptapBlock = Node.create({
             dom.classList.add('tiptap-block-wrapper')
 
             dom.innerHTML = `
-                <div 
+                <div
                     x-data='{
                         showOptionsButton: ${node.attrs.data?.length === 0 ? 'false' : 'true'},
                         openSettings() {
                             this.$dispatch("open-block-settings", {
-                                type: "${node.attrs.type}", 
+                                type: "${node.attrs.type}",
                                 statePath: "${node.attrs.statePath}",
-                                data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`), 
+                                data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`),
                             })
                         },
                         deleteBlock() {
                             this.$dispatch("delete-block")
                         }
                     }'
-                    class="tiptap-block" 
+                    class="tiptap-block"
                     style="min-height: 3rem;"
                 >
                     <div class="tiptap-block-heading">
@@ -120,11 +122,18 @@ export const TiptapBlock = Node.create({
     addCommands() {
         return {
             insertBlock: (attributes) => ({ chain, state }) => {
+                const currentChain = chain()
+
+                if (attributes.coordinates) {
+                    currentChain.insertContentAt({ from: attributes.coordinates.pos, to: attributes.coordinates.pos }, { type: this.name, attrs: attributes })
+
+                    return currentChain.setTextSelection(attributes.coordinates.pos)
+                }
+
                 const { selection } = state
                 const { $from, $to } = selection
-                const range = $from.blockRange($to)
 
-                const currentChain = chain()
+                const range = $from.blockRange($to)
 
                 if (!range) {
                     if ($to.parentOffset === 0) {
@@ -167,5 +176,43 @@ export const TiptapBlock = Node.create({
                 return commands.deleteSelection()
             }
         }
+    },
+})
+
+function wrapHtmlInTemplate(value) {
+    const element = document.createElement('span')
+    element.innerHTML = `${value.trim()}`
+    return element
+}
+
+export const DragAndDropBlockExtension = Extension.create({
+    name: 'dragAndDropBlock',
+    addProseMirrorPlugins() {
+        return [
+            new Plugin({
+                props: {
+                    handleDrop(view, event) {
+                        if (!event) return false
+
+                        event.preventDefault()
+
+                        const coordinates = view.posAtCoords({
+                            left: event.clientX,
+                            top: event.clientY,
+                        })
+
+                        event.target.dispatchEvent(new CustomEvent('dragged-block', {
+                            detail: {
+                                type: event.dataTransfer.getData('blockType'),
+                                coordinates,
+                            },
+                            bubbles: true,
+                        }))
+
+                        return false
+                    },
+                },
+            }),
+        ]
     },
 })

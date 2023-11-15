@@ -48,6 +48,7 @@ import {
     FloatingMenu,
     Video,
     TiptapBlock,
+    DragAndDropBlockExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import 'vanilla-colorful/hex-color-picker.js';
@@ -134,7 +135,7 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
 
             if (tools.length) {
 
@@ -479,6 +480,7 @@ export default function tiptap({
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
+                coordinates: event.detail.coordinates,
             });
         },
         openBlockSettings(event) {

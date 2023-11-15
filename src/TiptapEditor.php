@@ -211,6 +211,7 @@ class TiptapEditor extends Field
                     data: $data,
                     preview: $block->getPreview($data),
                     label: $block->getLabel(),
+                    coordinates: $arguments['coordinates'] ?? [],
                 );
             });
     }
