@@ -222,9 +222,15 @@ export const DragAndDropBlockExtension = Extension.create({
                             top: event.clientY,
                         })
 
+                        const blockType = event.dataTransfer.getData('blockType')
+
+                        if (! blockType) {
+                            return false
+                        }
+
                         event.target.dispatchEvent(new CustomEvent('dragged-block', {
                             detail: {
-                                type: event.dataTransfer.getData('blockType'),
+                                type: blockType,
                                 coordinates,
                             },
                             bubbles: true,
