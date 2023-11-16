@@ -140,11 +140,8 @@ export default function tiptap({
 
             let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
 
-            if (placeholder) {
-                exts.push(Placeholder.configure({
-                    placeholder: placeholder,
-                    showOnlyWhenEditable: false,
-                }));
+            if (placeholder && (! disabled)) {
+                exts.push(Placeholder.configure({ placeholder }));
             }
 
             if (tools.length) {
