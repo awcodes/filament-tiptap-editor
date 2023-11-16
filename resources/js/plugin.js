@@ -307,7 +307,6 @@ export default function tiptap({
                 content: content,
                 editorProps: {
                     handlePaste(view, event, slice) {
-                        console.log(_this.statePath)
                         slice.content.descendants(node => {
                             if (node.type.name === 'tiptapBlock') {
                                 node.attrs.statePath = _this.statePath
