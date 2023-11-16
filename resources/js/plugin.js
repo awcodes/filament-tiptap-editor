@@ -14,6 +14,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
 import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
+import Placeholder from "@tiptap/extension-placeholder";
 import Strike from "@tiptap/extension-strike";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
@@ -47,9 +48,10 @@ import {
     BubbleMenu,
     FloatingMenu,
     Video,
+    TiptapBlock,
+    DragAndDropBlockExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
-import {randomString, dispatch} from "./utils";
 import 'vanilla-colorful/hex-color-picker.js';
 
 let coreExtensions = {
@@ -112,6 +114,7 @@ export default function tiptap({
    disabled = false,
    locale = 'en',
    floatingMenuTools = [],
+   placeholder = null,
 }) {
     let editors = window.filamentTiptapEditors || {};
 
@@ -123,6 +126,7 @@ export default function tiptap({
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
+        disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
         getExtensions(id) {
@@ -134,7 +138,11 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
+
+            if (placeholder && (! disabled)) {
+                exts.push(Placeholder.configure({ placeholder }));
+            }
 
             if (tools.length) {
 
@@ -157,7 +165,8 @@ export default function tiptap({
                             isActive(state, 'oembed') ||
                             isActive(state, 'vimeo') ||
                             isActive(state, 'youtube') ||
-                            isActive(state, 'video')
+                            isActive(state, 'video') ||
+                            isActive(state, 'tiptapBlock')
                         );
                     },
                 }))
@@ -266,7 +275,7 @@ export default function tiptap({
 
             this.$watch('state', (newState) => {
                 if (newState === '<p></p>' && newState !== this.editor().getHTML()) {
-                    editors[this.id].destroy();
+                    editors[this.statePath].destroy();
                     this.initEditor(newState);
                 }
 
@@ -279,7 +288,7 @@ export default function tiptap({
                 Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
                     succeed(({ snapshot, effect }) => {
                         queueMicrotask(() => {
-                            editors[this.id].destroy();
+                            editors[this.statePath].destroy();
                             this.initEditor(this.state);
                         })
                     })
@@ -287,21 +296,30 @@ export default function tiptap({
             });
         },
         editor() {
-            return editors[this.id];
+            return editors[this.statePath];
         },
         initEditor(content) {
-            this.id = randomString(8);
             let _this = this;
-            editors[this.id] = new Editor({
+            editors[this.statePath] = new Editor({
                 element: this.$refs.element,
-                extensions: this.getExtensions(this.id),
-                editable: ! disabled,
+                extensions: this.getExtensions(this.statePath),
+                editable: ! this.disabled,
                 content: content,
+                editorProps: {
+                    handlePaste(view, event, slice) {
+                        slice.content.descendants(node => {
+                            if (node.type.name === 'tiptapBlock') {
+                                node.attrs.statePath = _this.statePath
+                                node.attrs.data = JSON.parse(node.attrs.data)
+                            }
+                        });
+                    }
+                },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
-                    setTimeout(() => {
+                    _this.$nextTick(() => {
                         editor.chain().focus()
-                    }, 500);
+                    });
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
@@ -309,7 +327,7 @@ export default function tiptap({
                 onBlur() {
                     _this.updatedAt = Date.now();
                     _this.focused = false;
-                    _this.state = _this.editor().getHTML();
+                    _this.state = _this.editor().getJSON();
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();
@@ -325,13 +343,25 @@ export default function tiptap({
             // This matters when the method is triggered as part of a batched request.
             this.$nextTick(() => this.updateEditorContent(this.state));
         },
-        insertMedia(media) {
-            if (Array.isArray(media)) {
-                media.forEach((item) => {
+        insertContent(event) {
+            if (event.detail.statePath !== this.statePath) return
+
+            switch(event.detail.type) {
+                case 'media': this.insertMedia(event); return;
+                case 'video': this.insertVideo(event); return;
+                case 'link': this.insertLink(event); return;
+                case 'source': this.insertSource(event); return;
+                case 'grid': this.insertGridBuilder(event); return;
+                default: return;
+            }
+        },
+        insertMedia(event) {
+            if (Array.isArray(event.detail.media)) {
+                event.detail.media.forEach((item) => {
                     this.executeMediaInsert(item);
                 });
             } else {
-                this.executeMediaInsert(media);
+                this.executeMediaInsert(event.detail.media);
             }
         },
         executeMediaInsert(media = null) {
@@ -363,7 +393,9 @@ export default function tiptap({
                 }
             }
         },
-        insertVideo(video) {
+        insertVideo(event) {
+            let video = event.detail.video;
+
             if (! video || video.url === null) {
                 return;
             }
@@ -402,7 +434,9 @@ export default function tiptap({
                 }).run();
             }
         },
-        insertLink(link) {
+        insertLink(event) {
+            let link = event.detail;
+
             if (link.href === null && link.id === null) {
                 return;
             }
@@ -429,13 +463,11 @@ export default function tiptap({
                 .selectTextblockEnd()
                 .run();
         },
-        insertSource(source) {
-            this.editor().commands.setContent(source, {emitUpdate: true});
+        insertSource(event) {
+            this.updateEditorContent(event.detail.source);
         },
-        unsetLink() {
-            this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
-        },
-        insertGridBuilder(grid) {
+        insertGridBuilder(event) {
+            let grid = event.detail.data;
             let type = 'responsive';
             const asymmetricLeft = parseInt(grid.asymmetric_left) ?? null;
             const asymmetricRight = parseInt(grid.asymmetric_right) ?? null;
@@ -455,6 +487,37 @@ export default function tiptap({
                 asymmetricLeft,
                 asymmetricRight
             }).run();
+        },
+        insertBlock(event) {
+            if (event.detail.statePath !== this.statePath) return
+
+            this.editor().commands.insertBlock({
+                type: event.detail.type,
+                statePath: event.detail.statePath,
+                data: event.detail.data,
+                preview: event.detail.preview,
+                label: event.detail.label,
+                coordinates: event.detail.coordinates,
+            });
+        },
+        openBlockSettings(event) {
+            if (event.detail.statePath !== this.statePath) return
+
+            this.$wire.dispatchFormEvent("tiptap::updateBlock", this.statePath, event.detail);
+        },
+        updateBlock(event) {
+            if (event.detail.statePath !== this.statePath) return
+
+            this.editor().commands.updateBlock({
+                type: event.detail.type,
+                statePath: event.detail.statePath,
+                data: event.detail.data,
+                preview: event.detail.preview,
+                label: event.detail.label,
+            });
+        },
+        deleteBlock() {
+            this.editor().commands.removeBlock();
         }
     };
 }

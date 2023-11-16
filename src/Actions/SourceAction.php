@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor\Actions;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\View;
 use FilamentTiptapEditor\TiptapEditor;
 
 class SourceAction extends Action
@@ -19,25 +20,29 @@ class SourceAction extends Action
         parent::setUp();
 
         $this
-            ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, $arguments) {
-                return $form->fill([
-                    'source' => $arguments['html'],
-                ]);
-            })
             ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
+            ->fillForm(fn ($arguments) => ['source' => $arguments['html']])
             ->form([
                 TextArea::make('source')
                     ->label(__('filament-tiptap-editor::source-modal.labels.source'))
-                    ->rows(10),
+                    ->extraAttributes(['class' => 'source_code_editor'])
+                    ->autosize(),
             ])
+            ->modalWidth('screen')
             ->action(function (TiptapEditor $component, $data) {
+
+                $content = tiptap_converter()->asJSON($data['source'], decoded: true);
+
+                $content = $component->renderBlockPreviews($content);
+
                 $component->getLivewire()->dispatch(
-                    'insert-source',
+                    'insert-content',
+                    type: 'source',
                     statePath: $component->getStatePath(),
-                    source: $data['source'],
+                    source: $content,
                 );
 
-                $component->state($data['source']);
+                $component->state($content);
             });
     }
 }

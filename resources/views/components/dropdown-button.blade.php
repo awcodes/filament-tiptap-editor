@@ -42,17 +42,17 @@
         }"
         x-cloak
         @class([
-            'absolute z-30 bg-gray-100 dark:bg-gray-800 rounded-md shadow-md top-full',
+            'tiptap-panel absolute z-30 bg-gray-100 dark:bg-gray-800 rounded-md shadow-md top-full',
             'overflow-y-scroll max-h-48' => ! $active,
         ])
     >
-        <div x-ref="arrow" class="absolute z-0 bg-inherit w-2 h-2 transform rotate-45"></div>
+        <div x-ref="arrow" class="absolute z-1 bg-inherit w-2 h-2 transform rotate-45"></div>
         @if ($list)
-            <ul class="text-sm divide-y divide-gray-300 dark:divide-gray-700 min-w-[144px]">
+            <ul class="relative z-2 text-sm divide-y rounded-md overflow-hidden divide-gray-300 dark:divide-gray-700 min-w-[144px] text-gray-800 dark:text-white">
                 {{ $slot }}
             </ul>
         @else
-            <div class="flex gap-1 items-center p-1">
+            <div class="relative z-2 flex gap-1 items-center p-1">
                 {{ $slot }}
             </div>
         @endif

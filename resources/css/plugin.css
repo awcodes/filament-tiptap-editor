@@ -50,6 +50,36 @@
     width: 100%;
     color: theme('colors.black');
 
+    &.ProseMirror-focused .ProseMirror-selectednode {
+        @apply outline-2 outline-offset-2 outline-dashed outline-gray-700 dark:outline-gray-300;
+    }
+
+    .tiptap-block-wrapper {
+        @apply rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800;
+
+        .tiptap-block {
+            .tiptap-block-heading {
+                @apply flex items-center justify-between py-1 px-3 leading-none text-gray-900 bg-gray-200 dark:text-white dark:bg-gray-950;
+
+                .tiptap-block-title {
+                    @apply text-sm uppercase font-bold opacity-80;
+                }
+            }
+
+            .tiptap-block-actions {
+                @apply flex items-center gap-2;
+
+                button {
+                    @apply opacity-75 hover:opacity-100 focus:opacity-100 hover:text-primary-500 focus:text-primary-500;
+                }
+            }
+
+            .preview {
+                @apply p-4;
+            }
+        }
+    }
+
     .filament-tiptap-hurdle {
         width: 100%;
         max-width: 100vw;
@@ -621,4 +651,12 @@
 
 .filament-tiptap-editor-source-modal textarea {
     font-family: theme("fontFamily.mono") monospace;
+}
+
+.tiptap-editor p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    @apply text-gray-400 dark:text-gray-500;
 }

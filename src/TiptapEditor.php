@@ -3,23 +3,29 @@
 namespace FilamentTiptapEditor;
 
 use Closure;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
+use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Concerns\CanStoreOutput;
+use FilamentTiptapEditor\Concerns\HasCustomActions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
 class TiptapEditor extends Field
 {
     use CanStoreOutput;
+    use HasCustomActions;
     use HasExtraAlpineAttributes;
     use HasExtraInputAttributes;
+    use HasPlaceholder;
     use InteractsWithMedia;
     use InteractsWithMenus;
 
@@ -32,6 +38,8 @@ class TiptapEditor extends Field
     protected ?bool $shouldDisableStylesheet = null;
 
     protected ?array $tools = [];
+
+    protected ?array $blocks = [];
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
@@ -48,7 +56,13 @@ class TiptapEditor extends Field
                 return;
             }
 
-            $component->state($component->getHTML());
+            if ($this->getBlocks() && $this->expectsJSON()) {
+                $state = $this->renderBlockPreviews($state, $component);
+            } elseif ($this->expectsHTML()) {
+                $state = $this->getHTML();
+            }
+
+            $component->state($state);
         });
 
         $this->afterStateUpdated(function (TiptapEditor $component, Component $livewire) {
@@ -56,8 +70,9 @@ class TiptapEditor extends Field
         });
 
         $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state) {
+
             if ($state && $this->expectsJSON()) {
-                return $component->getJSON();
+                return $this->decodeBlocksBeforeSave($state);
             }
 
             if ($state && $this->expectsText()) {
@@ -69,67 +84,204 @@ class TiptapEditor extends Field
 
         $this->registerListeners([
             'tiptap::setGridBuilderContent' => [
-                function (TiptapEditor $component, string $statePath): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_grid');
-                },
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_grid', $component, $statePath, $arguments),
             ],
             'tiptap::setSourceContent' => [
-                function (TiptapEditor $component, string $statePath, string $html): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_source', ['html' => $html]);
-                },
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_source', $component, $statePath, $arguments),
             ],
             'tiptap::setOEmbedContent' => [
-                function (TiptapEditor $component, string $statePath): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $component->getLivewire()->mountFormComponentAction($statePath, 'filament_tiptap_oembed');
-                },
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_oembed', $component, $statePath, $arguments),
             ],
             'tiptap::setLinkContent' => [
-                function (TiptapEditor $component, string $statePath, array $arguments): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $livewire = $component->getLivewire();
-                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_link', $arguments);
-                },
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_link', $component, $statePath, $arguments),
             ],
             'tiptap::setMediaContent' => [
-                function (TiptapEditor $component, string $statePath, array $arguments): void {
-                    if ($component->isDisabled() || $statePath !== $component->getStatePath()) {
-                        return;
-                    }
-
-                    $livewire = $component->getLivewire();
-                    $livewire->mountFormComponentAction($statePath, 'filament_tiptap_media', $arguments);
-                },
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_media', $component, $statePath, $arguments),
+            ],
+            'tiptap::updateBlock' => [
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('updateBlock', $component, $statePath, $arguments),
             ],
         ]);
 
-        $this->registerActions(array_merge(
-            [
-                SourceAction::make(),
-                OEmbedAction::make(),
-                GridBuilderAction::make(),
-            ],
-            [
-                config('filament-tiptap-editor.link_action')::make(),
-            ],
-            Str::of(config('filament-tiptap-editor.media_action'))->contains('\\')
-                ? [config('filament-tiptap-editor.media_action')::make()]
-                : [],
-        ));
+        $this->registerActions([
+            SourceAction::make(),
+            OEmbedAction::make(),
+            GridBuilderAction::make(),
+            fn (): Action => $this->getLinkAction(),
+            fn (): Action => $this->getMediaAction(),
+            fn (): Action => $this->getInsertStaticBlockAction(),
+            fn (): Action => $this->getInsertBlockAction(),
+            fn (): Action => $this->getUpdateBlockAction(),
+        ]);
+    }
+
+    public function getCustomListener(string $name, TiptapEditor $component, string $statePath, array $arguments = []): void {
+        if ($this->verifyListener($component, $statePath)) {
+            return;
+        };
+
+        $component
+            ->getLivewire()
+            ->mountFormComponentAction($statePath, $name, $arguments);
+    }
+
+    public function renderBlockPreviews(array $document, TiptapEditor $component): array
+    {
+        $content = $document['content'];
+
+        foreach ($content as $k => $block) {
+            if ($block['type'] === 'tiptapBlock') {
+                $instance = $this->getBlock($block['attrs']['type']);
+                $content[$k]['attrs']['statePath'] = $component->getStatePath();
+                $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data']);
+                $content[$k]['attrs']['label'] = $instance->getLabel();
+            } elseif (array_key_exists('content', $block)) {
+                $content[$k] = $this->renderBlockPreviews($block, $component);
+            }
+        }
+
+        $document['content'] = $content;
+
+        return $document;
+    }
+
+    public function decodeBlocksBeforeSave(array $document): array
+    {
+        $content = $document['content'];
+
+        foreach ($content as $k => $block) {
+            if ($block['type'] === 'tiptapBlock') {
+                if (is_string($block['attrs']['data'])) {
+                    $content[$k]['attrs']['data'] = json_decode($block['attrs']['data'], true);
+                }
+                unset($content[$k]['attrs']['statePath']);
+                unset($content[$k]['attrs']['preview']);
+                unset($content[$k]['attrs']['label']);
+            } elseif (array_key_exists('content', $block)) {
+                $content[$k] = $this->decodeBlocksBeforeSave($block);
+            }
+        }
+
+        $document['content'] = $content;
+
+        return $document;
+    }
+
+    public function getInsertStaticBlockAction(): Action
+    {
+        return Action::make('insertStaticBlock')
+            ->action(function (TiptapEditor $component, Component $livewire, array $arguments): void {
+                $block = $component->getBlock($arguments['type']);
+
+                $livewire->dispatch(
+                    event: 'insert-block',
+                    statePath: $component->getStatePath(),
+                    type: $arguments['type'],
+                    data: [],
+                    preview: $block->getPreview(),
+                    label: $block->getLabel(),
+                );
+            });
+    }
+
+    public function getInsertBlockAction(): Action
+    {
+        return Action::make('insertBlock')
+            ->form(function(TiptapEditor $component, Component $livewire): array {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return $component
+                    ->getBlock($arguments['type'])
+                    ->getFormSchema();
+            })
+            ->modalHeading(fn (): string => trans('filament-tiptap-editor::editor.blocks.insert'))
+            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return isset($arguments['type'])
+                    ? $component->getBlock($arguments['type'])->getModalWidth()
+                    : 'sm';
+            })
+            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
+            })
+            ->action(function (TiptapEditor $component, Component $livewire, array $arguments, $data): void {
+                $block = $component->getBlock($arguments['type']);
+
+                $livewire->dispatch(
+                    event: 'insert-block',
+                    statePath: $component->getStatePath(),
+                    type: $arguments['type'],
+                    data: $data,
+                    preview: $block->getPreview($data),
+                    label: $block->getLabel(),
+                    coordinates: $arguments['coordinates'] ?? [],
+                );
+            });
+    }
+
+    public function getUpdateBlockAction(): Action
+    {
+        return Action::make('updateBlock')
+            ->fillForm(fn (array $arguments) => $arguments['data'])
+            ->modalHeading(fn () => trans('filament-tiptap-editor::editor.blocks.update'))
+            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return isset($arguments['type'])
+                    ? $component->getBlock($arguments['type'])->getModalWidth()
+                    : 'sm';
+            })
+            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
+            })
+            ->form(function(TiptapEditor $component, Component $livewire): array {
+                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
+
+                return $component
+                    ->getBlock($arguments['type'])
+                    ->getFormSchema();
+            })
+            ->action(function (TiptapEditor $component, Component $livewire, array $arguments, $data): void {
+                $block = $component->getBlock($arguments['type']);
+
+                $livewire->dispatch(
+                    event: 'update-block',
+                    statePath: $component->getStatePath(),
+                    type: $arguments['type'],
+                    data: $data,
+                    preview: $block->getPreview($data),
+                    label: $block->getLabel(),
+                );
+            });
     }
 
     public function maxContentWidth(string | Closure $width): static
@@ -143,6 +295,13 @@ class TiptapEditor extends Field
     {
         $this->profile = $profile;
         $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
+
+        return $this;
+    }
+
+    public function blocks(array $blocks): static
+    {
+        $this->blocks = $blocks;
 
         return $this;
     }
@@ -173,6 +332,19 @@ class TiptapEditor extends Field
         return $this->shouldDisableStylesheet ?? config('filament-tiptap-editor.disable_stylesheet');
     }
 
+    public function getBlock(string $identifier): TiptapBlock
+    {
+        return $this->getBlocks()[$identifier];
+    }
+
+    public function getBlocks(): array
+    {
+        return collect($this->blocks)->mapWithKeys(function ($block, $key) {
+            $b = app($block);
+            return [$b->getIdentifier() => $b];
+        })->toArray();
+    }
+
     public function getTools(): array
     {
         $extensions = collect($this->extensions);
@@ -192,5 +364,10 @@ class TiptapEditor extends Field
             ->transform(function ($ext) {
                 return $ext['source'];
             })->toArray();
+    }
+
+    public function verifyListener(TiptapEditor $component, string $statePath): bool
+    {
+        return $component->isDisabled() || $statePath !== $component->getStatePath();
     }
 }

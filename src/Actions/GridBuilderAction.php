@@ -85,7 +85,8 @@ class GridBuilderAction extends Action
 
         $this->action(function (TiptapEditor $component, $data) {
             $component->getLivewire()->dispatch(
-                'insert-grid-builder',
+                'insert-content',
+                type: 'grid',
                 statePath: $component->getStatePath(),
                 data: $data,
             );

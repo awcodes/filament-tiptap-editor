@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static string asHTML(string|array $content)
- * @method static string asJSON(string|array $content)
+ * @method static string asJSON(string|array $content, bool $decoded)
  * @method static string asText(string|array $content)
  *
  * @see \FilamentTiptapEditor\TiptapConverter

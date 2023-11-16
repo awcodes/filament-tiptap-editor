@@ -22,11 +22,20 @@ class TiptapConverter
 {
     protected Editor $editor;
 
-    final public function __construct()
+    protected ?array $blocks = null;
+
+    public function getEditor(): Editor
     {
-        $this->editor = new Editor([
+        return $this->editor ??= new Editor([
             'extensions' => $this->getExtensions(),
         ]);
+    }
+
+    public function blocks(array $blocks): static
+    {
+        $this->blocks = $blocks;
+
+        return $this;
     }
 
     public function getExtensions(): array
@@ -60,6 +69,7 @@ class TiptapConverter
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Video(),
+            new Nodes\TiptapBlock(['blocks' => $this->blocks]),
             new Nodes\Hurdle(),
             new Table(),
             new TableHeader(),
@@ -77,16 +87,18 @@ class TiptapConverter
 
     public function asHTML(string | array $content): string
     {
-        return $this->editor->setContent($content)->getHTML();
+        return $this->getEditor()->setContent($content)->getHTML();
     }
 
-    public function asJSON(string | array $content): string
+    public function asJSON(string | array $content, bool $decoded = false): string | array
     {
-        return $this->editor->setContent($content)->getJSON();
+        $content = $this->getEditor()->setContent($content)->getJSON();
+
+        return $decoded ? json_decode($content, true) : $content;
     }
 
     public function asText(string | array $content): string
     {
-        return $this->editor->setContent($content)->getText();
+        return $this->getEditor()->setContent($content)->getText();
     }
 }

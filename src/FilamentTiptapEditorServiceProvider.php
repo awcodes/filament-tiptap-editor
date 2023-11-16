@@ -31,4 +31,9 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             Css::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.css')->loadedOnRequest(),
         ], 'awcodes/tiptap-editor');
     }
+
+    public function packageBooted(): void
+    {
+       //
+    }
 }
