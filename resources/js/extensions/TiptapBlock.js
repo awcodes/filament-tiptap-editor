@@ -16,7 +16,18 @@ export const TiptapBlock = Node.create({
         return {
             preview: {
                 default: null,
-                rendered: false
+                parseHTML: element => {
+                    return element.getAttribute('data-preview')
+                },
+                renderHTML: attributes => {
+                    if (! attributes.preview) {
+                        return null
+                    }
+
+                    return {
+                        'data-preview': attributes.preview
+                    }
+                }
             },
             statePath: {
                 default: null,
@@ -39,7 +50,18 @@ export const TiptapBlock = Node.create({
             },
             label: {
                 default: null,
-                rendered: false,
+                parseHTML: element => {
+                    return element.getAttribute('data-label')
+                },
+                renderHTML: attributes => {
+                    if (! attributes.label) {
+                        return null
+                    }
+
+                    return {
+                        'data-label': attributes.label
+                    }
+                }
             },
             data: {
                 default: null,

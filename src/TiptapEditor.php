@@ -70,8 +70,9 @@ class TiptapEditor extends Field
         });
 
         $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state) {
+
             if ($state && $this->expectsJSON()) {
-                return $component->getJSON(decoded: true);
+                return $this->decodeBlocksBeforeSave($state);
             }
 
             if ($state && $this->expectsText()) {
@@ -157,6 +158,28 @@ class TiptapEditor extends Field
                 $instance = $this->getBlock($block['attrs']['type']);
                 $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data']);
                 $content[$k]['attrs']['label'] = $instance->getLabel();
+            } elseif (array_key_exists('content', $block)) {
+                $content[$k] = $this->renderBlockPreviews($block);
+            }
+        }
+
+        $document['content'] = $content;
+
+        return $document;
+    }
+
+    public function decodeBlocksBeforeSave(array $document): array
+    {
+        $content = $document['content'];
+
+        foreach ($content as $k => $block) {
+            if ($block['type'] === 'tiptapBlock') {
+                if (is_string($block['attrs']['data'])) {
+                    $content[$k]['attrs']['data'] = json_decode($block['attrs']['data'], true);
+                }
+                unset($content[$k]['attrs']['statePath']);
+                unset($content[$k]['attrs']['preview']);
+                unset($content[$k]['attrs']['label']);
             } elseif (array_key_exists('content', $block)) {
                 $content[$k] = $this->renderBlockPreviews($block);
             }

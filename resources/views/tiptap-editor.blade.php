@@ -129,7 +129,9 @@
                         ])>
                             <div
                                 x-ref="element"
-                                {{ $getExtraInputAttributeBag()->class(['tiptap-content']) }}
+                                {{ $getExtraInputAttributeBag()->class([
+                                    'tiptap-content min-h-full'
+                                ]) }}
                             ></div>
                         </div>
 
