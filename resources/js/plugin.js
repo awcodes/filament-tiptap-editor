@@ -124,6 +124,7 @@ export default function tiptap({
         fullScreenMode: false,
         updatedAt: Date.now(),
         focused: false,
+        disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
         getExtensions(id) {
@@ -296,7 +297,7 @@ export default function tiptap({
             editors[this.statePath] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(this.statePath),
-                editable: ! disabled,
+                editable: ! this.disabled,
                 content: content,
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();

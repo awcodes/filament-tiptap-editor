@@ -41,7 +41,7 @@
                         state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
                         statePath: '{{ $statePath }}',
                         tools: @js($tools),
-                        disabled: {{ $isDisabled ? 'true' : 'false' }},
+                        disabled: @js($isDisabled),
                         locale: '{{ app()->getLocale() }}',
                         floatingMenuTools: @js($floatingMenuTools)
                     })"
@@ -132,7 +132,7 @@
                             ></div>
                         </div>
 
-                        @if (count($blocks))
+                        @if (count($blocks) && (! $isDisabled))
                             <div
                                 x-data="{
                                     isCollapsed: false,
