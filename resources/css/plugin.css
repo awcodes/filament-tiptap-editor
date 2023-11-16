@@ -652,3 +652,11 @@
 .filament-tiptap-editor-source-modal textarea {
     font-family: theme("fontFamily.mono") monospace;
 }
+
+.tiptap-editor p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    @apply text-gray-400 dark:text-gray-500;
+}

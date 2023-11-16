@@ -43,7 +43,8 @@
                         tools: @js($tools),
                         disabled: @js($isDisabled),
                         locale: '{{ app()->getLocale() }}',
-                        floatingMenuTools: @js($floatingMenuTools)
+                        floatingMenuTools: @js($floatingMenuTools),
+                        placeholder: @js($placeholder),
                     })"
                     x-on:click.away="focused = false"
                     x-on:keydown.escape="fullScreenMode = false"

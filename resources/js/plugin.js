@@ -14,6 +14,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
 import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
+import Placeholder from "@tiptap/extension-placeholder";
 import Strike from "@tiptap/extension-strike";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
@@ -113,6 +114,7 @@ export default function tiptap({
    disabled = false,
    locale = 'en',
    floatingMenuTools = [],
+   placeholder = null,
 }) {
     let editors = window.filamentTiptapEditors || {};
 
@@ -137,6 +139,13 @@ export default function tiptap({
             })
 
             let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
+
+            if (placeholder) {
+                exts.push(Placeholder.configure({
+                    placeholder: placeholder,
+                    showOnlyWhenEditable: false,
+                }));
+            }
 
             if (tools.length) {
 
