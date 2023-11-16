@@ -181,7 +181,7 @@ class TiptapEditor extends Field
                 unset($content[$k]['attrs']['preview']);
                 unset($content[$k]['attrs']['label']);
             } elseif (array_key_exists('content', $block)) {
-                $content[$k] = $this->renderBlockPreviews($block);
+                $content[$k] = $this->decodeBlocksBeforeSave($block);
             }
         }
 
