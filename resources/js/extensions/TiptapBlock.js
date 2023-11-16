@@ -123,7 +123,7 @@ export const TiptapBlock = Node.create({
             insertBlock: (attributes) => ({ chain, state }) => {
                 const currentChain = chain()
 
-                if (attributes.coordinates?.pos !== null) {
+                if (! [null, undefined].includes(attributes.coordinates?.pos)) {
                     currentChain.insertContentAt({ from: attributes.coordinates.pos, to: attributes.coordinates.pos }, { type: this.name, attrs: attributes })
 
                     return currentChain.setTextSelection(attributes.coordinates.pos)
