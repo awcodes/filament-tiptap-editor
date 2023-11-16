@@ -31,7 +31,18 @@ export const TiptapBlock = Node.create({
             },
             statePath: {
                 default: null,
-                rendered: false
+                parseHTML: element => {
+                    return element.getAttribute('data-state-path')
+                },
+                renderHTML: attributes => {
+                    if (! attributes.statePath) {
+                        return null
+                    }
+
+                    return {
+                        'data-state-path': attributes.statePath
+                    }
+                }
             },
             type: {
                 default: null,
@@ -91,20 +102,24 @@ export const TiptapBlock = Node.create({
         return ['tiptap-block', mergeAttributes(HTMLAttributes)]
     },
     addNodeView() {
-        return ({node, extension, getPos, editor}) => {
+        return ({node}) => {
             const dom = document.createElement('div')
             dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
 
+            const data = typeof node.attrs.data === 'object'
+                ? JSON.stringify(node.attrs.data)
+                : node.attrs.data
+
             dom.innerHTML = `
                 <div
                     x-data='{
-                        showOptionsButton: ${node.attrs.data?.length === 0 ? 'false' : 'true'},
+                        showOptionsButton: ${data === '[]' ? 'false' : 'true'},
                         openSettings() {
                             this.$dispatch("open-block-settings", {
                                 type: "${node.attrs.type}",
                                 statePath: "${node.attrs.statePath}",
-                                data: JSON.parse(\`${JSON.stringify(node.attrs.data)}\`),
+                                data: JSON.parse(\`${data}\`),
                             })
                         },
                         deleteBlock() {

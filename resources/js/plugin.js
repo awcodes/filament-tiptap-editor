@@ -305,6 +305,17 @@ export default function tiptap({
                 extensions: this.getExtensions(this.statePath),
                 editable: ! this.disabled,
                 content: content,
+                editorProps: {
+                    handlePaste(view, event, slice) {
+                        console.log(_this.statePath)
+                        slice.content.descendants(node => {
+                            if (node.type.name === 'tiptapBlock') {
+                                node.attrs.statePath = _this.statePath
+                                node.attrs.data = JSON.parse(node.attrs.data)
+                            }
+                        });
+                    }
+                },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
                     _this.$nextTick(() => {

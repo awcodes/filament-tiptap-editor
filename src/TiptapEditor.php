@@ -57,7 +57,7 @@ class TiptapEditor extends Field
             }
 
             if ($this->getBlocks() && $this->expectsJSON()) {
-                $state = $this->renderBlockPreviews($state);
+                $state = $this->renderBlockPreviews($state, $component);
             } elseif ($this->expectsHTML()) {
                 $state = $this->getHTML();
             }
@@ -149,17 +149,18 @@ class TiptapEditor extends Field
             ->mountFormComponentAction($statePath, $name, $arguments);
     }
 
-    public function renderBlockPreviews(array $document): array
+    public function renderBlockPreviews(array $document, TiptapEditor $component): array
     {
         $content = $document['content'];
 
         foreach ($content as $k => $block) {
             if ($block['type'] === 'tiptapBlock') {
                 $instance = $this->getBlock($block['attrs']['type']);
+                $content[$k]['attrs']['statePath'] = $component->getStatePath();
                 $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data']);
                 $content[$k]['attrs']['label'] = $instance->getLabel();
             } elseif (array_key_exists('content', $block)) {
-                $content[$k] = $this->renderBlockPreviews($block);
+                $content[$k] = $this->renderBlockPreviews($block, $component);
             }
         }
 

@@ -135,7 +135,7 @@
                             ></div>
                         </div>
 
-                        @if (count($blocks) && (! $isDisabled))
+                        @if (count($blocks) && (! $isDisabled) && in_array('blocks', $tools))
                             <div
                                 x-data="{
                                     isCollapsed: false,
