@@ -56,6 +56,18 @@ class YouTube extends Node
                     return str_contains($DOMNode->getAttribute('class'), 'responsive') ?? false;
                 },
             ],
+            'data-aspect-width' => [
+                'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute('data-aspect-width');
+                }
+            ],
+            'data-aspect-height' => [
+                'default' => null,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->firstChild->getAttribute('data-aspect-height');
+                }
+            ]
         ];
     }
 
