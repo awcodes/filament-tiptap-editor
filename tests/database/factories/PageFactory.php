@@ -12,36 +12,16 @@ class PageFactory extends Factory
 
     public function definition(): array
     {
-        return [
-            'title' => $this->faker->sentence(),
-            'html_content' => HtmlFaker::make()
-                ->heading()
-                ->paragraphs(withRandomLinks: true)
-                ->generate(),
-            'json_content' => tiptap_converter()->asJSON(
-                HtmlFaker::make()
-                    ->heading()
-                    ->paragraphs(withRandomLinks: true)
-                    ->generate()
-            ),
-            'text_content' => tiptap_converter()->asText(
-                HtmlFaker::make()
-                    ->heading()
-                    ->paragraphs(withRandomLinks: true)
-                    ->generate()
-            ),
-        ];
-    }
-
-    public function json(): Factory
-    {
         $content = HtmlFaker::make()
             ->heading()
             ->paragraphs(withRandomLinks: true)
             ->generate();
 
-        return $this->state(fn () => [
-            'content' => tiptap_converter()->asJSON($content)
-        ]);
+        return [
+            'title' => $this->faker->sentence(),
+            'html_content' => $content,
+            'json_content' => tiptap_converter()->asJSON($content, decoded: true),
+            'text_content' => tiptap_converter()->asText($content),
+        ];
     }
 }

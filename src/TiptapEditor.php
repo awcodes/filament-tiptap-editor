@@ -51,15 +51,20 @@ class TiptapEditor extends Field
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
         $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state) {
+
             if (! $state) {
-                $component->state('<p></p>');
+                if ($this->expectsJSON()) {
+                    $component->state(null);
+                } else {
+                    $component->state('<p></p>');
+                }
                 return;
             }
 
             if ($this->getBlocks() && $this->expectsJSON()) {
                 $state = $this->renderBlockPreviews($state, $component);
-            } elseif ($this->expectsHTML()) {
-                $state = $this->getHTML();
+            } elseif ($this->expectsText()) {
+                $state = $this->getText();
             }
 
             $component->state($state);
@@ -369,5 +374,10 @@ class TiptapEditor extends Field
     public function verifyListener(TiptapEditor $component, string $statePath): bool
     {
         return $component->isDisabled() || $statePath !== $component->getStatePath();
+    }
+
+    public function shouldSupportBlocks(): bool
+    {
+        return filled($this->getBlocks()) && $this->expectsJSON() && in_array('blocks', $this->getTools());
     }
 }
