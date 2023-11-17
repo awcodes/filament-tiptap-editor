@@ -4,6 +4,7 @@
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
     $blocks = $getBlocks();
+    $shouldSupportBlocks = $shouldSupportBlocks();
 @endphp
 
 @if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
@@ -75,7 +76,7 @@
                                     @elseif (is_array($tool))
                                         <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
                                     @elseif ($tool === 'blocks')
-                                        @if ($blocks)
+                                        @if ($blocks && $shouldSupportBlocks)
                                             <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
                                         @endif
                                     @else
@@ -135,7 +136,7 @@
                             ></div>
                         </div>
 
-                        @if (count($blocks) && (! $isDisabled) && in_array('blocks', $tools))
+                        @if (! $isDisabled && $shouldSupportBlocks)
                             <div
                                 x-data="{
                                     isCollapsed: false,

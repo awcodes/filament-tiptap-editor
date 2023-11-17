@@ -31,9 +31,12 @@ class SourceAction extends Action
             ->modalWidth('screen')
             ->action(function (TiptapEditor $component, $data) {
 
-                $content = tiptap_converter()->asJSON($data['source'], decoded: true);
+                $content = $data['source'];
 
-                $content = $component->renderBlockPreviews($content);
+                if ($component->shouldSupportBlocks()) {
+                    $content = tiptap_converter()->asJSON($content, decoded: true);
+                    $content = $component->renderBlockPreviews($content, $component);
+                }
 
                 $component->getLivewire()->dispatch(
                     'insert-content',

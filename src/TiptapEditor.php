@@ -375,4 +375,9 @@ class TiptapEditor extends Field
     {
         return $component->isDisabled() || $statePath !== $component->getStatePath();
     }
+
+    public function shouldSupportBlocks(): bool
+    {
+        return filled($this->getBlocks()) && $this->expectsJSON() && in_array('blocks', $this->getTools());
+    }
 }
