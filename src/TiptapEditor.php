@@ -51,15 +51,20 @@ class TiptapEditor extends Field
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
         $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state) {
+
             if (! $state) {
-                $component->state('<p></p>');
+                if ($this->expectsJSON()) {
+                    $component->state(null);
+                } else {
+                    $component->state('<p></p>');
+                }
                 return;
             }
 
             if ($this->getBlocks() && $this->expectsJSON()) {
                 $state = $this->renderBlockPreviews($state, $component);
-            } elseif ($this->expectsHTML()) {
-                $state = $this->getHTML();
+            } elseif ($this->expectsText()) {
+                $state = $this->getText();
             }
 
             $component->state($state);

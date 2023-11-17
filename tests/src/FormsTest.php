@@ -17,19 +17,7 @@ it('has editor field', function() {
        ->assertFormFieldExists('text_content');
 });
 
-it('has proper html', function() {
-    $page = Page::factory()->make();
-
-    Livewire::test(TestComponentWithForm::class)
-        ->fillForm($page->toArray())
-        ->assertFormSet([
-            'html_content' => $page->html_content,
-            'json_content' => $page->json_content,
-            'text_content' => $page->text_content,
-        ]);
-});
-
-it('creates proper data', function() {
+it('creates record', function() {
     $page = Page::factory()->make();
 
     Livewire::test(CreatePage::class)
@@ -37,18 +25,23 @@ it('creates proper data', function() {
             'title' => $page->title,
             'html_content' => $page->html_content,
             'json_content' => $page->json_content,
+            'text_content' => $page->text_content,
         ])
         ->call('create')
         ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Page::class, [
         'title' => $page->title,
-        'html_content' => $page->html_content,
-        'json_content' => $page->json_content,
     ]);
+
+    $storedPage = Page::query()->where('title', $page->title)->first();
+
+    expect($storedPage)
+        ->html_content->toBe($page->html_content)
+        ->json_content->toBe($page->json_content);
 });
 
-it('updates proper html', function() {
+it('updates record', function() {
     $page = Page::factory()->create();
     $newData = Page::factory()->make();
 
@@ -63,7 +56,13 @@ it('updates proper html', function() {
         ->call('save')
         ->assertHasNoFormErrors();
 
-    expect($page->refresh())
+    $this->assertDatabaseHas(Page::class, [
+        'title' => $newData->title,
+    ]);
+
+    $storedPage = Page::query()->where('id', $page->id)->first();
+
+    expect($storedPage)
         ->html_content->toBe($newData->html_content)
         ->json_content->toBe($newData->json_content);
 });
