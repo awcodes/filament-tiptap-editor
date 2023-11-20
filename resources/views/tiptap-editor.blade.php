@@ -139,7 +139,7 @@
                         @if (! $isDisabled && $shouldSupportBlocks)
                             <div
                                 x-data="{
-                                    isCollapsed: false,
+                                    isCollapsed: @js($shouldCollapseBlocksPanel()),
                                 }"
                                 class="hidden shrink-0 space-y-2 max-w-sm md:flex flex-col h-full"
                                 x-bind:class="{
