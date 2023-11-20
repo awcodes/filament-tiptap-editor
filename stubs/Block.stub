@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use FilamentTiptapEditor\TiptapBlock;
+
+class {{ class }} extends TiptapBlock
+{
+    public string $preview = '{{ preview }}';
+
+    public string $rendered = '{{ rendered }}';
+
+    public function getFormSchema(): array
+    {
+        return [
+            //
+        ];
+    }
+}

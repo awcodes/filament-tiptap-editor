@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
+use FilamentTiptapEditor\Commands\MakeBlockCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,6 +18,9 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasAssets()
             ->hasTranslations()
+            ->hasCommands([
+                MakeBlockCommand::class
+            ])
             ->hasViews();
     }
 
