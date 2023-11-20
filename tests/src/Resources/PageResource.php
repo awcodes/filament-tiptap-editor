@@ -23,7 +23,8 @@ class PageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title'),
-                TiptapEditor::make('html_content'),
+                TiptapEditor::make('html_content')
+                    ->output(TiptapOutput::Html),
                 TiptapEditor::make('json_content')
                     ->output(TiptapOutput::Json),
                 TiptapEditor::make('text_content')

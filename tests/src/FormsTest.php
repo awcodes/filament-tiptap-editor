@@ -2,6 +2,7 @@
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Tests\Models\Page;
 use FilamentTiptapEditor\Tests\Fixtures\Livewire as LivewireFixture;
 use FilamentTiptapEditor\Tests\Resources\PageResource\Pages\CreatePage;
@@ -76,11 +77,12 @@ class TestComponentWithForm extends LivewireFixture
             ->model(Page::class)
             ->schema([
                 TextInput::make('title'),
-                TiptapEditor::make('html_content'),
+                TiptapEditor::make('html_content')
+                    ->output(TiptapOutput::Html),
                 TiptapEditor::make('json_content')
-                    ->output(\FilamentTiptapEditor\Enums\TiptapOutput::Json),
+                    ->output(TiptapOutput::Json),
                 TiptapEditor::make('text_content')
-                    ->output(\FilamentTiptapEditor\Enums\TiptapOutput::Text),
+                    ->output(TiptapOutput::Text),
             ]);
     }
 
