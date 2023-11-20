@@ -50,7 +50,7 @@ class TiptapEditor extends Field
         $this->tools = config('filament-tiptap-editor.profiles.default');
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
-        $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state) {
+        $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state): void {
 
             if (! $state) {
                 if ($this->expectsJSON()) {
@@ -64,27 +64,29 @@ class TiptapEditor extends Field
             if ($this->getBlocks() && $this->expectsJSON()) {
                 $state = $this->renderBlockPreviews($state, $component);
             } elseif ($this->expectsText()) {
-                $state = $this->getText();
+                $state = tiptap_converter()->asText($state);
+            } elseif ($this->expectsHTML()) {
+                $state = tiptap_converter()->asHTML($state);
             }
 
             $component->state($state);
         });
 
-        $this->afterStateUpdated(function (TiptapEditor $component, Component $livewire) {
+        $this->afterStateUpdated(function (TiptapEditor $component, Component $livewire): void {
             $livewire->validateOnly($component->getStatePath());
         });
 
-        $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state) {
+        $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state): string | array | null {
 
             if ($state && $this->expectsJSON()) {
                 return $this->decodeBlocksBeforeSave($state);
             }
 
             if ($state && $this->expectsText()) {
-                return $component->getText();
+                return tiptap_converter()->asText($state);
             }
 
-            return $state;
+            return tiptap_converter()->asHTML($state);
         });
 
         $this->registerListeners([

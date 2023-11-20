@@ -2,6 +2,7 @@
     'statePath' => null,
     'tools' => [],
     'blocks' => [],
+    'shouldSupportBlocks' => false,
 ])
 
 <div x-ref="defaultFloatingMenu" class="flex gap-1 items-center" x-cloak>
@@ -12,5 +13,5 @@
     @if (in_array('table', $tools)) <x-filament-tiptap-editor::tools.table :state-path="$statePath"/> @endif
     @if (in_array('oembed', $tools)) <x-filament-tiptap-editor::tools.oembed :state-path="$statePath"/> @endif
     @if (in_array('code-block', $tools)) <x-filament-tiptap-editor::tools.code-block :state-path="$statePath"/> @endif
-    @if (in_array('blocks', $tools) && $blocks) <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" :state-path="$statePath" /> @endif
+    @if ($blocks && $shouldSupportBlocks) <x-dynamic-component component="filament-tiptap-editor::tools.blocks" :blocks="$blocks" :state-path="$statePath" /> @endif
 </div>
