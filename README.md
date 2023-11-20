@@ -374,6 +374,20 @@ TiptapEditor::configureUsing(function (TiptapEditor $component) {
 });
 ```
 
+By default, the drag and drop blocks panel will be open in the editor. If you want to change this you can use the `collapseBlocksPanel` modifier on the Editor instance or globally with `configureUsing`.
+
+```php
+use App\TiptapBlocks\BatmanBlock;
+use App\TiptapBlocks\StaticBlock;
+use FilamentTiptapEditor\TiptapEditor;
+
+TiptapEditor::configureUsing(function (TiptapEditor $component) {
+    $component
+        ->collapseBlocksPanel()
+        ->blocks([...]);
+});
+```
+
 ## Usage in Standalone Forms Package
 
 If you are using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:

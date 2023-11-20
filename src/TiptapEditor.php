@@ -43,6 +43,8 @@ class TiptapEditor extends Field
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
+    protected bool $shouldCollapseBlocksPanel = false;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -381,5 +383,17 @@ class TiptapEditor extends Field
     public function shouldSupportBlocks(): bool
     {
         return filled($this->getBlocks()) && $this->expectsJSON() && in_array('blocks', $this->getTools());
+    }
+
+    public function collapseBlocksPanel(bool $condition = true): static
+    {
+        $this->shouldCollapseBlocksPanel = $condition;
+
+        return $this;
+    }
+
+    public function shouldCollapseBlocksPanel(): bool
+    {
+        return $this->shouldCollapseBlocksPanel;
     }
 }
