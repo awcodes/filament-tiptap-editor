@@ -68,6 +68,30 @@ it('updates record', function() {
         ->json_content->toBe($newData->json_content);
 });
 
+it('can create null record', function() {
+    $page = Page::factory()->make();
+
+    Livewire::test(CreatePage::class)
+        ->fillForm([
+            'title' => $page->title,
+            'html_content' => null,
+            'json_content' => null,
+            'text_content' => null,
+        ])
+        ->call('create')
+        ->assertHasNoFormErrors();
+
+    $this->assertDatabaseHas(Page::class, [
+        'title' => $page->title,
+    ]);
+
+    $storedPage = Page::query()->where('title', $page->title)->first();
+
+    expect($storedPage)
+        ->html_content->toBeNull()
+        ->json_content->toBeNull();
+});
+
 class TestComponentWithForm extends LivewireFixture
 {
     public function form(Form $form): Form

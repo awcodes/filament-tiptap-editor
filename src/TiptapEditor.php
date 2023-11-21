@@ -80,11 +80,15 @@ class TiptapEditor extends Field
 
         $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state): string | array | null {
 
-            if ($state && $this->expectsJSON()) {
+            if (! $state) {
+                return null;
+            }
+
+            if ($this->expectsJSON()) {
                 return $this->decodeBlocksBeforeSave($state);
             }
 
-            if ($state && $this->expectsText()) {
+            if ($this->expectsText()) {
                 return tiptap_converter()->asText($state);
             }
 
