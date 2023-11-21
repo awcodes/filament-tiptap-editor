@@ -25,7 +25,7 @@
         'hover:bg-gray-500/40 focus:bg-gray-500/40' => $secondary,
     ])
     @if ($active)
-        x-bind:class="{ '!bg-gray-500/30': editor().isActive({{ $active }}, updatedAt) && focused }"
+        x-bind:class="{ '!bg-gray-500/30': editor().isActive({{ $active }}, updatedAt) && editor().isFocused }"
     @endif
 >
     {{ $slot }}

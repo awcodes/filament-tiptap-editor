@@ -125,7 +125,6 @@ export default function tiptap({
         statePath: statePath,
         fullScreenMode: false,
         updatedAt: Date.now(),
-        focused: false,
         disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
@@ -317,21 +316,16 @@ export default function tiptap({
                 },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
-                    _this.$nextTick(() => {
-                        editor.chain().focus()
-                    });
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
                 },
                 onBlur() {
                     _this.updatedAt = Date.now();
-                    _this.focused = false;
                     _this.state = _this.editor().getJSON();
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();
-                    _this.focused = true;
                 },
             });
         },
