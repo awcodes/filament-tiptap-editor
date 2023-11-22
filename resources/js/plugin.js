@@ -493,6 +493,10 @@ export default function tiptap({
                 label: event.detail.label,
                 coordinates: event.detail.coordinates,
             });
+
+            if (! this.editor().isFocused) {
+                this.editor().commands.focus();
+            }
         },
         openBlockSettings(event) {
             if (event.detail.statePath !== this.statePath) return
@@ -509,6 +513,10 @@ export default function tiptap({
                 preview: event.detail.preview,
                 label: event.detail.label,
             });
+
+            if (! this.editor().isFocused) {
+                this.editor().commands.focus();
+            }
         },
         deleteBlock() {
             this.editor().commands.removeBlock();
