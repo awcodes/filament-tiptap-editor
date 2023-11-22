@@ -2,7 +2,7 @@
     label="{{ __('filament-tiptap-editor::editor.heading.label') }}"
     active="heading"
     icon="heading"
-    indicator="editor().isActive('heading', updatedAt) ? editor().getAttributes('heading').level : null"
+    indicator="editor().isActive('heading', updatedAt) && editor().isFocused ? editor().getAttributes('heading').level : null"
     :list="false"
 >
     <x-filament-tiptap-editor::button
