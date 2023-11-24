@@ -66,6 +66,7 @@ class TiptapConverter
             new Nodes\GridColumn(),
             new Nodes\GridBuilder(),
             new Nodes\GridBuilderColumn(),
+            new Nodes\MergeTag(),
             new Nodes\Vimeo(),
             new Nodes\YouTube(),
             new Nodes\Video(),

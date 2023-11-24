@@ -31,20 +31,6 @@ export const MergeTag = Node.create({
                     }
                 }
             },
-
-            label: {
-                default: null,
-                parseHTML: element => element.getAttribute('data-label'),
-                renderHTML: attributes => {
-                    if (!attributes.label) {
-                        return {}
-                    }
-
-                    return {
-                        'data-label': attributes.label
-                    }
-                }
-            }
         }
     },
 
@@ -63,12 +49,12 @@ export const MergeTag = Node.create({
                 { 'data-type': this.name },
                 HTMLAttributes
             ),
-            `{{ ${node.attrs.label ?? node.attrs.id} }}`,
+            `{{ ${node.attrs.id} }}`,
         ]
     },
 
     renderText({ node }) {
-        return `{{ ${node.attrs.label ?? node.attrs.id} }}`
+        return `{{ ${node.attrs.id} }}`
     },
 
     addKeyboardShortcuts() {
