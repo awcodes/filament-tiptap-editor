@@ -19,4 +19,6 @@ export { BubbleMenu } from "./BubbleMenu";
 export { FloatingMenu } from "./FloatingMenu";
 export { GridBuilder } from "./GridBuilder/GridBuilder";
 export { GridBuilderColumn } from "./GridBuilder/GridBuilderColumn";
-export { TiptapBlock, DragAndDropBlockExtension } from "./TiptapBlock.js";
+export { DragAndDropExtension } from "./DragAndDrop.js";
+export { TiptapBlock } from "./TiptapBlock.js";
+export { MergeTag } from "./MergeTag.js";

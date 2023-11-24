@@ -660,3 +660,7 @@
     pointer-events: none;
     @apply text-gray-400 dark:text-gray-500;
 }
+
+.tippy-content-p-0 {
+    @apply -mx-2 -my-1;
+}

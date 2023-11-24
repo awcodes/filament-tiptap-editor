@@ -38,6 +38,7 @@ import {
     GridColumn,
     GridBuilder,
     GridBuilderColumn,
+    MergeTag,
     Youtube,
     Vimeo,
     Details,
@@ -49,7 +50,7 @@ import {
     FloatingMenu,
     Video,
     TiptapBlock,
-    DragAndDropBlockExtension,
+    DragAndDropExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import 'vanilla-colorful/hex-color-picker.js';
@@ -115,6 +116,7 @@ export default function tiptap({
    locale = 'en',
    floatingMenuTools = [],
    placeholder = null,
+   mergeTags = [],
 }) {
     let editors = window.filamentTiptapEditors || {};
 
@@ -137,14 +139,13 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropExtension];
 
             if (placeholder && (! disabled)) {
                 exts.push(Placeholder.configure({ placeholder }));
             }
 
             if (tools.length) {
-
                 const keys = Object.keys(editorExtensions);
                 let alignments = [];
                 let types = ['paragraph'];
@@ -234,6 +235,12 @@ export default function tiptap({
                         }
                     }
                 })
+            }
+
+            if (mergeTags) {
+                exts.push(MergeTag.configure({
+                    mergeTags,
+                }))
             }
 
             return exts;
