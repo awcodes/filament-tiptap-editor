@@ -664,3 +664,7 @@
 .tippy-content-p-0 {
     @apply -mx-2 -my-1;
 }
+
+span[data-type="mergeTag"] {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 mx-1 rounded;
+}

@@ -1,8 +1,9 @@
 import { Extension } from "@tiptap/core";
+import { Plugin } from 'prosemirror-state'
 
 export const DragAndDropExtension = Extension.create({
     name: 'dragAndDrop',
-    addProseMirrorPlugins() {
+    addProseMirrorPlugins(bla) {
         return [
             new Plugin({
                 props: {
@@ -29,31 +30,13 @@ export const DragAndDropExtension = Extension.create({
                         }
 
                         if (event.dataTransfer.getData('mergeTag')) {
-                            const nodeAfter = view.state.selection.$to.nodeAfter;
-                            const overrideSpace = nodeAfter?.text?.startsWith(' ');
-
-                            const range = { from: coordinates.pos, to: coordinates.pos };
-
-                            if (overrideSpace) {
-                                range.to += 1;
-                            }
-
-                            view.state.tr
-                                .chain()
-                                .focus()
-                                .insertContentAt(range, [
-                                    {
-                                        type: this.name,
-                                        attrs: { id: 'name', 'label': 'name' }
-                                    },
-                                    {
-                                        type: 'text',
-                                        text: ' '
-                                    },
-                                ])
-                                .run();
-
-                            window.getSelection()?.collapseToEnd();
+                            event.target.dispatchEvent(new CustomEvent('dragged-merge-tag', {
+                                detail: {
+                                    tag: event.dataTransfer.getData('mergeTag'),
+                                    coordinates,
+                                },
+                                bubbles: true,
+                            }))
 
                             return false;
                         }

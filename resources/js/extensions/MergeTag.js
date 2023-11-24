@@ -101,6 +101,26 @@ export const MergeTag = Node.create({
         }
     },
 
+    addCommands() {
+        return {
+            insertMergeTag: (attributes) => ({ chain, state }) => {
+                const currentChain = chain()
+
+                if (! [null, undefined].includes(attributes.coordinates?.pos)) {
+                    currentChain.insertContentAt(
+                        { from: attributes.coordinates.pos, to: attributes.coordinates.pos },
+                        [
+                            { type: this.name, attrs: { id: attributes.tag } },
+                            { type: 'text', text: ' ' },
+                        ],
+                    )
+
+                    return currentChain
+                }
+            },
+        }
+    },
+
     addProseMirrorPlugins() {
         return [
             Suggestion({

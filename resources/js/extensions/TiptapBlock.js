@@ -1,6 +1,4 @@
-import {mergeAttributes, Extension, Node} from "@tiptap/core"
-import { Plugin } from 'prosemirror-state'
-import { DOMParser } from 'prosemirror-model'
+import {mergeAttributes, Node} from "@tiptap/core"
 
 export const TiptapBlock = Node.create({
     name: 'tiptapBlock',

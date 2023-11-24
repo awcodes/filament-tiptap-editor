@@ -237,7 +237,7 @@ export default function tiptap({
                 })
             }
 
-            if (mergeTags) {
+            if (mergeTags?.length) {
                 exts.push(MergeTag.configure({
                     mergeTags,
                 }))
@@ -498,6 +498,16 @@ export default function tiptap({
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
+                coordinates: event.detail.coordinates,
+            });
+
+            if (! this.editor().isFocused) {
+                this.editor().commands.focus();
+            }
+        },
+        insertMergeTag(event) {
+            this.editor().commands.insertMergeTag({
+                tag: event.detail.tag,
                 coordinates: event.detail.coordinates,
             });
 

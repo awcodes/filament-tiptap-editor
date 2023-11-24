@@ -58,6 +58,7 @@
                         type: $event.detail.type,
                         coordinates: $event.detail.coordinates,
                     })"
+                    x-on:dragged-merge-tag.stop="insertMergeTag($event)"
                     x-on:insert-block.window="insertBlock($event)"
                     x-on:update-block.window="updateBlock($event)"
                     x-on:open-block-settings.window="openBlockSettings($event)"
@@ -151,7 +152,13 @@
                                 }"
                             >
                                 <div class="flex items-center mt-2">
-                                    <p class="text-xs font-bold" x-show="! isCollapsed">Blocks</p>
+                                    <p class="text-xs font-bold" x-show="! isCollapsed">
+                                        @if ($shouldSupportBlocks)
+                                            Blocks
+                                        @else
+                                            Merge Tags
+                                        @endif
+                                    </p>
 
                                     <button x-on:click="isCollapsed = false" x-show="isCollapsed" x-cloak type="button" class="ml-auto">
                                         <x-heroicon-m-bars-3 class="w-5 h-5" />
