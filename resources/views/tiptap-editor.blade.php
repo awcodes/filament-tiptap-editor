@@ -153,11 +153,17 @@
                                     <p class="text-xs font-bold" x-show="! isCollapsed">Blocks</p>
 
                                     <button x-on:click="isCollapsed = false" x-show="isCollapsed" x-cloak type="button" class="ml-auto">
-                                        <x-heroicon-m-bars-3 class="w-5 h-5" />
+                                        <x-filament::icon
+                                            icon="heroicon-m-bars-3"
+                                            class="w-5 h-5"
+                                        />
                                     </button>
 
                                     <button x-on:click="isCollapsed = true" x-show="! isCollapsed" type="button" class="ml-auto">
-                                        <x-heroicon-m-x-mark class="w-5 h-5" />
+                                        <x-filament::icon
+                                            icon="heroicon-m-x-mark"
+                                            class="w-5 h-5"
+                                        />
                                     </button>
                                 </div>
 
