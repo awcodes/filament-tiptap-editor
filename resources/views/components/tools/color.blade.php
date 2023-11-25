@@ -21,7 +21,7 @@
         x-on:keydown.esc="isOpen() && $event.stopPropagation()"
         class="relative flex-1 p-1"
     >
-        <hex-color-picker x-bind:color="state" x-on:color-changed="setState($event.detail.value)"></hex-color-picker>
+        <tiptap-hex-color-picker x-bind:color="state" x-on:color-changed="setState($event.detail.value)"></tiptap-hex-color-picker>
 
         <div class="w-full flex gap-2 mt-2">
             <x-filament::button

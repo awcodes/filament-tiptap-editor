@@ -52,7 +52,9 @@ import {
     DragAndDropBlockExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
-import 'vanilla-colorful/hex-color-picker.js';
+import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
+
+customElements.define('tiptap-hex-color-picker', HexBase);
 
 let coreExtensions = {
     blockquote: [Blockquote],
