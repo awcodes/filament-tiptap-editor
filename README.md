@@ -388,6 +388,26 @@ TiptapEditor::configureUsing(function (TiptapEditor $component) {
 });
 ```
 
+## Merge tags
+
+Merge tags can be used with JSON-based editor content to replace placeholders with dynamic content. Merge tags are defined in the `mergeTags()` method of the editor instance:
+
+```php
+TiptapEditor::make('content')
+    ->mergeTags([
+        'first_name',
+        'last_name',
+    ])
+```
+
+To insert a merge tag, the user can either type `{{` to open an autocomplete menu, or drag a merge tag into the editor from the "blocks panel". You can remove the tags from the blocks panel using `showMergeTagsInBlocksPanel(false)`:
+
+```php
+TiptapEditor::make('content')
+    ->mergeTags([...])
+    ->showMergeTagsInBlocksPanel(false)
+```
+
 ## Usage in Standalone Forms Package
 
 If you are using any of the tools that require a modal (e.g. Insert media, Insert video, etc.), make sure to add `{{ $this->modal }}` to your view after the custom form:
