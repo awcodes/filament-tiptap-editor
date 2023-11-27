@@ -6,6 +6,7 @@
     $blocks = $getBlocks();
     $mergeTags = $getMergeTags();
     $shouldSupportBlocks = $shouldSupportBlocks();
+    $shouldShowMergeTagsInBlocksPanel = $shouldShowMergeTagsInBlocksPanel();
 @endphp
 
 @if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
@@ -138,7 +139,7 @@
                             ></div>
                         </div>
 
-                        @if ((! $isDisabled) && ($shouldSupportBlocks || filled($mergeTags)))
+                        @if ((! $isDisabled) && ($shouldSupportBlocks || ($shouldShowMergeTagsInBlocksPanel && filled($mergeTags))))
                             <div
                                 x-data="{
                                     isCollapsed: @js($shouldCollapseBlocksPanel()),
@@ -176,15 +177,17 @@
                                 </div>
 
                                 <div x-show="! isCollapsed" class="overflow-y-auto space-y-1 h-full pb-2">
-                                    @foreach ($mergeTags as $mergeTag)
-                                        <div
-                                            draggable="true"
-                                            x-on:dragstart="$event?.dataTransfer?.setData('mergeTag', @js($mergeTag))"
-                                            class="cursor-move grid-col-1 flex items-center gap-2 rounded border text-xs px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700"
-                                        >
-                                            &lcub;&lcub; {{ $mergeTag }} &rcub;&rcub;
-                                        </div>
-                                    @endforeach
+                                    @if ($shouldShowMergeTagsInBlocksPanel)
+                                        @foreach ($mergeTags as $mergeTag)
+                                            <div
+                                                draggable="true"
+                                                x-on:dragstart="$event?.dataTransfer?.setData('mergeTag', @js($mergeTag))"
+                                                class="cursor-move grid-col-1 flex items-center gap-2 rounded border text-xs px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700"
+                                            >
+                                                &lcub;&lcub; {{ $mergeTag }} &rcub;&rcub;
+                                            </div>
+                                        @endforeach
+                                    @endif
 
                                     @foreach ($blocks as $block)
                                         <div

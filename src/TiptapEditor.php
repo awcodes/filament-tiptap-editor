@@ -47,6 +47,8 @@ class TiptapEditor extends Field
 
     protected bool $shouldCollapseBlocksPanel = false;
 
+    protected bool $shouldShowMergeTagsInBlocksPanel = true;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -413,5 +415,17 @@ class TiptapEditor extends Field
     public function getMergeTags(): ?array
     {
         return $this->mergeTags;
+    }
+
+    public function showMergeTagsInBlocksPanel(bool $condition = true): static
+    {
+        $this->shouldShowMergeTagsInBlocksPanel = $condition;
+
+        return $this;
+    }
+
+    public function shouldShowMergeTagsInBlocksPanel(): bool
+    {
+        return $this->shouldShowMergeTagsInBlocksPanel;
     }
 }
