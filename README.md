@@ -268,7 +268,7 @@ TiptapEditor::make('content')
 ## Custom Blocks
 
 > **Note**
-> To use customuse FilamentTiptapEditor\TiptapEditor; blocks you must store your content as JSON.
+> To use custom blocks you must store your content as JSON.
 
 There are 3 components you need to create a custom block for Tiptap Editor.
 
