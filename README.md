@@ -243,10 +243,32 @@ TiptapEditor::make('content')
 'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
 ```
 
+## Grid layouts
+
+When using the `grid` tool, you can customize the available layouts in the dropdown by passing them to the `gridLayouts()` method:
+
+```php
+TiptapEditor::make('content')
+    ->gridLayouts([
+        'two-columns',
+        'three-columns',
+        'four-columns',
+        'five-columns',
+        'fixed-two-columns',
+        'fixed-three-columns',
+        'fixed-four-columns',
+        'fixed-five-columns',
+        'asymmetric-left-thirds',
+        'asymmetric-right-thirds',
+        'asymmetric-left-fourths',
+        'asymmetric-right-fourths',
+    ]);
+```
+
 ## Custom Blocks
 
 > **Note**
-> To use custom blocks you must store your content as JSON.
+> To use customuse FilamentTiptapEditor\TiptapEditor; blocks you must store your content as JSON.
 
 There are 3 components you need to create a custom block for Tiptap Editor.
 
