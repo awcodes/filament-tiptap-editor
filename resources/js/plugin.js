@@ -241,6 +241,10 @@ export default function tiptap({
             return exts;
         },
         init() {
+            if (editors[this.statePath]) {
+                editors[this.statePath].destroy();
+            }
+
             this.initEditor(state.initialValue);
 
             window.filamentTiptapEditors = editors;
@@ -264,12 +268,14 @@ export default function tiptap({
                 window.Sortable.utils.on(sortableEl, "start", () => {
                     Object.values(editors).forEach(function (editor) {
                         editor.setEditable(false);
+                        editor.options.element.style.pointerEvents = 'none';
                     });
                 });
 
                 window.Sortable.utils.on(sortableEl, "end", () => {
                     Object.values(editors).forEach(function (editor) {
                         editor.setEditable(true);
+                        editor.options.element.style.pointerEvents = 'all';
                     });
                 });
             }
@@ -301,10 +307,11 @@ export default function tiptap({
         },
         initEditor(content) {
             let _this = this;
+
             editors[this.statePath] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(this.statePath),
-                editable: ! this.disabled,
+                editable: !this.disabled,
                 content: content,
                 editorProps: {
                     handlePaste(view, event, slice) {
