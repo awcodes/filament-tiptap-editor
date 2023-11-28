@@ -83,7 +83,7 @@
                                             <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
                                         @endif
                                     @else
-                                        <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" />
+                                        <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" :editor="$field" />
                                     @endif
                                 @endforeach
                             </div>

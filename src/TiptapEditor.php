@@ -49,6 +49,21 @@ class TiptapEditor extends Field
 
     protected bool $shouldShowMergeTagsInBlocksPanel = true;
 
+    protected array $gridLayouts = [
+        'two-columns',
+        'three-columns',
+        'four-columns',
+        'five-columns',
+        'fixed-two-columns',
+        'fixed-three-columns',
+        'fixed-four-columns',
+        'fixed-five-columns',
+        'asymmetric-left-thirds',
+        'asymmetric-right-thirds',
+        'asymmetric-left-fourths',
+        'asymmetric-right-fourths',
+    ];
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -427,5 +442,18 @@ class TiptapEditor extends Field
     public function shouldShowMergeTagsInBlocksPanel(): bool
     {
         return $this->shouldShowMergeTagsInBlocksPanel;
+    }
+
+
+    public function gridLayouts(array $layouts): static
+    {
+        $this->gridLayouts = $layouts;
+
+        return $this;
+    }
+
+    public function getGridLayouts(): array
+    {
+        return $this->gridLayouts;
     }
 }
