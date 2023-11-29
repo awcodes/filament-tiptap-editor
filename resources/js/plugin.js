@@ -287,13 +287,13 @@ export default function tiptap({
                 });
             }
 
-            this.$watch('state', (newState) => {
+            this.$watch('state', (newState, oldState) => {
                 if (newState === '<p></p>' && newState !== this.editor().getHTML()) {
                     editors[this.statePath].destroy();
                     this.initEditor(newState);
                 }
 
-                if (this.state !== newState) {
+                if (JSON.stringify(oldState) !== JSON.stringify(newState)) {
                     this.updateEditorContent(newState);
                 }
             });
