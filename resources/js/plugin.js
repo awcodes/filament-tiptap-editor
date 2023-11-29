@@ -38,6 +38,7 @@ import {
     GridColumn,
     GridBuilder,
     GridBuilderColumn,
+    MergeTag,
     Youtube,
     Vimeo,
     Details,
@@ -49,7 +50,7 @@ import {
     FloatingMenu,
     Video,
     TiptapBlock,
-    DragAndDropBlockExtension,
+    DragAndDropExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -117,6 +118,7 @@ export default function tiptap({
    locale = 'en',
    floatingMenuTools = [],
    placeholder = null,
+   mergeTags = [],
 }) {
     let editors = window.filamentTiptapEditors || {};
 
@@ -139,14 +141,13 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropBlockExtension];
+            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropExtension];
 
             if (placeholder && (! disabled)) {
                 exts.push(Placeholder.configure({ placeholder }));
             }
 
             if (tools.length) {
-
                 const keys = Object.keys(editorExtensions);
                 let alignments = [];
                 let types = ['paragraph'];
@@ -238,6 +239,12 @@ export default function tiptap({
                 })
             }
 
+            if (mergeTags?.length) {
+                exts.push(MergeTag.configure({
+                    mergeTags,
+                }))
+            }
+
             return exts;
         },
         init() {
@@ -280,13 +287,13 @@ export default function tiptap({
                 });
             }
 
-            this.$watch('state', (newState) => {
+            this.$watch('state', (newState, oldState) => {
                 if (newState === '<p></p>' && newState !== this.editor().getHTML()) {
                     editors[this.statePath].destroy();
                     this.initEditor(newState);
                 }
 
-                if (this.state !== newState) {
+                if (JSON.stringify(oldState) !== JSON.stringify(newState)) {
                     this.updateEditorContent(newState);
                 }
             });
@@ -500,6 +507,16 @@ export default function tiptap({
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
+                coordinates: event.detail.coordinates,
+            });
+
+            if (! this.editor().isFocused) {
+                this.editor().commands.focus();
+            }
+        },
+        insertMergeTag(event) {
+            this.editor().commands.insertMergeTag({
+                tag: event.detail.tag,
                 coordinates: event.detail.coordinates,
             });
 

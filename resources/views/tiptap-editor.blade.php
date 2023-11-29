@@ -4,7 +4,9 @@
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
     $blocks = $getBlocks();
+    $mergeTags = $getMergeTags();
     $shouldSupportBlocks = $shouldSupportBlocks();
+    $shouldShowMergeTagsInBlocksPanel = $shouldShowMergeTagsInBlocksPanel();
 @endphp
 
 @if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
@@ -46,6 +48,7 @@
                         locale: '{{ app()->getLocale() }}',
                         floatingMenuTools: @js($floatingMenuTools),
                         placeholder: @js($getPlaceholder()),
+                        mergeTags: @js($mergeTags),
                     })"
                     x-on:click.away="focused = false"
                     x-on:keydown.escape="fullScreenMode = false"
@@ -56,13 +59,13 @@
                         type: $event.detail.type,
                         coordinates: $event.detail.coordinates,
                     })"
+                    x-on:dragged-merge-tag.stop="insertMergeTag($event)"
                     x-on:insert-block.window="insertBlock($event)"
                     x-on:update-block.window="updateBlock($event)"
                     x-on:open-block-settings.window="openBlockSettings($event)"
                     x-on:delete-block.window="deleteBlock()"
                     x-trap.noscroll="fullScreenMode"
                 >
-
                     @if (! $isDisabled && $tools)
                         <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ __('filament-tiptap-editor::editor.skip_toolbar') }}</button>
 
@@ -136,7 +139,7 @@
                             ></div>
                         </div>
 
-                        @if (! $isDisabled && $shouldSupportBlocks)
+                        @if ((! $isDisabled) && ($shouldSupportBlocks || ($shouldShowMergeTagsInBlocksPanel && filled($mergeTags))))
                             <div
                                 x-data="{
                                     isCollapsed: @js($shouldCollapseBlocksPanel()),
@@ -150,7 +153,13 @@
                                 }"
                             >
                                 <div class="flex items-center mt-2">
-                                    <p class="text-xs font-bold" x-show="! isCollapsed">Blocks</p>
+                                    <p class="text-xs font-bold" x-show="! isCollapsed">
+                                        @if ($shouldSupportBlocks)
+                                            Blocks
+                                        @else
+                                            Merge Tags
+                                        @endif
+                                    </p>
 
                                     <button x-on:click="isCollapsed = false" x-show="isCollapsed" x-cloak type="button" class="ml-auto">
                                         <x-filament::icon
@@ -168,10 +177,22 @@
                                 </div>
 
                                 <div x-show="! isCollapsed" class="overflow-y-auto space-y-1 h-full pb-2">
+                                    @if ($shouldShowMergeTagsInBlocksPanel)
+                                        @foreach ($mergeTags as $mergeTag)
+                                            <div
+                                                draggable="true"
+                                                x-on:dragstart="$event?.dataTransfer?.setData('mergeTag', @js($mergeTag))"
+                                                class="cursor-move grid-col-1 flex items-center gap-2 rounded border text-xs px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700"
+                                            >
+                                                &lcub;&lcub; {{ $mergeTag }} &rcub;&rcub;
+                                            </div>
+                                        @endforeach
+                                    @endif
+
                                     @foreach ($blocks as $block)
                                         <div
                                             draggable="true"
-                                            x-on:dragstart="$event?.dataTransfer?.setData('blockType', @js($block->getIdentifier()))"
+                                            x-on:dragstart="$event?.dataTransfer?.setData('block', @js($block->getIdentifier()))"
                                             class="cursor-move grid-col-1 flex items-center gap-2 rounded border text-xs px-3 py-2 bg-white dark:bg-gray-800 dark:border-gray-700"
                                         >
                                             @if ($block->getIcon())

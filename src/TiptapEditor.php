@@ -41,9 +41,13 @@ class TiptapEditor extends Field
 
     protected ?array $blocks = [];
 
+    protected ?array $mergeTags = [];
+
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
     protected bool $shouldCollapseBlocksPanel = false;
+
+    protected bool $shouldShowMergeTagsInBlocksPanel = true;
 
     protected array $gridLayouts = [
         'two-columns',
@@ -415,6 +419,31 @@ class TiptapEditor extends Field
     {
         return $this->shouldCollapseBlocksPanel;
     }
+
+    public function mergeTags(?array $mergeTags): static
+    {
+        $this->mergeTags = $mergeTags;
+
+        return $this;
+    }
+
+    public function getMergeTags(): ?array
+    {
+        return $this->mergeTags;
+    }
+
+    public function showMergeTagsInBlocksPanel(bool $condition = true): static
+    {
+        $this->shouldShowMergeTagsInBlocksPanel = $condition;
+
+        return $this;
+    }
+
+    public function shouldShowMergeTagsInBlocksPanel(): bool
+    {
+        return $this->shouldShowMergeTagsInBlocksPanel;
+    }
+
 
     public function gridLayouts(array $layouts): static
     {
