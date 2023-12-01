@@ -452,7 +452,14 @@ export default function tiptap({
             }
 
             if (link.href === '' && link.id === null) {
-                this.unsetLink();
+                this.editor()
+                    .chain()
+                    .focus()
+                    .extendMarkRange('link')
+                    .unsetLink()
+                    .selectTextblockEnd()
+                    .run();
+
                 return;
             }
 
