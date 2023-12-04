@@ -111,7 +111,7 @@
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
-                        <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks" :should-support-blocks="$shouldSupportBlocks"/>
+                        <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks" :should-support-blocks="$shouldSupportBlocks" :editor="$field"/>
                     @endif
 
                     <div class="flex h-full">
