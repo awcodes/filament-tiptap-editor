@@ -86,8 +86,6 @@ class TiptapEditor extends Field
                 $state = $this->renderBlockPreviews($state, $component);
             } elseif ($this->expectsText()) {
                 $state = tiptap_converter()->asText($state);
-            } elseif ($this->expectsHTML()) {
-                $state = tiptap_converter()->asHTML($state);
             }
 
             $component->state($state);
