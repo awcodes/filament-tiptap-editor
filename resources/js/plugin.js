@@ -292,10 +292,6 @@ export default function tiptap({
                     editors[this.statePath].destroy();
                     this.initEditor(newState);
                 }
-
-                if (JSON.stringify(oldState) !== JSON.stringify(newState)) {
-                    this.updateEditorContent(newState);
-                }
             });
 
             this.$watch('locale', () => {
