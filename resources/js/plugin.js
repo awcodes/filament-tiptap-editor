@@ -1,4 +1,4 @@
-import {Editor, isActive} from "@tiptap/core";
+import {Editor, getHTMLFromFragment, isActive} from "@tiptap/core";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -54,6 +54,7 @@ import {
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
+import { isEqual } from "lodash";
 
 customElements.define('tiptap-hex-color-picker', HexBase);
 
@@ -249,10 +250,12 @@ export default function tiptap({
         },
         init() {
             if (editors[this.statePath]) {
+                const currentContent = editors[this.statePath].getJSON();
                 editors[this.statePath].destroy();
+                this.initEditor(currentContent);
+            } else {
+                this.initEditor(state.initialValue);
             }
-
-            this.initEditor(state.initialValue);
 
             window.filamentTiptapEditors = editors;
 
@@ -288,17 +291,21 @@ export default function tiptap({
             }
 
             this.$watch('state', (newState, oldState) => {
-                if (newState === '<p></p>' && newState !== this.editor().getHTML()) {
-                    editors[this.statePath].destroy();
+                if (this.editor().isEmpty) {
+                    this.editor().destroy();
                     this.initEditor(newState);
+                }
+
+                if (! isEqual(oldState, this.editor().state.doc.toJSON())) {
+                    this.updateEditorContent(newState);
                 }
             });
 
             this.$watch('locale', () => {
-                Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
-                    succeed(({ snapshot, effect }) => {
+                Livewire.hook('commit', ({ succeed }) => {
+                    succeed(() => {
                         queueMicrotask(() => {
-                            editors[this.statePath].destroy();
+                            this.editor().destroy();
                             this.initEditor(this.state);
                         })
                     })
@@ -328,13 +335,13 @@ export default function tiptap({
                 },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
+                    _this.state = editor.getJSON();
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
                 },
-                onBlur() {
+                onBlur({ editor}) {
                     _this.updatedAt = Date.now();
-                    _this.state = _this.editor().getJSON();
                 },
                 onFocus() {
                     _this.updatedAt = Date.now();
@@ -342,7 +349,9 @@ export default function tiptap({
             });
         },
         updateEditorContent(content) {
-            this.editor().commands.setContent(content);
+            const {from, to} = this.editor().state.selection;
+            this.editor().commands.setContent(content, true);
+            this.editor().chain().focus().setTextSelection({from, to}).run();
         },
         refreshEditorContent() {
             // Using $nextTick to delay the UI update after the entangled state updates.
