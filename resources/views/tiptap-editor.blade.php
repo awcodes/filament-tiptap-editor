@@ -155,9 +155,9 @@
                                 <div class="flex items-center mt-2">
                                     <p class="text-xs font-bold" x-show="! isCollapsed">
                                         @if ($shouldSupportBlocks)
-                                            Blocks
+                                            {{ __('filament-tiptap-editor::editor.blocks.panel') }}
                                         @else
-                                            Merge Tags
+                                            {{ __('filament-tiptap-editor::editor.merge_tags.panel') }}
                                         @endif
                                     </p>
 

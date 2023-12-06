@@ -8,6 +8,7 @@ return [
     'align_right' => 'Align Text Right',
     'blockquote' => 'Blockquote',
     'blocks' => [
+        'panel' => 'Blocks',
         'insert' => 'Insert Block',
         'update' => 'Update Block',
     ],
@@ -79,6 +80,9 @@ return [
         'checked' => 'Checked List',
     ],
     'media' => 'Insert / Edit Media',
+    'merge_tags' => [
+        'panel' => 'Merge tags',
+    ],
     'paragraph' => 'Paragraph',
     'redo' => 'Redo',
     'remove_color' => 'Remove Color',
