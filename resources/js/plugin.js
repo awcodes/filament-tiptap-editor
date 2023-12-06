@@ -452,13 +452,7 @@ export default function tiptap({
             }
 
             if (link.href === '' && link.id === null) {
-                this.editor()
-                    .chain()
-                    .focus()
-                    .extendMarkRange('link')
-                    .unsetLink()
-                    .selectTextblockEnd()
-                    .run();
+                this.unsetLink();
 
                 return;
             }
@@ -479,6 +473,9 @@ export default function tiptap({
                 })
                 .selectTextblockEnd()
                 .run();
+        },
+        unsetLink() {
+          this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
         },
         insertSource(event) {
             this.updateEditorContent(event.detail.source);
