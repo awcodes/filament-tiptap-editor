@@ -250,12 +250,10 @@ export default function tiptap({
         },
         init() {
             if (editors[this.statePath]) {
-                const currentContent = editors[this.statePath].getJSON();
                 editors[this.statePath].destroy();
-                this.initEditor(currentContent);
-            } else {
-                this.initEditor(state.initialValue);
             }
+
+            this.initEditor(state.initialValue);
 
             window.filamentTiptapEditors = editors;
 
@@ -311,6 +309,9 @@ export default function tiptap({
                     })
                 });
             });
+        },
+        destroy() {
+            this.editor().destroy();
         },
         editor() {
             return editors[this.statePath];
