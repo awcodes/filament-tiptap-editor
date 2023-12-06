@@ -3,11 +3,12 @@
     'tools' => [],
     'blocks' => [],
     'shouldSupportBlocks' => false,
+    'editor' => null,
 ])
 
 <div x-ref="defaultFloatingMenu" class="flex gap-1 items-center" x-cloak>
     @if (in_array('media', $tools)) <x-filament-tiptap-editor::tools.media :state-path="$statePath"/> @endif
-    @if (in_array('grid', $tools)) <x-filament-tiptap-editor::tools.grid :state-path="$statePath"/> @endif
+    @if (in_array('grid', $tools)) <x-filament-tiptap-editor::tools.grid :state-path="$statePath" :editor="$editor"/> @endif
     @if (in_array('grid-builder', $tools)) <x-filament-tiptap-editor::tools.grid-builder :state-path="$statePath"/> @endif
     @if (in_array('details', $tools)) <x-filament-tiptap-editor::tools.details :state-path="$statePath"/> @endif
     @if (in_array('table', $tools)) <x-filament-tiptap-editor::tools.table :state-path="$statePath"/> @endif

@@ -48,6 +48,7 @@ class TiptapConverter
         return [
             new StarterKit([
                 'paragraph' => false,
+                'listItem' => false,
             ]),
             new TextStyle(),
             new Extensions\TextAlign([
@@ -56,6 +57,7 @@ class TiptapConverter
             new Extensions\Color(),
             new CodeBlockHighlight(),
             new Nodes\Paragraph(),
+            new Nodes\ListItem(),
             new Nodes\Lead(),
             new Nodes\Image(),
             new Nodes\CheckedList(),

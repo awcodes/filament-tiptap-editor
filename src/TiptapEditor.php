@@ -74,21 +74,14 @@ class TiptapEditor extends Field
         $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state): void {
 
             if (! $state) {
-                if ($this->expectsJSON()) {
-                    $component->state(null);
-                } else {
-                    $component->state('<p></p>');
-                }
                 return;
             }
 
-            if ($this->getBlocks() && $this->expectsJSON()) {
-                $state = $this->renderBlockPreviews($state, $component);
-            } elseif ($this->expectsText()) {
-                $state = tiptap_converter()->asText($state);
-            } elseif ($this->expectsHTML()) {
-                $state = tiptap_converter()->asHTML($state);
+            if (! is_array($state)) {
+                $state = tiptap_converter()->asJSON($state, decoded: true);
             }
+
+            $state = $this->renderBlockPreviews($state, $component);
 
             $component->state($state);
         });
@@ -188,9 +181,14 @@ class TiptapEditor extends Field
         foreach ($content as $k => $block) {
             if ($block['type'] === 'tiptapBlock') {
                 $instance = $this->getBlock($block['attrs']['type']);
-                $content[$k]['attrs']['statePath'] = $component->getStatePath();
-                $content[$k]['attrs']['preview'] = $instance->getPreview($block['attrs']['data']);
-                $content[$k]['attrs']['label'] = $instance->getLabel();
+                $orderedAttrs = [
+                    'preview' => $instance->getPreview($block['attrs']['data']),
+                    'statePath' => $component->getStatePath(),
+                    'type' => $block['attrs']['type'],
+                    'label' => $instance->getLabel(),
+                    'data' => $block['attrs']['data'],
+                ];
+                $content[$k]['attrs'] = $orderedAttrs;
             } elseif (array_key_exists('content', $block)) {
                 $content[$k] = $this->renderBlockPreviews($block, $component);
             }

@@ -112,7 +112,7 @@
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
-                        <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks" :should-support-blocks="$shouldSupportBlocks"/>
+                        <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks" :should-support-blocks="$shouldSupportBlocks" :editor="$field"/>
                     @endif
 
                     <div class="flex h-full">
@@ -156,9 +156,9 @@
                                 <div class="flex items-center mt-2">
                                     <p class="text-xs font-bold" x-show="! isCollapsed">
                                         @if ($shouldSupportBlocks)
-                                            Blocks
+                                            {{ __('filament-tiptap-editor::editor.blocks.panel') }}
                                         @else
-                                            Merge Tags
+                                            {{ __('filament-tiptap-editor::editor.merge_tags.panel') }}
                                         @endif
                                     </p>
 
