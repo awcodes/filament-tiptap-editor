@@ -107,7 +107,7 @@ return [
         'go_to_next_cell' => '转到下一个单元格',
         'go_to_previous_cell' => '转到上一个单元格',
     ],
-    'underline' => '下化线',
+    'underline' => '下划线',
     'undo' => '撤消',
     'video' => [
         'youtube' => '插入 YouTube 视频',
