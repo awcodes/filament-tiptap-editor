@@ -95,7 +95,6 @@ class LinkAction extends Action
 
                 $component->state($component->getState());
             })->extraModalFooterActions(function (Action $action): array {
-
                 if ($action->getArguments()['href'] !== '') {
                     return [
                         $action->makeModalSubmitAction('remove_link', [])
