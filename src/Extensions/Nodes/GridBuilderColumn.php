@@ -30,7 +30,7 @@ class GridBuilderColumn extends Node
                     $attributes = (array) $attributes;
 
                     return [
-                        'data-cols' => $attributes['data-col-span'],
+                        'data-col-span' => $attributes['data-col-span'],
                         'style' => 'grid-column: span ' . $attributes['data-col-span'] . ';',
                     ];
                 },
