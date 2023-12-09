@@ -84,7 +84,10 @@ class MediaAction extends Action
                                 $filename = $filename . '-' . time();
                             }
 
-                            if (Str::contains($file->getMimeType(), 'image')) {
+                            if (
+                                Str::contains($file->getMimeType(), 'image')
+                                && ! Str::contains($file->getMimeType(), 'svg')
+                            ) {
                                 if (config('filesystems.disks.s3.driver') === 's3') {
                                     $image = Image::make($file->readStream());
                                 } else {
