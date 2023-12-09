@@ -2,6 +2,14 @@
 
 All notable changes to `filament-tiptap-editor` will be documented in this file.
 
+## v2.6.8 - 2023-12-09
+
+### What's Changed
+
+* Fix: svg insert in media action by @awcodes in https://github.com/awcodes/filament-tiptap-editor/pull/246
+
+**Full Changelog**: https://github.com/awcodes/filament-tiptap-editor/compare/v2.6.7...v2.6.8
+
 ## v2.6.7 - 2023-09-08
 
 ### What's Changed
