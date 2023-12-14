@@ -134,7 +134,8 @@ export default function tiptap({
         locale: locale,
         floatingMenuTools: floatingMenuTools,
         get showDefaultBubbleMenu() {
-            return ! (this.editor().isActive('link') ||
+            return ! (
+                this.editor().isActive('link') ||
                 this.editor().isActive('table') ||
                 this.editor().isActive('image') ||
                 this.editor().isActive('oembed') ||
@@ -177,7 +178,9 @@ export default function tiptap({
                         duration: [500,0],
                     },
                     shouldShow: ({state, from, to}) => {
-                        return from !== to || isActive(state, 'link') || isActive(state, 'table');
+                        return ! (from === to || isActive(state, 'image'))
+                            || isActive(state, 'link')
+                            || isActive(state, 'table');
                     },
                 }))
 

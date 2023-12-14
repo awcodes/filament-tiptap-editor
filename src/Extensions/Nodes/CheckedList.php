@@ -9,7 +9,7 @@ class CheckedList extends Node
 {
     public static $name = 'checkedList';
 
-    public static $priority = 50;
+    public static $priority = 200;
 
     public function addOptions(): array
     {
@@ -28,7 +28,6 @@ class CheckedList extends Node
                 'getAttrs' => function ($DOMNode) {
                     return str_contains($DOMNode->getAttribute('class'), 'checked-list');
                 },
-                'priority' => 1000,
             ],
         ];
     }
