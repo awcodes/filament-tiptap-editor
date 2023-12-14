@@ -26,7 +26,7 @@ class YouTube extends Node
             'style' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->getAttribute('style');
+                    return $DOMNode->firstChild->getAttribute('style');
                 },
             ],
             'src' => [
@@ -59,13 +59,13 @@ class YouTube extends Node
             'data-aspect-width' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute('data-aspect-width');
+                    return $DOMNode->firstChild->getAttribute('width');
                 }
             ],
             'data-aspect-height' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute('data-aspect-height');
+                    return $DOMNode->firstChild->getAttribute('height');
                 }
             ]
         ];
@@ -92,8 +92,8 @@ class YouTube extends Node
                 'iframe',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
                     'src' => $node->attrs->src,
-                    'width' => $this->options['width'],
-                    'height' => $this->options['height'],
+                    'width' => $node->attrs->width ?? $this->options['width'],
+                    'height' => $node->attrs->height ?? $this->options['height'],
                     'allowfullscreen' => true,
                     'allow' => 'autoplay; fullscreen; picture-in-picture',
                     'style' => $node->attrs->responsive

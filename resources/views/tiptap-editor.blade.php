@@ -99,14 +99,6 @@
                         </div>
                     @endif
 
-                    @if (in_array('table', $tools) && ! $isBubbleMenusDisabled())
-                        <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
-                    @endif
-
-                    @if (in_array('link', $tools) && ! $isBubbleMenusDisabled())
-                        <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
-                    @endif
-
                     @if (! $isBubbleMenusDisabled())
                         <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
                     @endif

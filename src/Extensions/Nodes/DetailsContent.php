@@ -9,10 +9,14 @@ class DetailsContent extends Node
 {
     public static $name = 'detailsContent';
 
+    public static $priority = 50;
+
     public function addOptions(): array
     {
         return [
-            'HTMLAttributes' => [],
+            'HTMLAttributes' => [
+                'data-type' => 'details-content'
+            ],
         ];
     }
 
@@ -20,7 +24,10 @@ class DetailsContent extends Node
     {
         return [
             [
-                'tag' => 'div[data-type="details-content"]',
+                'tag' => 'div[data-type]',
+                'getAttrs' => function ($value) {
+                    return (bool) $value == 'details-content';
+                }
             ],
         ];
     }
@@ -29,7 +36,7 @@ class DetailsContent extends Node
     {
         return [
             'div',
-            HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes, ['data-type' => 'details-content']),
+            HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
             0,
         ];
     }
