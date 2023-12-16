@@ -24,6 +24,17 @@ class Image extends BaseImage
             'height' => [
                 'default' => null,
             ],
+            'lazy' => [
+                'default' => false,
+                'parseHTML' => function ($DOMNode) {
+                    return $DOMNode->hasAttribute('data-loading') && $DOMNode->getAttribute('data-loading') === 'lazy';
+                },
+                'renderHTML' => function ($attributes) {
+                    return $attributes->lazy
+                        ? ['loading' => 'lazy']
+                        : null;
+                },
+            ],
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor\Actions;
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
@@ -32,6 +33,7 @@ class MediaAction extends Action
                 'title' => '',
                 'width' => '',
                 'height' => '',
+                'lazy' => null,
             ])
             ->modalWidth('md')
             ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, array $arguments) {
@@ -46,6 +48,7 @@ class MediaAction extends Action
                     'title' => $arguments['title'] ?? '',
                     'width' => $arguments['width'] ?? '',
                     'height' => $arguments['height'] ?? '',
+                    'lazy' => $arguments['lazy'] ?? false,
                 ]);
             })->modalHeading(function (TiptapEditor $component, array $arguments) {
                 $context = blank($arguments['src'] ?? null) ? 'insert' : 'update';
@@ -117,6 +120,9 @@ class MediaAction extends Action
                         ),
                     TextInput::make('title')
                         ->label(__('filament-tiptap-editor::media-modal.labels.title')),
+                    Checkbox::make('lazy')
+                        ->label(__('filament-tiptap-editor::media-modal.labels.lazy'))
+                        ->default(false),
                     Hidden::make('width'),
                     Hidden::make('height'),
                     Hidden::make('type')
@@ -124,7 +130,10 @@ class MediaAction extends Action
                 ];
             })->action(function (TiptapEditor $component, $data) {
                 if (config('filament-tiptap-editor.use_relative_paths')) {
-                    $source = Str::replace(config('app.url'), '', $data['src']);
+                    $source = Str::of($data['src'])
+                        ->replace(config('app.url'), '')
+                        ->ltrim('/')
+                        ->prepend('/');
                 } else {
                     $source = str_starts_with($data['src'], 'http')
                         ? $data['src']
@@ -141,6 +150,7 @@ class MediaAction extends Action
                         'title' => $data['title'],
                         'width' => $data['width'],
                         'height' => $data['height'],
+                        'lazy' => $data['lazy'] ?? false,
                         'link_text' => $data['link_text'] ?? null,
                     ],
                 );

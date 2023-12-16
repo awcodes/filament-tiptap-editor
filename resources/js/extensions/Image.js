@@ -18,6 +18,17 @@ export const CustomImage = Image.extend({
       height: {
         default: null,
       },
+      lazy: {
+        default: false,
+        getAttrs: (value) => (value ? { "data-lazy": value } : null),
+        renderHTML: (attributes) => {
+          if (attributes.lazy) {
+            return {
+              "data-lazy": attributes.lazy,
+            };
+          }
+        }
+      }
     };
   },
 });
