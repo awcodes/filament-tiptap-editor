@@ -133,6 +133,7 @@ export default function tiptap({
         disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
+        editorInstance: null,
         get showDefaultBubbleMenu() {
             return ! (
                 this.editor().isActive('link') ||
@@ -178,9 +179,16 @@ export default function tiptap({
                         duration: [500,0],
                     },
                     shouldShow: ({state, from, to}) => {
-                        return ! (from === to || isActive(state, 'image'))
-                            || isActive(state, 'link')
-                            || isActive(state, 'table');
+                        return ! (from === to ||
+                            this.editor().isActive('link') ||
+                            this.editor().isActive('table') ||
+                            this.editor().isActive('image') ||
+                            this.editor().isActive('oembed') ||
+                            this.editor().isActive('vimeo') ||
+                            this.editor().isActive('youtube') ||
+                            this.editor().isActive('video') ||
+                            this.editor().isActive('tiptapBlock')
+                        );
                     },
                 }))
 
@@ -232,14 +240,9 @@ export default function tiptap({
 
             return exts;
         },
-        init() {
-            if (editors[this.statePath]) {
-                editors[this.statePath].destroy();
-            }
+        init: async function () {
 
-            this.initEditor(state.initialValue);
-
-            window.filamentTiptapEditors = editors;
+            this.initEditor(this.state);
 
             document.addEventListener("dblclick", function (e) {
                 if (
@@ -258,52 +261,48 @@ export default function tiptap({
             let sortableEl = this.$el.parentElement.closest("[x-sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", () => {
-                    Object.values(editors).forEach(function (editor) {
-                        editor.setEditable(false);
-                        editor.options.element.style.pointerEvents = 'none';
+                    let editors = document.querySelectorAll('.tiptap-wrapper');
+
+                    if (editors.length === 0) return;
+
+                    editors.forEach(function (editor) {
+                        editor._x_dataStack[0].editor().setEditable(false);
+                        editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'none';
                     });
                 });
 
                 window.Sortable.utils.on(sortableEl, "end", () => {
-                    Object.values(editors).forEach(function (editor) {
-                        editor.setEditable(true);
-                        editor.options.element.style.pointerEvents = 'all';
+                    let editors = document.querySelectorAll('.tiptap-wrapper');
+
+                    if (editors.length === 0) return;
+
+                    editors.forEach(function (editor) {
+                        editor._x_dataStack[0].editor().setEditable(true);
+                        editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'all';
                     });
                 });
             }
 
             this.$watch('state', (newState, oldState) => {
-                if (this.editor().isEmpty) {
-                    this.editor().destroy();
-                    this.initEditor(newState);
-                }
-
-                if (! isEqual(oldState, this.editor().state.doc.toJSON())) {
-                    this.updateEditorContent(newState);
+                if (typeof newState !== "undefined") {
+                    if (! isEqual(oldState, Alpine.raw(newState))) {
+                        this.updateEditorContent(newState)
+                    }
                 }
             });
-
-            this.$watch('locale', () => {
-                Livewire.hook('commit', ({ succeed }) => {
-                    succeed(() => {
-                        queueMicrotask(() => {
-                            this.editor().destroy();
-                            this.initEditor(this.state);
-                        })
-                    })
-                });
-            });
-        },
-        destroy() {
-            this.editor().destroy();
         },
         editor() {
-            return editors[this.statePath];
+            return Alpine.raw(this.editorInstance);
         },
         initEditor(content) {
             let _this = this;
 
-            editors[this.statePath] = new Editor({
+            if (this.$root._editor) {
+                this.editorInstance = this.$root._editor;
+                return;
+            }
+
+            this.$root._editor = this.editorInstance = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(this.statePath),
                 editable: !this.disabled,
@@ -325,7 +324,7 @@ export default function tiptap({
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
                 },
-                onBlur({ editor}) {
+                onBlur() {
                     _this.updatedAt = Date.now();
                 },
                 onFocus() {
@@ -334,9 +333,11 @@ export default function tiptap({
             });
         },
         updateEditorContent(content) {
-            const {from, to} = this.editor().state.selection;
-            this.editor().commands.setContent(content, true);
-            this.editor().chain().focus().setTextSelection({from, to}).run();
+            if (this.editor().isEditable) {
+                const {from, to} = this.editor().state.selection;
+                this.editor().commands.setContent(content, true);
+                this.editor().chain().focus().setTextSelection({from, to}).run();
+            }
         },
         refreshEditorContent() {
             // Using $nextTick to delay the UI update after the entangled state updates.
@@ -494,6 +495,7 @@ export default function tiptap({
             }).run();
         },
         insertBlock(event) {
+            console.log({fromEvent: event.detail.statePath, fromState: this.statePath});
             if (event.detail.statePath !== this.statePath) return
 
             this.editor().commands.insertBlock({
