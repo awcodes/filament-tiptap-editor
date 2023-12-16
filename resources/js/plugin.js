@@ -495,7 +495,6 @@ export default function tiptap({
             }).run();
         },
         insertBlock(event) {
-            console.log({fromEvent: event.detail.statePath, fromState: this.statePath});
             if (event.detail.statePath !== this.statePath) return
 
             this.editor().commands.insertBlock({
