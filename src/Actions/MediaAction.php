@@ -12,7 +12,6 @@ use Filament\Forms\Components\TextInput;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class MediaAction extends Action
@@ -80,28 +79,19 @@ class MediaAction extends Action
                         })
                         ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                             $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
-
                             $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
+                            $extension = $file->getClientOriginalExtension();
 
-                            if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $file->getClientOriginalExtension(), '/'))) {
+                            if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
                                 $filename = $filename . '-' . time();
                             }
 
-                            if (
-                                Str::contains($file->getMimeType(), 'image')
-                                && ! Str::contains($file->getMimeType(), 'svg')
-                            ) {
-                                if (config('filesystems.disks.s3.driver') === 's3') {
-                                    $image = Image::make($file->readStream());
-                                } else {
-                                    $image = Image::make($file->getRealPath());
-                                }
-
-                                $set('width', $image->getWidth());
-                                $set('height', $image->getHeight());
+                            if ($dimensions = $file->dimensions()) {
+                                $set('width', $dimensions[0]);
+                                $set('height', $dimensions[1]);
                             }
 
-                            $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
+                            $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $extension, $component->getDiskName());
 
                             return Storage::disk($component->getDiskName())->url($upload);
                         }),
