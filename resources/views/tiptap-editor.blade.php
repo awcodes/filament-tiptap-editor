@@ -9,13 +9,6 @@
     $shouldShowMergeTagsInBlocksPanel = $shouldShowMergeTagsInBlocksPanel();
 @endphp
 
-@if (config('filament-tiptap-editor.extensions_script') || config('filament-tiptap-editor.extensions_styles'))
-    @vite([
-        config('filament-tiptap-editor.extensions_script', null),
-        config('filament-tiptap-editor.extensions_styles', null)
-    ])
-@endif
-
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
