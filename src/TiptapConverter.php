@@ -57,7 +57,6 @@ class TiptapConverter
             new Extensions\IdExtension(),
             new Extensions\Color(),
             new CodeBlockHighlight(),
-            new Nodes\Paragraph(),
             new Nodes\ListItem(),
             new Nodes\Lead(),
             new Nodes\Image(),
