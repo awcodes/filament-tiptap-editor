@@ -47,13 +47,14 @@ class TiptapConverter
 
         return [
             new StarterKit([
-                'paragraph' => false,
                 'listItem' => false,
             ]),
             new TextStyle(),
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
+            new Extensions\ClassExtension(),
+            new Extensions\IdExtension(),
             new Extensions\Color(),
             new CodeBlockHighlight(),
             new Nodes\Paragraph(),
