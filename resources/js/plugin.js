@@ -14,6 +14,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
 import ListItem from "@tiptap/extension-list-item";
 import OrderedList from "@tiptap/extension-ordered-list";
+import Paragraph from "@tiptap/extension-paragraph";
 import Placeholder from "@tiptap/extension-placeholder";
 import Strike from "@tiptap/extension-strike";
 import Subscript from "@tiptap/extension-subscript";
@@ -31,7 +32,6 @@ import {
     Lead,
     CustomLink,
     CustomImage,
-    CustomParagraph,
     CustomTextAlign,
     Small,
     Grid,
@@ -51,6 +51,8 @@ import {
     Video,
     TiptapBlock,
     DragAndDropExtension,
+    ClassExtension,
+    IdExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -161,7 +163,20 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [Document, Text, CustomParagraph, Dropcursor, Gapcursor, HardBreak, History, TextStyle, TiptapBlock, DragAndDropExtension];
+            let exts = [
+                Document,
+                Text,
+                Paragraph,
+                Dropcursor,
+                Gapcursor,
+                HardBreak,
+                History,
+                TextStyle,
+                TiptapBlock,
+                DragAndDropExtension,
+                ClassExtension,
+                IdExtension,
+            ];
 
             if (placeholder && (! disabled)) {
                 exts.push(Placeholder.configure({ placeholder }));

@@ -4,6 +4,7 @@ namespace FilamentTiptapEditor\Tests\Database\Factories;
 
 use Awcodes\HtmlFaker\HtmlFaker;
 use FilamentTiptapEditor\Tests\Models\Page;
+use FilamentTiptapEditor\TiptapFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PageFactory extends Factory
@@ -12,16 +13,15 @@ class PageFactory extends Factory
 
     public function definition(): array
     {
-        $content = HtmlFaker::make()
+        $content = TiptapFaker::make()
             ->heading()
-            ->paragraphs(withRandomLinks: true)
-            ->generate();
+            ->paragraphs(withRandomLinks: true);
 
         return [
             'title' => $this->faker->sentence(),
-            'html_content' => $content,
-            'json_content' => tiptap_converter()->asJSON($content, decoded: true),
-            'text_content' => tiptap_converter()->asText($content),
+            'html_content' => $content->asHTML(),
+            'json_content' => $content->asJSON(),
+            'text_content' => tiptap_converter()->asText($content->asHTML()),
         ];
     }
 }
