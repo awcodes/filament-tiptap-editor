@@ -92,23 +92,23 @@ class TiptapConverter
         ];
     }
 
-    public function asHTML(string | array $content, bool $toc = false): string
+    public function asHTML(string | array $content, bool $toc = false, int $maxDepth = 3): string
     {
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
-            $this->parseHeadings($editor);
+            $this->parseHeadings($editor, $maxDepth);
         }
 
         return $editor->getHTML();
     }
 
-    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false): string | array
+    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
     {
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
-            $this->parseHeadings($editor);
+            $this->parseHeadings($editor, $maxDepth);
         }
 
         return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
@@ -119,25 +119,29 @@ class TiptapConverter
         return $this->getEditor()->setContent($content)->getText();
     }
 
-    public function asTOC(string | array $content): string
+    public function asTOC(string | array $content, int $maxDepth = 3): string
     {
         if (is_string($content)) {
             $content = $this->asJSON($content, decoded: true);
         }
 
-        $headings = $this->parseTocHeadings($content['content']);
+        $headings = $this->parseTocHeadings($content['content'], $maxDepth);
 
         return $this->generateNestedTOC($headings, $headings[0]['level']);
     }
 
-    public function parseHeadings(Editor $editor): Editor
+    public function parseHeadings(Editor $editor, int $maxDepth = 3): Editor
     {
-        $editor->descendants(function (&$node) {
+        $editor->descendants(function (&$node) use ($maxDepth) {
             if ($node->type !== 'heading') {
                 return;
             }
 
-            if (! property_exists($node->attrs, 'id')) {
+            if ($node->attrs->level > $maxDepth) {
+                return;
+            }
+
+            if (! property_exists($node->attrs, 'id') || $node->attrs->id === null) {
                 $node->attrs->id = str(collect($node->content)->map(function ($node) {
                     return $node->text;
                 })->implode(' '))->kebab()->toString();
@@ -160,50 +164,51 @@ class TiptapConverter
         return $editor;
     }
 
-    public function generateNestedTOC($heading, $parentLevel = 0): string
-    {
-        $result = '<ul>';
-
-        foreach ($heading as $item) {
-            if ($item['level'] == $parentLevel) {
-                $result .= '<li>';
-                $result .= '<a href="#' . $item['id'] . '">' . $item['text'] . '</a>';
-
-                $result .= $this->generateNestedTOC($heading, $item['level'] + 1);
-
-                $result .= '</li>';
-            }
-        }
-
-        $result .= '</ul>';
-
-        return Str::of($result)->replace('<ul></ul>', '')->toString();
-    }
-
-    public function parseTocHeadings(array $content): array
+    public function parseTocHeadings(array $content, int $maxDepth = 3): array
     {
         $headings = [];
 
         foreach ($content as $node) {
             if ($node['type'] === 'heading') {
-                $text = collect($node['content'])->map(function ($node) {
-                    return $node['text'];
-                })->implode(' ');
+                if ($node['attrs']['level'] <= $maxDepth) {
+                    $text = collect($node['content'])->map(function ($node) {
+                        return $node['text'];
+                    })->implode(' ');
 
-                if (! isset($node['attrs']['id'])) {
-                    $node['attrs']['id'] = str($text)->kebab()->toString();
+                    if (!isset($node['attrs']['id'])) {
+                        $node['attrs']['id'] = str($text)->kebab()->toString();
+                    }
+
+                    $headings[] = [
+                        'level' => $node['attrs']['level'],
+                        'id' => $node['attrs']['id'],
+                        'text' => $text,
+                    ];
                 }
-
-                $headings[] = [
-                    'level' => $node['attrs']['level'],
-                    'id' => $node['attrs']['id'],
-                    'text' => $text,
-                ];
             } elseif (array_key_exists('content', $content)) {
-                $this->parseTocHeadings($content);
+                $this->parseTocHeadings($content, $maxDepth);
             }
         }
 
         return $headings;
+    }
+
+    public function generateNestedTOC(array $headings, int $parentLevel = 0): string
+    {
+        $result = '<ul>';
+        $prev = $parentLevel;
+
+        foreach ($headings as $item) {
+            $prev <= $item['level'] ?: $result .= str_repeat('</ul>', $prev - $item['level']);
+            $prev >= $item['level'] ?: $result .= '<ul>';
+
+            $result .= '<li><a href="#' . $item['id'] . '">' . $item['text'] . '</a></li>';
+
+            $prev = $item['level'];
+        }
+
+        $result .= '</ul>';
+
+        return $result;
     }
 }
