@@ -87,6 +87,18 @@ Styling the output is entirely up to you.
 {!! tiptap_converter()->asText($post->content) !!}
 ```
 
+#### Table of Contents
+
+If you are using the `heading` tool in your editor you can also generate a table of contents from the headings in the content. This is done by passing the content to the `asHTML()` method and setting the `toc` option to `true`. You can also pass a `maxDepth` option to limit the depth of headings to include in the table of contents.
+
+```blade
+<!-- this will generate links for all headings up to h3 -->
+{!! tiptap_converter()->asHTML($post->content, toc: true, maxDepth: 3) !!}
+
+<!-- this will generate a table of contents with headings up to h3 -->
+{!! tiptap_converter()->asToc($post->content, maxDepth: 3) !!}
+```
+
 ## Config
 
 The plugin will work without publishing the config, but should you need to change any of the default settings you can publish the config file with the following Artisan command:

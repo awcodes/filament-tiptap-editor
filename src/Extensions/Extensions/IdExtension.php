@@ -21,10 +21,10 @@ class IdExtension extends Extension
                     'id' => [
                         'default' => null,
                         'parseHTML' => function ($DOMNode) {
-                            return InlineStyle::getAttribute($DOMNode, 'id') ?? false;
+                            return InlineStyle::getAttribute($DOMNode, 'id');
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! $attributes->id) {
+                            if (! property_exists($attributes, 'id')) {
                                 return null;
                             }
 

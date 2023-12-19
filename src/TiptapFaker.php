@@ -28,6 +28,14 @@ class TiptapFaker
         return $this;
     }
 
+    public function headingWithLink(int | string | null $level = 2): static
+    {
+        $heading = $this->faker->words(rand(2, 3), true) . '<a href="#">' . $this->faker->words(rand(2, 3), true) . '</a>' . $this->faker->words(rand(2, 3), true);
+        $this->output .= '<h' . $level . '>' . Str::title($heading) . '</h' . $level . '>';
+
+        return $this;
+    }
+
     public function emptyParagraph(): static
     {
         $this->output .= '<p></p>';
