@@ -4,8 +4,10 @@ namespace FilamentTiptapEditor;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use FilamentTiptapEditor\Commands\MakeBlockCommand;
+use Illuminate\Support\Facades\Vite;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -30,14 +32,19 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             return new TiptapConverter();
         });
 
-        FilamentAsset::register([
+        $assets = [
             AlpineComponent::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.js'),
             Css::make('tiptap', __DIR__ . '/../resources/dist/filament-tiptap-editor.css')->loadedOnRequest(),
-        ], 'awcodes/tiptap-editor');
-    }
+        ];
 
-    public function packageBooted(): void
-    {
-       //
+        if (config('filament-tiptap-editor.extensions_script')) {
+            $assets[] = Js::make('tiptap-custom-extension-scripts', Vite::asset(config('filament-tiptap-editor.extensions_script')));
+        }
+
+        if (config('filament-tiptap-editor.extensions_styles')) {
+            $assets[] = Css::make('tiptap-custom-extension-styles', Vite::asset(config('filament-tiptap-editor.extensions_styles')));
+        }
+
+        FilamentAsset::register($assets, 'awcodes/tiptap-editor');
     }
 }
