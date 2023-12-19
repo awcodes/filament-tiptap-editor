@@ -34,7 +34,7 @@ class ClassExtension extends Extension
                             return InlineStyle::getAttribute($DOMNode, 'class') ?? false;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! $attributes->class) {
+                            if (! property_exists($attributes, 'class')) {
                                 return null;
                             }
 

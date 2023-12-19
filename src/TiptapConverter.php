@@ -5,6 +5,8 @@ namespace FilamentTiptapEditor;
 use FilamentTiptapEditor\Extensions\Extensions;
 use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
@@ -23,6 +25,8 @@ class TiptapConverter
     protected Editor $editor;
 
     protected ?array $blocks = null;
+
+    protected bool $tableOfContents = false;
 
     public function getEditor(): Editor
     {
@@ -88,20 +92,118 @@ class TiptapConverter
         ];
     }
 
-    public function asHTML(string | array $content): string
+    public function asHTML(string | array $content, bool $toc = false): string
     {
-        return $this->getEditor()->setContent($content)->getHTML();
+        $editor = $this->getEditor()->setContent($content);
+
+        if ($toc) {
+            $this->parseHeadings($editor);
+        }
+
+        return $editor->getHTML();
     }
 
-    public function asJSON(string | array $content, bool $decoded = false): string | array
+    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false): string | array
     {
-        $content = $this->getEditor()->setContent($content)->getJSON();
+        $editor = $this->getEditor()->setContent($content);
 
-        return $decoded ? json_decode($content, true) : $content;
+        if ($toc) {
+            $this->parseHeadings($editor);
+        }
+
+        return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
     }
 
     public function asText(string | array $content): string
     {
         return $this->getEditor()->setContent($content)->getText();
+    }
+
+    public function asTOC(string | array $content): string
+    {
+        if (is_string($content)) {
+            $content = $this->asJSON($content, decoded: true);
+        }
+
+        $headings = $this->parseTocHeadings($content['content']);
+
+        return $this->generateNestedTOC($headings, $headings[0]['level']);
+    }
+
+    public function parseHeadings(Editor $editor): Editor
+    {
+        $editor->descendants(function (&$node) {
+            if ($node->type !== 'heading') {
+                return;
+            }
+
+            if (! property_exists($node->attrs, 'id')) {
+                $node->attrs->id = str(collect($node->content)->map(function ($node) {
+                    return $node->text;
+                })->implode(' '))->kebab()->toString();
+            }
+
+            array_unshift($node->content, (object) [
+                "type" => "text",
+                "text" => "#",
+                "marks" => [
+                    [
+                        "type" => "link",
+                        "attrs" => [
+                            "href" => "#" . $node->attrs->id,
+                        ]
+                    ]
+                ]
+            ]);
+        });
+
+        return $editor;
+    }
+
+    public function generateNestedTOC($heading, $parentLevel = 0): string
+    {
+        $result = '<ul>';
+
+        foreach ($heading as $item) {
+            if ($item['level'] == $parentLevel) {
+                $result .= '<li>';
+                $result .= '<a href="#' . $item['id'] . '">' . $item['text'] . '</a>';
+
+                $result .= $this->generateNestedTOC($heading, $item['level'] + 1);
+
+                $result .= '</li>';
+            }
+        }
+
+        $result .= '</ul>';
+
+        return Str::of($result)->replace('<ul></ul>', '')->toString();
+    }
+
+    public function parseTocHeadings(array $content): array
+    {
+        $headings = [];
+
+        foreach ($content as $node) {
+            if ($node['type'] === 'heading') {
+                $text = collect($node['content'])->map(function ($node) {
+                    return $node['text'];
+                })->implode(' ');
+
+                if (! isset($node['attrs']['id'])) {
+                    $node['attrs']['id'] = str($text)->kebab()->toString();
+                }
+
+                $headings[] = [
+                    'level' => $node['attrs']['level'],
+                    'id' => $node['attrs']['id'],
+                    'text' => $text,
+                ];
+            } elseif (array_key_exists('content', $content)) {
+                $this->parseTocHeadings($content);
+            }
+        }
+
+        return $headings;
     }
 }
