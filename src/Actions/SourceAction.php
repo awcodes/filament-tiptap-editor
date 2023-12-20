@@ -2,10 +2,8 @@
 
 namespace FilamentTiptapEditor\Actions;
 
-use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\View;
 use FilamentTiptapEditor\TiptapEditor;
 
 class SourceAction extends Action
@@ -31,7 +29,7 @@ class SourceAction extends Action
             ->modalWidth('screen')
             ->action(function (TiptapEditor $component, $data) {
 
-                $content = $data['source'];
+                $content = $data['source'] ?? '<p></p>';
 
                 if ($component->shouldSupportBlocks()) {
                     $content = tiptap_converter()->asJSON($content, decoded: true);

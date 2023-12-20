@@ -1,5 +1,28 @@
 @import './night-owl.css';
 
+[wire\:key*="filament_tiptap_source"] {
+    .fi-fo-component-ctn {
+        height: 100%;
+
+        > div {
+            height: 100%;
+
+            .fi-fo-field-wrp {
+                height: 100%;
+
+                > div {
+                    height: 100%;
+                    grid-template-rows: auto 1fr;
+
+                    textarea {
+                        height: 100% !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .tiptap-wrapper.tiptap-fullscreen {
     position: fixed;
     top: 0;
