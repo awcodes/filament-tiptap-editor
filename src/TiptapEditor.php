@@ -16,6 +16,7 @@ use FilamentTiptapEditor\Concerns\HasCustomActions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -268,7 +269,7 @@ class TiptapEditor extends Field
                     event: 'insert-block',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
-                    data: $data,
+                    data: Js::from($data)->toHtml(),
                     preview: $block->getPreview($data),
                     label: $block->getLabel(),
                     coordinates: $arguments['coordinates'] ?? [],
@@ -307,7 +308,7 @@ class TiptapEditor extends Field
                     event: 'update-block',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
-                    data: $data,
+                    data: Js::from($data)->toHtml(),
                     preview: $block->getPreview($data),
                     label: $block->getLabel(),
                 );
