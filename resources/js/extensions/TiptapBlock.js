@@ -105,25 +105,25 @@ export const TiptapBlock = Node.create({
             dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
 
-            const data = typeof node.attrs.data === 'object'
+            let data = typeof node.attrs.data === 'object'
                 ? JSON.stringify(node.attrs.data)
                 : node.attrs.data
 
             dom.innerHTML = `
                 <div
-                    x-data='{
+                    x-data="{
                         showOptionsButton: ${data === '[]' ? 'false' : 'true'},
                         openSettings() {
-                            this.$dispatch("open-block-settings", {
-                                type: "${node.attrs.type}",
-                                statePath: "${node.attrs.statePath}",
-                                data: JSON.parse(\`${data}\`),
+                            this.$dispatch('open-block-settings', {
+                                type: \`${node.attrs.type}\`,
+                                statePath: \`${node.attrs.statePath}\`,
+                                data: ${data},
                             })
                         },
                         deleteBlock() {
-                            this.$dispatch("delete-block")
+                            this.$dispatch('delete-block')
                         }
-                    }'
+                    }"
                     class="tiptap-block"
                     style="min-height: 3rem;"
                 >
