@@ -245,7 +245,7 @@ class TiptapEditor extends Field
                         return null;
                     }
 
-                    return $block->getModalWidth();
+                    return trans('filament-tiptap-editor::editor.blocks.insert');
                 }
 
                 return trans('filament-tiptap-editor::editor.blocks.insert');
