@@ -186,7 +186,7 @@ class TiptapEditor extends Field
                     'statePath' => $component->getStatePath(),
                     'type' => $block['attrs']['type'],
                     'label' => $instance->getLabel(),
-                    'data' => $block['attrs']['data'],
+                    'data' => Js::from($block['attrs']['data'])->toHtml(),
                 ];
                 $content[$k]['attrs'] = $orderedAttrs;
             } elseif (array_key_exists('content', $block)) {
@@ -206,7 +206,12 @@ class TiptapEditor extends Field
         foreach ($content as $k => $block) {
             if ($block['type'] === 'tiptapBlock') {
                 if (is_string($block['attrs']['data'])) {
-                    $content[$k]['attrs']['data'] = json_decode($block['attrs']['data'], true);
+                    $data = Str::of(json_decode('"' . $block['attrs']['data'] . '"'))
+                        ->after('JSON.parse(\'')
+                        ->beforeLast('\')')
+                        ->toString();
+
+                    $content[$k]['attrs']['data'] = json_decode($data, true);
                 }
                 unset($content[$k]['attrs']['statePath']);
                 unset($content[$k]['attrs']['preview']);
