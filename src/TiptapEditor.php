@@ -481,6 +481,6 @@ class TiptapEditor extends Field
 
     private function isStateEmpty(string|array|null $state): bool
     {
-        return tiptap_converter()->asText($state) === '';
+        return tiptap_converter()->asHtml($state) === '<p></p>';
     }
 }
