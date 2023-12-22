@@ -15,5 +15,6 @@ return [
         'alt' => '替代文本',
         'alt_helper_text' => '了解如何描述图像的目的。',
         'title' => '标题',
+        'lazy' => '懒加载',
     ],
 ];
