@@ -27,7 +27,7 @@ class Image extends BaseImage
             'lazy' => [
                 'default' => false,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->hasAttribute('data-loading') && $DOMNode->getAttribute('data-loading') === 'lazy';
+                    return $DOMNode->hasAttribute('loading') && $DOMNode->getAttribute('loading') === 'lazy';
                 },
                 'renderHTML' => function ($attributes) {
                     return $attributes->lazy
