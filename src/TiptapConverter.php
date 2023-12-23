@@ -143,7 +143,7 @@ class TiptapConverter
 
             if (! property_exists($node->attrs, 'id') || $node->attrs->id === null) {
                 $node->attrs->id = str(collect($node->content)->map(function ($node) {
-                    return $node->text;
+                    return $node?->text ?? null;
                 })->implode(' '))->kebab()->toString();
             }
 
@@ -172,7 +172,7 @@ class TiptapConverter
             if ($node['type'] === 'heading') {
                 if ($node['attrs']['level'] <= $maxDepth) {
                     $text = collect($node['content'])->map(function ($node) {
-                        return $node['text'];
+                        return $node['text'] ?? null;
                     })->implode(' ');
 
                     if (!isset($node['attrs']['id'])) {
