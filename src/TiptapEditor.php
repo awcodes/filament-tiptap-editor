@@ -74,7 +74,7 @@ class TiptapEditor extends Field
 
         $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state): void {
 
-            if (! $state || $this->isStateEmpty($state)) {
+            if (! $state) {
                 return;
             }
 
@@ -93,7 +93,7 @@ class TiptapEditor extends Field
 
         $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state): string | array | null {
 
-            if (! $state || $this->isStateEmpty($state)) {
+            if (! $state) {
                 return null;
             }
 
@@ -477,10 +477,5 @@ class TiptapEditor extends Field
     public function getGridLayouts(): array
     {
         return $this->gridLayouts;
-    }
-
-    private function isStateEmpty(string|array|null $state): bool
-    {
-        return tiptap_converter()->asHtml($state) === '<p></p>';
     }
 }

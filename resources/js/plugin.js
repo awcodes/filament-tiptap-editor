@@ -334,7 +334,7 @@ export default function tiptap({
                 },
                 onUpdate({editor}) {
                     _this.updatedAt = Date.now();
-                    _this.state = editor.getJSON();
+                    _this.state = editor.isEmpty ? null : editor.getJSON();
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
