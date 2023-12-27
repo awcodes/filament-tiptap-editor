@@ -75,8 +75,6 @@ class MediaAction extends Action
                     ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                         $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
 
-                        $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
-
                         if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $file->getClientOriginalExtension(), '/'))) {
                             $filename = $filename . '-' . time();
                         }
@@ -95,9 +93,15 @@ class MediaAction extends Action
                             $set('height', $image->getHeight());
                         }
 
-                        $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
-
-                        return Storage::disk($component->getDiskName())->url($upload);
+                        if ($component->getVisibility() === 'public') {
+                            $upload = $file->storePubliclyAs($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
+                            $link   = Storage::disk($component->getDiskName())->url($upload);
+                        }
+                        else {
+                            $upload = $file->storeAs($component->getDirectory(), $filename . '.' . $file->getClientOriginalExtension(), $component->getDiskName());
+                            $link   = Storage::disk($component->getDiskName())->temporaryUrl($upload, now()->addMinutes(5));
+                        }
+                        return $link;
                     }),
                 TextInput::make('link_text')
                     ->label(__('filament-tiptap-editor::media-modal.labels.link_text'))
