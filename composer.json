@@ -1,7 +1,7 @@
 {
     "name": "prohonoski/filament-tiptap-editor",
     "type": "package",
-    "description": "A Tiptap integration for Filament Admin/Forms.",
+    "description": "Fork  - A Tiptap integration for Filament Admin/Forms.",
     "keywords": [
         "framework",
         "laravel",
@@ -11,7 +11,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Adam Weston",
+            "name": "Fork - Adam Weston",
             "email": "awcodes1@gmail.com",
             "role": "Developer"
         }
