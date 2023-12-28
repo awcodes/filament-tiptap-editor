@@ -79,6 +79,8 @@ return [
     */
     'disable_floating_menus' => false,
     'disable_bubble_menus' => false,
+    'disable_toolbar_menus' => false,
+    
     'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block', 'blocks'],
 
     /*
