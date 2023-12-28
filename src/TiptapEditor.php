@@ -54,6 +54,27 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
+    protected function refreshTemporaryURL(string $html): string {
+        $refres_html = $html;
+        $identificador = $this->getDisk() . '\/temp\/' . $this->getDirectory();
+        $pattern = '/<img src="([^"]*\/'.$identificador.'[^"]*)"/';
+        preg_match_all($pattern, $html, $matches);
+        $result = $matches[0];
+        foreach ($result as $item) {
+            preg_match('/<img src="([^"]+)"/', $item, $matches);
+            if (is_array($matches)) {
+                $link_orig = $matches[1];
+            }
+            preg_match("/\/([^\/?]+)\?/", $item, $matches);
+            if (is_array($matches)) {
+                $filename = $this->getDirectory() .'/'.$matches[1];
+                $refresh_link     = \Storage::disk($this->getDisk())->temporaryUrl($filename, now()->addMinutes(5));
+            }
+            $refres_html = str_replace($link_orig, $refresh_link, $refres_html);
+        }
+        return $refres_html;
+    }
+
     /**
      * @throws InvalidOutputFormatException|BindingResolutionException
      * @throws Exception
@@ -71,6 +92,9 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
         $this->afterStateHydrated(function(TiptapEditor $component, string | array | null $state) {
            if (! $state) {
                $component->state('<p></p>');
+           }
+           if (config('filament-tiptap-editor.visibility') === 'private') {
+               $component->state($this->refreshTemporaryURL($state));
            }
         });
 
