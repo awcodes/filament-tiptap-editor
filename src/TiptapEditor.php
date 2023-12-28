@@ -93,7 +93,7 @@ class TiptapEditor extends Field implements CanBeLengthConstrainedContract
            if (! $state) {
                $component->state('<p></p>');
            }
-           if (config('filament-tiptap-editor.visibility') === 'private') {
+           if (config('filament-tiptap-editor.visibility') === 'private' && $state) {
                $component->state($this->refreshTemporaryURL($state));
            }
         });
