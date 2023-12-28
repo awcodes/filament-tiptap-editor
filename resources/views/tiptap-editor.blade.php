@@ -94,6 +94,8 @@
 
                     @if (! $isBubbleMenusDisabled())
                         <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                        <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                        <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))

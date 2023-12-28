@@ -136,24 +136,6 @@ export default function tiptap({
         locale: locale,
         floatingMenuTools: floatingMenuTools,
         editorInstance: null,
-        get showDefaultBubbleMenu() {
-            return ! (
-                this.editor().isActive('link') ||
-                this.editor().isActive('table') ||
-                this.editor().isActive('image') ||
-                this.editor().isActive('oembed') ||
-                this.editor().isActive('vimeo') ||
-                this.editor().isActive('youtube') ||
-                this.editor().isActive('video') ||
-                this.editor().isActive('tiptapBlock')
-            );
-        },
-        get showTableBubbleMenu() {
-            return this.editor().isActive('table');
-        },
-        get showLinkBubbleMenu() {
-            return this.editor().isActive('link');
-        },
         getExtensions(id) {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
@@ -194,15 +176,16 @@ export default function tiptap({
                         duration: [500,0],
                     },
                     shouldShow: ({state, from, to}) => {
-                        return ! (from === to ||
-                            this.editor().isActive('link') ||
-                            this.editor().isActive('table') ||
-                            this.editor().isActive('image') ||
-                            this.editor().isActive('oembed') ||
-                            this.editor().isActive('vimeo') ||
-                            this.editor().isActive('youtube') ||
-                            this.editor().isActive('video') ||
-                            this.editor().isActive('tiptapBlock')
+                        return ! (
+                            from === to ||
+                            isActive(state, 'link') ||
+                            isActive(state, 'table') ||
+                            isActive(state, 'image') ||
+                            isActive(state, 'oembed') ||
+                            isActive(state, 'vimeo') ||
+                            isActive(state, 'youtube') ||
+                            isActive(state, 'video') ||
+                            isActive(state, 'tiptapBlock')
                         );
                     },
                 }))
@@ -230,6 +213,32 @@ export default function tiptap({
                                 exts.push(e)
                                 if (!exts.includes(ListItem)) exts.push(ListItem);
                             } else {
+                                if (tool === 'table') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `tableBubbleMenu${id}`,
+                                        element: this.$refs.tableBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                        },
+                                        shouldShow: ({state}) => {
+                                            return isActive(state, 'table');
+                                        }
+                                    }))
+                                }
+
+                                if (tool === 'link') {
+                                    exts.push(BubbleMenu.configure({
+                                        pluginKey: `linkBubbleMenu${id}`,
+                                        element: this.$refs.linkBubbleMenu,
+                                        tippyOptions: {
+                                            duration: [500,0],
+                                        },
+                                        shouldShow: ({state}) => {
+                                            return isActive(state,'link');
+                                        }
+                                    }))
+                                }
+
                                 exts.push(e)
                             }
                         })

@@ -22,7 +22,6 @@ export const CustomImage = Image.extend({
         default: null,
         parseHTML: element => element.getAttribute('loading') === 'lazy' ? element.getAttribute('data-lazy') : null,
         renderHTML: (attributes) => {
-          console.log(attributes)
           if (attributes.lazy) {
             return {
               "data-lazy": attributes.lazy,
