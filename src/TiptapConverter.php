@@ -5,8 +5,7 @@ namespace FilamentTiptapEditor;
 use FilamentTiptapEditor\Extensions\Extensions;
 use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use League\HTMLToMarkdown\HtmlConverter;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
@@ -117,6 +116,11 @@ class TiptapConverter
     public function asText(string | array $content): string
     {
         return $this->getEditor()->setContent($content)->getText();
+    }
+
+    public function asMarkdown(string | array $content, bool $toc = false, int $maxDepth = 3, ?array $options = []): string
+    {
+        return (new HtmlConverter($options))->convert($this->asHTML($content, toc: $toc, maxDepth: $maxDepth));
     }
 
     public function asTOC(string | array $content, int $maxDepth = 3): string
