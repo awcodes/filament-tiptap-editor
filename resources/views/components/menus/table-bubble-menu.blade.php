@@ -3,6 +3,7 @@
     'tools' => [],
 ])
 
+@if (in_array('table', $tools))
 <div x-ref="tableBubbleMenu" class="flex gap-1 items-center" x-cloak>
     <x-filament-tiptap-editor::button
         action="editor().chain().focus().addColumnBefore().run()"
@@ -58,5 +59,4 @@
         label="{{ __('filament-tiptap-editor::editor.table.delete_table') }}"
     />
 </div>
-
-
+@endif
