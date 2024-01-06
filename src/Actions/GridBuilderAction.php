@@ -21,7 +21,7 @@ class GridBuilderAction extends Action
     {
         parent::setUp();
 
-        $this->modalHeading(__('filament-tiptap-editor::grid-modal.heading'));
+        $this->modalHeading(trans('filament-tiptap-editor::grid-modal.heading'));
 
         $this->modalWidth('md');
 
@@ -32,7 +32,7 @@ class GridBuilderAction extends Action
                         ->view('filament-tiptap-editor::components.grid-modal-preview')
                         ->columnSpanFull(),
                     TextInput::make('columns')
-                        ->label(__('filament-tiptap-editor::grid-modal.labels.columns'))
+                        ->label(trans('filament-tiptap-editor::grid-modal.labels.columns'))
                         ->required()
                         ->default(2)
                         ->reactive()
@@ -41,23 +41,23 @@ class GridBuilderAction extends Action
                         ->numeric()
                         ->step(1),
                     Select::make('stack_at')
-                        ->label(__('filament-tiptap-editor::grid-modal.labels.stack_at'))
+                        ->label(trans('filament-tiptap-editor::grid-modal.labels.stack_at'))
                         ->reactive()
                         ->selectablePlaceholder(false)
                         ->options([
-                            'none' => __('filament-tiptap-editor::grid-modal.labels.dont_stack'),
+                            'none' => trans('filament-tiptap-editor::grid-modal.labels.dont_stack'),
                             'sm' => 'sm',
                             'md' => 'md',
                             'lg' => 'lg',
                         ])
                         ->default('md'),
                     Toggle::make('asymmetric')
-                        ->label(__('filament-tiptap-editor::grid-modal.labels.asymmetric'))
+                        ->label(trans('filament-tiptap-editor::grid-modal.labels.asymmetric'))
                         ->default(false)
                         ->reactive()
                         ->columnSpanFull(),
                     TextInput::make('asymmetric_left')
-                        ->label(__('filament-tiptap-editor::grid-modal.labels.asymmetric_left'))
+                        ->label(trans('filament-tiptap-editor::grid-modal.labels.asymmetric_left'))
                         ->required()
                         ->reactive()
                         ->minValue(1)
@@ -65,7 +65,7 @@ class GridBuilderAction extends Action
                         ->numeric()
                         ->visible(fn (callable $get) => $get('asymmetric')),
                     TextInput::make('asymmetric_right')
-                        ->label(__('filament-tiptap-editor::grid-modal.labels.asymmetric_right'))
+                        ->label(trans('filament-tiptap-editor::grid-modal.labels.asymmetric_right'))
                         ->required()
                         ->reactive()
                         ->minValue(1)
@@ -78,7 +78,7 @@ class GridBuilderAction extends Action
         $this->modalFooterActions(function ($action) {
             return [
                 $action->getModalSubmitAction()
-                    ->label(__('filament-tiptap-editor::grid-modal.labels.submit')),
+                    ->label(trans('filament-tiptap-editor::grid-modal.labels.submit')),
                 $action->getModalCancelAction(),
             ];
         });

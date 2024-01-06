@@ -52,11 +52,11 @@ class MediaAction extends Action
             })->modalHeading(function (TiptapEditor $component, array $arguments) {
                 $context = blank($arguments['src'] ?? null) ? 'insert' : 'update';
 
-                return __('filament-tiptap-editor::media-modal.heading.' . $context);
+                return trans('filament-tiptap-editor::media-modal.heading.' . $context);
             })->form(function (TiptapEditor $component) {
                 return [
                     FileUpload::make('src')
-                        ->label(__('filament-tiptap-editor::media-modal.labels.file'))
+                        ->label(trans('filament-tiptap-editor::media-modal.labels.file'))
                         ->disk($component->getDisk())
                         ->directory($component->getDirectory())
                         ->visibility(config('filament-tiptap-editor.visibility'))
@@ -96,11 +96,11 @@ class MediaAction extends Action
                             return Storage::disk($component->getDiskName())->url($upload);
                         }),
                     TextInput::make('link_text')
-                        ->label(__('filament-tiptap-editor::media-modal.labels.link_text'))
+                        ->label(trans('filament-tiptap-editor::media-modal.labels.link_text'))
                         ->required()
                         ->visible(fn (callable $get) => $get('type') == 'document'),
                     TextInput::make('alt')
-                        ->label(__('filament-tiptap-editor::media-modal.labels.alt'))
+                        ->label(trans('filament-tiptap-editor::media-modal.labels.alt'))
                         ->hidden(fn (callable $get) => $get('type') == 'document')
                         ->hintAction(
                             Action::make('alt_hint_action')
@@ -109,9 +109,9 @@ class MediaAction extends Action
                                 ->url('https://www.w3.org/WAI/tutorials/images/decision-tree', true)
                         ),
                     TextInput::make('title')
-                        ->label(__('filament-tiptap-editor::media-modal.labels.title')),
+                        ->label(trans('filament-tiptap-editor::media-modal.labels.title')),
                     Checkbox::make('lazy')
-                        ->label(__('filament-tiptap-editor::media-modal.labels.lazy'))
+                        ->label(trans('filament-tiptap-editor::media-modal.labels.lazy'))
                         ->default(false),
                     Hidden::make('width'),
                     Hidden::make('height'),

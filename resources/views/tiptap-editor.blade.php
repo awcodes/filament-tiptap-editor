@@ -61,7 +61,7 @@
                     x-trap.noscroll="fullScreenMode"
                 >
                     @if (! $isDisabled && ! $isToolbarMenusDisabled() && $tools)
-                        <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ __('filament-tiptap-editor::editor.skip_toolbar') }}</button>
+                        <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ trans('filament-tiptap-editor::editor.skip_toolbar') }}</button>
 
                         <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
 
@@ -143,9 +143,9 @@
                                 <div class="flex items-center mt-2">
                                     <p class="text-xs font-bold" x-show="! isCollapsed">
                                         @if ($shouldSupportBlocks)
-                                            {{ __('filament-tiptap-editor::editor.blocks.panel') }}
+                                            {{ trans('filament-tiptap-editor::editor.blocks.panel') }}
                                         @else
-                                            {{ __('filament-tiptap-editor::editor.merge_tags.panel') }}
+                                            {{ trans('filament-tiptap-editor::editor.merge_tags.panel') }}
                                         @endif
                                     </p>
 

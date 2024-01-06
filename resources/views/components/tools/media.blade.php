@@ -12,7 +12,7 @@
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    label="{{ __('filament-tiptap-editor::editor.media') }}"
+    label="{{ trans('filament-tiptap-editor::editor.media') }}"
     active="image"
     icon="media"
     x-data="{
