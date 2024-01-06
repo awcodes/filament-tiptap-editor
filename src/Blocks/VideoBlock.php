@@ -22,7 +22,7 @@ class VideoBlock extends TiptapBlock
     {
         return [
             TextInput::make('url')
-                ->label(__('filament-tiptap-editor::oembed-modal.labels.url'))
+                ->label(trans('filament-tiptap-editor::oembed-modal.labels.url'))
                 ->live(onBlur: true)
                 ->required()
                 ->afterStateUpdated(function ($state, callable $set) {
@@ -36,9 +36,9 @@ class VideoBlock extends TiptapBlock
                     return ! (str_contains($get('url'), 'vimeo') || str_contains($get('url'), 'youtube') || str_contains($get('url'), 'youtu.be'));
                 })
                 ->options([
-                    'autoplay' => __('filament-tiptap-editor::oembed-modal.labels.autoplay'),
-                    'loop' => __('filament-tiptap-editor::oembed-modal.labels.loop'),
-                    'controls' => __('filament-tiptap-editor::oembed-modal.labels.controls'),
+                    'autoplay' => trans('filament-tiptap-editor::oembed-modal.labels.autoplay'),
+                    'loop' => trans('filament-tiptap-editor::oembed-modal.labels.loop'),
+                    'controls' => trans('filament-tiptap-editor::oembed-modal.labels.controls'),
                 ]),
             CheckboxList::make('vimeo_options')
                 ->hiddenLabel()
@@ -48,11 +48,11 @@ class VideoBlock extends TiptapBlock
                     return str_contains($get('url'), 'vimeo');
                 })
                 ->options([
-                    'autoplay' => __('filament-tiptap-editor::oembed-modal.labels.autoplay'),
-                    'loop' => __('filament-tiptap-editor::oembed-modal.labels.loop'),
-                    'show_title' => __('filament-tiptap-editor::oembed-modal.labels.title'),
-                    'byline' => __('filament-tiptap-editor::oembed-modal.labels.byline'),
-                    'portrait' => __('filament-tiptap-editor::oembed-modal.labels.portrait'),
+                    'autoplay' => trans('filament-tiptap-editor::oembed-modal.labels.autoplay'),
+                    'loop' => trans('filament-tiptap-editor::oembed-modal.labels.loop'),
+                    'show_title' => trans('filament-tiptap-editor::oembed-modal.labels.title'),
+                    'byline' => trans('filament-tiptap-editor::oembed-modal.labels.byline'),
+                    'portrait' => trans('filament-tiptap-editor::oembed-modal.labels.portrait'),
                 ]),
             Group::make([
                 CheckboxList::make('youtube_options')
@@ -60,11 +60,11 @@ class VideoBlock extends TiptapBlock
                     ->gridDirection('row')
                     ->columns(3)
                     ->options([
-                        'controls' => __('filament-tiptap-editor::oembed-modal.labels.controls'),
-                        'nocookie' => __('filament-tiptap-editor::oembed-modal.labels.nocookie'),
+                        'controls' => trans('filament-tiptap-editor::oembed-modal.labels.controls'),
+                        'nocookie' => trans('filament-tiptap-editor::oembed-modal.labels.nocookie'),
                     ]),
                 TimePicker::make('start_at')
-                    ->label(__('filament-tiptap-editor::oembed-modal.labels.start_at'))
+                    ->label(trans('filament-tiptap-editor::oembed-modal.labels.start_at'))
                     ->reactive()
                     ->date(false)
                     ->afterStateHydrated(function (TimePicker $component, $state): void {
@@ -88,7 +88,7 @@ class VideoBlock extends TiptapBlock
             Checkbox::make('responsive')
                 ->default(true)
                 ->reactive()
-                ->label(__('filament-tiptap-editor::oembed-modal.labels.responsive'))
+                ->label(trans('filament-tiptap-editor::oembed-modal.labels.responsive'))
                 ->afterStateUpdated(function (callable $set, $state) {
                     if ($state) {
                         $set('width', '16');
@@ -103,12 +103,12 @@ class VideoBlock extends TiptapBlock
                 TextInput::make('width')
                     ->reactive()
                     ->required()
-                    ->label(__('filament-tiptap-editor::oembed-modal.labels.width'))
+                    ->label(trans('filament-tiptap-editor::oembed-modal.labels.width'))
                     ->default('16'),
                 TextInput::make('height')
                     ->reactive()
                     ->required()
-                    ->label(__('filament-tiptap-editor::oembed-modal.labels.height'))
+                    ->label(trans('filament-tiptap-editor::oembed-modal.labels.height'))
                     ->default('9'),
             ])->columns(['md' => 2]),
         ];

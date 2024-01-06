@@ -18,11 +18,11 @@ class SourceAction extends Action
         parent::setUp();
 
         $this
-            ->modalHeading(__('filament-tiptap-editor::source-modal.heading'))
+            ->modalHeading(trans('filament-tiptap-editor::source-modal.heading'))
             ->fillForm(fn ($arguments) => ['source' => $arguments['html']])
             ->form([
                 TextArea::make('source')
-                    ->label(__('filament-tiptap-editor::source-modal.labels.source'))
+                    ->label(trans('filament-tiptap-editor::source-modal.labels.source'))
                     ->extraAttributes(['class' => 'source_code_editor'])
                     ->autosize(),
             ])

@@ -39,12 +39,12 @@ class LinkAction extends Action
             })->modalHeading(function (array $arguments) {
                 $context = blank($arguments['href']) ? 'insert' : 'update';
 
-                return __('filament-tiptap-editor::link-modal.heading.' . $context);
+                return trans('filament-tiptap-editor::link-modal.heading.' . $context);
             })->form([
                 Grid::make(['md' => 3])
                     ->schema([
                         TextInput::make('href')
-                            ->label(__('filament-tiptap-editor::link-modal.labels.url'))
+                            ->label(trans('filament-tiptap-editor::link-modal.labels.url'))
                             ->columnSpan('full')
                             ->requiredWithout('id')
                             ->validationAttribute('URL'),
@@ -52,30 +52,30 @@ class LinkAction extends Action
                         Select::make('target')
                             ->selectablePlaceholder(false)
                             ->options([
-                                '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
-                                '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
-                                '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                                '_top' => __('filament-tiptap-editor::link-modal.labels.target.top'),
+                                '' => trans('filament-tiptap-editor::link-modal.labels.target.default'),
+                                '_blank' => trans('filament-tiptap-editor::link-modal.labels.target.new_window'),
+                                '_parent' => trans('filament-tiptap-editor::link-modal.labels.target.parent'),
+                                '_top' => trans('filament-tiptap-editor::link-modal.labels.target.top'),
                             ]),
                         TextInput::make('hreflang')
-                            ->label(__('filament-tiptap-editor::link-modal.labels.language')),
+                            ->label(trans('filament-tiptap-editor::link-modal.labels.language')),
                         TextInput::make('rel')
                             ->columnSpan('full'),
                         TextInput::make('referrerpolicy')
-                            ->label(__('filament-tiptap-editor::link-modal.labels.referrer_policy'))
+                            ->label(trans('filament-tiptap-editor::link-modal.labels.referrer_policy'))
                             ->columnSpan('full'),
                         Toggle::make('as_button')
-                            ->label(__('filament-tiptap-editor::link-modal.labels.as_button'))
+                            ->label(trans('filament-tiptap-editor::link-modal.labels.as_button'))
                             ->reactive(),
                         Radio::make('button_theme')
                             ->columnSpan('full')
                             ->columns(2)
                             ->visible(fn ($get) => $get('as_button'))
                             ->options([
-                                'primary' => __('filament-tiptap-editor::link-modal.labels.button_theme.primary'),
-                                'secondary' => __('filament-tiptap-editor::link-modal.labels.button_theme.secondary'),
-                                'tertiary' => __('filament-tiptap-editor::link-modal.labels.button_theme.tertiary'),
-                                'accent' => __('filament-tiptap-editor::link-modal.labels.button_theme.accent'),
+                                'primary' => trans('filament-tiptap-editor::link-modal.labels.button_theme.primary'),
+                                'secondary' => trans('filament-tiptap-editor::link-modal.labels.button_theme.secondary'),
+                                'tertiary' => trans('filament-tiptap-editor::link-modal.labels.button_theme.tertiary'),
+                                'accent' => trans('filament-tiptap-editor::link-modal.labels.button_theme.accent'),
                             ]),
                     ]),
             ])->action(function (TiptapEditor $component, $data) {

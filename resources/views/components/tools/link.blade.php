@@ -1,7 +1,7 @@
 @props([
     'statePath' => null,
     'icon' => 'link',
-    'label' => __('filament-tiptap-editor::editor.link.insert_edit'),
+    'label' => trans('filament-tiptap-editor::editor.link.insert_edit'),
     'active' => true,
 ])
 

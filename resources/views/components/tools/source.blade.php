@@ -4,7 +4,7 @@
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    label="{{ __('filament-tiptap-editor::editor.source') }}"
+    label="{{ trans('filament-tiptap-editor::editor.source') }}"
     icon="source"
     x-data="{
         openModal() {

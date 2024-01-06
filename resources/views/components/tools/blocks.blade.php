@@ -4,7 +4,7 @@
 ])
 
 <x-filament-tiptap-editor::dropdown-button
-    label="{{ __('filament-tiptap-editor::editor.blocks.insert') }}"
+    label="{{ trans('filament-tiptap-editor::editor.blocks.insert') }}"
     icon="blocks"
     :active="true"
 >
