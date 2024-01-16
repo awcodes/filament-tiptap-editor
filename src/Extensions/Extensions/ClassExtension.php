@@ -3,7 +3,6 @@
 namespace FilamentTiptapEditor\Extensions\Extensions;
 
 use Tiptap\Core\Extension;
-use Tiptap\Utils\InlineStyle;
 
 class ClassExtension extends Extension
 {
@@ -26,12 +25,14 @@ class ClassExtension extends Extension
                     'tableRow',
                     'tableCell',
                     'textStyle',
+                    'code',
+                    'codeBlock',
                 ],
                 'attributes' => [
                     'class' => [
                         'default' => null,
                         'parseHTML' => function ($DOMNode) {
-                            return InlineStyle::getAttribute($DOMNode, 'class') ?? false;
+                            return $DOMNode->hasAttribute('class') ? $DOMNode->getAttribute('class') : null;
                         },
                         'renderHTML' => function ($attributes) {
                             if (! property_exists($attributes, 'class')) {

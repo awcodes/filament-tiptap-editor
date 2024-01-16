@@ -53,6 +53,7 @@ import {
     DragAndDropExtension,
     ClassExtension,
     IdExtension,
+    StyleExtension,
 } from "./extensions";
 import {lowlight} from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -158,6 +159,7 @@ export default function tiptap({
                 DragAndDropExtension,
                 ClassExtension,
                 IdExtension,
+                StyleExtension,
             ];
 
             if (placeholder && (! disabled)) {

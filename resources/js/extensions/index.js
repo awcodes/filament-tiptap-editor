@@ -24,3 +24,4 @@ export { TiptapBlock } from "./TiptapBlock.js";
 export { MergeTag } from "./MergeTag.js";
 export { ClassExtension } from "./ClassExtension.js";
 export { IdExtension } from "./IdExtension.js";
+export { StyleExtension } from "./StyleExtension.js";

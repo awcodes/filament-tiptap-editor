@@ -5,8 +5,6 @@ namespace FilamentTiptapEditor;
 use FilamentTiptapEditor\Extensions\Extensions;
 use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
 use Tiptap\Marks\Highlight;
@@ -59,6 +57,7 @@ class TiptapConverter
             ]),
             new Extensions\ClassExtension(),
             new Extensions\IdExtension(),
+            new Extensions\StyleExtension(),
             new Extensions\Color(),
             new CodeBlockHighlight(),
             new Nodes\ListItem(),
