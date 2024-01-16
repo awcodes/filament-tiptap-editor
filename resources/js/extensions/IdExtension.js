@@ -13,10 +13,10 @@ export const IdExtension = Extension.create({
                 attributes: {
                     id: {
                         default: null,
-                        parseHTML: element => element.getAttribute('id'),
+                        parseHTML: element => element.getAttribute('id') ?? null,
                         renderHTML: attributes => {
                             if (!attributes.id) {
-                                return {}
+                                return null;
                             }
                             return {
                                 id: attributes.id

@@ -1,7 +1,7 @@
 import {Extension} from '@tiptap/core'
 
-export const ClassExtension = Extension.create({
-    name: 'classExtension',
+export const StyleExtension = Extension.create({
+    name: 'styleExtension',
 
     addGlobalAttributes() {
         return [
@@ -21,15 +21,15 @@ export const ClassExtension = Extension.create({
                     'textStyle',
                 ],
                 attributes: {
-                    class: {
+                    style: {
                         default: null,
-                        parseHTML: element => element.getAttribute('class') ?? null,
+                        parseHTML: element => element.getAttribute('style') ?? null,
                         renderHTML: attributes => {
-                            if (!attributes.class) {
+                            if (!attributes.style) {
                                 return null;
                             }
                             return {
-                                class: attributes.class
+                                style: attributes.style
                             }
                         },
                     },
