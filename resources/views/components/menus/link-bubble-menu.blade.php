@@ -10,5 +10,3 @@
     <x-filament-tiptap-editor::tools.remove-link />
 </div>
 @endif
-
-
