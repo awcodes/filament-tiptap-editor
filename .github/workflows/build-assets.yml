@@ -7,9 +7,9 @@ on:
     types:
       - closed
     paths:
-      - 'resources/js/**.js',
-      - 'resources/css/**.css',
-      - 'resources/views/**.blade.php',
+      - 'resources/js/**.js'
+      - 'resources/css/**.css'
+      - 'resources/views/**.blade.php'
 
 jobs:
   if_merged:
