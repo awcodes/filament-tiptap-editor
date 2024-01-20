@@ -7,6 +7,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use FilamentTiptapEditor\TiptapEditor;
@@ -76,6 +77,11 @@ class MediaAction extends Action
                             } else {
                                 $set('type', 'document');
                             }
+
+                            if ($dimensions = $state->dimensions()) {
+                                $set('width', $dimensions[0]);
+                                $set('height', $dimensions[1]);
+                            }
                         })
                         ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                             $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
@@ -84,11 +90,6 @@ class MediaAction extends Action
 
                             if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
                                 $filename = $filename . '-' . time();
-                            }
-
-                            if ($dimensions = $file->dimensions()) {
-                                $set('width', $dimensions[0]);
-                                $set('height', $dimensions[1]);
                             }
 
                             $upload = $file->{$storeMethod}($component->getDirectory(), $filename . '.' . $extension, $component->getDiskName());
@@ -113,8 +114,10 @@ class MediaAction extends Action
                     Checkbox::make('lazy')
                         ->label(trans('filament-tiptap-editor::media-modal.labels.lazy'))
                         ->default(false),
-                    Hidden::make('width'),
-                    Hidden::make('height'),
+                    Group::make([
+                        TextInput::make('width'),
+                        TextInput::make('height'),
+                    ])->columns(),
                     Hidden::make('type')
                         ->default('document'),
                 ];
