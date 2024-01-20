@@ -6,6 +6,8 @@ use Closure;
 
 trait InteractsWithMenus
 {
+    protected array | Closure | null $bubbleMenuTools = null;
+
     protected array | Closure | null $floatingMenuTools = null;
 
     protected ?bool $shouldShowBubbleMenus = null;
@@ -33,6 +35,24 @@ trait InteractsWithMenus
         $this->shouldShowToolbarMenus = $condition;
 
         return $this;
+    }
+
+    public function bubbleMenuTools(array | Closure $tools): static
+    {
+        $this->bubbleMenuTools = $tools;
+
+        return $this;
+    }
+
+    public function getBubbleMenuTools(): array
+    {
+        if ($this->bubbleMenuTools) {
+            return $this->evaluate($this->bubbleMenuTools);
+        } elseif ($this->profile !== 'none') {
+            return config('filament-tiptap-editor.bubble_menu_tools');
+        }
+
+        return [];
     }
 
     public function floatingMenuTools(array | Closure $tools): static
