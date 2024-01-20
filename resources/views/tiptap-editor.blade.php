@@ -1,5 +1,6 @@
 @php
     $tools = $getTools();
+    $bubbleMenuTools = $getBubbleMenuTools();
     $floatingMenuTools = $getFloatingMenuTools();
     $statePath = $getStatePath();
     $isDisabled = $isDisabled();
@@ -93,7 +94,7 @@
                     @endif
 
                     @if (! $isBubbleMenusDisabled())
-                        <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                        <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$bubbleMenuTools"/>
                         <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
                         <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
                     @endif
