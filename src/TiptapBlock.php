@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor;
 
 use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\Forms\Components\Component;
 use Illuminate\Support\Str;
 
 abstract class TiptapBlock
@@ -51,9 +52,12 @@ abstract class TiptapBlock
         return [];
     }
 
-    public function getPreview(array | null $data = []): string
+    public function getPreview(array | null $data = [], ?Component $component): string
     {
-        return view($this->preview, $data)->render();
+        return view($this->preview, [
+            ...$data,
+            'component' => $component
+        ])->render();
     }
 
     public function getRendered(array | null $data = []): string

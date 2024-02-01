@@ -182,7 +182,7 @@ class TiptapEditor extends Field
             if ($block['type'] === 'tiptapBlock') {
                 $instance = $this->getBlock($block['attrs']['type']);
                 $orderedAttrs = [
-                    'preview' => $instance->getPreview($block['attrs']['data']),
+                    'preview' => $instance->getPreview($block['attrs']['data'], $component),
                     'statePath' => $component->getStatePath(),
                     'type' => $block['attrs']['type'],
                     'label' => $instance->getLabel(),
