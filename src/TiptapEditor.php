@@ -293,7 +293,7 @@ class TiptapEditor extends Field
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: Js::from($data)->toHtml(),
-                    preview: $block->getPreview($data),
+                    preview: $block->getPreview($data, $component),
                     label: $block->getLabel(),
                     coordinates: $arguments['coordinates'] ?? [],
                 );

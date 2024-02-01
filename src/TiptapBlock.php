@@ -52,7 +52,7 @@ abstract class TiptapBlock
         return [];
     }
 
-    public function getPreview(array | null $data = [], ?Component $component): string
+    public function getPreview(array | null $data = [], Component | null $component = null): string
     {
         return view($this->preview, [
             ...$data,
