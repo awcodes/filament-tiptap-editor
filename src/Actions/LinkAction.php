@@ -48,15 +48,18 @@ class LinkAction extends Action
                         ->label(__('filament-tiptap-editor::link-modal.labels.url'))
                         ->columnSpan('full')
                         ->required(),
-                    Select::make('target')->options([
-                        '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
-                        '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
-                        '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
-                        '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
-                    ]),
+                    Select::make('target')
+                         ->label(__('filament-tiptap-editor::link-modal.labels.target.title'))
+                         ->options([
+                            '' => __('filament-tiptap-editor::link-modal.labels.target.default'),
+                            '_blank' => __('filament-tiptap-editor::link-modal.labels.target.new_window'),
+                            '_parent' => __('filament-tiptap-editor::link-modal.labels.target.parent'),
+                            '_top' => __('filament-tiptap-editor::link-modal.labels.target.top')
+                        ]),
                     TextInput::make('hreflang')
                         ->label(__('filament-tiptap-editor::link-modal.labels.language')),
                     CheckboxList::make('rel')
+                        ->label(__('filament-tiptap-editor::link-modal.labels.rel.title'))
                         ->columnSpan('full')
                         ->columns(3)
                         ->options([
@@ -68,6 +71,7 @@ class LinkAction extends Action
                         ->label(__('filament-tiptap-editor::link-modal.labels.as_button'))
                         ->reactive(),
                     Radio::make('button_theme')
+                        ->label(__('filament-tiptap-editor::link-modal.labels.button_theme.title'))
                         ->columnSpan('full')
                         ->columns(2)
                         ->visible(fn ($get) => $get('as_button'))
@@ -98,6 +102,7 @@ class LinkAction extends Action
             return [
                 \Filament\Forms\Components\Actions\Modal\Actions\Action::make('remove_link')
                     ->color('danger')
+                    ->label(__('filament-tiptap-editor::link-modal.buttons.remove'))
                     ->extraAttributes([
                         'x-on:click' => '$dispatch(\'unset-link\', {statePath: \'' . $component->getStatePath() . '\'}); close()',
                         'style' => 'margin-left: auto;'
