@@ -71,7 +71,13 @@ class TiptapBlock extends Node
     public function renderHTML($node, $HTMLAttributes = []): array
     {
         $blocks = $this->getBlocks();
-        $view = view($blocks[$node->attrs->type]->rendered, json_decode(json_encode($node->attrs->data), associative: true))->render();
+
+        $view = '';
+
+        $block = $blocks[$node->attrs->type] ?? null;
+        if ($block) {
+            $view = $block->getRendered(json_decode(json_encode($node->attrs->data), associative: true));
+        }
 
         return [
             'tiptap-block',
