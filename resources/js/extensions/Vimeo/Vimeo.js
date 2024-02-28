@@ -1,5 +1,6 @@
 import { mergeAttributes, Node } from "@tiptap/core";
 import { getEmbedURLFromVimeoURL, isValidVimeoUrl } from "./utils";
+import {getEmbedURLFromYoutubeURL} from "../Youtube/utils.js";
 
 export const Vimeo = Node.create({
   name: "vimeo",
@@ -92,9 +93,21 @@ export const Vimeo = Node.create({
             return false;
           }
 
+          const embedUrl = getEmbedURLFromVimeoURL({
+            url: options.src,
+            autoplay: options?.autoplay || 0,
+            loop: options?.loop || 0,
+            title: options?.title || 0,
+            byline: options?.byline || 0,
+            portrait: options?.portrait || 0,
+          });
+
           return commands.insertContent({
             type: this.name,
-            attrs: options,
+            attrs: {
+              ...options,
+              src: embedUrl,
+            },
           });
         },
     };

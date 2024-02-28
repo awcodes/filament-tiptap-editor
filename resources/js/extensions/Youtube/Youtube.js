@@ -86,9 +86,19 @@ export const Youtube = Node.create({
             return false;
           }
 
+          const embedUrl = getEmbedURLFromYoutubeURL({
+            url: options.src,
+            controls: options.controls,
+            nocookie: options.nocookie,
+            startAt: options.start || 0,
+          });
+
           return commands.insertContent({
             type: this.name,
-            attrs: options,
+            attrs: {
+              ...options,
+              src: embedUrl,
+            },
           });
         },
     };

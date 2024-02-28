@@ -98,6 +98,10 @@ class TiptapEditor extends Field
             }
 
             if ($this->expectsJSON()) {
+                if (!is_array($state)) {
+                    $state = tiptap_converter()->asJSON($state, decoded: true);
+                }
+
                 return $this->decodeBlocksBeforeSave($state);
             }
 
