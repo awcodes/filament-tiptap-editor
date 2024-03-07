@@ -135,7 +135,7 @@
                                 }"
                                 class="hidden shrink-0 space-y-2 max-w-sm md:flex flex-col h-full"
                                 x-bind:class="{
-                                    'bg-gray-50 dark:bg-gray-950/20': ! isCollapsed,
+                                    'bg-gray-50 dark:bg-gray-900': ! isCollapsed,
                                     'h-full': ! isCollapsed && fullScreenMode,
                                     'px-2': ! fullScreenMode,
                                     'px-3': fullScreenMode
