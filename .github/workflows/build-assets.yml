@@ -1,36 +1,36 @@
-name: "Build Assets"
+name: 'Build Assets'
 
 on:
-  pull_request:
-    branches:
-      - 3.x
-    types:
-      - closed
-    paths:
-      - 'resources/js/**.js'
-      - 'resources/css/**.css'
-      - 'resources/views/**.blade.php'
+    pull_request:
+        branches:
+            - 3.x
+        types:
+            - closed
+        paths:
+            - 'resources/js/**.js'
+            - 'resources/css/**.css'
+            - 'resources/views/**.blade.php'
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+    if_merged:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.head_ref }}
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
 
-      - name: Install dependencies
-        run: npm ci
+            - name: Install dependencies
+              run: npm ci
 
-      - name: Build assets
-        run: npm run build
+            - name: Build assets
+              run: npm run build
 
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Chore: build assets"
+            - name: Commit changes
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                  commit_message: 'Chore: build assets'

@@ -44,6 +44,8 @@ class TiptapEditor extends Field
 
     protected ?array $mergeTags = [];
 
+    protected ?array $mentions = [];
+
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
     protected bool $shouldCollapseBlocksPanel = false;
@@ -458,6 +460,18 @@ class TiptapEditor extends Field
     public function getMergeTags(): ?array
     {
         return $this->mergeTags;
+    }
+
+    public function mentions(?array $mentions): static
+    {
+        $this->mentions = $mentions;
+
+        return $this;
+    }
+
+    public function getMentions(): ?array
+    {
+        return $this->mentions;
     }
 
     public function showMergeTagsInBlocksPanel(bool $condition = true): static

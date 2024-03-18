@@ -1,4 +1,4 @@
-import {Editor, getHTMLFromFragment, isActive} from "@tiptap/core";
+import {Editor, isActive} from "@tiptap/core";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -39,6 +39,7 @@ import {
     GridBuilder,
     GridBuilderColumn,
     MergeTag,
+    Mention,
     Youtube,
     Vimeo,
     Details,
@@ -123,6 +124,7 @@ export default function tiptap({
    floatingMenuTools = [],
    placeholder = null,
    mergeTags = [],
+   mentions = [],
 }) {
     let editors = window.filamentTiptapEditors || {};
 
@@ -261,6 +263,12 @@ export default function tiptap({
             if (mergeTags?.length) {
                 exts.push(MergeTag.configure({
                     mergeTags,
+                }))
+            }
+            
+            if (mentions?.length) {
+                exts.push(Mention.configure({
+                    mentions
                 }))
             }
 
@@ -542,6 +550,16 @@ export default function tiptap({
                 coordinates: event.detail.coordinates,
             });
 
+            if (! this.editor().isFocused) {
+                this.editor().commands.focus();
+            }
+        },
+        insertMention(event) {
+            this.editor().commands.insertMention({
+                tag: event.detail.tag,
+                coordinates: event.detail.coordinates,
+            });
+            
             if (! this.editor().isFocused) {
                 this.editor().commands.focus();
             }

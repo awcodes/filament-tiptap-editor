@@ -6,6 +6,7 @@
     $isDisabled = $isDisabled();
     $blocks = $getBlocks();
     $mergeTags = $getMergeTags();
+    $mentions = $getMentions();
     $shouldSupportBlocks = $shouldSupportBlocks();
     $shouldShowMergeTagsInBlocksPanel = $shouldShowMergeTagsInBlocksPanel();
 @endphp
@@ -43,6 +44,7 @@
                         floatingMenuTools: @js($floatingMenuTools),
                         placeholder: @js($getPlaceholder()),
                         mergeTags: @js($mergeTags),
+                        mentions: @js($mentions),
                     })"
                     x-on:click.away="focused = false"
                     x-on:keydown.escape="fullScreenMode = false"

@@ -2,21 +2,10 @@
 
 namespace FilamentTiptapEditor;
 
-use FilamentTiptapEditor\Extensions\Extensions;
-use FilamentTiptapEditor\Extensions\Marks;
-use FilamentTiptapEditor\Extensions\Nodes;
 use Tiptap\Editor;
 use Tiptap\Extensions\StarterKit;
-use Tiptap\Marks\Highlight;
-use Tiptap\Marks\Subscript;
-use Tiptap\Marks\Superscript;
-use Tiptap\Marks\TextStyle;
-use Tiptap\Marks\Underline;
-use Tiptap\Nodes\CodeBlockHighlight;
-use Tiptap\Nodes\Table;
-use Tiptap\Nodes\TableCell;
-use Tiptap\Nodes\TableHeader;
-use Tiptap\Nodes\TableRow;
+use Tiptap\Marks;
+use Tiptap\Nodes;
 
 class TiptapConverter
 {
@@ -51,42 +40,43 @@ class TiptapConverter
             new StarterKit([
                 'listItem' => false,
             ]),
-            new TextStyle,
-            new Extensions\TextAlign([
+            new Marks\TextStyle,
+            new Extensions\Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
-            new Extensions\ClassExtension,
-            new Extensions\IdExtension,
-            new Extensions\StyleExtension,
-            new Extensions\Color,
-            new CodeBlockHighlight,
-            new Nodes\ListItem,
-            new Nodes\Lead,
-            new Nodes\Image,
-            new Nodes\CheckedList,
-            new Nodes\Details,
-            new Nodes\DetailsSummary,
-            new Nodes\DetailsContent,
-            new Nodes\Grid,
-            new Nodes\GridColumn,
-            new Nodes\GridBuilder,
-            new Nodes\GridBuilderColumn,
-            new Nodes\MergeTag,
-            new Nodes\Vimeo,
-            new Nodes\YouTube,
-            new Nodes\Video,
-            new Nodes\TiptapBlock(['blocks' => $this->blocks]),
-            new Nodes\Hurdle,
-            new Table,
-            new TableHeader,
-            new TableRow,
-            new TableCell,
-            new Highlight,
-            new Underline,
-            new Superscript,
-            new Subscript,
-            new Marks\Link,
-            new Marks\Small,
+            new Extensions\Extensions\ClassExtension,
+            new Extensions\Extensions\IdExtension,
+            new Extensions\Extensions\StyleExtension,
+            new Extensions\Extensions\Color,
+            new Nodes\CodeBlockHighlight,
+            new Extensions\Nodes\ListItem,
+            new Extensions\Nodes\Mention,
+            new Extensions\Nodes\Lead,
+            new Extensions\Nodes\Image,
+            new Extensions\Nodes\CheckedList,
+            new Extensions\Nodes\Details,
+            new Extensions\Nodes\DetailsSummary,
+            new Extensions\Nodes\DetailsContent,
+            new Extensions\Nodes\Grid,
+            new Extensions\Nodes\GridColumn,
+            new Extensions\Nodes\GridBuilder,
+            new Extensions\Nodes\GridBuilderColumn,
+            new Extensions\Nodes\MergeTag,
+            new Extensions\Nodes\Vimeo,
+            new Extensions\Nodes\YouTube,
+            new Extensions\Nodes\Video,
+            new Extensions\Nodes\TiptapBlock(['blocks' => $this->blocks]),
+            new Extensions\Nodes\Hurdle,
+            new Nodes\Table,
+            new Nodes\TableHeader,
+            new Nodes\TableRow,
+            new Nodes\TableCell,
+            new Marks\Highlight,
+            new Marks\Underline,
+            new Marks\Superscript,
+            new Marks\Subscript,
+            new Extensions\Marks\Link,
+            new Extensions\Marks\Small,
             ...$customExtensions,
         ];
     }

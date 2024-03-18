@@ -9,14 +9,14 @@ class ListItem extends Node
 {
     public static $name = 'listItem';
 
-    public function addOptions()
+    public function addOptions(): array
     {
         return [
             'HTMLAttributes' => [],
         ];
     }
 
-    public function parseHTML()
+    public function parseHTML(): array
     {
         return [
             [
@@ -25,17 +25,14 @@ class ListItem extends Node
         ];
     }
 
-    public function renderHTML($node, $HTMLAttributes = [])
+    public function renderHTML($node, $HTMLAttributes = []): array
     {
         return ['li', HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes), 0];
     }
 
     public static function wrapper($DOMNode)
     {
-        if (
-            $DOMNode->childNodes->length >= 1
-            && $DOMNode->childNodes[0]->nodeName === 'p'
-        ) {
+        if ($DOMNode->childNodes->length >= 1 && $DOMNode->childNodes[0]->nodeName === 'p') {
             return;
         }
 
