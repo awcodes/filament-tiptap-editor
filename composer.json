@@ -1,5 +1,5 @@
 {
-    "name": "awcodes/filament-tiptap-editor",
+    "name": "height99/filament-tiptap-editor",
     "type": "package",
     "description": "A Tiptap integration for Filament Admin/Forms.",
     "keywords": [
