@@ -9,7 +9,7 @@ A Tiptap integration for Filament Admin/Forms.
 Install the package via composer
 
 ```bash
-composer require awcodes/filament-tiptap-editor:"^3.0"
+composer require height99/filament-tiptap-editor:"^3.0"
 ```
 
 In an effort to align with Filament's theming methodology you will need to use a custom theme to use this plugin.
@@ -20,7 +20,7 @@ In an effort to align with Filament's theming methodology you will need to use a
 1. Import the plugin's stylesheet and tippy.js stylesheet (if not already included) into your theme's css file.
 
 ```css
-@import '<path-to-vendor>/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+@import '<path-to-vendor>/height99/filament-tiptap-editor/resources/css/plugin.css';
 ```
 
 2. Add the plugin's views to your `tailwind.config.js` file.
@@ -28,7 +28,7 @@ In an effort to align with Filament's theming methodology you will need to use a
 ```js
 content: [
     ...
-    '<path-to-vendor>/awcodes/filament-tiptap-editor/resources/**/*.blade.php',
+    '<path-to-vendor>/height99/filament-tiptap-editor/resources/**/*.blade.php',
 ]
 ```
 
@@ -212,13 +212,13 @@ The Link and Media modals are built using Filament Form Component Actions. This 
 
 You may override the default Link modal with your own Action and assign to the `link_action` key in the config file. Make sure the default name for your action is `filament_tiptap_link`.
 
-See `vendor/awcodes/filament-tiptap-editor/src/Actions/LinkAction.php` for implementation.
+See `vendor/height99/filament-tiptap-editor/src/Actions/LinkAction.php` for implementation.
 
 ### Media Modal
 
 You may override the default Media modal with your own Action and assign to the `media_action` key in the config file. Make sure the default name for your action is `filament_tiptap_media`.
 
-See `vendor/awcodes/filament-tiptap-editor/src/Actions/MediaAction.php` for implementation.
+See `vendor/height99/filament-tiptap-editor/src/Actions/MediaAction.php` for implementation.
 
 ### Initial height of editor field
 
