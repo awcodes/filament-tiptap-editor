@@ -5,6 +5,7 @@ namespace FilamentTiptapEditor\Commands;
 use Filament\Support\Commands\Concerns\CanManipulateFiles;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+
 use function Laravel\Prompts\text;
 
 class MakeBlockCommand extends Command
@@ -86,13 +87,13 @@ class MakeBlockCommand extends Command
             $renderedViewPath,
         ];
 
-        if (! $this->option('force') && $this->checkForCollision($files)) {
+        if (!$this->option('force') && $this->checkForCollision($files)) {
             return static::INVALID;
         }
 
         $this->copyStubToApp('Block', $path, [
             'class' => $blockClass,
-            'namespace' => str($namespace) . ($blockNamespace !== '' ? "\\{$blockNamespace}" : ""),
+            'namespace' => str($namespace) . ($blockNamespace !== '' ? "\\{$blockNamespace}" : ''),
             'preview' => $preview,
             'rendered' => $rendered,
         ]);

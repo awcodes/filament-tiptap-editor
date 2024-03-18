@@ -9,5 +9,5 @@ return [
     'labels' => [
         'source' => 'Sorgente',
     ],
-    
+
 ];

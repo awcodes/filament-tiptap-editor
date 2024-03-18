@@ -36,7 +36,7 @@ class OEmbedAction extends Action
                     ->gridDirection('row')
                     ->columns(3)
                     ->visible(function (callable $get) {
-                        return ! (str_contains($get('url'), 'vimeo') || str_contains($get('url'), 'youtube') || str_contains($get('url'), 'youtu.be'));
+                        return !(str_contains($get('url'), 'vimeo') || str_contains($get('url'), 'youtube') || str_contains($get('url'), 'youtu.be'));
                     })
                     ->options([
                         'autoplay' => trans('filament-tiptap-editor::oembed-modal.labels.autoplay'),
@@ -71,7 +71,7 @@ class OEmbedAction extends Action
                         ->reactive()
                         ->date(false)
                         ->afterStateHydrated(function (TimePicker $component, $state): void {
-                            if (! $state) {
+                            if (!$state) {
                                 return;
                             }
 
@@ -79,7 +79,7 @@ class OEmbedAction extends Action
                             $component->state(Carbon::parse($state->h . ':' . $state->i . ':' . $state->s)->format('Y-m-d H:i:s'));
                         })
                         ->dehydrateStateUsing(function ($state): int {
-                            if (! $state) {
+                            if (!$state) {
                                 return 0;
                             }
 

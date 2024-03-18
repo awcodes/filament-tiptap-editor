@@ -51,47 +51,47 @@ class TiptapConverter
             new StarterKit([
                 'listItem' => false,
             ]),
-            new TextStyle(),
+            new TextStyle,
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
-            new Extensions\ClassExtension(),
-            new Extensions\IdExtension(),
-            new Extensions\StyleExtension(),
-            new Extensions\Color(),
-            new CodeBlockHighlight(),
-            new Nodes\ListItem(),
-            new Nodes\Lead(),
-            new Nodes\Image(),
-            new Nodes\CheckedList(),
-            new Nodes\Details(),
-            new Nodes\DetailsSummary(),
-            new Nodes\DetailsContent(),
-            new Nodes\Grid(),
-            new Nodes\GridColumn(),
-            new Nodes\GridBuilder(),
-            new Nodes\GridBuilderColumn(),
-            new Nodes\MergeTag(),
-            new Nodes\Vimeo(),
-            new Nodes\YouTube(),
-            new Nodes\Video(),
+            new Extensions\ClassExtension,
+            new Extensions\IdExtension,
+            new Extensions\StyleExtension,
+            new Extensions\Color,
+            new CodeBlockHighlight,
+            new Nodes\ListItem,
+            new Nodes\Lead,
+            new Nodes\Image,
+            new Nodes\CheckedList,
+            new Nodes\Details,
+            new Nodes\DetailsSummary,
+            new Nodes\DetailsContent,
+            new Nodes\Grid,
+            new Nodes\GridColumn,
+            new Nodes\GridBuilder,
+            new Nodes\GridBuilderColumn,
+            new Nodes\MergeTag,
+            new Nodes\Vimeo,
+            new Nodes\YouTube,
+            new Nodes\Video,
             new Nodes\TiptapBlock(['blocks' => $this->blocks]),
-            new Nodes\Hurdle(),
-            new Table(),
-            new TableHeader(),
-            new TableRow(),
-            new TableCell(),
-            new Highlight(),
-            new Underline(),
-            new Superscript(),
-            new Subscript(),
-            new Marks\Link(),
-            new Marks\Small(),
+            new Nodes\Hurdle,
+            new Table,
+            new TableHeader,
+            new TableRow,
+            new TableCell,
+            new Highlight,
+            new Underline,
+            new Superscript,
+            new Subscript,
+            new Marks\Link,
+            new Marks\Small,
             ...$customExtensions,
         ];
     }
 
-    public function asHTML(string | array $content, bool $toc = false, int $maxDepth = 3): string
+    public function asHTML(string|array $content, bool $toc = false, int $maxDepth = 3): string
     {
         $editor = $this->getEditor()->setContent($content);
 
@@ -102,7 +102,7 @@ class TiptapConverter
         return $editor->getHTML();
     }
 
-    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
+    public function asJSON(string|array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string|array
     {
         $editor = $this->getEditor()->setContent($content);
 
@@ -113,12 +113,12 @@ class TiptapConverter
         return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
     }
 
-    public function asText(string | array $content): string
+    public function asText(string|array $content): string
     {
         return $this->getEditor()->setContent($content)->getText();
     }
 
-    public function asTOC(string | array $content, int $maxDepth = 3): string
+    public function asTOC(string|array $content, int $maxDepth = 3): string
     {
         if (is_string($content)) {
             $content = $this->asJSON($content, decoded: true);
@@ -140,23 +140,23 @@ class TiptapConverter
                 return;
             }
 
-            if (! property_exists($node->attrs, 'id') || $node->attrs->id === null) {
+            if (!property_exists($node->attrs, 'id') || $node->attrs->id === null) {
                 $node->attrs->id = str(collect($node->content)->map(function ($node) {
                     return $node?->text ?? null;
                 })->implode(' '))->kebab()->toString();
             }
 
             array_unshift($node->content, (object) [
-                "type" => "text",
-                "text" => "#",
-                "marks" => [
+                'type' => 'text',
+                'text' => '#',
+                'marks' => [
                     [
-                        "type" => "link",
-                        "attrs" => [
-                            "href" => "#" . $node->attrs->id,
-                        ]
-                    ]
-                ]
+                        'type' => 'link',
+                        'attrs' => [
+                            'href' => '#' . $node->attrs->id,
+                        ],
+                    ],
+                ],
             ]);
         });
 

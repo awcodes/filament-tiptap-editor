@@ -1,14 +1,16 @@
 {
   "preset": "laravel",
   "rules": {
-    "blank_line_before_statement": true,
+    "braces": false,
     "concat_space": {
       "spacing": "one"
     },
-    "method_argument_space": true,
-    "single_trait_insert_per_statement": true,
-    "types_spaces": {
-      "space": "single"
-    }
+    "curly_braces_position": false,
+    "new_with_braces": {
+      "anonymous_class": false,
+      "named_class": false
+    },
+    "not_operator_with_successor_space": false,
+    "simplified_null_return": true
   }
 }

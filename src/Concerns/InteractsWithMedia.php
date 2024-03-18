@@ -8,15 +8,15 @@ trait InteractsWithMedia
 {
     protected ?array $acceptedFileTypes = null;
 
-    protected string | Closure | null $directory = null;
+    protected string|Closure|null $directory = null;
 
-    protected string | Closure | null $disk = null;
+    protected string|Closure|null $disk = null;
 
     protected ?int $maxFileSize = null;
 
-    protected bool | Closure | null $shouldPreserveFileNames = null;
+    protected bool|Closure|null $shouldPreserveFileNames = null;
 
-    protected string | Closure | null $visibility = null;
+    protected string|Closure|null $visibility = null;
 
     public function acceptedFileTypes(array $acceptedFileTypes): static
     {
@@ -25,14 +25,14 @@ trait InteractsWithMedia
         return $this;
     }
 
-    public function directory(string | Closure $directory): static
+    public function directory(string|Closure $directory): static
     {
         $this->directory = $directory;
 
         return $this;
     }
 
-    public function disk(string | Closure $disk): static
+    public function disk(string|Closure $disk): static
     {
         $this->disk = $disk;
 
@@ -46,14 +46,14 @@ trait InteractsWithMedia
         return $this;
     }
 
-    public function preserveFileNames(bool | Closure $shouldPreserveFileNames): static
+    public function preserveFileNames(bool|Closure $shouldPreserveFileNames): static
     {
         $this->shouldPreserveFileNames = $shouldPreserveFileNames;
 
         return $this;
     }
 
-    public function visibility(string | Closure $visibility): static
+    public function visibility(string|Closure $visibility): static
     {
         $this->visibility = $visibility;
 

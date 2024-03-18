@@ -31,7 +31,7 @@ trait CanStoreOutput
         return TiptapConverter::asText($this->getState());
     }
 
-    public function getJSON(bool $decoded = false): string | array
+    public function getJSON(bool $decoded = false): string|array
     {
         return TiptapConverter::asJSON($this->getState(), decoded: $decoded);
     }

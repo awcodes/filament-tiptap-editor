@@ -24,7 +24,7 @@ class TiptapBlock extends Node
                 },
                 'renderHTML' => function ($attributes) {
                     return [
-                        'data-type' => $attributes->type
+                        'data-type' => $attributes->type,
                     ];
                 },
             ],
@@ -35,7 +35,7 @@ class TiptapBlock extends Node
                 },
                 'renderHTML' => function ($attributes) {
                     return [
-                        'data-data' => json_encode($attributes->data, true)
+                        'data-data' => json_encode($attributes->data, true),
                     ];
                 },
             ],
@@ -47,7 +47,7 @@ class TiptapBlock extends Node
         return [
             [
                 'tag' => 'tiptap-block',
-            ]
+            ],
         ];
     }
 

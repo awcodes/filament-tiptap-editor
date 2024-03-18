@@ -11,14 +11,14 @@ trait HasCustomActions
 
     public ?string $mediaAction = null;
 
-    public function linkAction(string | Closure $action): static
+    public function linkAction(string|Closure $action): static
     {
         $this->linkAction = $action;
 
         return $this;
     }
 
-    public function mediaAction(string | Closure $action): static
+    public function mediaAction(string|Closure $action): static
     {
         $this->mediaAction = $action;
 

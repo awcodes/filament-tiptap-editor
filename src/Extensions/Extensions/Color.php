@@ -28,8 +28,8 @@ class Color extends Extension
                             return InlineStyle::getAttribute($DOMNode, 'color') ?? false;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! isset($attributes->color) || ! $attributes->color) {
-                                return null;
+                            if (!isset($attributes->color) || !$attributes->color) {
+                                return;
                             }
 
                             return [

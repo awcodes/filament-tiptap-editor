@@ -52,8 +52,8 @@ class Link extends BaseLink
                     return $DOMNode->getAttribute('data-as-button') ?: null;
                 },
                 'renderHTML' => function ($attributes) {
-                    if (! property_exists($attributes, 'as_button')) {
-                        return null;
+                    if (!property_exists($attributes, 'as_button')) {
+                        return;
                     }
 
                     return [
@@ -72,11 +72,10 @@ class Link extends BaseLink
                         return $theme;
                     }
 
-                    return null;
                 },
                 'renderHTML' => function ($attributes) {
-                    if (! property_exists($attributes, 'button_theme') || strlen($attributes->button_theme) === 0) {
-                        return null;
+                    if (!property_exists($attributes, 'button_theme') || strlen($attributes->button_theme) === 0) {
+                        return;
                     }
 
                     return [

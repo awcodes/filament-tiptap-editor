@@ -21,7 +21,7 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             ->hasAssets()
             ->hasTranslations()
             ->hasCommands([
-                MakeBlockCommand::class
+                MakeBlockCommand::class,
             ])
             ->hasViews();
     }
@@ -29,7 +29,7 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
     public function packageRegistered(): void
     {
         $this->app->singleton('tiptap-converter', function () {
-            return new TiptapConverter();
+            return new TiptapConverter;
         });
 
         $assets = [

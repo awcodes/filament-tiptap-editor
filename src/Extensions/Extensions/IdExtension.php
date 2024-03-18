@@ -23,8 +23,8 @@ class IdExtension extends Extension
                             return $DOMNode->hasAttribute('id') ? $DOMNode->getAttribute('id') : null;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! property_exists($attributes, 'id')) {
-                                return null;
+                            if (!property_exists($attributes, 'id')) {
+                                return;
                             }
 
                             return [

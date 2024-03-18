@@ -35,8 +35,8 @@ class ClassExtension extends Extension
                             return $DOMNode->hasAttribute('class') ? $DOMNode->getAttribute('class') : null;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! property_exists($attributes, 'class')) {
-                                return null;
+                            if (!property_exists($attributes, 'class')) {
+                                return;
                             }
 
                             return [

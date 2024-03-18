@@ -35,8 +35,8 @@ class StyleExtension extends Extension
                             return $DOMNode->hasAttribute('style') ? $DOMNode->getAttribute('style') : null;
                         },
                         'renderHTML' => function ($attributes) {
-                            if (! property_exists($attributes, 'style')) {
-                                return null;
+                            if (!property_exists($attributes, 'style')) {
+                                return;
                             }
 
                             return [
