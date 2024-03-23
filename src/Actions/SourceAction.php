@@ -31,8 +31,9 @@ class SourceAction extends Action
 
                 $content = $data['source'] ?? '<p></p>';
 
+                $content = tiptap_converter()->asJSON($content, decoded: true);
+
                 if ($component->shouldSupportBlocks()) {
-                    $content = tiptap_converter()->asJSON($content, decoded: true);
                     $content = $component->renderBlockPreviews($content, $component);
                 }
 
