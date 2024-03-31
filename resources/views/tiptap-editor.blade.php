@@ -66,7 +66,7 @@
 
                         <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
 
-                            <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
+                            <div class="flex flex-wrap items-center flex-1 gap-2 p-2 tiptap-toolbar-left">
                                 <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
                                 @foreach ($tools as $tool)
                                     @if ($tool === '|')
@@ -83,7 +83,7 @@
                                 @endforeach
                             </div>
 
-                            <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
+                            <div class="flex flex-wrap items-start self-stretch gap-2 p-2 tiptap-toolbar-right">
                                 <x-filament-tiptap-editor::tools.undo />
                                 <x-filament-tiptap-editor::tools.redo />
                                 <x-filament-tiptap-editor::tools.erase />
