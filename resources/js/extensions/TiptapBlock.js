@@ -195,12 +195,12 @@ export const TiptapBlock = Node.create({
                 const { selection } = state
                 const { $from, $to } = selection
                 const range = $from.blockRange($to)
+                const currentChain = chain()
 
                 if (!range) {
+                    currentChain.insertContentAt({ from: $from.pos, to: $from.pos + 1 }, { type: this.name, attrs: attributes })
                     return false
                 }
-
-                const currentChain = chain()
 
                 currentChain.insertContentAt({ from: range.start, to: range.end }, { type: this.name, attrs: attributes })
 

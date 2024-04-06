@@ -285,7 +285,7 @@ class TiptapEditor extends Field
                 $block = $component->getBlock($arguments['type']);
 
                 $livewire->dispatch(
-                    event: 'insert-block',
+                    event: 'insertBlockFromAction',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: Js::from($data)->toHtml(),
@@ -318,7 +318,7 @@ class TiptapEditor extends Field
                 $block = $component->getBlock($arguments['type']);
 
                 $livewire->dispatch(
-                    event: 'update-block',
+                    event: 'updateBlockFromAction',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: Js::from($data)->toHtml(),

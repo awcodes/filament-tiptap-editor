@@ -134,7 +134,7 @@ class MediaAction extends Action
                 }
 
                 $component->getLivewire()->dispatch(
-                    'insert-content',
+                    event: 'insertFromAction',
                     type: 'media',
                     statePath: $component->getStatePath(),
                     media: [

@@ -1,4 +1,4 @@
-import {Editor, getHTMLFromFragment, isActive} from "@tiptap/core";
+import {Editor, isActive} from "@tiptap/core";
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import BulletList from "@tiptap/extension-bullet-list";
@@ -114,6 +114,27 @@ if (localeSwitcher) {
     });
 }
 
+Livewire.on('insertFromAction', (event) => {
+    setTimeout(() => {
+        const proxyEvent = new CustomEvent('insert-content', { bubble: true, detail: event})
+        window.dispatchEvent(proxyEvent);
+    }, 100)
+})
+
+Livewire.on('insertBlockFromAction', (event) => {
+    setTimeout(() => {
+        const proxyEvent = new CustomEvent('insert-block', { bubble: true, detail: event})
+        window.dispatchEvent(proxyEvent);
+    }, 100)
+})
+
+Livewire.on('updateBlockFromAction', (event) => {
+    setTimeout(() => {
+        const proxyEvent = new CustomEvent('update-block', { bubble: true, detail: event})
+        window.dispatchEvent(proxyEvent);
+    }, 100)
+})
+
 export default function tiptap({
    state,
    statePath,
@@ -128,6 +149,7 @@ export default function tiptap({
 
     return {
         id: null,
+        modalId: null,
         tools: tools,
         state: state,
         statePath: statePath,
@@ -266,12 +288,9 @@ export default function tiptap({
             return exts;
         },
         init: async function () {
-
-            if (editors[this.statePath]) {
-                editors[this.statePath].destroy();
-            }
-
             this.initEditor(this.state);
+
+            this.modalId = this.$el.closest('[x-ref="modalContainer"]')?.getAttribute('wire:key');
 
             window.filamentTiptapEditors = editors;
 
@@ -315,23 +334,36 @@ export default function tiptap({
             }
 
             this.$watch('state', (newState, oldState) => {
-                if (this.editor().isEmpty) {
-                    this.editor().destroy();
-                    this.initEditor(newState);
-                }
-
-                if (! isEqual(oldState, this.editor().state.doc.toJSON())) {
-                    this.updateEditorContent(newState)
+                if (typeof newState !== "undefined") {
+                    if (! isEqual(oldState, Alpine.raw(newState))) {
+                        this.updateEditorContent(newState)
+                    }
                 }
             });
         },
-        destroy() {
-            this.editor().destroy();
+        destroyEditor(event) {
+            let id = event.detail.id.split('-')[0];
+
+            if (!this.modalId || id + '.' + this.statePath === this.modalId) return
+
+            if (editors[this.statePath]) {
+                editors[this.statePath].destroy();
+                delete editors[this.statePath];
+            }
         },
         editor() {
             return editors[this.statePath];
         },
         initEditor(content) {
+            let selection = null;
+
+            if (editors[this.statePath]) {
+                content = this.editor().getJSON();
+                selection = this.editor().state.selection;
+                editors[this.statePath].destroy();
+                delete editors[this.statePath];
+            }
+
             let _this = this;
 
             editors[this.statePath] = new Editor({
@@ -347,6 +379,12 @@ export default function tiptap({
                                 node.attrs.data = JSON.parse(node.attrs.data)
                             }
                         });
+                    }
+                },
+                onCreate({editor}) {
+                    if (selection && _this.modalId) {
+                        _this.updatedAt = Date.now();
+                        editor.chain().focus().setTextSelection(selection).run();
                     }
                 },
                 onUpdate({editor}) {
