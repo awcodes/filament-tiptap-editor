@@ -398,12 +398,9 @@ export default function tiptap({
 
             if (media) {
                 const src = media?.url || media?.src;
-                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+                const imageTypes = ['image/jpeg', 'image/svg+xml', 'image/png', 'image/webp', 'image/gif'];
 
-                const regex = /.*\.([a-zA-Z]*)\??/;
-                const match = regex.exec(src);
-
-                if (match !== null && imageTypes.includes(match[1])) {
+                if (media.type && imageTypes.includes(media.type)) {
                     this.editor()
                         .chain()
                         .focus()
