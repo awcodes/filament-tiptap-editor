@@ -233,9 +233,7 @@ class TiptapEditor extends Field
     public function getInsertBlockAction(): Action
     {
         return Action::make('insertBlock')
-            ->form(function(TiptapEditor $component, Component $livewire): ?array {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->form(function(TiptapEditor $component, Component $livewire, array $arguments): ?array {
                 $block = $component->getBlock($arguments['type']);
 
                 if (empty($block->getFormSchema())) {
@@ -244,9 +242,7 @@ class TiptapEditor extends Field
 
                 return $block->getFormSchema();
             })
-            ->modalHeading(function(TiptapEditor $component, Component $livewire): ?string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalHeading(function(TiptapEditor $component, Component $livewire, array $arguments): ?string {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -259,9 +255,7 @@ class TiptapEditor extends Field
 
                 return trans('filament-tiptap-editor::editor.blocks.insert');
             })
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): ?string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalWidth(function(TiptapEditor $component, Component $livewire, array $arguments): ?string {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -274,9 +268,7 @@ class TiptapEditor extends Field
 
                 return 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): bool {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->slideOver(function(TiptapEditor $component, Component $livewire, array $arguments): bool {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -309,21 +301,15 @@ class TiptapEditor extends Field
         return Action::make('updateBlock')
             ->fillForm(fn (array $arguments) => $arguments['data'])
             ->modalHeading(fn () => trans('filament-tiptap-editor::editor.blocks.update'))
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalWidth(function(TiptapEditor $component, Component $livewire, array $arguments): string {
                 return isset($arguments['type'])
                     ? $component->getBlock($arguments['type'])->getModalWidth()
                     : 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->slideOver(function(TiptapEditor $component, Component $livewire, array $arguments): string {
                 return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
             })
-            ->form(function(TiptapEditor $component, Component $livewire): array {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->form(function(TiptapEditor $component, Component $livewire, array $arguments): array {
                 return $component
                     ->getBlock($arguments['type'])
                     ->getFormSchema();
