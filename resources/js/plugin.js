@@ -128,6 +128,7 @@ export default function tiptap({
 
     return {
         id: null,
+        modalId: null,
         tools: tools,
         state: state,
         statePath: statePath,
@@ -266,12 +267,9 @@ export default function tiptap({
             return exts;
         },
         init: async function () {
-
-            if (editors[this.statePath]) {
-                editors[this.statePath].destroy();
-            }
-
             this.initEditor(this.state);
+
+            this.modalId = this.$el.closest('[x-ref="modalContainer"]')?.getAttribute('wire:key');
 
             window.filamentTiptapEditors = editors;
 
@@ -332,6 +330,12 @@ export default function tiptap({
             return editors[this.statePath];
         },
         initEditor(content) {
+            if (editors[this.statePath]) {
+                content = this.editor().getJSON();
+                editors[this.statePath].destroy();
+                delete editors[this.statePath];
+            }
+
             let _this = this;
 
             editors[this.statePath] = new Editor({
