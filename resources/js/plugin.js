@@ -268,7 +268,13 @@ export default function tiptap({
         },
         init: async function () {
 
+            if (editors[this.statePath]) {
+                editors[this.statePath].destroy();
+            }
+
             this.initEditor(this.state);
+
+            window.filamentTiptapEditors = editors;
 
             document.addEventListener("dblclick", function (e) {
                 if (
@@ -310,25 +316,26 @@ export default function tiptap({
             }
 
             this.$watch('state', (newState, oldState) => {
-                if (typeof newState !== "undefined") {
-                    if (! isEqual(oldState, Alpine.raw(newState))) {
-                        this.updateEditorContent(newState)
-                    }
+                if (this.editor().isEmpty) {
+                    this.editor().destroy();
+                    this.initEditor(newState);
+                }
+
+                if (! isEqual(oldState, this.editor().state.doc.toJSON())) {
+                    this.updateEditorContent(newState)
                 }
             });
         },
+        destroy() {
+            this.editor().destroy();
+        },
         editor() {
-            return Alpine.raw(this.editorInstance);
+            return editors[this.statePath];
         },
         initEditor(content) {
             let _this = this;
 
-            if (this.$root._editor) {
-                this.editorInstance = this.$root._editor;
-                return;
-            }
-
-            this.$root._editor = this.editorInstance = new Editor({
+            editors[this.statePath] = new Editor({
                 element: this.$refs.element,
                 extensions: this.getExtensions(this.statePath),
                 editable: !this.disabled,
