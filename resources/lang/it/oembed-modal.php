@@ -22,5 +22,5 @@ return [
         'start_at' => 'Inizia A',
         'local' => 'Locale',
     ],
-    
+
 ];

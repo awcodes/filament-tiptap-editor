@@ -147,16 +147,16 @@ class TiptapConverter
             }
 
             array_unshift($node->content, (object) [
-                "type" => "text",
-                "text" => "#",
-                "marks" => [
+                'type' => 'text',
+                'text' => '#',
+                'marks' => [
                     [
-                        "type" => "link",
-                        "attrs" => [
-                            "href" => "#" . $node->attrs->id,
-                        ]
-                    ]
-                ]
+                        'type' => 'link',
+                        'attrs' => [
+                            'href' => '#' . $node->attrs->id,
+                        ],
+                    ],
+                ],
             ]);
         });
 
@@ -174,7 +174,7 @@ class TiptapConverter
                         return $node['text'] ?? null;
                     })->implode(' ');
 
-                    if (!isset($node['attrs']['id'])) {
+                    if (! isset($node['attrs']['id'])) {
                         $node['attrs']['id'] = str($text)->kebab()->toString();
                     }
 

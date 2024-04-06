@@ -2,14 +2,14 @@
 
 namespace FilamentTiptapEditor\Tests\Resources;
 
-use FilamentTiptapEditor\Enums\TiptapOutput;
-use FilamentTiptapEditor\Tests\Resources\PageResource\Pages;
-use FilamentTiptapEditor\Tests\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\Tests\Models\Page;
+use FilamentTiptapEditor\Tests\Resources\PageResource\Pages;
 use FilamentTiptapEditor\TiptapEditor;
 
 class PageResource extends Resource

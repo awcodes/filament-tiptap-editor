@@ -144,19 +144,19 @@ class TiptapFaker
 
     public function table(?int $cols = null): static
     {
-        $cols = $cols ?? rand(3,8);
+        $cols = $cols ?? rand(3, 8);
 
         $this->output .= '<table><thead><tr><th>' . collect($this->faker->words($cols))->implode('</th><th>') . '</th></tr></thead><tbody><tr><td>' . collect($this->faker->words($cols))->implode('</td><td>') . '</td></tr><tr><td>' . collect($this->faker->words($cols))->implode('</td><td>') . '</td></tr></tbody></table>';
 
         return $this;
     }
 
-    public function grid(array $cols = [1,1,1]): static
+    public function grid(array $cols = [1, 1, 1]): static
     {
         $this->output .= '<div class="filament-tiptap-grid-builder" data-type="responsive" data-cols="' . count($cols) . '" style="grid-template-columns: repeat(3, 1fr);" data-stack-at="md">';
 
         foreach ($cols as $col) {
-            $this->output .= '<div class="filament-tiptap-grid-builder__column" data-col-span="' . $col . '" style="grid-column: span 1;"><h2>' . Str::title($this->faker->words(rand(3, 8), true)) . '</h2><p>' . $this->faker->paragraph(). '</p></div>';
+            $this->output .= '<div class="filament-tiptap-grid-builder__column" data-col-span="' . $col . '" style="grid-column: span 1;"><h2>' . Str::title($this->faker->words(rand(3, 8), true)) . '</h2><p>' . $this->faker->paragraph() . '</p></div>';
         }
 
         $this->output .= '</div>';
