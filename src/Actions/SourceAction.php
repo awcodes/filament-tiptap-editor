@@ -38,7 +38,7 @@ class SourceAction extends Action
                 }
 
                 $component->getLivewire()->dispatch(
-                    'insert-content',
+                    event: 'insertFromAction',
                     type: 'source',
                     statePath: $component->getStatePath(),
                     source: $content,
