@@ -23,4 +23,3 @@ return [
         'local' => 'Local',
     ],
 ];
-

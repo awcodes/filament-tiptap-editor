@@ -26,6 +26,8 @@ class TiptapConverter
 
     protected bool $tableOfContents = false;
 
+    protected array $mergeTagsMap = [];
+
     public function getEditor(): Editor
     {
         return $this->editor ??= new Editor([
@@ -91,12 +93,23 @@ class TiptapConverter
         ];
     }
 
+    public function mergeTagsMap(array $mergeTagsMap): static
+    {
+        $this->mergeTagsMap = $mergeTagsMap;
+
+        return $this;
+    }
+
     public function asHTML(string | array $content, bool $toc = false, int $maxDepth = 3): string
     {
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
             $this->parseHeadings($editor, $maxDepth);
+        }
+
+        if (filled($this->mergeTagsMap)) {
+            $this->parseMergeTags($editor);
         }
 
         return $editor->getHTML();
@@ -110,12 +123,22 @@ class TiptapConverter
             $this->parseHeadings($editor, $maxDepth);
         }
 
+        if (filled($this->mergeTagsMap)) {
+            $this->parseMergeTags($editor);
+        }
+
         return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
     }
 
     public function asText(string | array $content): string
     {
-        return $this->getEditor()->setContent($content)->getText();
+        $editor = $this->getEditor()->setContent($content);
+
+        if (filled($this->mergeTagsMap)) {
+            $this->parseMergeTags($editor);
+        }
+
+        return $editor->getText();
     }
 
     public function asTOC(string | array $content, int $maxDepth = 3): string
@@ -147,16 +170,16 @@ class TiptapConverter
             }
 
             array_unshift($node->content, (object) [
-                "type" => "text",
-                "text" => "#",
-                "marks" => [
+                'type' => 'text',
+                'text' => '#',
+                'marks' => [
                     [
-                        "type" => "link",
-                        "attrs" => [
-                            "href" => "#" . $node->attrs->id,
-                        ]
-                    ]
-                ]
+                        'type' => 'link',
+                        'attrs' => [
+                            'href' => '#' . $node->attrs->id,
+                        ],
+                    ],
+                ],
             ]);
         });
 
@@ -174,7 +197,7 @@ class TiptapConverter
                         return $node['text'] ?? null;
                     })->implode(' ');
 
-                    if (!isset($node['attrs']['id'])) {
+                    if (! isset($node['attrs']['id'])) {
                         $node['attrs']['id'] = str($text)->kebab()->toString();
                     }
 
@@ -190,6 +213,26 @@ class TiptapConverter
         }
 
         return $headings;
+    }
+
+    public function parseMergeTags(Editor $editor): Editor
+    {
+        $editor->descendants(function (&$node) {
+            if ($node->type !== 'mergeTag') {
+                return;
+            }
+
+            if (filled($this->mergeTagsMap)) {
+                $node->content = [
+                    (object) [
+                        'type' => 'text',
+                        'text' => $this->mergeTagsMap[$node->attrs->id] ?? null,
+                    ],
+                ];
+            }
+        });
+
+        return $editor;
     }
 
     public function generateNestedTOC(array $headings, int $parentLevel = 0): string

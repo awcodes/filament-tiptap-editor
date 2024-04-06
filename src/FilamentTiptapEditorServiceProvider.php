@@ -21,7 +21,7 @@ class FilamentTiptapEditorServiceProvider extends PackageServiceProvider
             ->hasAssets()
             ->hasTranslations()
             ->hasCommands([
-                MakeBlockCommand::class
+                MakeBlockCommand::class,
             ])
             ->hasViews();
     }

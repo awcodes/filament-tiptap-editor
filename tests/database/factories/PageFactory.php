@@ -2,7 +2,6 @@
 
 namespace FilamentTiptapEditor\Tests\Database\Factories;
 
-use Awcodes\HtmlFaker\HtmlFaker;
 use FilamentTiptapEditor\Tests\Models\Page;
 use FilamentTiptapEditor\TiptapFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;

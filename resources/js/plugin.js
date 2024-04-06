@@ -136,7 +136,6 @@ export default function tiptap({
         disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
-        editorInstance: null,
         getExtensions(id) {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {

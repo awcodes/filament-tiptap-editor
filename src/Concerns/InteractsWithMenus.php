@@ -11,9 +11,9 @@ trait InteractsWithMenus
     protected array | Closure | null $floatingMenuTools = null;
 
     protected ?bool $shouldShowBubbleMenus = null;
-    
+
     protected ?bool $shouldShowFloatingMenus = null;
-    
+
     protected ?bool $shouldShowToolbarMenus = null;
 
     public function disableBubbleMenus(bool | Closure | null $condition = true): static
@@ -30,7 +30,7 @@ trait InteractsWithMenus
         return $this;
     }
 
-    public function disableToolbarMenus (bool | Closure | null $condition = true): static
+    public function disableToolbarMenus(bool | Closure | null $condition = true): static
     {
         $this->shouldShowToolbarMenus = $condition;
 
@@ -86,5 +86,5 @@ trait InteractsWithMenus
     public function isToolbarMenusDisabled(): bool
     {
         return $this->evaluate($this->shouldShowToolbarMenus) ?? config('filament-tiptap-editor.disable_toolbar_menus');
-    }    
+    }
 }

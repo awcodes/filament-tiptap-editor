@@ -34,7 +34,7 @@ class ListItem extends Node
     {
         if (
             $DOMNode->childNodes->length >= 1
-            && $DOMNode->childNodes[0]->nodeName === "p"
+            && $DOMNode->childNodes[0]->nodeName === 'p'
         ) {
             return null;
         }
