@@ -53,11 +53,17 @@ abstract class TiptapBlock
 
     public function getPreview(?array $data = []): string
     {
+        if (! $data) {
+            $data = []
+        }
         return view($this->preview, $data)->render();
     }
 
     public function getRendered(?array $data = []): string
     {
+        if (! $data) {
+            $data = []
+        }
         return view($this->rendered, $data)->render();
     }
 
