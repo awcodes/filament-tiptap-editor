@@ -343,8 +343,8 @@ export default function tiptap({
         },
         destroyEditor(event) {
             let id = event.detail.id.split('-')[0];
-
-            if (!this.modalId || id + '.' + this.statePath === this.modalId) return
+            
+            if (!this.modalId || id + '.' + this.statePath === this.modalId || event.target.classList.contains('curator-panel')) return
 
             if (editors[this.statePath]) {
                 editors[this.statePath].destroy();
