@@ -54,7 +54,7 @@ abstract class TiptapBlock
     public function getPreview(?array $data = []): string
     {
         if (! $data) {
-            $data = []
+            $data = [];
         }
         return view($this->preview, $data)->render();
     }
@@ -62,7 +62,7 @@ abstract class TiptapBlock
     public function getRendered(?array $data = []): string
     {
         if (! $data) {
-            $data = []
+            $data = [];
         }
         return view($this->rendered, $data)->render();
     }
