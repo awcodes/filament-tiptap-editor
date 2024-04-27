@@ -87,14 +87,14 @@ class Vimeo extends Node
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
                     return $DOMNode->firstChild->getAttribute('width');
-                }
+                },
             ],
             'data-aspect-height' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
                     return $DOMNode->firstChild->getAttribute('height');
-                }
-            ]
+                },
+            ],
         ];
     }
 

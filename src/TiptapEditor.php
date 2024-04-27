@@ -15,7 +15,6 @@ use FilamentTiptapEditor\Concerns\CanStoreOutput;
 use FilamentTiptapEditor\Concerns\HasCustomActions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Js;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -98,7 +97,7 @@ class TiptapEditor extends Field
             }
 
             if ($this->expectsJSON()) {
-                if (!is_array($state)) {
+                if (! is_array($state)) {
                     $state = tiptap_converter()->asJSON($state, decoded: true);
                 }
 
@@ -168,10 +167,11 @@ class TiptapEditor extends Field
         ]);
     }
 
-    public function getCustomListener(string $name, TiptapEditor $component, string $statePath, array $arguments = []): void {
+    public function getCustomListener(string $name, TiptapEditor $component, string $statePath, array $arguments = []): void
+    {
         if ($this->verifyListener($component, $statePath)) {
             return;
-        };
+        }
 
         $component
             ->getLivewire()
@@ -233,9 +233,7 @@ class TiptapEditor extends Field
     public function getInsertBlockAction(): Action
     {
         return Action::make('insertBlock')
-            ->form(function(TiptapEditor $component, Component $livewire): ?array {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->form(function (TiptapEditor $component, Component $livewire, array $arguments): ?array {
                 $block = $component->getBlock($arguments['type']);
 
                 if (empty($block->getFormSchema())) {
@@ -244,9 +242,7 @@ class TiptapEditor extends Field
 
                 return $block->getFormSchema();
             })
-            ->modalHeading(function(TiptapEditor $component, Component $livewire): ?string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalHeading(function (TiptapEditor $component, Component $livewire, array $arguments): ?string {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -259,9 +255,7 @@ class TiptapEditor extends Field
 
                 return trans('filament-tiptap-editor::editor.blocks.insert');
             })
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): ?string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalWidth(function (TiptapEditor $component, Component $livewire, array $arguments): ?string {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -274,9 +268,7 @@ class TiptapEditor extends Field
 
                 return 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): bool {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->slideOver(function (TiptapEditor $component, Component $livewire, array $arguments): bool {
                 if (isset($arguments['type'])) {
                     $block = $component->getBlock($arguments['type']);
 
@@ -293,7 +285,7 @@ class TiptapEditor extends Field
                 $block = $component->getBlock($arguments['type']);
 
                 $livewire->dispatch(
-                    event: 'insert-block',
+                    event: 'insertBlockFromAction',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: Js::from($data)->toHtml(),
@@ -309,21 +301,15 @@ class TiptapEditor extends Field
         return Action::make('updateBlock')
             ->fillForm(fn (array $arguments) => $arguments['data'])
             ->modalHeading(fn () => trans('filament-tiptap-editor::editor.blocks.update'))
-            ->modalWidth(function(TiptapEditor $component, Component $livewire): string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->modalWidth(function (TiptapEditor $component, Component $livewire, array $arguments): string {
                 return isset($arguments['type'])
                     ? $component->getBlock($arguments['type'])->getModalWidth()
                     : 'sm';
             })
-            ->slideOver(function(TiptapEditor $component, Component $livewire): string {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->slideOver(function (TiptapEditor $component, Component $livewire, array $arguments): string {
                 return isset($arguments['type']) && $component->getBlock($arguments['type'])->isSlideOver();
             })
-            ->form(function(TiptapEditor $component, Component $livewire): array {
-                $arguments = Arr::first($livewire->mountedFormComponentActionsArguments);
-
+            ->form(function (TiptapEditor $component, Component $livewire, array $arguments): array {
                 return $component
                     ->getBlock($arguments['type'])
                     ->getFormSchema();
@@ -332,7 +318,7 @@ class TiptapEditor extends Field
                 $block = $component->getBlock($arguments['type']);
 
                 $livewire->dispatch(
-                    event: 'update-block',
+                    event: 'updateBlockFromAction',
                     statePath: $component->getStatePath(),
                     type: $arguments['type'],
                     data: Js::from($data)->toHtml(),
@@ -399,6 +385,7 @@ class TiptapEditor extends Field
     {
         return collect($this->blocks)->mapWithKeys(function ($block, $key) {
             $b = app($block);
+
             return [$b->getIdentifier() => $b];
         })->toArray();
     }
@@ -469,7 +456,6 @@ class TiptapEditor extends Field
     {
         return $this->shouldShowMergeTagsInBlocksPanel;
     }
-
 
     public function gridLayouts(array $layouts): static
     {

@@ -2,9 +2,9 @@
 
 namespace FilamentTiptapEditor\Tests\Resources\PageResource\Pages;
 
-use FilamentTiptapEditor\Tests\Resources\PageResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use FilamentTiptapEditor\Tests\Resources\PageResource;
 
 class EditPage extends EditRecord
 {

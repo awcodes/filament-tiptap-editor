@@ -15,7 +15,7 @@ class DetailsContent extends Node
     {
         return [
             'HTMLAttributes' => [
-                'data-type' => 'details-content'
+                'data-type' => 'details-content',
             ],
         ];
     }
@@ -27,7 +27,7 @@ class DetailsContent extends Node
                 'tag' => 'div[data-type]',
                 'getAttrs' => function ($value) {
                     return (bool) $value == 'details-content';
-                }
+                },
             ],
         ];
     }

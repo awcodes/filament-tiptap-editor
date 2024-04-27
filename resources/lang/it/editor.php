@@ -12,7 +12,7 @@ return [
         'insert' => 'Inserisci blocco',
         'update' => 'Aggiorna blocco',
     ],
-    
+
     'bold' => 'Grassetto',
     'code_block' => 'Blocco di codice',
     'code' => 'Codice inline',
@@ -42,7 +42,7 @@ return [
         'asymmetric_left_fourths' => 'Asimmetrico a Sinistra - Quarti',
         'asymmetric_right_fourths' => 'Asimmetrico a Destra - Quarti',
     ],
-    
+
     'grid-builder' => [
         'label' => 'Generatore di griglie',
     ],
@@ -55,7 +55,7 @@ return [
         'h5' => 'Intestazione 5',
         'h6' => 'Intestazione 6',
     ],
-    
+
     'highlight' => 'Evidenzia',
     'hurdle' => [
         'label' => 'Ostacolo',
@@ -69,7 +69,7 @@ return [
             'accent' => 'Accento',
         ],
     ],
-    
+
     'hr' => 'Linea Orizzontale',
     'italic' => 'Corsivo',
     'lead' => 'Paragrafo Principale',
@@ -87,7 +87,7 @@ return [
     'merge_tags' => [
         'panel' => 'Unisci tag',
     ],
-    
+
     'paragraph' => 'Paragrafo',
     'redo' => 'Ripeti',
     'remove_color' => 'Rimuovi Colore',
@@ -116,7 +116,7 @@ return [
         'go_to_next_cell' => 'Vai alla Cella Successiva',
         'go_to_previous_cell' => 'Vai alla Cella Precedente',
     ],
-    
+
     'underline' => 'Sottolineato',
     'undo' => 'Annulla',
     'video' => [
@@ -124,5 +124,5 @@ return [
         'vimeo' => 'Inserisci Video Vimeo',
         'oembed' => 'Inserisci Video',
     ],
-    
+
 ];
