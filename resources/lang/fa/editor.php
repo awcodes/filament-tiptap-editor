@@ -3,10 +3,10 @@
 return [
     'skip_toolbar' => 'رد نوار ابزار',
     'align_center' => 'تراز کردن مرکز متن',
-    'align_justify' => 'تراز کردن از دو طرف',
+    'align_justify' => 'متن را توجیه کنید',
     'align_left' => 'تراز کردن متن به چپ',
     'align_right' => 'تراز کردن متن به راست',
-    'blockquote' => 'نقل قول',
+    'blockquote' => 'Blockquote',
     'blocks' => [
         'panel' => 'بلوکها',
         'insert' => 'درج بلوک',
