@@ -66,7 +66,9 @@ class LinkAction extends Action
                             ->columnSpan('full'),
                         Toggle::make('as_button')
                             ->label(trans('filament-tiptap-editor::link-modal.labels.as_button'))
-                            ->reactive(),
+                            ->reactive()
+                            ->hidden(config('filament-tiptap-editor.disable_link_as_button'))
+                            ->dehydratedWhenHidden(),
                         Radio::make('button_theme')
                             ->columnSpan('full')
                             ->columns(2)
