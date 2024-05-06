@@ -4,6 +4,7 @@ return [
     'direction' => 'ltr',
     'max_content_width' => '5xl',
     'disable_stylesheet' => false,
+    'disable_link_as_button' => false,
 
     /*
     |--------------------------------------------------------------------------
