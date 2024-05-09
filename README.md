@@ -252,7 +252,8 @@ TiptapEditor::make('content')
 ```
 
 ```php
-'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block']
+'floating_menu_tools' => ['media', 'grid-builder', 'details', 'table', 'oembed', 'code-block'],
+'bubble_menu_tools' => ['bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'link'],
 ```
 
 ## Grid layouts
@@ -332,7 +333,7 @@ class StaticBlock extends TiptapBlock
 }
 ```
 
-#### Modal width, slide overs and icons 
+#### Modal width, slide overs and icons
 
 ***Note***: Currently, icons will only be show on the drag and drop block panel
 
