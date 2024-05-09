@@ -2,8 +2,10 @@
 
 namespace FilamentTiptapEditor;
 
+use Filament\Forms\Components\Component;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Str;
+use Throwable;
 
 abstract class TiptapBlock
 {
@@ -51,19 +53,26 @@ abstract class TiptapBlock
         return [];
     }
 
-    public function getPreview(?array $data = []): string
+    /**
+     * @throws Throwable
+     */
+    public function getPreview(?array $data = null, Component | null $component = null): string
     {
-        if (! $data) {
-            $data = [];
-        }
-        return view($this->preview, $data)->render();
+        $data = $data ?? [];
+
+        return view($this->preview, [
+            ...$data,
+            'component' => $component
+        ])->render();
     }
 
-    public function getRendered(?array $data = []): string
+    /**
+     * @throws Throwable
+     */
+    public function getRendered(?array $data = null): string
     {
-        if (! $data) {
-            $data = [];
-        }
+        $data = $data ?? [];
+
         return view($this->rendered, $data)->render();
     }
 
