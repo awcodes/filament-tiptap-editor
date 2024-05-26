@@ -56,13 +56,13 @@ abstract class TiptapBlock
     /**
      * @throws Throwable
      */
-    public function getPreview(?array $data = null, Component | null $component = null): string
+    public function getPreview(?array $data = null, ?Component $component = null): string
     {
         $data = $data ?? [];
 
         return view($this->preview, [
             ...$data,
-            'component' => $component
+            'component' => $component,
         ])->render();
     }
 

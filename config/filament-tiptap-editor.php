@@ -66,6 +66,7 @@ return [
     'visibility' => 'public',
     'preserve_file_names' => false,
     'max_file_size' => 2042,
+    'min_file_size' => 0,
     'image_resize_mode' => null,
     'image_crop_aspect_ratio' => null,
     'image_resize_target_width' => null,
