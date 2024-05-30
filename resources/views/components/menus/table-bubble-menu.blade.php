@@ -4,7 +4,11 @@
 ])
 
 @if (in_array('table', $tools))
-<div x-ref="tableBubbleMenu" class="flex gap-1 items-center" x-cloak>
+<div
+    class="flex gap-1 items-center"
+    x-show="editor().isActive('table', updatedAt)"
+    x-cloak
+>
     <x-filament-tiptap-editor::button
         action="editor().chain().focus().addColumnBefore().run()"
         icon="table-add-column-before"
