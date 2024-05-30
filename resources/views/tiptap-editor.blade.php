@@ -63,45 +63,68 @@
                     x-trap.noscroll="fullScreenMode"
                 >
                     @if (! $isDisabled && ! $isToolbarMenusDisabled() && $tools)
-                        <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ trans('filament-tiptap-editor::editor.skip_toolbar') }}</button>
+                        <template x-if="editor()">
+                            <div>
+                                <button type="button" x-on:click="editor().chain().focus()" class="z-20 rounded sr-only focus:not-sr-only focus:absolute focus:py-1 focus:px-3 focus:bg-white focus:text-gray-900">{{ trans('filament-tiptap-editor::editor.skip_toolbar') }}</button>
 
-                        <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
+                                <div class="tiptap-toolbar text-gray-800 border-b border-gray-950/10 bg-gray-50 divide-x divide-gray-950/10 rounded-t-md z-[1] relative flex flex-col md:flex-row dark:text-gray-300 dark:border-white/20 dark:bg-gray-950 dark:divide-white/20">
 
-                            <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
-                                <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
-                                @foreach ($tools as $tool)
-                                    @if ($tool === '|')
-                                        <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
-                                    @elseif (is_array($tool))
-                                        <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
-                                    @elseif ($tool === 'blocks')
-                                        @if ($blocks && $shouldSupportBlocks)
-                                            <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
-                                        @endif
-                                    @else
-                                        <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" :editor="$field" />
-                                    @endif
-                                @endforeach
+                                    <div class="flex flex-wrap items-center flex-1 gap-1 p-1 tiptap-toolbar-left">
+                                        <x-dynamic-component component="filament-tiptap-editor::tools.paragraph" :state-path="$statePath" />
+                                        @foreach ($tools as $tool)
+                                            @if ($tool === '|')
+                                                <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
+                                            @elseif (is_array($tool))
+                                                <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
+                                            @elseif ($tool === 'blocks')
+                                                @if ($blocks && $shouldSupportBlocks)
+                                                    <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
+                                                @endif
+                                            @else
+                                                <x-dynamic-component component="filament-tiptap-editor::tools.{{ $tool }}" :state-path="$statePath" :editor="$field" />
+                                            @endif
+                                        @endforeach
+                                    </div>
+
+                                    <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
+                                        <x-filament-tiptap-editor::tools.undo />
+                                        <x-filament-tiptap-editor::tools.redo />
+                                        <x-filament-tiptap-editor::tools.erase />
+                                        <x-filament-tiptap-editor::tools.fullscreen />
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="flex flex-wrap items-start self-stretch gap-1 p-1 pl-2 tiptap-toolbar-right">
-                                <x-filament-tiptap-editor::tools.undo />
-                                <x-filament-tiptap-editor::tools.redo />
-                                <x-filament-tiptap-editor::tools.erase />
-                                <x-filament-tiptap-editor::tools.fullscreen />
-                            </div>
-
-                        </div>
+                        </template>
                     @endif
 
                     @if (! $isBubbleMenusDisabled())
-                        <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$bubbleMenuTools"/>
-                        <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
-                        <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                    <div>
+                        <div x-ref="bubbleMenu" class="tiptap-editor-bubble-menu-wrapper">
+                            <div
+                                x-data="{
+                                    updatedAt: Date.now(),
+                                    editor() {
+                                        return window.filamentTiptapEditors['{{ $statePath }}']
+                                    },
+                                }"
+                                x-on:selection-update.window="updatedAt = Date.now()"
+                            >
+                                <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$bubbleMenuTools"/>
+                                <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                                <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                            </div>
+                        </div>
+                    </div>
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
-                        <x-filament-tiptap-editor::menus.default-floating-menu :state-path="$statePath" :tools="$floatingMenuTools" :blocks="$blocks" :should-support-blocks="$shouldSupportBlocks" :editor="$field"/>
+                        <x-filament-tiptap-editor::menus.default-floating-menu
+                            :state-path="$statePath"
+                            :tools="$floatingMenuTools"
+                            :blocks="$blocks"
+                            :should-support-blocks="$shouldSupportBlocks"
+                            :editor="$field"
+                        />
                     @endif
 
                     <div class="flex h-full">

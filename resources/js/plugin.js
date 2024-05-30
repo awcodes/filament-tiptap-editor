@@ -27,6 +27,7 @@ import Text from "@tiptap/extension-text";
 import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
+import {BubbleMenu} from "@tiptap/extension-bubble-menu";
 import {
     CheckedList,
     Lead,
@@ -46,7 +47,6 @@ import {
     DetailsContent,
     CustomCodeBlockLowlight,
     Hurdle,
-    BubbleMenu,
     FloatingMenu,
     Video,
     TiptapBlock,
@@ -193,23 +193,37 @@ export default function tiptap({
                 let types = ['paragraph'];
 
                 exts.push(BubbleMenu.configure({
-                    pluginKey: `defaultBubbleMenu${id}`,
-                    element: this.$refs.defaultBubbleMenu,
+                    element: this.$refs.bubbleMenu,
                     tippyOptions: {
                         duration: [500,0],
+                        maxWidth: 'none',
+                        placement: 'top',
+                        theme: 'tiptap-editor-bubble',
+                        interactive: true,
+                        appendTo: this.$root,
+                        zIndex: 10,
                     },
                     shouldShow: ({state, from, to}) => {
-                        return ! (
-                            from === to ||
+                        if (
                             isActive(state, 'link') ||
-                            isActive(state, 'table') ||
-                            isActive(state, 'image') ||
+                            isActive(state, 'table')
+                        ) {
+                            return true;
+                        }
+
+                        if (from !== to) {
+                            return true;
+                        }
+
+                        if (
                             isActive(state, 'oembed') ||
                             isActive(state, 'vimeo') ||
                             isActive(state, 'youtube') ||
                             isActive(state, 'video') ||
                             isActive(state, 'tiptapBlock')
-                        );
+                        ) {
+                            return false;
+                        }
                     },
                 }))
 
@@ -236,32 +250,6 @@ export default function tiptap({
                                 exts.push(e)
                                 if (!exts.includes(ListItem)) exts.push(ListItem);
                             } else {
-                                if (tool === 'table') {
-                                    exts.push(BubbleMenu.configure({
-                                        pluginKey: `tableBubbleMenu${id}`,
-                                        element: this.$refs.tableBubbleMenu,
-                                        tippyOptions: {
-                                            duration: [500,0],
-                                        },
-                                        shouldShow: ({state}) => {
-                                            return isActive(state, 'table');
-                                        }
-                                    }))
-                                }
-
-                                if (tool === 'link') {
-                                    exts.push(BubbleMenu.configure({
-                                        pluginKey: `linkBubbleMenu${id}`,
-                                        element: this.$refs.linkBubbleMenu,
-                                        tippyOptions: {
-                                            duration: [500,0],
-                                        },
-                                        shouldShow: ({state}) => {
-                                            return isActive(state,'link');
-                                        }
-                                    }))
-                                }
-
                                 exts.push(e)
                             }
                         })
@@ -351,6 +339,9 @@ export default function tiptap({
                 delete editors[this.statePath];
             }
         },
+        isActive(condition) {
+            this.editor().isActive(condition)
+        },
         editor() {
             return editors[this.statePath];
         },
@@ -393,6 +384,7 @@ export default function tiptap({
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
+                    _this.$dispatch('selection-update');
                 },
                 onBlur() {
                     _this.updatedAt = Date.now();

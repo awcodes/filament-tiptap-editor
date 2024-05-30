@@ -4,7 +4,16 @@
     'editor' => null,
 ])
 
-<div x-ref="defaultBubbleMenu" class="flex gap-1 items-center" x-cloak>
+<div
+    class="flex gap-1 items-center"
+    x-show="! (
+        editor().isActive('link', updatedAt) ||
+        editor().isActive('image', updatedAt) ||
+        editor().isActive('table', updatedAt) ||
+        editor().view.state.selection.$from === editor().state.selection.$to
+    )"
+     x-cloak
+>
     @foreach ($tools as $tool)
         @if (is_array($tool))
             <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" :editor="$editor" />
