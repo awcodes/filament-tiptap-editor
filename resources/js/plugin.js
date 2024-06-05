@@ -114,6 +114,10 @@ if (localeSwitcher) {
     });
 }
 
+document.addEventListener('livewire:navigating', () => {
+    window.filamentTiptapEditors = {};
+})
+
 Livewire.on('insertFromAction', (event) => {
     setTimeout(() => {
         const proxyEvent = new CustomEvent('insert-content', { bubble: true, detail: event})
@@ -331,7 +335,7 @@ export default function tiptap({
         },
         destroyEditor(event) {
             let id = event.detail.id.split('-')[0];
-            
+
             if (!this.modalId || id + '.' + this.statePath === this.modalId || event.target.classList.contains('curator-panel')) return
 
             if (editors[this.statePath]) {
