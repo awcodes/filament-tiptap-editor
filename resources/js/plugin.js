@@ -118,6 +118,10 @@ document.addEventListener('livewire:navigating', () => {
     window.filamentTiptapEditors = {};
 })
 
+document.addEventListener('alpine:init', () => {
+    Alpine.store('currentEditor', null)
+})
+
 Livewire.on('insertFromAction', (event) => {
     setTimeout(() => {
         const proxyEvent = new CustomEvent('insert-content', { bubble: true, detail: event})
@@ -154,6 +158,7 @@ export default function tiptap({
     return {
         id: null,
         modalId: null,
+        previousModal: null,
         tools: tools,
         state: state,
         statePath: statePath,
@@ -280,9 +285,9 @@ export default function tiptap({
             return exts;
         },
         init: async function () {
-            this.initEditor(this.state);
-
             this.modalId = this.$el.closest('[x-ref="modalContainer"]')?.getAttribute('wire:key');
+
+            this.initEditor(this.state);
 
             window.filamentTiptapEditors = editors;
 
@@ -333,15 +338,23 @@ export default function tiptap({
                 }
             });
         },
-        destroyEditor(event) {
-            let id = event.detail.id.split('-')[0];
+        destroy() {
+            if (! this.modalId) return;
 
-            if (!this.modalId || id + '.' + this.statePath === this.modalId || event.target.classList.contains('curator-panel')) return
-
-            if (editors[this.statePath]) {
+            if (this.$store.currentEditor && this.$store.currentEditor !== this.statePath) {
                 editors[this.statePath].destroy();
                 delete editors[this.statePath];
             }
+        },
+        handleOpenModal() {
+            if (! this.modalId) return;
+
+            this.$nextTick(() => {
+                const last = Object.keys(editors)[Object.keys(editors).length - 1];
+                if (last !== this.statePath) {
+                    this.$store.currentEditor = Object.keys(editors)[Object.keys(editors).length - 2];
+                }
+            })
         },
         isActive(condition) {
             this.editor().isActive(condition)
