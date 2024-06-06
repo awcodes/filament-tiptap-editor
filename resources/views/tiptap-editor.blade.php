@@ -59,8 +59,7 @@
                     x-on:update-block.window="updateBlock($event)"
                     x-on:open-block-settings.window="openBlockSettings($event)"
                     x-on:delete-block.window="deleteBlock()"
-                    x-on:close-modal.window="destroyEditor($event)"
-                    x-on:open-modal.window="handleOpenModal($event, '{{ $statePath }}')"
+                    x-on:open-modal.window="handleOpenModal()"
                     x-trap.noscroll="fullScreenMode"
                 >
                     @if (! $isDisabled && ! $isToolbarMenusDisabled() && $tools)

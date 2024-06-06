@@ -287,10 +287,6 @@ export default function tiptap({
         init: async function () {
             this.modalId = this.$el.closest('[x-ref="modalContainer"]')?.getAttribute('wire:key');
 
-            if (this.modalId) {
-                this.id = `${this.modalId}.${this.statePath}`
-            }
-
             this.initEditor(this.state);
 
             window.filamentTiptapEditors = editors;
@@ -344,30 +340,14 @@ export default function tiptap({
         },
         destroy() {
             if (! this.modalId) return;
-            //
-            // const last = Object.keys(editors)[Object.keys(editors).length - 1];
-            //
-            // console.log(last)
-            // console.log(this.modalId)
-            // console.log(this.previousModal)
-            //
-            // if (this.modalId !== this.previousModal) {
-            //     editors[last].destroy();
-            //     delete editors[last];
-            // }
-            if (this.$store.currentEditor) {
-                if (this.$store.currentEditor !== this.statePath) {
-                    const last = Object.keys(editors)[Object.keys(editors).length - 1];
-                    editors[this.statePath].destroy();
-                    delete editors[this.statePath];
-                }
-                console.log(this.$store.currentEditor, this.statePath)
+
+            if (this.$store.currentEditor && this.$store.currentEditor !== this.statePath) {
+                editors[this.statePath].destroy();
+                delete editors[this.statePath];
             }
         },
-        handleOpenModal(event, statePath) {
-            if (! this.modalId) {
-                return;
-            }
+        handleOpenModal() {
+            if (! this.modalId) return;
 
             this.$nextTick(() => {
                 const last = Object.keys(editors)[Object.keys(editors).length - 1];
@@ -375,22 +355,6 @@ export default function tiptap({
                     this.$store.currentEditor = Object.keys(editors)[Object.keys(editors).length - 2];
                 }
             })
-        },
-        destroyEditor(event) {
-            // if (! this.modalId) return;
-            //
-            // // if this.statePath and last editor in array is this.statePath
-            // const last = Object.keys(editors)[Object.keys(editors).length - 1];
-            // const id = `${this.modalId}.${last}`;
-            //
-            // console.log(id, this.id)
-            //
-            // if (id === this.id) {
-            //     if (editors[this.statePath]) {
-            //         editors[this.statePath].destroy();
-            //         delete editors[this.statePath];
-            //     }
-            // }
         },
         isActive(condition) {
             this.editor().isActive(condition)
