@@ -406,8 +406,11 @@
         padding-inline: 0.25rem;
     }
 
-    pre.hljs code {
-        background-color: transparent;
+     pre.hljs {
+        direction: ltr;
+        code {
+            background-color: transparent;
+        }
     }
 
     .filament-tiptap-grid,
