@@ -111,6 +111,7 @@
                             >
                                 <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$bubbleMenuTools"/>
                                 <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
+                                <x-filament-tiptap-editor::menus.image-bubble-menu :state-path="$statePath" :tools="$tools"/>
                                 <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
                             </div>
                         </div>
