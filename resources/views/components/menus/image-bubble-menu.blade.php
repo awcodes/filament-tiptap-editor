@@ -9,6 +9,6 @@
     x-show="editor().isActive('image', updatedAt)"
     x-cloak
 >
-    <x-filament-tiptap-editor::tools.edit-media :state-path="$statePath" icon="edit" :active="false" label="{{ trans('filament-tiptap-editor::editor.media') }}"/>
+    <x-filament-tiptap-editor::tools.edit-media :state-path="$statePath" icon="edit" :active="false" />
 </div>
 @endif

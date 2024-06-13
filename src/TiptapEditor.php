@@ -8,6 +8,7 @@ use Filament\Forms\Components\Concerns\HasExtraInputAttributes;
 use Filament\Forms\Components\Concerns\HasPlaceholder;
 use Filament\Forms\Components\Field;
 use Filament\Support\Concerns\HasExtraAlpineAttributes;
+use FilamentTiptapEditor\Actions\EditMediaAction;
 use FilamentTiptapEditor\Actions\GridBuilderAction;
 use FilamentTiptapEditor\Actions\OEmbedAction;
 use FilamentTiptapEditor\Actions\SourceAction;
@@ -149,6 +150,13 @@ class TiptapEditor extends Field
                     array $arguments
                 ) => $this->getCustomListener('filament_tiptap_media', $component, $statePath, $arguments),
             ],
+            'tiptap::editMediaContent' => [
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_edit_media', $component, $statePath, $arguments),
+            ],
             'tiptap::updateBlock' => [
                 fn (
                     TiptapEditor $component,
@@ -166,6 +174,7 @@ class TiptapEditor extends Field
             fn (): Action => $this->getMediaAction(),
             fn (): Action => $this->getInsertBlockAction(),
             fn (): Action => $this->getUpdateBlockAction(),
+            fn (): Action => EditMediaAction::make(),
         ]);
     }
 

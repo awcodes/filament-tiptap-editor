@@ -13,7 +13,7 @@
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    label="{{ trans('filament-tiptap-editor::editor.media') }}"
+    label="{{ trans('filament-tiptap-editor::editor.media.insert_edit') }}"
     active="image"
     :icon="$icon"
     x-data="{
