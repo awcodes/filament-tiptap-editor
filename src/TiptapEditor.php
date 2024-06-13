@@ -41,7 +41,7 @@ class TiptapEditor extends Field
 
     protected ?array $tools = [];
 
-    protected ?array $blocks = [];
+    protected array | Closure $blocks = [];
 
     protected array | Closure $mergeTags = [];
 
@@ -349,7 +349,7 @@ class TiptapEditor extends Field
         return $this;
     }
 
-    public function blocks(array $blocks): static
+    public function blocks(array | Closure $blocks): static
     {
         $this->blocks = $blocks;
 
@@ -389,7 +389,9 @@ class TiptapEditor extends Field
 
     public function getBlocks(): array
     {
-        return collect($this->blocks)->mapWithKeys(function ($block, $key) {
+        $blocks = $this->evaluate($this->blocks);
+
+        return collect($blocks)->mapWithKeys(function ($block, $key) {
             $b = app($block);
 
             return [$b->getIdentifier() => $b];

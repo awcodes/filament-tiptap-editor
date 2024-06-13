@@ -451,7 +451,7 @@ export default function tiptap({
 
             if (media) {
                 const src = media?.url || media?.src;
-                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp'];
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp', 'gif'];
 
                 const regex = /.*\.([a-zA-Z]*)\??/;
                 const match = regex.exec(src);
