@@ -4,16 +4,12 @@
 ])
 
 @php
-    if (str(config('filament-tiptap-editor.media_action'))->contains('\\')) {
-        $action = "\$wire.dispatchFormEvent('tiptap::setMediaContent', '" . $statePath . "', arguments);";
-    } else {
-        $action = "this.\$dispatch('open-modal', {id: '" . config('filament-tiptap-editor.media_action') . "', statePath: '" . $statePath . "'}, arguments)";
-    }
+    $action = "\$wire.dispatchFormEvent('tiptap::editMediaContent', '" . $statePath . "', arguments);";
 @endphp
 
 <x-filament-tiptap-editor::button
     action="openModal()"
-    label="{{ trans('filament-tiptap-editor::editor.media.insert_edit') }}"
+    label="{{ trans('filament-tiptap-editor::editor.media.edit') }}"
     active="image"
     :icon="$icon"
     x-data="{

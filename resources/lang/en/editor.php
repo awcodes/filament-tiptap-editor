@@ -79,7 +79,10 @@ return [
         'ordered' => 'Ordered List',
         'checked' => 'Checked List',
     ],
-    'media' => 'Insert / Edit Media',
+    'media' => [
+        'insert_edit' => 'Insert / Edit Media',
+        'edit' => 'Edit Media',
+    ],
     'merge_tags' => [
         'panel' => 'Merge tags',
     ],
