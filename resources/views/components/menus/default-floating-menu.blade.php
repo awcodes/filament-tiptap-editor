@@ -6,7 +6,11 @@
     'editor' => null,
 ])
 
-<div x-ref="defaultFloatingMenu" class="flex gap-1 items-center" x-cloak>
+<div
+    class="flex gap-1 items-center"
+    x-show="editor().isFocused && editor().isActive('paragraph', updatedAt)"
+    style="display: none;"
+>
     @forelse ($tools as $tool)
         @if (is_array($tool))
             <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" :editor="$editor" />

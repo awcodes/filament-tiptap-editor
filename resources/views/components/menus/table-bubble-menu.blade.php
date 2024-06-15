@@ -7,7 +7,7 @@
 <div
     class="flex gap-1 items-center"
     x-show="editor().isActive('table', updatedAt)"
-    x-cloak
+    style="display: none;"
 >
     <x-filament-tiptap-editor::button
         action="editor().chain().focus().addColumnBefore().run()"

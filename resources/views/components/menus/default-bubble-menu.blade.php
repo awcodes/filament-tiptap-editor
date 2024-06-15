@@ -12,7 +12,7 @@
         editor().isActive('table', updatedAt) ||
         editor().view.state.selection.$from === editor().state.selection.$to
     )"
-     x-cloak
+    style="display: none;"
 >
     @foreach ($tools as $tool)
         @if (is_array($tool))

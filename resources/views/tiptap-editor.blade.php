@@ -22,20 +22,20 @@
                     'ring-gray-950/10 dark:ring-white/20' => ! $errors->has($statePath),
                     'ring-danger-600 dark:ring-danger-600' => $errors->has($statePath),
                 ])
+                x-data="{}"
                 @if (! $shouldDisableStylesheet())
-                    x-data="{}"
                     x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('tiptap', 'awcodes/tiptap-editor'))]"
                 @endif
             >
                 <div
                     wire:ignore
                     x-ignore
-                    ax-load
+                    ax-load="visible"
                     ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('tiptap', 'awcodes/tiptap-editor') }}"
                     class="relative z-0 tiptap-wrapper rounded-md bg-white dark:bg-gray-900 focus-within:ring focus-within:ring-primary-500 focus-within:z-10"
                     x-bind:class="{ 'tiptap-fullscreen': fullScreenMode }"
                     x-data="tiptap({
-                        state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: false) }},
+                        state: $wire.{{ $applyStateBindingModifiers("entangle('{$statePath}')", isOptimisticallyLive: true) }},
                         statePath: '{{ $statePath }}',
                         tools: @js($tools),
                         disabled: @js($isDisabled),
@@ -44,7 +44,8 @@
                         placeholder: @js($getPlaceholder()),
                         mergeTags: @js($mergeTags),
                     })"
-                    x-on:click.away="focused = false"
+                    x-init="$nextTick(() => { init() })"
+                    x-on:click.away="blur()"
                     x-on:keydown.escape="fullScreenMode = false"
                     x-on:insert-content.window="insertContent($event)"
                     x-on:unset-link.window="$event.detail.statePath === '{{ $statePath }}' ? unsetLink() : null"
@@ -60,6 +61,7 @@
                     x-on:open-block-settings.window="openBlockSettings($event)"
                     x-on:delete-block.window="deleteBlock()"
                     x-on:open-modal.window="handleOpenModal()"
+                    x-on:locale-change.window="updateLocale($event)"
                     x-trap.noscroll="fullScreenMode"
                 >
                     @if (! $isDisabled && ! $isToolbarMenusDisabled() && $tools)
@@ -98,34 +100,32 @@
                     @endif
 
                     @if (! $isBubbleMenusDisabled())
-                    <div>
-                        <div x-ref="bubbleMenu" class="tiptap-editor-bubble-menu-wrapper">
-                            <div
-                                x-data="{
-                                    updatedAt: Date.now(),
-                                    editor() {
-                                        return window.filamentTiptapEditors['{{ $statePath }}']
-                                    },
-                                }"
-                                x-on:selection-update.window="updatedAt = Date.now()"
-                            >
+                    <template x-if="editor()">
+                        <div>
+                            <div x-ref="bubbleMenu" class="tiptap-editor-bubble-menu-wrapper">
                                 <x-filament-tiptap-editor::menus.default-bubble-menu :state-path="$statePath" :tools="$bubbleMenuTools"/>
                                 <x-filament-tiptap-editor::menus.link-bubble-menu :state-path="$statePath" :tools="$tools"/>
                                 <x-filament-tiptap-editor::menus.image-bubble-menu :state-path="$statePath" :tools="$tools"/>
                                 <x-filament-tiptap-editor::menus.table-bubble-menu :state-path="$statePath" :tools="$tools"/>
                             </div>
                         </div>
-                    </div>
+                    </template>
                     @endif
 
                     @if (! $isFloatingMenusDisabled() && filled($floatingMenuTools))
-                        <x-filament-tiptap-editor::menus.default-floating-menu
-                            :state-path="$statePath"
-                            :tools="$floatingMenuTools"
-                            :blocks="$blocks"
-                            :should-support-blocks="$shouldSupportBlocks"
-                            :editor="$field"
-                        />
+                    <template x-if="editor()">
+                        <div>
+                            <div x-ref="floatingMenu" class="tiptap-editor-floating-menu-wrapper">
+                                <x-filament-tiptap-editor::menus.default-floating-menu
+                                    :state-path="$statePath"
+                                    :tools="$floatingMenuTools"
+                                    :blocks="$blocks"
+                                    :should-support-blocks="$shouldSupportBlocks"
+                                    :editor="$field"
+                                />
+                            </div>
+                        </div>
+                    </template>
                     @endif
 
                     <div class="flex h-full">

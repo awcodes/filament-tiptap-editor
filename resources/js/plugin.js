@@ -28,6 +28,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
 import {BubbleMenu} from "@tiptap/extension-bubble-menu";
+import {FloatingMenu} from "@tiptap/extension-floating-menu";
 import {
     CheckedList,
     Lead,
@@ -47,15 +48,15 @@ import {
     DetailsContent,
     CustomCodeBlockLowlight,
     Hurdle,
-    FloatingMenu,
     Video,
     TiptapBlock,
     DragAndDropExtension,
     ClassExtension,
     IdExtension,
     StyleExtension,
+    StatePath,
 } from "./extensions";
-import {lowlight} from "lowlight/lib/common";
+import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
 import { isEqual } from "lodash";
 
@@ -109,7 +110,7 @@ let editorExtensions = {...coreExtensions, ...customExtensions};
 const localeSwitcher = document.getElementById('activeLocale');
 if (localeSwitcher) {
     localeSwitcher.addEventListener('change', () => {
-        const localeChange = new CustomEvent('localeChange', { bubbles: true, detail: { locale: localeSwitcher.value } });
+        const localeChange = new CustomEvent('locale-change', { bubbles: true, detail: { locale: localeSwitcher.value } });
         localeSwitcher.dispatchEvent(localeChange);
     });
 }
@@ -118,9 +119,15 @@ document.addEventListener('livewire:navigating', () => {
     window.filamentTiptapEditors = {};
 })
 
-document.addEventListener('alpine:init', () => {
-    Alpine.store('currentEditor', null)
-})
+document.addEventListener("dblclick", function (e) {
+    if (
+        e.target && (e.target.hasAttribute("data-youtube-video") ||
+            e.target.hasAttribute("data-vimeo-video")) ||
+        e.target.hasAttribute("data-native-video")
+    ) {
+        e.target.firstChild.style.pointerEvents = "all";
+    }
+});
 
 Livewire.on('insertFromAction', (event) => {
     setTimeout(() => {
@@ -153,21 +160,20 @@ export default function tiptap({
    placeholder = null,
    mergeTags = [],
 }) {
-    let editors = window.filamentTiptapEditors || {};
+    let editor = null;
 
     return {
         id: null,
         modalId: null,
-        previousModal: null,
         tools: tools,
         state: state,
         statePath: statePath,
         fullScreenMode: false,
         updatedAt: Date.now(),
-        disabled,
+        disabled: disabled,
         locale: locale,
         floatingMenuTools: floatingMenuTools,
-        getExtensions(id) {
+        getExtensions() {
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
                     return tool;
@@ -176,7 +182,7 @@ export default function tiptap({
                 return tool.id;
             })
 
-            let exts = [
+            let extensions = [
                 Document,
                 Text,
                 Paragraph,
@@ -190,10 +196,13 @@ export default function tiptap({
                 ClassExtension,
                 IdExtension,
                 StyleExtension,
+                StatePath.configure({
+                    statePath: statePath
+                })
             ];
 
-            if (placeholder && (! disabled)) {
-                exts.push(Placeholder.configure({ placeholder }));
+            if (placeholder && (!disabled)) {
+                extensions.push(Placeholder.configure({placeholder}));
             }
 
             if (tools.length) {
@@ -201,15 +210,15 @@ export default function tiptap({
                 let alignments = [];
                 let types = ['paragraph'];
 
-                exts.push(BubbleMenu.configure({
+                extensions.push(BubbleMenu.configure({
                     element: this.$refs.bubbleMenu,
                     tippyOptions: {
-                        duration: [500,0],
+                        duration: [500, 0],
                         maxWidth: 'none',
                         placement: 'top',
                         theme: 'tiptap-editor-bubble',
                         interactive: true,
-                        appendTo: this.$root,
+                        appendTo: this.$refs.element,
                         zIndex: 10,
                     },
                     shouldShow: ({state, from, to}) => {
@@ -237,16 +246,20 @@ export default function tiptap({
                 }))
 
                 if (this.floatingMenuTools.length) {
-                    exts.push(FloatingMenu.configure({
-                        pluginKey: `defaultFloatingMenu${id}`,
-                        element: this.$refs.defaultFloatingMenu,
+                    extensions.push(FloatingMenu.configure({
+                        element: this.$refs.floatingMenu,
                         tippyOptions: {
-                            duration: [500,0],
-                        }
+                            duration: [500, 0],
+                            maxWidth: 'none',
+                            theme: 'tiptap-editor-bubble',
+                            interactive: true,
+                            appendTo: this.$refs.element,
+                            zIndex: 10,
+                        },
                     }))
 
                     this.floatingMenuTools.forEach((tool) => {
-                        if (! tools.includes(tool)) {
+                        if (!tools.includes(tool)) {
                             tools.push(tool);
                         }
                     });
@@ -256,10 +269,10 @@ export default function tiptap({
                     if (keys.includes(tool)) {
                         editorExtensions[tool].forEach((e) => {
                             if (['ordered-list', 'bullet-list', 'checked-list'].includes(tool)) {
-                                exts.push(e)
-                                if (!exts.includes(ListItem)) exts.push(ListItem);
+                                extensions.push(e)
+                                if (!extensions.includes(ListItem)) extensions.push(ListItem);
                             } else {
-                                exts.push(e)
+                                extensions.push(e)
                             }
                         })
                     } else {
@@ -269,41 +282,34 @@ export default function tiptap({
                             if (tool === "align-right") alignments.push('end');
                             if (tool === "align-justify") alignments.push('justify');
                             if (tools.includes("heading")) types.push('heading');
-                            let hasTextAlign = exts.find((item) => item.name === 'textAlign');
-                            if (typeof hasTextAlign === "undefined") exts.push(CustomTextAlign.configure({types, alignments}));
+                            let hasTextAlign = extensions.find((item) => item.name === 'textAlign');
+                            if (typeof hasTextAlign === "undefined") extensions.push(CustomTextAlign.configure({
+                                types,
+                                alignments
+                            }));
                         }
                     }
                 })
             }
 
             if (mergeTags?.length) {
-                exts.push(MergeTag.configure({
+                extensions.push(MergeTag.configure({
                     mergeTags,
                 }))
             }
 
-            return exts;
+            return extensions;
         },
-        init: async function () {
+        init: function() {
             this.modalId = this.$el.closest('[x-ref="modalContainer"]')?.getAttribute('wire:key');
 
+            let existing = this.$refs.element.querySelector('.tiptap');
+            if (existing) {
+                existing.remove();
+                editor = null;
+            }
+
             this.initEditor(this.state);
-
-            window.filamentTiptapEditors = editors;
-
-            document.addEventListener("dblclick", function (e) {
-                if (
-                    e.target && (e.target.hasAttribute("data-youtube-video") ||
-                    e.target.hasAttribute("data-vimeo-video")) ||
-                    e.target.hasAttribute("data-native-video")
-                ) {
-                    e.target.firstChild.style.pointerEvents = "all";
-                }
-            });
-
-            window.addEventListener('localeChange', (event) => {
-                this.locale = event.detail.locale;
-            });
 
             let sortableEl = this.$el.parentElement.closest("[x-sortable]");
             if (sortableEl) {
@@ -312,7 +318,7 @@ export default function tiptap({
 
                     if (editors.length === 0) return;
 
-                    editors.forEach(function (editor) {
+                    editors.forEach((editor) => {
                         editor._x_dataStack[0].editor().setEditable(false);
                         editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'none';
                     });
@@ -323,7 +329,7 @@ export default function tiptap({
 
                     if (editors.length === 0) return;
 
-                    editors.forEach(function (editor) {
+                    editors.forEach((editor) => {
                         editor._x_dataStack[0].editor().setEditable(true);
                         editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'all';
                     });
@@ -332,52 +338,24 @@ export default function tiptap({
 
             this.$watch('state', (newState, oldState) => {
                 if (typeof newState !== "undefined") {
-                    if (! isEqual(oldState, Alpine.raw(newState))) {
+                    if (!isEqual(oldState, Alpine.raw(newState))) {
                         this.updateEditorContent(newState)
                     }
                 }
             });
         },
-        destroy() {
-            if (! this.modalId) return;
-
-            if (this.$store.currentEditor && this.$store.currentEditor !== this.statePath) {
-                editors[this.statePath].destroy();
-                delete editors[this.statePath];
-            }
-        },
-        handleOpenModal() {
-            if (! this.modalId) return;
-
-            this.$nextTick(() => {
-                const last = Object.keys(editors)[Object.keys(editors).length - 1];
-                if (last !== this.statePath) {
-                    this.$store.currentEditor = Object.keys(editors)[Object.keys(editors).length - 2];
-                }
-            })
-        },
-        isActive(condition) {
-            this.editor().isActive(condition)
-        },
-        editor() {
-            return editors[this.statePath];
-        },
         initEditor(content) {
-            let selection = null;
+            const _this = this;
 
-            if (editors[this.statePath]) {
-                content = this.editor().getJSON();
-                selection = this.editor().state.selection;
-                editors[this.statePath].destroy();
-                delete editors[this.statePath];
+            if (editor) {
+                content = editor.getJSON();
+                editor = null;
             }
 
-            let _this = this;
-
-            editors[this.statePath] = new Editor({
-                element: this.$refs.element,
-                extensions: this.getExtensions(this.statePath),
-                editable: !this.disabled,
+            editor = new Editor({
+                element: _this.$refs.element,
+                extensions: _this.getExtensions(),
+                editable: !_this.disabled,
                 content: content,
                 editorProps: {
                     handlePaste(view, event, slice) {
@@ -390,9 +368,16 @@ export default function tiptap({
                     }
                 },
                 onCreate({editor}) {
-                    if (selection && _this.modalId) {
+                    if (
+                        _this.$store.previous &&
+                        editor.commands.getStatePath() === _this.$store.previous.statePath
+                    ) {
+                        editor.chain().focus()
+                            .setContent(_this.$store.previous.editor.getJSON())
+                            .setTextSelection(_this.$store.previous.editor.state.selection)
+                            .run();
+
                         _this.updatedAt = Date.now();
-                        editor.chain().focus().setTextSelection(selection).run();
                     }
                 },
                 onUpdate({editor}) {
@@ -401,7 +386,6 @@ export default function tiptap({
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
-                    _this.$dispatch('selection-update');
                 },
                 onBlur() {
                     _this.updatedAt = Date.now();
@@ -411,28 +395,64 @@ export default function tiptap({
                 },
             });
         },
+        handleOpenModal() {
+            if (!this.modalId) return;
+
+            this.$nextTick(() => {
+                this.$store.previous = {
+                    statePath: this.statePath,
+                    editor: editor
+                };
+            })
+        },
+        isActive(type, opts = {}) {
+            return editor.isActive(type, opts)
+        },
+        editor() {
+            return editor;
+        },
+        blur() {
+            const tippy = this.$el.querySelectorAll('[data-tippy-content]')
+            if (tippy) {
+                tippy.forEach((item) => item.destroy())
+            }
+
+            this.updatedAt = Date.now()
+        },
         updateEditorContent(content) {
-            if (this.editor().isEditable) {
-                const {from, to} = this.editor().state.selection;
-                this.editor().commands.setContent(content, true);
-                this.editor().chain().focus().setTextSelection({from, to}).run();
+            if (editor.isEditable) {
+                const {from, to} = editor.state.selection;
+                editor.commands.setContent(content, true);
+                editor.chain().focus().setTextSelection({from, to}).run();
             }
         },
         refreshEditorContent() {
-            // Using $nextTick to delay the UI update after the entangled state updates.
-            // This matters when the method is triggered as part of a batched request.
             this.$nextTick(() => this.updateEditorContent(this.state));
+        },
+        updateLocale(event) {
+            this.locale = event.detail.locale
         },
         insertContent(event) {
             if (event.detail.statePath !== this.statePath) return
 
-            switch(event.detail.type) {
-                case 'media': this.insertMedia(event); return;
-                case 'video': this.insertVideo(event); return;
-                case 'link': this.insertLink(event); return;
-                case 'source': this.insertSource(event); return;
-                case 'grid': this.insertGridBuilder(event); return;
-                default: return;
+            switch (event.detail.type) {
+                case 'media':
+                    this.insertMedia(event);
+                    return;
+                case 'video':
+                    this.insertVideo(event);
+                    return;
+                case 'link':
+                    this.insertLink(event);
+                    return;
+                case 'source':
+                    this.insertSource(event);
+                    return;
+                case 'grid':
+                    this.insertGridBuilder(event);
+                    return;
+                default:
+                    return;
             }
         },
         insertMedia(event) {
@@ -445,7 +465,7 @@ export default function tiptap({
             }
         },
         executeMediaInsert(media = null) {
-            if (! media || media?.url === null) {
+            if (!media || media?.url === null) {
                 return;
             }
 
@@ -457,7 +477,7 @@ export default function tiptap({
                 const match = regex.exec(src);
 
                 if (match !== null && imageTypes.includes(match[1])) {
-                    this.editor()
+                    editor
                         .chain()
                         .focus()
                         .setImage({
@@ -470,14 +490,14 @@ export default function tiptap({
                         })
                         .run();
                 } else {
-                    this.editor().chain().focus().extendMarkRange('link').setLink({ href: src }).insertContent(media?.link_text).run();
+                    editor.chain().focus().extendMarkRange('link').setLink({href: src}).insertContent(media?.link_text).run();
                 }
             }
         },
         insertVideo(event) {
             let video = event.detail.video;
 
-            if (! video || video.url === null) {
+            if (!video || video.url === null) {
                 return;
             }
 
@@ -491,14 +511,14 @@ export default function tiptap({
             }
 
             if (video.url.includes('youtube') || video.url.includes('youtu.be')) {
-                this.editor().chain().focus().setYoutubeVideo({
+                editor.chain().focus().setYoutubeVideo({
                     ...commonOptions,
                     controls: video.youtube_options.includes('controls'),
                     nocookie: video.youtube_options.includes('nocookie'),
                     start: video.start_at ?? 0,
                 }).run();
             } else if (video.url.includes('vimeo')) {
-                this.editor().chain().focus().setVimeoVideo({
+                editor.chain().focus().setVimeoVideo({
                     ...commonOptions,
                     autoplay: video.vimeo_options.includes('autoplay'),
                     loop: video.vimeo_options.includes('loop'),
@@ -507,7 +527,7 @@ export default function tiptap({
                     portrait: video.vimeo_options.includes('portrait'),
                 }).run();
             } else {
-                this.editor().chain().focus().setVideo({
+                editor.chain().focus().setVideo({
                     ...commonOptions,
                     autoplay: video.native_options.includes('autoplay'),
                     loop: video.native_options.includes('loop'),
@@ -528,7 +548,7 @@ export default function tiptap({
                 return;
             }
 
-            this.editor()
+            editor
                 .chain()
                 .focus()
                 .extendMarkRange('link')
@@ -546,7 +566,7 @@ export default function tiptap({
                 .run();
         },
         unsetLink() {
-          this.editor().chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
+            editor.chain().focus().extendMarkRange('link').unsetLink().selectTextblockEnd().run();
         },
         insertSource(event) {
             this.updateEditorContent(event.detail.source);
@@ -565,7 +585,7 @@ export default function tiptap({
                 type = 'asymmetric';
             }
 
-            this.editor().chain().focus().insertGridBuilder({
+            editor.chain().focus().insertGridBuilder({
                 cols: grid.columns,
                 type,
                 stackAt: grid.stack_at,
@@ -576,7 +596,7 @@ export default function tiptap({
         insertBlock(event) {
             if (event.detail.statePath !== this.statePath) return
 
-            this.editor().commands.insertBlock({
+            editor.commands.insertBlock({
                 type: event.detail.type,
                 statePath: event.detail.statePath,
                 data: event.detail.data,
@@ -585,18 +605,18 @@ export default function tiptap({
                 coordinates: event.detail.coordinates,
             });
 
-            if (! this.editor().isFocused) {
-                this.editor().commands.focus();
+            if (!editor.isFocused) {
+                editor.commands.focus();
             }
         },
         insertMergeTag(event) {
-            this.editor().commands.insertMergeTag({
+            editor.commands.insertMergeTag({
                 tag: event.detail.tag,
                 coordinates: event.detail.coordinates,
             });
 
-            if (! this.editor().isFocused) {
-                this.editor().commands.focus();
+            if (!editor.isFocused) {
+                editor.commands.focus();
             }
         },
         openBlockSettings(event) {
@@ -607,7 +627,7 @@ export default function tiptap({
         updateBlock(event) {
             if (event.detail.statePath !== this.statePath) return
 
-            this.editor().commands.updateBlock({
+            editor.commands.updateBlock({
                 type: event.detail.type,
                 statePath: event.detail.statePath,
                 data: event.detail.data,
@@ -615,12 +635,12 @@ export default function tiptap({
                 label: event.detail.label,
             });
 
-            if (! this.editor().isFocused) {
-                this.editor().commands.focus();
+            if (!editor.isFocused) {
+                editor.commands.focus();
             }
         },
         deleteBlock() {
-            this.editor().commands.removeBlock();
+            editor.commands.removeBlock();
         }
-    };
+    }
 }
