@@ -8,7 +8,7 @@
 
 <div
     class="flex gap-1 items-center"
-    x-show="editor().isFocused && editor().isActive('paragraph', updatedAt)"
+    x-show="editor().isActive('paragraph', updatedAt)"
     style="display: none;"
 >
     @forelse ($tools as $tool)
