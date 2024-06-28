@@ -100,7 +100,7 @@ export const TiptapBlock = Node.create({
         return ['tiptap-block', mergeAttributes(HTMLAttributes)]
     },
     addNodeView() {
-        return ({node}) => {
+        return ({node, getPos}) => {
             const dom = document.createElement('div')
             dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
@@ -118,6 +118,7 @@ export const TiptapBlock = Node.create({
                                 type: \`${node.attrs.type}\`,
                                 statePath: \`${node.attrs.statePath}\`,
                                 data: ${data},
+                                coordinates: ${getPos()}
                             })
                         },
                         deleteBlock() {
@@ -191,13 +192,18 @@ export const TiptapBlock = Node.create({
                     return currentChain.setTextSelection(range.end)
                 }
             },
-            updateBlock: (attributes) => ({ chain, state }) => {
+            updateBlock: (attributes) => ({ commands, chain, state }) => {
                 const { selection } = state
                 const { $from, $to } = selection
                 const range = $from.blockRange($to)
                 const currentChain = chain()
 
                 if (!range) {
+                    if (attributes.coordinates) {
+                        currentChain.insertContentAt({ from: attributes.coordinates , to: attributes.coordinates + 1 }, { type: this.name, attrs: attributes })
+                        return false
+                    }
+
                     currentChain.insertContentAt({ from: $from.pos, to: $from.pos + 1 }, { type: this.name, attrs: attributes })
                     return false
                 }
