@@ -633,6 +633,7 @@ export default function tiptap({
                 data: event.detail.data,
                 preview: event.detail.preview,
                 label: event.detail.label,
+                coordinates: event.detail.coordinates,
             });
 
             if (!editor.isFocused) {

@@ -339,6 +339,7 @@ class TiptapEditor extends Field
                     data: Js::from($data)->toHtml(),
                     preview: $block->getPreview($data, $component),
                     label: $block->getLabel(),
+                    coordinates: $arguments['coordinates'] ?? null,
                 );
             });
     }
