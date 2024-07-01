@@ -79,7 +79,10 @@ return [
         'ordered' => 'Numaralı Liste',
         'checked' => 'İşaretli Liste',
     ],
-    'media' => 'Ortam Ekle / Düzenle',
+    'media' => [
+        'insert_edit' => 'Ortam Ekle / Düzenle',
+        'edit' => 'Ortamı Düzenle',
+    ],
     'merge_tags' => [
         'panel' => 'Etiketleri Birleştir',
     ],
