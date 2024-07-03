@@ -151,9 +151,9 @@ Tools can also be added on a per-instance basis by using the `->tools()` modifie
 ```
 ### Media Storage
 
+By default, the media files are stored in the `public` disk in the `media` directory. 
 
-By default, the media files are stored in the `public` disk in the `media` directory. You can change this in the config file.
-Change the 'media_action' key in the config file `filament-tiptap-editor.php` to SpatieMediaLibraryAction.
+If you prefer to store your media using `spatie/laravel-medialibrary` package you can do so by changing the `media_action` key in the config file `filament-tiptap-editor.php` to `SpatieMediaLibraryAction`:
 
 ```php
     /*
