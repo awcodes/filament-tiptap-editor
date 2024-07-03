@@ -149,6 +149,22 @@ Tools can also be added on a per-instance basis by using the `->tools()` modifie
     'image_resize_target_height' => null,
 ]
 ```
+### Media Storage
+
+
+By default, the media files are stored in the `public` disk in the `media` directory. You can change this in the config file.
+Change the 'media_action' key in the config file `filament-tiptap-editor.php` to SpatieMediaLibraryAction.
+
+```php
+    /*
+    |--------------------------------------------------------------------------
+    | Actions
+    |--------------------------------------------------------------------------
+    |
+    */
+    'media_action' => FilamentTiptapEditor\Actions\SpatieMediaLibraryAction::class,
+```
+
 
 ### Output format
 
