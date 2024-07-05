@@ -33,6 +33,8 @@ trait InteractsWithMedia
 
     protected string | Closure | null $visibility = null;
 
+    protected ?Closure $saveUploadedFileUsing = null;
+
     public function acceptedFileTypes(array $acceptedFileTypes): static
     {
         $this->acceptedFileTypes = $acceptedFileTypes;
@@ -120,6 +122,13 @@ trait InteractsWithMedia
         return $this;
     }
 
+    public function saveUploadedFileUsing(?Closure $callback): static
+    {
+        $this->saveUploadedFileUsing = $callback;
+
+        return $this;
+    }
+
     public function getAcceptedFileTypes(): array
     {
         return $this->acceptedFileTypes ?? config('filament-tiptap-editor.accepted_file_types');
@@ -176,6 +185,11 @@ trait InteractsWithMedia
     public function getVisibility(): string
     {
         return $this->visibility ? $this->evaluate($this->visibility) : config('filament-tiptap-editor.visibility');
+    }
+
+    public function getSaveUploadedFileUsing(): ?Closure
+    {
+        return $this->saveUploadedFileUsing;
     }
 
     public function shouldPreserveFileNames(): bool

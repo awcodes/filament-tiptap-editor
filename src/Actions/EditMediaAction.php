@@ -96,7 +96,7 @@ class EditMediaAction extends Action
                                 $set('height', $dimensions[1]);
                             }
                         })
-                        ->saveUploadedFileUsing(function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
+                        ->saveUploadedFileUsing($component->getSaveUploadedFileUsing() ?: function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                             $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
                             $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
                             $extension = $file->getClientOriginalExtension();
