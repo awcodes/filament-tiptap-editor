@@ -88,7 +88,7 @@ class SpatieMediaLibraryAction extends Action
                             $model = $component->getContainer()->model;
                             $media = $component->shouldPreserveFilenames()
                                 ? $model->addMedia($file)->toMediaCollection('tiptap-media')
-                                : $model->addMedia($file)->usingFileName(Str::uuid())->toMediaCollection('ck-media');
+                                : $model->addMedia($file)->usingFileName(Str::uuid())->toMediaCollection('tiptap-media');
 
                             return $media->getUrl('large');
                         }),
