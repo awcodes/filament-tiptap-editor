@@ -34,6 +34,7 @@ return [
     |
     */
     'media_action' => FilamentTiptapEditor\Actions\MediaAction::class,
+    //    'media_action' => FilamentTiptapEditor\Actions\SpatieMediaLibraryAction::class,
     //    'media_action' => Awcodes\Curator\Actions\MediaAction::class,
     'edit_media_action' => FilamentTiptapEditor\Actions\EditMediaAction::class,
     'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
