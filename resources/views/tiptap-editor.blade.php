@@ -76,6 +76,8 @@
                                         @foreach ($tools as $tool)
                                             @if ($tool === '|')
                                                 <div class="border-l border-gray-950/10 dark:border-white/20 h-5"></div>
+                                            @elseif ($tool === '-')
+                                                <div class="border-t border-gray-950/10 dark:border-white/20"></div>
                                             @elseif (is_array($tool))
                                                 <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
                                             @elseif ($tool === 'blocks')
