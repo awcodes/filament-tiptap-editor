@@ -19,6 +19,7 @@ return [
         'label' => 'Color',
         'choose' => 'Choose',
         'remove' => 'Remove',
+        'input_label' => 'Hex Code',
     ],
     'details' => 'Details',
     'erase' => 'Erase All Content',
