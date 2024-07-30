@@ -79,7 +79,10 @@ return [
         'ordered' => '有序列表',
         'checked' => '可选中列表',
     ],
-    'media' => '插入/编辑 媒体',
+    'media' => [
+        'insert_edit' => '插入/编辑 媒体',
+        'edit' => '编辑 媒体',
+    ],
     'merge_tags' => [
         'panel' => '合并标签',
     ],
