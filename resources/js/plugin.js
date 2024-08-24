@@ -471,10 +471,10 @@ export default function tiptap({
 
             if (media) {
                 const src = media?.url || media?.src;
-                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp', 'gif'];
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp', 'gif', 'avif', 'jxl', 'heic'];
 
                 const regex = /.*\.([a-zA-Z]*)\??/;
-                const match = regex.exec(src);
+                const match = regex.exec(src.toLowerCase());
 
                 if (match !== null && imageTypes.includes(match[1])) {
                     editor
