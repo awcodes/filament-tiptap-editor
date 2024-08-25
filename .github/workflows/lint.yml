@@ -1,6 +1,7 @@
 name: "Fix PHP code styling"
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - 3.x
