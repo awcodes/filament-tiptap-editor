@@ -8,6 +8,7 @@ return [
     'align_right' => 'محاذاة لليمين',
     'blockquote' => 'اقتباس',
     'blocks' => [
+        'panel' => 'كتلة',
         'insert' => 'إدراج كتلة',
         'update' => 'تحديث كتلة',
     ],
@@ -18,6 +19,7 @@ return [
         'label' => 'اللون',
         'choose' => 'اختر',
         'remove' => 'حذف',
+        'input_label' => 'رمز اللون',
     ],
     'details' => 'تفاصيل',
     'erase' => 'حذف كافة المحتوى',
@@ -78,7 +80,13 @@ return [
         'ordered' => 'قائمة مرتبة',
         'checked' => 'قائمة اختيار',
     ],
-    'media' => 'إدراج / تحرير الوسائط',
+    'media' => [
+        'insert_edit' => 'إدراج / تحرير الوسائط',
+        'edit' => 'تعديل الوسائط',
+    ],
+    'merge_tags' => [
+        'panel' => 'Merge tags',
+    ],
     'paragraph' => 'فقرة',
     'redo' => 'إعادة',
     'remove_color' => 'إزالة اللون',
