@@ -19,6 +19,7 @@ return [
         'label' => 'Kleur',
         'choose' => 'Kiezen',
         'remove' => 'Verwijderen',
+        'input_label' => 'Hex-code',
     ],
     'details' => 'Details',
     'erase' => 'Alle inhoud wissen',
@@ -79,7 +80,10 @@ return [
         'ordered' => 'Geordende lijst',
         'checked' => 'Aangevinkte lijst',
     ],
-    'media' => 'Media invoegen / bewerken',
+    'media' => [
+        'insert_edit' => 'Media invoegen / bewerken',
+        'edit' => 'Media bewerken',
+    ],
     'merge_tags' => [
         'panel' => 'Samenvoegtags',
     ],
@@ -97,9 +101,7 @@ return [
         'add_column_before' => 'Kolom ervoor toevoegen',
         'add_column_after' => 'Kolom erna toevoegen',
         'delete_column' => 'Kolom verwijderen',
-        '
-
-add_row_before' => 'Rij ervoor toevoegen',
+        'add_row_before' => 'Rij ervoor toevoegen',
         'add_row_after' => 'Rij erna toevoegen',
         'delete_row' => 'Rij verwijderen',
         'delete_table' => 'Tabel verwijderen',
