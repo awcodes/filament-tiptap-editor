@@ -7,7 +7,7 @@
 
             @if (array_key_exists('subs', $heading))
                 <ul>
-                    <x-contents-table :headings="$heading['subs']" />
+                    <x-filament-tiptap-editor::table-of-contents :headings="$heading['subs']" />
                 </ul>
             @endif
 
