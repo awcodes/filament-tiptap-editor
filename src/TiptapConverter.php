@@ -237,7 +237,7 @@ class TiptapConverter
         return $editor;
     }
 
-    public function generateTOCArray(&$headings, $parentLevel = 0): array {
+    public function generateTOCArray(array &$headings, int $parentLevel = 0): array {
 
         $result = [];
 
