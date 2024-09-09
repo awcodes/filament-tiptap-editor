@@ -254,17 +254,14 @@ class TiptapConverter
             $heading = [
                 'id' => $value['id'],
                 'text' => $value['text'],
+                'depth' => $currentLevel,
             ];
 
-            // recursive if next heading is higher level
             if ($nextLevel > $currentLevel) {
                 $heading['subs'] = $this->generateTOCArray($headings, $currentLevel);
             }
 
-            // only add if higher than parent level
-            if ($currentLevel > $parentLevel) {
-                $result[] = $heading;
-            }
+            $result[] = $heading;
 
         }
 
