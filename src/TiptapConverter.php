@@ -112,7 +112,10 @@ class TiptapConverter
             $this->parseMergeTags($editor);
         }
 
-        return $editor->getHTML();
+        /*
+         * Temporary fix for Tiptap Serializer bug duplicating code block tags
+         */
+        return str_replace('</code></pre></code></pre>', '</code></pre>', $editor->getHTML());
     }
 
     public function asJSON(string | array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
