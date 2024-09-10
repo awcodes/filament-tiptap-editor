@@ -141,7 +141,7 @@ class TiptapConverter
         return $editor->getText();
     }
 
-    public function asTOC(string | array $content, int $maxDepth = 3): string
+    public function asTOC(string | array $content, int $maxDepth = 3, bool $array = false): string | array
     {
         if (is_string($content)) {
             $content = $this->asJSON($content, decoded: true);
@@ -149,7 +149,9 @@ class TiptapConverter
 
         $headings = $this->parseTocHeadings($content['content'], $maxDepth);
 
-        return $this->generateNestedTOC($headings, $headings[0]['level']);
+        return $array ?
+            $this->generateTOCArray($headings) :
+            $this->generateNestedTOC($headings, $headings[0]['level']);
     }
 
     public function parseHeadings(Editor $editor, int $maxDepth = 3): Editor
@@ -233,6 +235,38 @@ class TiptapConverter
         });
 
         return $editor;
+    }
+
+    public function generateTOCArray(array &$headings, int $parentLevel = 0): array {
+
+        $result = [];
+
+        foreach ($headings as $key => &$value) {
+            $currentLevel = $value['level'];
+            $nextLevel = $headings[$key + 1]['level'] ?? 0;
+
+            if ($parentLevel >= $currentLevel) {
+                break;
+            }
+
+            unset($headings[$key]);
+
+            $heading = [
+                'id' => $value['id'],
+                'text' => $value['text'],
+                'depth' => $currentLevel,
+            ];
+
+            if ($nextLevel > $currentLevel) {
+                $heading['subs'] = $this->generateTOCArray($headings, $currentLevel);
+            }
+
+            $result[] = $heading;
+
+        }
+
+        return $result;
+
     }
 
     public function generateNestedTOC(array $headings, int $parentLevel = 0): string

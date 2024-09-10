@@ -99,6 +99,13 @@ If you are using the `heading` tool in your editor you can also generate a table
 {!! tiptap_converter()->asToc($post->content, maxDepth: 3) !!}
 ```
 
+Alternatively, you can use & extend the `table-of-contents` blade component to generate the table of contents.
+
+```blade
+<!-- This will generate the TOC as a nested array, and use it as a parameter in the contents table -->
+<x-filament-tiptap-editor::table-of-contents :headings="tiptap_converter()->asTOC($page->body, array: true)" />
+```
+
 ## Config
 
 The plugin will work without publishing the config, but should you need to change any of the default settings you can publish the config file with the following Artisan command:
