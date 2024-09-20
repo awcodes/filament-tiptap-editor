@@ -79,7 +79,11 @@ return [
         'ordered' => 'Lista ordenada',
         'checked' => 'Lista marcada',
     ],
-    'media' => 'Insertar / Editar medios',
+    'media' => [
+        'insert_edit' => 'Insertar / Editar medios',
+        'edit' => 'Editar medios',
+        'remove' => 'Eliminar medios',
+    ],
     'merge_tags' => [
         'panel' => 'Etiquetas combinadas',
     ],
