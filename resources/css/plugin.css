@@ -23,6 +23,10 @@
     }
 }
 
+.sorting .tiptap-wrapper {
+    pointer-events: none;
+}
+
 .tiptap-wrapper.tiptap-fullscreen {
     position: fixed;
     top: 0;
