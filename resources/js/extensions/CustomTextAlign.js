@@ -20,6 +20,10 @@ export const CustomTextAlign = Extension.create({
                         default: this.options.defaultAlignment,
                         parseHTML: element => element.style.textAlign || this.options.defaultAlignment,
                         renderHTML: attributes => {
+                            if (attributes.style && attributes.style.includes('text-align')) {
+                                return {}
+                            }
+
                             if (attributes.textAlign === this.options.defaultAlignment) {
                                 return {}
                             }
