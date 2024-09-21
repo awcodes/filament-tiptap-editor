@@ -23,8 +23,7 @@ class SourceAction extends Action
             ->form([
                 TextArea::make('source')
                     ->label(trans('filament-tiptap-editor::source-modal.labels.source'))
-                    ->extraAttributes(['class' => 'source_code_editor'])
-                    ->autosize(),
+                    ->extraAttributes(['class' => 'source_code_editor']),
             ])
             ->modalWidth('screen')
             ->action(function (TiptapEditor $component, $data) {

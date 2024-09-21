@@ -14,7 +14,7 @@
                     height: 100%;
                     grid-template-rows: auto 1fr;
 
-                    textarea {
+                    .source_code_editor * {
                         height: 100% !important;
                     }
                 }
