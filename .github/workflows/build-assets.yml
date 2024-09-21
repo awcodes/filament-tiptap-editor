@@ -2,19 +2,16 @@ name: "Build Assets"
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - 3.x
-    types:
-      - closed
     paths:
       - 'resources/js/**.js'
       - 'resources/css/**.css'
       - 'resources/views/**.blade.php'
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  assets:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
