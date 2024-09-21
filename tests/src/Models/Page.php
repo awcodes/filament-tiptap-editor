@@ -12,7 +12,7 @@ class Page extends Model
 
     protected static function newFactory(): PageFactory
     {
-        return new PageFactory();
+        return new PageFactory;
     }
 
     protected $guarded = [];
