@@ -1,15 +1,16 @@
-name: "Run Tests"
+name: "Tests"
 
 on:
   workflow_dispatch:
   pull_request:
     types:
       - opened
+      - synchronize
     branches:
       - 3.x
     paths:
       - '**.php'
-      - '.github/workflows/run-tests.yml'
+      - '.github/workflows/tests.yml'
       - 'phpunit.xml.dist'
       - 'composer.json'
       - 'composer.lock'
@@ -17,24 +18,35 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        php: [8.2, 8.1]
-        laravel: [10.*]
-        stability: [prefer-lowest, prefer-stable]
+        os: [ubuntu-latest]
+        php: [8.3, 8.2, 8.1]
+        laravel: [11.*, 10.*]
+        stability: [prefer-stable]
         include:
+          - laravel: 11.*
+            testbench: 9.*
+            carbon: 3.*
+            collision: 8.*
           - laravel: 10.*
             testbench: 8.*
-            carbon: ^2.63
-
+            carbon: 2.*
+            collision: 7.*
+        exclude:
+          - laravel: 11.*
+            php: 8.1
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
-
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -43,18 +55,15 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
-      - name: Setup problem matchers
+      - name: Install Dependencies
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" "nunomaduro/collision:${{ matrix.collision }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: List Installed Dependencies
-        run: composer show -D
-
       - name: Execute tests
-        run: vendor/bin/pest --ci
+        run: vendor/bin/pest --parallel
