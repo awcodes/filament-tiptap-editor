@@ -411,8 +411,12 @@ export default function tiptap({
                     }
                 },
                 onUpdate({editor}) {
+                    console.log('update')
                     _this.updatedAt = Date.now();
-                    _this.state = editor.isEmpty ? null : editor.getJSON();
+                    clearTimeout(_this.timeOut);
+                    _this.timeOut = setTimeout(function(){
+                        _this.state = editor.isEmpty ? null : editor.getJSON();
+                    },300);
                 },
                 onSelectionUpdate() {
                     _this.updatedAt = Date.now();
