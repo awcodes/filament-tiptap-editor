@@ -100,8 +100,12 @@ class TiptapConverter
         return $this;
     }
 
-    public function asHTML(string | array $content, bool $toc = false, int $maxDepth = 3): string
+    public function asHTML(string | array | null $content, bool $toc = false, int $maxDepth = 3): string
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
@@ -118,8 +122,12 @@ class TiptapConverter
         return str_replace('</code></pre></code></pre>', '</code></pre>', $editor->getHTML());
     }
 
-    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
+    public function asJSON(string | array | null $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
@@ -133,8 +141,12 @@ class TiptapConverter
         return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
     }
 
-    public function asText(string | array $content): string
+    public function asText(string | array | null $content): string
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if (filled($this->mergeTagsMap)) {
@@ -144,8 +156,12 @@ class TiptapConverter
         return $editor->getText();
     }
 
-    public function asTOC(string | array $content, int $maxDepth = 3, bool $array = false): string | array
+    public function asTOC(string | array | null $content, int $maxDepth = 3, bool $array = false): string | array
     {
+        if (! $content) {
+            return '';
+        }
+
         if (is_string($content)) {
             $content = $this->asJSON($content, decoded: true);
         }
