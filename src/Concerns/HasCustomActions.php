@@ -67,6 +67,7 @@ trait HasCustomActions
     public function getGridBuilderAction(): Action
     {
         $action = $this->evaluate($this->gridBuilderAction) ?? config('filament-tiptap-editor.grid_builder_action');
+
         return $action::make();
     }
 }
