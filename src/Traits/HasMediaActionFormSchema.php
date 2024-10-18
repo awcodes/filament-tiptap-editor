@@ -2,7 +2,6 @@
 
 namespace FilamentTiptapEditor\Traits;
 
-
 use Filament\Forms\ComponentContainer;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\BaseFileUpload;
@@ -21,25 +20,25 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 trait HasMediaActionFormSchema
 {
-
-
     /**
-     * @param TiptapEditor $component
-     * @param ComponentContainer $form
-     * @return array
+     * Get the form schema for the media action.
+     *
+     * @param TiptapEditor $component The editor component.
+     * @param ComponentContainer $form The form container.
+     * @return array The form schema.
      */
-    protected function getFormSchema(TiptapEditor $component,ComponentContainer $form): array
+    protected function getFormSchema(TiptapEditor $component, ComponentContainer $form): array
     {
         return [
-            Grid::make([
-                'md' => 1
-            ])->schema(array_merge($this->getFileUploadFieldSchema($component),$this->getDefaultTipTapFormSchema()))
+            Grid::make(['md' => 1])
+                ->schema(array_merge($this->getFileUploadFieldSchema($component), $this->getDefaultTipTapFormSchema()))
         ];
     }
 
-
     /**
-     * @return array
+     * Get the default form schema for TipTap media modal.
+     *
+     * @return array The default form schema.
      */
     public function getDefaultTipTapFormSchema(): array
     {
@@ -66,15 +65,15 @@ trait HasMediaActionFormSchema
                 TextInput::make('width'),
                 TextInput::make('height'),
             ])->columns(),
-            Hidden::make('type')
-                ->default('document'),
+            Hidden::make('type')->default('document'),
         ];
     }
 
-
     /**
-     * @param TiptapEditor $component
-     * @return array
+     * Get the file upload field schema for media action.
+     *
+     * @param TiptapEditor $component The editor component.
+     * @return array The file upload field schema.
      */
     public function getFileUploadFieldSchema(TiptapEditor $component): array
     {
@@ -102,23 +101,25 @@ trait HasMediaActionFormSchema
                     }
                 })
                 ->saveUploadedFileUsing(static function (BaseFileUpload $component, TemporaryUploadedFile $file, ?Model $record) {
-                    return is_null($record) ? self::OnCreate($component,$file,$record) : self::OnUpdate($component,$file,$record);
+                    return is_null($record) ? self::OnCreate($component, $file, $record) : self::OnUpdate($component, $file, $record);
                 })
         ];
     }
 
-
     /**
-     * @param BaseFileUpload $component
-     * @param TemporaryUploadedFile $file
-     * @param Model|null $record
-     * @return mixed
+     * Handle file update for the media action.
+     *
+     * @param BaseFileUpload $component The file upload component.
+     * @param TemporaryUploadedFile $file The uploaded file.
+     * @param Model|null $record The model instance.
+     * @return mixed The URL of the updated media.
      */
     protected static function OnUpdate(BaseFileUpload $component, TemporaryUploadedFile $file, ?Model $record)
     {
         $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
         $extension = $file->getClientOriginalExtension();
         $filename = $filename . '-' . time() . '.' . $extension;
+
         $mediaInstance = $record->addMedia($file)
             ->usingFileName($filename)
             ->toMediaCollection(TipTapMedia::mediaCollection($record));
@@ -126,18 +127,20 @@ trait HasMediaActionFormSchema
         return $mediaInstance->getUrl();
     }
 
-
     /**
-     * @param BaseFileUpload $component
-     * @param TemporaryUploadedFile $file
-     * @param Model|null $record
-     * @return mixed
+     * Handle file creation for the media action.
+     *
+     * @param BaseFileUpload $component The file upload component.
+     * @param TemporaryUploadedFile $file The uploaded file.
+     * @param Model|null $record The model instance.
+     * @return mixed The URL of the newly uploaded file.
      */
     protected static function OnCreate(BaseFileUpload $component, TemporaryUploadedFile $file, ?Model $record)
     {
         $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
         $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
         $extension = $file->getClientOriginalExtension();
+
         if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
             $filename = $filename . '-' . time();
         }
@@ -146,10 +149,4 @@ trait HasMediaActionFormSchema
 
         return Storage::disk($component->getDiskName())->url($upload);
     }
-
-
-
-
-
-
 }
