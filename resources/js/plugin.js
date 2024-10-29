@@ -333,6 +333,7 @@ export default function tiptap({
         initEditor(content) {
             if (! this.$el.querySelector('.tiptap')) {
                 const _this = this;
+                console.log(_this.getExtensions());
                 editor = new Editor({
                     element: _this.$refs.element,
                     extensions: _this.getExtensions(),
