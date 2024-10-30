@@ -87,6 +87,7 @@ export const Video = Node.create({
             setVideo:
                 (options) =>
                     ({ commands }) => {
+                        console.log('setVideo', options, this);
                         return commands.insertContent({
                             type: this.name,
                             attrs: options,

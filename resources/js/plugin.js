@@ -55,6 +55,7 @@ import {
     IdExtension,
     StyleExtension,
     StatePath,
+    Iframe,
 } from "./extensions";
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
@@ -102,6 +103,7 @@ let coreExtensions = {
     superscript: [Superscript],
     table: [Table.configure({resizable: true}), TableHeader, TableCell, TableRow],
     underline: [Underline],
+    iframe: [Iframe],
 };
 
 let customExtensions = window.TiptapEditorExtensions || {};
@@ -333,7 +335,6 @@ export default function tiptap({
         initEditor(content) {
             if (! this.$el.querySelector('.tiptap')) {
                 const _this = this;
-                console.log(_this.getExtensions());
                 editor = new Editor({
                     element: _this.$refs.element,
                     extensions: _this.getExtensions(),
@@ -434,6 +435,8 @@ export default function tiptap({
                 case 'grid':
                     this.insertGridBuilder(event);
                     return;
+                case 'iframe':
+                    this.insertIframe(event);
                 default:
                     return;
             }
@@ -579,6 +582,18 @@ export default function tiptap({
                 asymmetricLeft,
                 asymmetricRight
             }).run();
+        },
+        insertIframe(event) {
+            console.log(event);
+            // editor.chain().focus().insertIframe({
+            //     src: event.detail.src,
+            //     title: event.detail.title,
+            //     width: event.detail.width,
+            //     height: event.detail.height,
+            //     frameborder: event.detail.frameborder,
+            //     allow: event.detail.allow,
+            //     allowfullscreen: event.detail.allowfullscreen,
+            // })
         },
         insertBlock(event) {
             if (event.detail.statePath !== this.statePath) return

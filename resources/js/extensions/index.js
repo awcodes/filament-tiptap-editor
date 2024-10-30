@@ -24,3 +24,4 @@ export { ClassExtension } from "./ClassExtension.js";
 export { IdExtension } from "./IdExtension.js";
 export { StyleExtension } from "./StyleExtension.js";
 export { StatePath } from './StatePath.js';
+export { Iframe } from './Iframe.ts';

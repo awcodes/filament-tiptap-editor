@@ -29,7 +29,16 @@ export const CustomImage = Image.extend({
             };
           }
         }
-      }
+      },
+      srcset: {
+        default: null,
+      },
+      sizes: {
+        default: null,
+      },
+      onload: {
+        default: null,
+      },
     };
   },
 });
