@@ -71,21 +71,6 @@ class IframeAction extends Action
                 );
 
                 $component->state($component->getState());
-            })->extraModalFooterActions(function (Action $action): array {
-                if ($action->getArguments()['href'] !== '') {
-                    return [
-                        $action->makeModalSubmitAction('remove_link', [])
-                            ->color('danger')
-                            ->extraAttributes(function () use ($action) {
-                                return [
-                                    'x-on:click' => new HtmlString("\$dispatch('unset-link', {'statePath': '{$action->getComponent()->getStatePath()}'}); close()"),
-                                    'style' => 'margin-inline-start: auto;',
-                                ];
-                            }),
-                    ];
-                }
-
-                return [];
             });
     }
 }
