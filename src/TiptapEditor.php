@@ -163,6 +163,13 @@ class TiptapEditor extends Field
                     array $arguments
                 ) => $this->getCustomListener('updateBlock', $component, $statePath, $arguments),
             ],
+            'tiptap::setIframeContent' => [
+                fn (
+                    TiptapEditor $component,
+                    string $statePath,
+                    array $arguments
+                ) => $this->getCustomListener('filament_tiptap_iframe', $component, $statePath, $arguments),
+            ],
         ]);
 
         $this->registerActions([
