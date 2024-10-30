@@ -584,8 +584,8 @@ export default function tiptap({
             }).run();
         },
         insertIframe(event) {
-            console.log(event);
-            editor.chain().focus().setIframe(event.detail.iframe)
+            console.log('interIframeEvent', event);
+            editor.chain().focus().setIframe(event.detail.iframe).run();
         },
         insertBlock(event) {
             if (event.detail.statePath !== this.statePath) return

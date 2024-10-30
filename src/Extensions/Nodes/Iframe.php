@@ -82,7 +82,17 @@ class Iframe extends Node
     {
         return [
             'iframe',
-            HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
+            HTML::mergeAttributes($this->options['HTMLAttributes'], [
+                'src' => $node->attrs->src,
+                'width' => $node->attrs->width ?: null,
+                'height' => $node->attrs->height ?: null,
+                'style' => $node->attrs->style ?? null,
+                'frameborder' => $node->attrs->frameborder ?: null,
+                'scrolling' => $node->attrs->frameborder ?: null,
+                'allowfullscreen' => $node->attrs->frameborder ?: null,
+                'allow' => $node->attrs->frameborder ?: null,
+                'loading' => $node->attrs->frameborder ?: null,
+            ]),
             0,
         ];
     }

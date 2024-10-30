@@ -131,8 +131,8 @@ export const Iframe = Node.create<IframeOptions>({
         return {
             setIframe: (options: { src: string,  }) => {
                 return ({ commands }) => {
-                    console.log({
-                        this: this,
+                    console.log('setIframe event', {
+                        target: this,
                         attrs: options,
                     });
                     return commands.insertContent({
