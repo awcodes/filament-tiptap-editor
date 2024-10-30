@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Node, mergeAttributes } from "@tiptap/core";
+import { Node, mergeAttributes, markPasteRule } from "@tiptap/core";
 
 export interface IframeOptions {
     allowFullscreen: boolean;
@@ -131,10 +131,6 @@ export const Iframe = Node.create<IframeOptions>({
         return {
             setIframe: (options: { src: string,  }) => {
                 return ({ commands }) => {
-                    console.log('setIframe event', {
-                        target: this,
-                        attrs: options,
-                    });
                     return commands.insertContent({
                         type: this.name,
                         attrs: options,
@@ -143,4 +139,13 @@ export const Iframe = Node.create<IframeOptions>({
             },
         };
     },
+
+    addPasteRules() {
+        return [
+            markPasteRule({
+                find: /.?(<iframe(.*)(\/>|<\/iframe>)).?/g,
+                type: this.type,
+            }),
+        ];
+    }
 });

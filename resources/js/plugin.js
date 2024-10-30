@@ -376,6 +376,9 @@ export default function tiptap({
                     onFocus() {
                         _this.updatedAt = Date.now();
                     },
+                    onPaste(event, slice) {
+                        console.log(slice);
+                    }
                 });
             }
         },
@@ -584,7 +587,6 @@ export default function tiptap({
             }).run();
         },
         insertIframe(event) {
-            console.log('interIframeEvent', event);
             editor.chain().focus().setIframe(event.detail.iframe).run();
         },
         insertBlock(event) {
