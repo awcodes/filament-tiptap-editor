@@ -79,6 +79,7 @@ class TiptapConverter
             new Nodes\Video,
             new Nodes\TiptapBlock(['blocks' => $this->blocks]),
             new Nodes\Hurdle,
+            new Nodes\Iframe,
             new Table,
             new TableHeader,
             new TableRow,
