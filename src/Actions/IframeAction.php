@@ -28,8 +28,10 @@ class IframeAction extends Action
                 'frameborder' => '',
                 'scrolling' => '',
                 'allowfullscreen' => '',
+                'allow' => '',
                 'width' => '',
                 'height' => '',
+                'loading' => '',
             ])->mountUsing(function (ComponentContainer $form, array $arguments) {
                 $form->fill($arguments);
             })->modalHeading(function (array $arguments) {
@@ -56,13 +58,24 @@ class IframeAction extends Action
                         Toggle::make('allowfullscreen')
                             ->label(trans('filament-tiptap-editor::iframe-modal.fields.allowfullscreen'))
                             ->columnSpanFull(),
+                        TextInput::make('allow')
+                            ->columnSpanFull(),
                         TextInput::make('width')
                             ->label(trans('filament-tiptap-editor::iframe-modal.fields.width')),
                         TextInput::make('height')
                             ->label(trans('filament-tiptap-editor::iframe-modal.fields.height')),
+                        Select::make('loading')
+                            ->options([
+                                '' => 'Auto',
+                                'eager' => 'Eager',
+                                'lazy' => 'Lazy',
+                            ]),
+                        TextInput::make('style')
+                            ->columnSpanFull(),
                     ])
                         ->columns(2),
             ])->action(function (TiptapEditor $component, $data) {
+                $data['allowfullscreen'] = $data['allowfullscreen'] ? 1 : 0;
                 $component->getLivewire()->dispatch(
                     event: 'insertFromAction',
                     type: 'iframe',

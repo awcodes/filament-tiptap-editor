@@ -45,7 +45,11 @@ class Iframe extends Node
             ],
             'allowfullscreen' => [
                 'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('allowfullscreen') ?: null,
-                'renderHTML' => fn ($attributes) => ($attributes->allowfullscreen ?? null) ? ['allowfullscreen' => $attributes->allowfullscreen] : null,
+                'renderHTML' => fn ($attributes) => ($attributes->allowfullscreen ?? null) ? ['allowfullscreen' => (int) $attributes->allowfullscreen] : null,
+            ],
+            'allow' => [
+                'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('allow') ?: null,
+                'renderHTML' => fn ($attributes) => ($attributes->allow ?? null) ? ['allow' => $attributes->allow] : null,
             ],
             'width' => [
                 'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('width') ?: null,
@@ -54,6 +58,10 @@ class Iframe extends Node
             'height' => [
                 'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('height') ?: null,
                 'renderHTML' => fn ($attributes) => ($attributes->height ?? null) ? ['height' => $attributes->height] : null,
+            ],
+            'loading' => [
+                'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('loading') ?: null,
+                'renderHTML' => fn ($attributes) => ($attributes->loading ?? null) ? ['loading' => $attributes->loading] : null,
             ],
             'style' => [
                 'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('style') ?: null,

@@ -4,6 +4,10 @@ import { Node, mergeAttributes } from "@tiptap/core";
 export interface IframeOptions {
     allowFullscreen: boolean;
     scrolling: "yes" | "no" | "auto";
+    loading: "" | "lazy" | "eager";
+    allow: string;
+    frameborder: "0" | "1";
+    style: string;
     HTMLAttributes: {
         [key: string]: any;
     };
@@ -29,8 +33,13 @@ export const Iframe = Node.create<IframeOptions>({
 
     addOptions() {
         return {
-            allowFullscreen: true,
+            allowFullscreen: "1",
             scrolling: "no",
+            allow: "fullscreen; ",
+            loading: "",
+            width: "",
+            height: "",
+            style: "",
             HTMLAttributes: {
                 frameborder: 0,
             },
@@ -52,6 +61,10 @@ export const Iframe = Node.create<IframeOptions>({
             allowfullscreen: {
                 default: this.options.allowFullscreen,
                 parseHTML: () => this.options.allowFullscreen,
+            },
+            allow: {
+                default: this.options.allow,
+                parseHTML: () => this.options.allow,
             },
             width: {
                 renderHTML: (attributes) => {
@@ -76,6 +89,10 @@ export const Iframe = Node.create<IframeOptions>({
                 },
                 parseHTML: (element) => element.getAttribute("height"),
             },
+            loading: {
+                default: this.options.loading,
+                parseHTML: () => this.options.loading,
+            }
             style: {
                 renderHTML: (attributes) => {
                     return attributes.style
