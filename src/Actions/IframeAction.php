@@ -14,7 +14,7 @@ class IframeAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'filament_iframe_action';
+        return 'filament_tiptap_iframe';
     }
 
     protected function setUp(): void
