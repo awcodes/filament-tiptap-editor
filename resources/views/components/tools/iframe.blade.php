@@ -12,12 +12,12 @@
         openModal() {
             let iframe = this.editor().getAttributes('iframe');
             let arguments = {
-                src: iframe.src || ''
-                frameborder: iframe.frameborder || 0
-                scrolling: iframe.scrolling || 'auto'
-                allowfullscreen: iframe.allowfullscreen || true
-                width: iframe.width || ''
-                height: iframe.height || ''
+                src: iframe.src || '',
+                frameborder: iframe.frameborder || 0,
+                scrolling: iframe.scrolling || 'auto',
+                allowfullscreen: iframe.allowfullscreen || true,
+                width: iframe.width || '',
+                height: iframe.height || '',
             };
 
             $wire.dispatchFormEvent('tiptap::setIframeContent', '{{ $statePath }}', arguments);
