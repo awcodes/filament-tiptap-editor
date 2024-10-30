@@ -585,15 +585,7 @@ export default function tiptap({
         },
         insertIframe(event) {
             console.log(event);
-            // editor.chain().focus().insertIframe({
-            //     src: event.detail.src,
-            //     title: event.detail.title,
-            //     width: event.detail.width,
-            //     height: event.detail.height,
-            //     frameborder: event.detail.frameborder,
-            //     allow: event.detail.allow,
-            //     allowfullscreen: event.detail.allowfullscreen,
-            // })
+            editor.chain().focus().setIframe(event.detail.iframe)
         },
         insertBlock(event) {
             if (event.detail.statePath !== this.statePath) return

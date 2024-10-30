@@ -92,7 +92,7 @@ export const Iframe = Node.create<IframeOptions>({
             loading: {
                 default: this.options.loading,
                 parseHTML: () => this.options.loading,
-            }
+            },
             style: {
                 renderHTML: (attributes) => {
                     return attributes.style
@@ -131,6 +131,10 @@ export const Iframe = Node.create<IframeOptions>({
         return {
             setIframe: (options: { src: string,  }) => {
                 return ({ commands }) => {
+                    console.log({
+                        this: this,
+                        attrs: options,
+                    });
                     return commands.insertContent({
                         type: this.name,
                         attrs: options,

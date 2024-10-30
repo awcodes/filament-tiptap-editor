@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor\Extensions\Nodes;
 
 use Tiptap\Core\Node;
+use Tiptap\Utils\HTML;
 
 class Iframe extends Node
 {
@@ -11,6 +12,13 @@ class Iframe extends Node
     public function addOptions()
     {
         return [
+            'allowFullscreen' => "1",
+            'scrolling' => "no",
+            'allow' => "fullscreen; ",
+            'loading' => "",
+            'width' => "",
+            'height' => "",
+            'style' => "",
             'HTMLAttributes' => [],
         ];
     }
@@ -67,6 +75,15 @@ class Iframe extends Node
                 'parseHTML' => fn ($DOMNode) => $DOMNode->getAttribute('style') ?: null,
                 'renderHTML' => fn ($attributes) => ($attributes->style ?? null) ? ['style' => $attributes->style] : null,
             ],
+        ];
+    }
+
+    public function renderHTML($node, $HTMLAttributes = []): array
+    {
+        return [
+            'iframe',
+            HTML::mergeAttributes($this->options['HTMLAttributes'], $HTMLAttributes),
+            0,
         ];
     }
 }
