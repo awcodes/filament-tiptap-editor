@@ -46,12 +46,12 @@ const Indent = Extension.create({
         }
 
         // Check if the previous character is a tab
-        if (doc.textBetween(pos - 1, pos) === TAB_CHAR) {
+        if (doc.textBetween(pos - 4, pos) === TAB_CHAR) {
           // If so, delete it
           editor
             .chain()
             .command(({ tr }) => {
-              tr.delete(pos - 1, pos);
+              tr.delete(pos - 4, pos);
               return true;
             })
             .run();
