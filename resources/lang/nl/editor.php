@@ -3,9 +3,9 @@
 return [
     'skip_toolbar' => 'Werkbalk overslaan',
     'align_center' => 'Tekst centreren',
-    'align_justify' => 'Tekst uitlijnen',
-    'align_left' => 'Tekst naar links uitlijnen',
-    'align_right' => 'Tekst naar rechts uitlijnen',
+    'align_justify' => 'Tekst uitvullen',
+    'align_left' => 'Tekst links uitlijnen',
+    'align_right' => 'Tekst rechts uitlijnen',
     'blockquote' => 'Citaatblok',
     'blocks' => [
         'panel' => 'Blokken',
@@ -79,7 +79,10 @@ return [
         'ordered' => 'Geordende lijst',
         'checked' => 'Aangevinkte lijst',
     ],
-    'media' => 'Media invoegen / bewerken',
+    'media' => [
+        'insert_edit' => 'Media invoegen / bewerken',
+        'edit' => 'Edit Media',
+    ],
     'merge_tags' => [
         'panel' => 'Samenvoegtags',
     ],

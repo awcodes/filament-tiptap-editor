@@ -38,6 +38,7 @@ return [
     'edit_media_action' => FilamentTiptapEditor\Actions\EditMediaAction::class,
     'link_action' => FilamentTiptapEditor\Actions\LinkAction::class,
     'grid_builder_action' => FilamentTiptapEditor\Actions\GridBuilderAction::class,
+    'o_embed_action' => FilamentTiptapEditor\Actions\OEmbedAction::class,
 
     /*
     |--------------------------------------------------------------------------

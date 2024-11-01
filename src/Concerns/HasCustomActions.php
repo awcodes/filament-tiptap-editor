@@ -15,6 +15,8 @@ trait HasCustomActions
 
     public ?string $gridBuilderAction = null;
 
+    public ?string $oEmbedAction = null;
+
     public function linkAction(string | Closure $action): static
     {
         $this->linkAction = $action;
@@ -67,6 +69,20 @@ trait HasCustomActions
     public function getGridBuilderAction(): Action
     {
         $action = $this->evaluate($this->gridBuilderAction) ?? config('filament-tiptap-editor.grid_builder_action');
+
+        return $action::make();
+    }
+
+    public function oEmbedAction(string | Closure $action): static
+    {
+        $this->oEmbedAction = $action;
+
+        return $this;
+    }
+
+    public function getOEmbedAction(): Action
+    {
+        $action = $this->evaluate($this->oEmbedAction) ?? config('filament-tiptap-editor.o_embed_action');
 
         return $action::make();
     }
