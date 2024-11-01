@@ -1,6 +1,6 @@
 import { Extension } from "@tiptap/core";
 
-const TAB_CHAR = "\u0009";
+const TAB_CHAR = "\u00A0\u00A0\u00A0\u00A0";
 
 const Indent = Extension.create({
   name: "indent",
