@@ -413,7 +413,6 @@ export default function tiptap({
                     }
                 },
                 onUpdate({editor}) {
-                    console.log('update')
                     _this.updatedAt = Date.now();
                     clearTimeout(_this.timeOut);
                     _this.timeOut = setTimeout(function(){
