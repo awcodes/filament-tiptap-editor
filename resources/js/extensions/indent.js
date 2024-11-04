@@ -41,7 +41,7 @@ const Indent = Extension.create({
 
   addKeyboardShortcuts() {
     return {
-      Tab: this.editor.commands.indent(),
+      Tab: this.editor.commands.doIndent(),
       "Shift-Tab": ({ editor }) => {
         const { selection, doc } = editor.state;
         const { $from } = selection;
