@@ -7,7 +7,7 @@ const Indent = Extension.create({
 
   addCommands() {
     return {
-      indent:
+      doIndent:
         () => ({ editor }) => {
           const { selection } = editor.state;
           const { $from } = selection;
