@@ -15,7 +15,7 @@ const CustomIndent = Extension.create({
           // Check if we're at the start of a list item
           if (editor.isActive("listItem") && $from.parentOffset === 0) {
             // Attempt to sink the list item
-            const sinkResult = editor.chain().sinkListItem("listItem").run();
+            const sinkResult = chain().sinkListItem("listItem").run();
 
             // If sinking was successful, return true
             if (sinkResult) {
@@ -44,14 +44,13 @@ const CustomIndent = Extension.create({
           // Check if we're at the start of a list item
           if (editor.isActive("listItem") && $from.parentOffset === 0) {
             // If so, lift the list item
-            return editor.chain().liftListItem("listItem").run();
+            return chain().liftListItem("listItem").run();
           }
 
           // Check if the previous character is a tab
           if (doc.textBetween(pos - 4, pos) === TAB_CHAR) {
             // If so, delete it
-            editor
-              .chain()
+            chain()
               .command(({ tr }) => {
                 tr.delete(pos - 4, pos);
                 return true;
