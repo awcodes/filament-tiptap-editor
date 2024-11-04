@@ -4,3 +4,9 @@
     label="{{ trans('filament-tiptap-editor::editor.indent') }}"
     icon="indent"
 />
+<x-filament-tiptap-editor::button
+    action="editor().chain().focus().undoIndent().run()"
+    active="customIndent"
+    label="{{ trans('filament-tiptap-editor::editor.indent') }}"
+    icon="outdent"
+/>

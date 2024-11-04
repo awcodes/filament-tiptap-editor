@@ -87,6 +87,7 @@ return [
     'merge_tags' => [
         'panel' => 'Samenvoegtags',
     ],
+    'outdent' => 'Uitspringen',
     'paragraph' => 'Paragraaf',
     'redo' => 'Opnieuw doen',
     'remove_color' => 'Kleur verwijderen',

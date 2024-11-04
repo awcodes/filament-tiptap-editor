@@ -88,6 +88,7 @@ return [
     'merge_tags' => [
         'panel' => 'Merge tags',
     ],
+    'outdent' => 'Outdent',
     'paragraph' => 'Paragraph',
     'redo' => 'Redo',
     'remove_color' => 'Remove Color',
