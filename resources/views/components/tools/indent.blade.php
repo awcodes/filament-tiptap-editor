@@ -1,5 +1,5 @@
 <x-filament-tiptap-editor::button
-    action="alert('veep')"
+    action="editor().chain().focus().indent().run()"
     active="indent"
     label="{{ trans('filament-tiptap-editor::editor.indent') }}"
     icon="indent"

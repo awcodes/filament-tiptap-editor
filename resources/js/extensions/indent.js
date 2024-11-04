@@ -4,36 +4,44 @@ const TAB_CHAR = "\u00A0\u00A0\u00A0\u00A0";
 
 const Indent = Extension.create({
   name: "indent",
+
+  addCommands() {
+    return {
+      indent:
+        () => ({ editor }) => {
+          const { selection } = editor.state;
+          const { $from } = selection;
+
+          // Check if we're at the start of a list item
+          if (editor.isActive("listItem") && $from.parentOffset === 0) {
+            // Attempt to sink the list item
+            const sinkResult = editor.chain().sinkListItem("listItem").run();
+
+            // If sinking was successful, return true
+            if (sinkResult) {
+              return true;
+            }
+            // If sinking failed, we'll fall through to inserting a tab
+          }
+
+          // Insert a tab character
+          editor
+            .chain()
+            .command(({ tr }) => {
+              tr.insertText(TAB_CHAR);
+              return true;
+            })
+            .run();
+
+          // Prevent default behavior (losing focus)
+          return true;
+        }
+    }
+  },
+
   addKeyboardShortcuts() {
     return {
-      Tab: ({ editor }) => {
-        const { selection } = editor.state;
-        const { $from } = selection;
-
-        // Check if we're at the start of a list item
-        if (editor.isActive("listItem") && $from.parentOffset === 0) {
-          // Attempt to sink the list item
-          const sinkResult = editor.chain().sinkListItem("listItem").run();
-
-          // If sinking was successful, return true
-          if (sinkResult) {
-            return true;
-          }
-          // If sinking failed, we'll fall through to inserting a tab
-        }
-
-        // Insert a tab character
-        editor
-          .chain()
-          .command(({ tr }) => {
-            tr.insertText(TAB_CHAR);
-            return true;
-          })
-          .run();
-
-        // Prevent default behavior (losing focus)
-        return true;
-      },
+      Tab: this.editor.commands.indent(),
       "Shift-Tab": ({ editor }) => {
         const { selection, doc } = editor.state;
         const { $from } = selection;
