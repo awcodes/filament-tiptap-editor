@@ -59,7 +59,7 @@ import {
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
 import { isEqual } from "lodash";
-import Indent from './extensions/indent.js'
+import CustomIndent from './extensions/CustomIndent.js'
 
 customElements.define('tiptap-hex-color-picker', HexBase);
 
@@ -83,7 +83,6 @@ let coreExtensions = {
     highlight: [Highlight],
     hr: [HorizontalRule],
     hurdle: [Hurdle],
-    indent: [Indent],
     italic: [Italic],
     lead: [Lead],
     link: [CustomLink.configure({
@@ -202,7 +201,7 @@ export default function tiptap({
                 StatePath.configure({
                     statePath: statePath
                 }),
-                Indent
+                CustomIndent
             ];
 
             if (startsWithTitle) {

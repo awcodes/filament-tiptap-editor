@@ -2,8 +2,8 @@ import { Extension } from "@tiptap/core";
 
 const TAB_CHAR = "\u00A0\u00A0\u00A0\u00A0";
 
-const Indent = Extension.create({
-  name: "indent",
+const CustomIndent = Extension.create({
+  name: "customIndent",
 
   addCommands() {
     return {
@@ -73,4 +73,4 @@ const Indent = Extension.create({
   },
 });
 
-export default Indent;
+export default CustomIndent;
