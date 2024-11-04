@@ -67,6 +67,7 @@ return [
         ],
     ],
     'hr' => 'Horizontale lijn',
+    'indent' => 'Inspringen',
     'italic' => 'Cursief',
     'lead' => 'Inleidende alinea',
     'link' => [

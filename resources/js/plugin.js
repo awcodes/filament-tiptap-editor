@@ -83,6 +83,7 @@ let coreExtensions = {
     highlight: [Highlight],
     hr: [HorizontalRule],
     hurdle: [Hurdle],
+    indent: [Indent],
     italic: [Italic],
     lead: [Lead],
     link: [CustomLink.configure({

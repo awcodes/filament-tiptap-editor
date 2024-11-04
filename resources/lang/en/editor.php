@@ -68,6 +68,7 @@ return [
         ],
     ],
     'hr' => 'Horizontal Rule',
+    'indent' => 'Indent',
     'italic' => 'Italic',
     'lead' => 'Lead Paragraph',
     'link' => [
