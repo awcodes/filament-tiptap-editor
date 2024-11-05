@@ -2,16 +2,17 @@ import { Extension } from "@tiptap/core";
 
 const TAB_CHAR = "\u00A0\u00A0\u00A0\u00A0";
 
-const CustomIndent = Extension.create({
+export const CustomIndent = Extension.create({
   name: "customIndent",
 
   addCommands() {
     return {
       doIndent:
         () => ({ editor, chain }) => {
+          console.log(1)
           const { selection } = editor.state;
           const { $from } = selection;
-
+          console.log(2)
           // Check if we're at the start of a list item
           if (editor.isActive("listItem") && $from.parentOffset === 0) {
             // Attempt to sink the list item
@@ -23,7 +24,7 @@ const CustomIndent = Extension.create({
             }
             // If sinking failed, we'll fall through to inserting a tab
           }
-
+          console.log(3)
           // Insert a tab character
           chain()
           .command(({ tr }) => {
@@ -31,7 +32,7 @@ const CustomIndent = Extension.create({
             return true;
           })
           .run();
-
+          console.log(4)
           // Prevent default behavior (losing focus)
           return true;
         },
@@ -72,5 +73,3 @@ const CustomIndent = Extension.create({
     };
   },
 });
-
-export default CustomIndent;

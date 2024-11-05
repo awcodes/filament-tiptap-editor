@@ -59,7 +59,7 @@ import {
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
 import { isEqual } from "lodash";
-import CustomIndent from './extensions/CustomIndent.js'
+import { CustomIndent } from './extensions/CustomIndent.js'
 
 customElements.define('tiptap-hex-color-picker', HexBase);
 
