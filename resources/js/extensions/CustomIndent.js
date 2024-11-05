@@ -67,7 +67,7 @@ const CustomIndent = Extension.create({
 
   addKeyboardShortcuts() {
     return {
-      Tab: this.editor.commands.doIndent(),
+      "Tab": this.editor.commands.doIndent(),
       "Shift-Tab": this.editor.commands.undoIndent(),
     };
   },
