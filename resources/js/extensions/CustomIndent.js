@@ -13,7 +13,7 @@ export const CustomIndent = Extension.create({
           const { $from } = selection;
 
           // Check if we're at the start of a list item
-          if (editor.isActive("listItem") && $from.parentOffset === 0) {
+          if (editor.isActive("listItem")) {
             // Attempt to sink the list item
             const sinkResult = chain().sinkListItem("listItem").run();
 
@@ -42,7 +42,7 @@ export const CustomIndent = Extension.create({
           const pos = $from.pos;
 
           // Check if we're at the start of a list item
-          if (editor.isActive("listItem") && $from.parentOffset === 0) {
+          if (editor.isActive("listItem")) {
             // If so, lift the list item
             return chain().liftListItem("listItem").run();
           }
