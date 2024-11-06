@@ -67,7 +67,7 @@ return [
         ],
     ],
     'hr' => 'Horizontale lijn',
-    'indent' => 'Inspringen',
+    'indent' => 'Inspringen vergroten',
     'italic' => 'Cursief',
     'lead' => 'Inleidende alinea',
     'link' => [
@@ -87,7 +87,7 @@ return [
     'merge_tags' => [
         'panel' => 'Samenvoegtags',
     ],
-    'outdent' => 'Uitspringen',
+    'outdent' => 'Inspringing verkleinen',
     'paragraph' => 'Paragraaf',
     'redo' => 'Opnieuw doen',
     'remove_color' => 'Kleur verwijderen',
