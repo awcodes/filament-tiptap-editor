@@ -100,7 +100,7 @@ export const TiptapBlock = Node.create({
         return ['tiptap-block', mergeAttributes(HTMLAttributes)]
     },
     addNodeView() {
-        return ({node, getPos}) => {
+        return ({editor, node, getPos}) => {
             const dom = document.createElement('div')
             dom.contentEditable = 'false'
             dom.classList.add('tiptap-block-wrapper')
@@ -116,7 +116,7 @@ export const TiptapBlock = Node.create({
                         openSettings() {
                             this.$dispatch('open-block-settings', {
                                 type: \`${node.attrs.type}\`,
-                                statePath: \`${node.attrs.statePath}\`,
+                                statePath: \`${editor.commands.getStatePath()}\`,
                                 data: ${data},
                                 coordinates: ${getPos()}
                             })

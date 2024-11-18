@@ -193,7 +193,6 @@ export default function tiptap({
                 HardBreak,
                 History,
                 TextStyle,
-                TiptapBlock,
                 DragAndDropExtension,
                 ClassExtension,
                 IdExtension,
@@ -201,6 +200,7 @@ export default function tiptap({
                 StatePath.configure({
                     statePath: statePath
                 }),
+                TiptapBlock,
                 CustomIndent
             ];
 
@@ -346,25 +346,11 @@ export default function tiptap({
             let sortableEl = this.$el.parentElement.closest("[x-sortable]");
             if (sortableEl) {
                 window.Sortable.utils.on(sortableEl, "start", () => {
-                    let editors = document.querySelectorAll('.tiptap-wrapper');
-
-                    if (editors.length === 0) return;
-
-                    editors.forEach((editor) => {
-                        editor._x_dataStack[0].editor().setEditable(false);
-                        editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'none';
-                    });
+                    sortableEl.classList.add('sorting')
                 });
 
                 window.Sortable.utils.on(sortableEl, "end", () => {
-                    let editors = document.querySelectorAll('.tiptap-wrapper');
-
-                    if (editors.length === 0) return;
-
-                    editors.forEach((editor) => {
-                        editor._x_dataStack[0].editor().setEditable(true);
-                        editor._x_dataStack[0].editor().options.element.style.pointerEvents = 'all';
-                    });
+                    sortableEl.classList.remove('sorting')
                 });
             }
 
@@ -377,58 +363,54 @@ export default function tiptap({
             });
         },
         initEditor(content) {
-            const _this = this;
-
-            if (editor) {
-                content = editor.getJSON();
-                editor = null;
-            }
-
-            editor = new Editor({
-                element: _this.$refs.element,
-                extensions: _this.getExtensions(),
-                editable: !_this.disabled,
+            if (! this.$el.querySelector('.tiptap')) {
+                const _this = this;
+                editor = new Editor({
+                    element: _this.$refs.element,
+                    extensions: _this.getExtensions(),
+                    editable: !_this.disabled,
                 content: startsWithTitle && content === null ? '<h1></h1><p></p>' : content,
-                editorProps: {
-                    handlePaste(view, event, slice) {
-                        slice.content.descendants(node => {
-                            if (node.type.name === 'tiptapBlock') {
-                                node.attrs.statePath = _this.statePath
-                                node.attrs.data = JSON.parse(node.attrs.data)
-                            }
-                        });
-                    }
-                },
-                onCreate({editor}) {
-                    if (
-                        _this.$store.previous &&
-                        editor.commands.getStatePath() === _this.$store.previous.statePath
-                    ) {
-                        editor.chain().focus()
-                            .setContent(_this.$store.previous.editor.getJSON())
-                            .setTextSelection(_this.$store.previous.editor.state.selection)
-                            .run();
+                    editorProps: {
+                        handlePaste(view, event, slice) {
+                            slice.content.descendants(node => {
+                                if (node.type.name === 'tiptapBlock') {
+                                    node.attrs.statePath = _this.statePath
+                                    node.attrs.data = JSON.parse(node.attrs.data)
+                                }
+                            });
+                        }
+                    },
+                    onCreate({editor}) {
+                        if (
+                            _this.$store.previous &&
+                            editor.commands.getStatePath() === _this.$store.previous.statePath
+                        ) {
+                            editor.chain().focus()
+                                .setContent(_this.$store.previous.editor.getJSON())
+                                .setTextSelection(_this.$store.previous.editor.state.selection)
+                                .run();
 
+                            _this.updatedAt = Date.now();
+                        }
+                    },
+                    onUpdate({editor}) {
                         _this.updatedAt = Date.now();
-                    }
-                },
-                onUpdate({editor}) {
-                    _this.updatedAt = Date.now();
                     clearTimeout(_this.timeOut);
                     _this.timeOut = setTimeout(function(){
                         _this.state = editor.isEmpty ? null : editor.getJSON();
                     },300);
-                },
-                onSelectionUpdate() {
-                    _this.updatedAt = Date.now();
-                },
-                onBlur() {
-                    _this.updatedAt = Date.now();
-                },
-                onFocus() {
-                    _this.updatedAt = Date.now();
-                },
-            });
+                    },
+                    onSelectionUpdate() {
+                        _this.updatedAt = Date.now();
+                    },
+                    onBlur() {
+                        _this.updatedAt = Date.now();
+                    },
+                    onFocus() {
+                        _this.updatedAt = Date.now();
+                    },
+                });
+            }
         },
         handleOpenModal() {
             if (!this.modalId) return;
@@ -506,10 +488,10 @@ export default function tiptap({
 
             if (media) {
                 const src = media?.url || media?.src;
-                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp', 'gif'];
+                const imageTypes = ['jpg', 'jpeg', 'svg', 'png', 'webp', 'gif', 'avif', 'jxl', 'heic'];
 
                 const regex = /.*\.([a-zA-Z]*)\??/;
-                const match = regex.exec(src);
+                const match = regex.exec(src.toLowerCase());
 
                 if (match !== null && imageTypes.includes(match[1])) {
                     editor

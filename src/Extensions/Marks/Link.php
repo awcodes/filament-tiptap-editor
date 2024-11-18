@@ -75,7 +75,7 @@ class Link extends BaseLink
                     return null;
                 },
                 'renderHTML' => function ($attributes) {
-                    if (! property_exists($attributes, 'button_theme') || strlen($attributes->button_theme) === 0) {
+                    if (! property_exists($attributes, 'button_theme') || strlen($attributes->button_theme ?? '') === 0) {
                         return null;
                     }
 

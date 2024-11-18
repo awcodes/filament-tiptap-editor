@@ -10,6 +10,8 @@ return [
         'insert' => 'Insérer',
     ],
     'labels' => [
+        'width' => 'Largeur',
+        'height' => 'Hauteur',
         'file' => 'Fichier',
         'link_text' => 'Texte du lien',
         'alt' => 'Texte alternatif',

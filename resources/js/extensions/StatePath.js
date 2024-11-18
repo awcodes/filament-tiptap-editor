@@ -15,7 +15,7 @@ export const StatePath = Extension.create({
         }
     },
 
-    onCreate() {
+    onBeforeCreate() {
         this.storage.statePath = this.options.statePath
     },
 

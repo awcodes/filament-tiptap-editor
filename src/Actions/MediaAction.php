@@ -116,8 +116,10 @@ class MediaAction extends Action
                         ->label(trans('filament-tiptap-editor::media-modal.labels.lazy'))
                         ->default(false),
                     Group::make([
-                        TextInput::make('width'),
-                        TextInput::make('height'),
+                        TextInput::make('width')
+                            ->label(trans('filament-tiptap-editor::media-modal.labels.width')),
+                        TextInput::make('height')
+                            ->label(trans('filament-tiptap-editor::media-modal.labels.height')),
                     ])->columns(),
                     Hidden::make('type')
                         ->default('document'),

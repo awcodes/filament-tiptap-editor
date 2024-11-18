@@ -10,6 +10,8 @@ return [
         'insert' => 'Insert',
     ],
     'labels' => [
+        'width' => 'Width',
+        'height' => 'Height',
         'file' => 'File',
         'link_text' => 'Link Text',
         'alt' => 'Alt Text',

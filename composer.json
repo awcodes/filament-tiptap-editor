@@ -24,7 +24,6 @@
         "ueberdosis/tiptap-php": "^1.1"
     },
     "require-dev": {
-        "awcodes/html-faker": "^0.1.0",
         "filament/filament": "^3.0",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.0",

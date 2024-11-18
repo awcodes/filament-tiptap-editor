@@ -88,7 +88,7 @@ TiptapEditor::make('content')
     ->disk('string') // optional, defaults to config setting
     ->directory('string or Closure returning a string') // optional, defaults to config setting
     ->acceptedFileTypes(['array of file types']) // optional, defaults to config setting
-    ->maxFileSize('integer in KB') // optional, defaults to config setting
+    ->maxSize('integer in KB') // optional, defaults to config setting
     ->output(TiptapOutput::Html) // optional, change the format for saved data, default is html
     ->maxContentWidth('5xl')
     ->required();
@@ -116,6 +116,13 @@ If you are using the `heading` tool in your editor you can also generate a table
 
 <!-- this will generate a table of contents with headings up to h3 -->
 {!! tiptap_converter()->asToc($post->content, maxDepth: 3) !!}
+```
+
+Alternatively, you can use & extend the `table-of-contents` blade component to generate the table of contents.
+
+```blade
+<!-- This will generate the TOC as a nested array, and use it as a parameter in the contents table -->
+<x-filament-tiptap-editor::table-of-contents :headings="tiptap_converter()->asTOC($page->body, array: true)" />
 ```
 
 ## Config
@@ -225,7 +232,7 @@ TiptapEditor::make('content')
 
 ## Overrides
 
-The Link and Media modals are built using Filament Form Component Actions. This means it is easy enough to swap them out with your own implementations.
+The Link, Media and Grid Builder modals are built using Filament Form Component Actions. This means it is easy enough to swap them out with your own implementations.
 
 ### Link Modal
 
@@ -307,6 +314,13 @@ TiptapEditor::make('content')
 
 > **Note**
 > To use custom blocks you must store your content as JSON.
+
+```php
+use FilamentTiptapEditor\Enums\TiptapOutput;
+
+TiptapEditor::make('content')
+    ->output(FilamentTiptapEditor\TiptapOutput::Json);
+```
 
 There are 3 components you need to create a custom block for Tiptap Editor.
 

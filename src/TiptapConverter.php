@@ -53,42 +53,42 @@ class TiptapConverter
             new StarterKit([
                 'listItem' => false,
             ]),
-            new TextStyle(),
+            new TextStyle,
             new Extensions\TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
-            new Extensions\ClassExtension(),
-            new Extensions\IdExtension(),
-            new Extensions\StyleExtension(),
-            new Extensions\Color(),
-            new CodeBlockHighlight(),
-            new Nodes\ListItem(),
-            new Nodes\Lead(),
-            new Nodes\Image(),
-            new Nodes\CheckedList(),
-            new Nodes\Details(),
-            new Nodes\DetailsSummary(),
-            new Nodes\DetailsContent(),
-            new Nodes\Grid(),
-            new Nodes\GridColumn(),
-            new Nodes\GridBuilder(),
-            new Nodes\GridBuilderColumn(),
-            new Nodes\MergeTag(),
-            new Nodes\Vimeo(),
-            new Nodes\YouTube(),
-            new Nodes\Video(),
+            new Extensions\ClassExtension,
+            new Extensions\IdExtension,
+            new Extensions\StyleExtension,
+            new Extensions\Color,
+            new CodeBlockHighlight,
+            new Nodes\ListItem,
+            new Nodes\Lead,
+            new Nodes\Image,
+            new Nodes\CheckedList,
+            new Nodes\Details,
+            new Nodes\DetailsSummary,
+            new Nodes\DetailsContent,
+            new Nodes\Grid,
+            new Nodes\GridColumn,
+            new Nodes\GridBuilder,
+            new Nodes\GridBuilderColumn,
+            new Nodes\MergeTag,
+            new Nodes\Vimeo,
+            new Nodes\YouTube,
+            new Nodes\Video,
             new Nodes\TiptapBlock(['blocks' => $this->blocks]),
-            new Nodes\Hurdle(),
-            new Table(),
-            new TableHeader(),
-            new TableRow(),
-            new TableCell(),
-            new Highlight(),
-            new Underline(),
-            new Superscript(),
-            new Subscript(),
-            new Marks\Link(),
-            new Marks\Small(),
+            new Nodes\Hurdle,
+            new Table,
+            new TableHeader,
+            new TableRow,
+            new TableCell,
+            new Highlight,
+            new Underline,
+            new Superscript,
+            new Subscript,
+            new Marks\Link,
+            new Marks\Small,
             ...$customExtensions,
         ];
     }
@@ -100,8 +100,12 @@ class TiptapConverter
         return $this;
     }
 
-    public function asHTML(string | array $content, bool $toc = false, int $maxDepth = 3): string
+    public function asHTML(string | array | null $content, bool $toc = false, int $maxDepth = 3): string
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
@@ -112,11 +116,18 @@ class TiptapConverter
             $this->parseMergeTags($editor);
         }
 
-        return $editor->getHTML();
+        /*
+         * Temporary fix for Tiptap Serializer bug duplicating code block tags
+         */
+        return str_replace('</code></pre></code></pre>', '</code></pre>', $editor->getHTML());
     }
 
-    public function asJSON(string | array $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
+    public function asJSON(string | array | null $content, bool $decoded = false, bool $toc = false, int $maxDepth = 3): string | array
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if ($toc) {
@@ -130,8 +141,12 @@ class TiptapConverter
         return $decoded ? json_decode($editor->getJSON(), true) : $editor->getJSON();
     }
 
-    public function asText(string | array $content): string
+    public function asText(string | array | null $content): string
     {
+        if (! $content) {
+            return '';
+        }
+
         $editor = $this->getEditor()->setContent($content);
 
         if (filled($this->mergeTagsMap)) {
@@ -141,15 +156,21 @@ class TiptapConverter
         return $editor->getText();
     }
 
-    public function asTOC(string | array $content, int $maxDepth = 3): string
+    public function asTOC(string | array | null $content, int $maxDepth = 3, bool $array = false): string | array
     {
+        if (! $content) {
+            return '';
+        }
+
         if (is_string($content)) {
             $content = $this->asJSON($content, decoded: true);
         }
 
         $headings = $this->parseTocHeadings($content['content'], $maxDepth);
 
-        return $this->generateNestedTOC($headings, $headings[0]['level']);
+        return $array ?
+            $this->generateTOCArray($headings) :
+            $this->generateNestedTOC($headings, $headings[0]['level']);
     }
 
     public function parseHeadings(Editor $editor, int $maxDepth = 3): Editor
@@ -233,6 +254,39 @@ class TiptapConverter
         });
 
         return $editor;
+    }
+
+    public function generateTOCArray(array &$headings, int $parentLevel = 0): array
+    {
+
+        $result = [];
+
+        foreach ($headings as $key => &$value) {
+            $currentLevel = $value['level'];
+            $nextLevel = $headings[$key + 1]['level'] ?? 0;
+
+            if ($parentLevel >= $currentLevel) {
+                break;
+            }
+
+            unset($headings[$key]);
+
+            $heading = [
+                'id' => $value['id'],
+                'text' => $value['text'],
+                'depth' => $currentLevel,
+            ];
+
+            if ($nextLevel > $currentLevel) {
+                $heading['subs'] = $this->generateTOCArray($headings, $currentLevel);
+            }
+
+            $result[] = $heading;
+
+        }
+
+        return $result;
+
     }
 
     public function generateNestedTOC(array $headings, int $parentLevel = 0): string

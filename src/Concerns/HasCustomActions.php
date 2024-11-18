@@ -79,11 +79,4 @@ trait HasCustomActions
 
         return $this;
     }
-
-    public function getOEmbedAction(): Action
-    {
-        $action = $this->evaluate($this->oEmbedAction) ?? config('filament-tiptap-editor.o_embed_action');
-
-        return $action::make();
-    }
 }

@@ -79,7 +79,10 @@ return [
         'ordered' => 'Liste numérotée',
         'checked' => 'Liste cochée',
     ],
-    'media' => 'Insérer / Modifier un média',
+    'media' => [
+        'insert_edit' => 'Insérer / Modifier un média',
+        'edit' => 'Modifier un média',
+    ],
     'merge_tags' => [
         'panel' => 'Fusionner les balises',
     ],
