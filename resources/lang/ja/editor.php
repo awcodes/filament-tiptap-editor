@@ -19,6 +19,7 @@ return [
         'label' => '色',
         'choose' => '選択',
         'remove' => '削除',
+        'input_label' => 'カラーコード',
     ],
     'details' => '詳細',
     'erase' => '全てのコンテンツを消去',
@@ -79,7 +80,10 @@ return [
         'ordered' => '番号付きリスト',
         'checked' => 'チェックリスト',
     ],
-    'media' => 'メディアを挿入/編集',
+    'media' => [
+        'insert_edit' => 'メディアを挿入/編集',
+        'edit' => 'メディアを編集',
+    ],
     'merge_tags' => [
         'panel' => 'タグを結合',
     ],

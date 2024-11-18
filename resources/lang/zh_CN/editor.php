@@ -8,6 +8,7 @@ return [
     'align_right' => '文本右对齐',
     'blockquote' => '块引用',
     'blocks' => [
+        'panel' => '区块',
         'insert' => '插入块',
         'update' => '更新块',
     ],
@@ -78,7 +79,13 @@ return [
         'ordered' => '有序列表',
         'checked' => '可选中列表',
     ],
-    'media' => '插入/编辑 媒体',
+    'media' => [
+        'insert_edit' => '插入/编辑 媒体',
+        'edit' => '编辑 媒体',
+    ],
+    'merge_tags' => [
+        'panel' => '合并标签',
+    ],
     'paragraph' => '段落',
     'redo' => '重做',
     'remove_color' => '移除颜色',
