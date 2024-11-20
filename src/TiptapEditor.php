@@ -168,7 +168,7 @@ class TiptapEditor extends Field
 
         $this->registerActions([
             SourceAction::make(),
-            fn (): Action => $this->getOEmbedAction(),
+            fn (): Action => OEmbedAction::make(),
             fn (): Action => $this->getGridBuilderAction(),
             fn (): Action => $this->getLinkAction(),
             fn (): Action => $this->getMediaAction(),

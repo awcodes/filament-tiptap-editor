@@ -703,3 +703,28 @@
 span[data-type="mergeTag"] {
     @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 mx-1 rounded;
 }
+
+[data-indent='1'] {
+    padding-left: 3rem;
+}
+[data-indent='2'] {
+    padding-left: 6rem;
+}
+[data-indent='3'] {
+    padding-left: 9rem;
+}
+[data-indent='4'] {
+    padding-left: 12rem;
+}
+[data-indent='5'] {
+    padding-left: 15rem;
+}
+[data-indent='6'] {
+    padding-left: 18rem;
+}
+[data-indent='7'] {
+    padding-left: 21rem;
+}
+[data-indent='8'] {
+    padding-left: 24rem;
+}

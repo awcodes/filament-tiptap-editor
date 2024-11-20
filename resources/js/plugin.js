@@ -60,7 +60,6 @@ import {
 import { lowlight } from "lowlight/lib/common";
 import { HexBase } from 'vanilla-colorful/lib/entrypoints/hex';
 import { isEqual } from "lodash";
-// import { CustomIndent } from './extensions/CustomIndent.js'
 
 customElements.define('tiptap-hex-color-picker', HexBase);
 
@@ -104,6 +103,7 @@ let coreExtensions = {
     superscript: [Superscript],
     table: [Table.configure({resizable: true}), TableHeader, TableCell, TableRow],
     underline: [Underline],
+    indent: [Indent],
 };
 
 let customExtensions = window.TiptapEditorExtensions || {};
@@ -178,7 +178,6 @@ export default function tiptap({
         locale: locale,
         floatingMenuTools: floatingMenuTools,
         getExtensions() {
-            console.log('getting extensions');
             const tools = this.tools.map((tool) => {
                 if (typeof tool === 'string') {
                     return tool;
@@ -203,11 +202,6 @@ export default function tiptap({
                     statePath: statePath
                 }),
                 TiptapBlock,
-                Indent.configure({
-                    types: ['listItem', 'paragraph'],
-                    minLevel: 0,
-                    maxLevel: 8
-                })
             ];
 
             if (startsWithTitle) {

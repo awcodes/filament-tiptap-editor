@@ -1,12 +1,12 @@
 <x-filament-tiptap-editor::button
-        action="editor().chain().focus().undoIndent().run()"
-        active="customIndent"
+        action="editor().commands.outdent()"
+        active="indent"
         label="{{ trans('filament-tiptap-editor::editor.outdent') }}"
         icon="outdent"
 />
 <x-filament-tiptap-editor::button
-    action="editor().chain().focus().doIndent().run()"
-    active="customIndent"
+    action="editor().commands.indent()"
+    active="indent"
     label="{{ trans('filament-tiptap-editor::editor.indent') }}"
     icon="indent"
 />
