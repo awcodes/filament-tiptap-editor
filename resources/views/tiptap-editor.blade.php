@@ -83,7 +83,9 @@
                                             @elseif ($tool === '-')
                                                 <div class="border-t border-gray-950/10 dark:border-white/20 w-full"></div>
                                             @elseif (is_array($tool))
+                                                @if(array_key_exists('button', $tool) && !is_null($tool['button']))
                                                 <x-dynamic-component component="{{ $tool['button'] }}" :state-path="$statePath" />
+                                                @endif
                                             @elseif ($tool === 'blocks')
                                                 @if ($blocks && $shouldSupportBlocks)
                                                     <x-filament-tiptap-editor::tools.blocks :blocks="$blocks" :state-path="$statePath" />
