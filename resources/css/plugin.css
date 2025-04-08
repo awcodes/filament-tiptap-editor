@@ -55,6 +55,7 @@
 
 .tiptap-prosemirror-wrapper {
     word-break: break-word;
+    overflow-wrap: break-word;
     &.prosemirror-w-sm { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.sm')) / 2)); }
     &.prosemirror-w-md { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.md')) / 2)); }
     &.prosemirror-w-lg { padding: 0 max(theme('padding.4'), calc((100% - theme('maxWidth.lg')) / 2)); }
