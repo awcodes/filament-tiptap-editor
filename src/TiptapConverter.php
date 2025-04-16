@@ -45,6 +45,9 @@ class TiptapConverter
     public function getExtensions(): array
     {
         $customExtensions = collect(config('filament-tiptap-editor.extensions', []))
+            ->filter(function ($ext) {
+                return $ext['parser'] ?? false;
+            })
             ->transform(function ($ext) {
                 return new $ext['parser'];
             })->toArray();
