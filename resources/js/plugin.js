@@ -174,6 +174,7 @@ export default function tiptap({
    getMentionItemsUsingEnabled = false,
    getSearchResultsUsing,
    mentionDebounce,
+   tippyPlacement = 'auto',
    mentionSearchStrategy,
     linkProtocols = [],
 }) {
@@ -258,7 +259,7 @@ export default function tiptap({
                     tippyOptions: {
                         duration: [500, 0],
                         maxWidth: 'none',
-                        placement: 'auto',
+                        placement: tippyPlacement,
                         theme: 'tiptap-editor-bubble',
                         interactive: true,
                         appendTo: this.$refs.element,
