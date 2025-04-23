@@ -17,7 +17,7 @@ trait InteractsWithMenus
 
     protected bool | Closure | null $shouldShowToolbarMenus = null;
 
-    protected string | TippyPlacement | Closure | null $tippyPlacement = TippyPlacement::Auto;
+    protected string | TippyPlacement | Closure $tippyPlacement = TippyPlacement::Auto;
 
     public function disableBubbleMenus(bool | Closure | null $condition = true): static
     {
@@ -65,7 +65,7 @@ trait InteractsWithMenus
         return $this;
     }
 
-    public function getTippyPlacement(): ?string
+    public function getTippyPlacement():string|TippyPlacement
     {
         return $this->evaluate($this->tippyPlacement);
     }
