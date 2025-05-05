@@ -156,6 +156,7 @@ export const CustomMention = Mention.extend({
                 props,
                 this.options.emptyMentionItemsMessage,
                 this.options.mentionItemsPlaceholder,
+                this.options.mentionItemsLoading,
                 _query
               )
               if (!props.clientRect) {
