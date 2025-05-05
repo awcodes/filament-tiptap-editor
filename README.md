@@ -297,6 +297,13 @@ TiptapEditor::make('content')
 'bubble_menu_tools' => ['bold', 'italic', 'strike', 'underline', 'superscript', 'subscript', 'lead', 'small', 'link'],
 ```
 
+Besides providing your own tools, you can also configure the placement of the tippy toolbar
+
+```php
+TiptapEditor::make('content')
+    ->tippyPlacement(TippyPlacement::Left)
+```
+
 ## Grid layouts
 
 When using the `grid` tool, you can customize the available layouts in the dropdown by passing them to the `gridLayouts()` method:

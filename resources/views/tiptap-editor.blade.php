@@ -21,6 +21,7 @@
     $mentionTrigger = $getMentionTrigger();
     $mentionDebounce = $getMentionDebounce();
     $mentionSearchStrategy = $getMentionSearchStrategy();
+    $tippyPlacement = $getTippyPlacement();
 @endphp
 
 <x-dynamic-component
@@ -72,6 +73,7 @@
                           return await $wire.getMentionsItems(@js($statePath), search)
                         },
                         mentionDebounce: @js($mentionDebounce),
+                        tippyPlacement: @js($tippyPlacement),
                         mentionSearchStrategy: @js($mentionSearchStrategy),
                         linkProtocols: @js(config('filament-tiptap-editor.link_protocols')),
                     })"

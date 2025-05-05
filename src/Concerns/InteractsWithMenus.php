@@ -3,6 +3,7 @@
 namespace FilamentTiptapEditor\Concerns;
 
 use Closure;
+use FilamentTiptapEditor\Enums\TippyPlacement;
 
 trait InteractsWithMenus
 {
@@ -15,6 +16,8 @@ trait InteractsWithMenus
     protected bool | Closure | null $shouldShowFloatingMenus = null;
 
     protected bool | Closure | null $shouldShowToolbarMenus = null;
+
+    protected string | TippyPlacement | Closure $tippyPlacement = TippyPlacement::Auto;
 
     public function disableBubbleMenus(bool | Closure | null $condition = true): static
     {
@@ -53,6 +56,18 @@ trait InteractsWithMenus
         }
 
         return [];
+    }
+
+    public function tippyPlacement(string | TippyPlacement | Closure $placement): static
+    {
+        $this->tippyPlacement = $placement;
+
+        return $this;
+    }
+
+    public function getTippyPlacement(): string | TippyPlacement
+    {
+        return $this->evaluate($this->tippyPlacement);
     }
 
     public function floatingMenuTools(array | Closure $tools): static
