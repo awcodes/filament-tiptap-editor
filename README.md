@@ -645,6 +645,9 @@ TiptapEditor::make(name: 'content')
     // Set a custom placeholder message. Note: if you set a placeholder, then it will ONLY show suggestions when the query is not empty.
     ->mentionItemsPlaceholder("Search for users...")
     
+    // Set a custom loading message. This will be displayed instead of a loading spinner.
+    ->mentionItemsLoading("Loading...")
+    
     // Customize how many mention items should be shown at once, 8 by default. Is nullable and only works with static suggestions.
     ->maxMentionItems()
 
