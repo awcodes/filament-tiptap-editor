@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\Data\MentionItem;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Tests\Models\Page;
 use FilamentTiptapEditor\Tests\Resources\PageResource\Pages;
@@ -24,10 +25,43 @@ class PageResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title'),
                 TiptapEditor::make('html_content')
+                    ->mentionItems([
+                        new MentionItem(
+                            id: 1,
+                            label: 'John Doe',
+                            href: 'https://example.com/john-doe',
+                        ),
+                        new MentionItem(
+                            id: 2,
+                            label: 'Jane Doe',
+                        ),
+                    ])
                     ->output(TiptapOutput::Html),
                 TiptapEditor::make('json_content')
+                    ->mentionItems([
+                        new MentionItem(
+                            id: 1,
+                            label: 'John Doe',
+                            href: 'https://example.com/john-doe',
+                        ),
+                        new MentionItem(
+                            id: 2,
+                            label: 'Jane Doe',
+                        ),
+                    ])
                     ->output(TiptapOutput::Json),
                 TiptapEditor::make('text_content')
+                    ->mentionItems([
+                        new MentionItem(
+                            id: 1,
+                            label: 'John Doe',
+                            href: 'https://example.com/john-doe',
+                        ),
+                        new MentionItem(
+                            id: 2,
+                            label: 'Jane Doe',
+                        ),
+                    ])
                     ->output(TiptapOutput::Text),
             ])->columns(1);
     }

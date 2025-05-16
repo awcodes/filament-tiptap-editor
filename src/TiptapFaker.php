@@ -72,6 +72,22 @@ class TiptapFaker
         return $this;
     }
 
+    public function addMentions(array $mentions): static
+    {
+        $this->output .= '<p>' . collect($mentions)->map(function ($mention) {
+            $tag = 'span';
+            $hrefAttr = '';
+            if ($mention->href) {
+                $tag = 'a';
+                $hrefAttr = ' href="' . $mention->href . '"';
+            }
+
+            return '<' . $tag . $hrefAttr . ' data-mention-id="' . $mention->id . '">' . $mention->label . '</' . $tag . '>';
+        })->implode(' ') . '</p>';
+
+        return $this;
+    }
+
     public function checkedList(int $count = 1): static
     {
         $this->output .= '<ul class="checked-list"><li>' . collect($this->faker->words($count))->implode('</li><li>') . '</li></ul>';

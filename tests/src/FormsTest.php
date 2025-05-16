@@ -2,6 +2,7 @@
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use FilamentTiptapEditor\Data\MentionItem;
 use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\Tests\Fixtures\Livewire as LivewireFixture;
 use FilamentTiptapEditor\Tests\Models\Page;
@@ -102,8 +103,30 @@ class TestComponentWithForm extends LivewireFixture
             ->schema([
                 TextInput::make('title'),
                 TiptapEditor::make('html_content')
+                    ->mentionItems([
+                        new MentionItem(
+                            id: 1,
+                            label: 'John Doe',
+                            href: 'https://example.com/john-doe',
+                        ),
+                        new MentionItem(
+                            id: 2,
+                            label: 'Jane Doe',
+                        ),
+                    ])
                     ->output(TiptapOutput::Html),
                 TiptapEditor::make('json_content')
+                    ->mentionItems([
+                        new MentionItem(
+                            id: 1,
+                            label: 'John Doe',
+                            href: 'https://example.com/john-doe',
+                        ),
+                        new MentionItem(
+                            id: 2,
+                            label: 'Jane Doe',
+                        ),
+                    ])
                     ->output(TiptapOutput::Json),
                 TiptapEditor::make('text_content')
                     ->output(TiptapOutput::Text),
