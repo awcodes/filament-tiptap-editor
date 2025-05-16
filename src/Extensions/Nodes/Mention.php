@@ -25,7 +25,7 @@ class Mention extends Node
             $dataAttributes['data-mention-data'] = json_encode($node->attrs->data);
         }
 
-        if (property_exists($node->attrs, 'href')) {
+        if (property_exists($node->attrs, 'href') && $node->attrs->href) {
             return [
                 'a',
                 [
