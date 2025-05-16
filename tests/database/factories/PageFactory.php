@@ -2,7 +2,6 @@
 
 namespace FilamentTiptapEditor\Tests\Database\Factories;
 
-use FilamentTiptapEditor\Data\MentionItem;
 use FilamentTiptapEditor\Tests\Models\Page;
 use FilamentTiptapEditor\TiptapFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,18 +15,6 @@ class PageFactory extends Factory
         $content = TiptapFaker::make()
             ->heading()
             ->paragraphs(withRandomLinks: true);
-
-        $content->addMentions([
-            new MentionItem(
-                id: 1,
-                label: 'John Doe',
-                href: 'https://example.com/john-doe',
-            ),
-            new MentionItem(
-                id: 2,
-                label: 'Jane Doe',
-            ),
-        ]);
 
         return [
             'title' => $this->faker->sentence(),
