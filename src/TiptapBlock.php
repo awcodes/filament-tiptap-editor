@@ -80,4 +80,14 @@ abstract class TiptapBlock
     {
         return $this->evaluate($this->icon);
     }
+
+    public function mutateDataBeforeFill($data): array
+    {
+        return $data;
+    }
+
+    public function mutateDataBeforeSave($data): array
+    {
+        return $data;
+    }
 }
