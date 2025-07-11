@@ -11,6 +11,7 @@ use Filament\Support\Concerns\HasExtraAlpineAttributes;
 use FilamentTiptapEditor\Actions\SourceAction;
 use FilamentTiptapEditor\Concerns\CanStoreOutput;
 use FilamentTiptapEditor\Concerns\HasCustomActions;
+use FilamentTiptapEditor\Concerns\HasMentions;
 use FilamentTiptapEditor\Concerns\InteractsWithMedia;
 use FilamentTiptapEditor\Concerns\InteractsWithMenus;
 use Illuminate\Support\Js;
@@ -26,12 +27,14 @@ class TiptapEditor extends Field
     use HasExtraAlpineAttributes;
     use HasExtraInputAttributes;
     use HasPlaceholder;
+    use HasMentions;
+    use HasPlaceholder;
     use InteractsWithMedia;
     use InteractsWithMenus;
-    use HasMentions;
+
     protected array $extensions = [];
 
-    protected string|Closure|null $maxContentWidth = null;
+    protected string | Closure | null $maxContentWidth = null;
 
     protected string $profile = 'default';
 
@@ -39,9 +42,9 @@ class TiptapEditor extends Field
 
     protected ?array $tools = [];
 
-    protected array|Closure $blocks = [];
+    protected array | Closure $blocks = [];
 
-    protected array|Closure $mergeTags = [];
+    protected array | Closure $mergeTags = [];
 
     protected string $view = 'filament-tiptap-editor::tiptap-editor';
 
@@ -49,11 +52,11 @@ class TiptapEditor extends Field
 
     protected bool $shouldShowMergeTagsInBlocksPanel = true;
 
-    protected string|Closure|null $customDocument = null;
+    protected string | Closure | null $customDocument = null;
 
-    protected array|Closure|null $nodePlaceholders = null;
+    protected array | Closure | null $nodePlaceholders = null;
 
-    protected array|bool|null $showOnlyCurrentPlaceholder = false;
+    protected bool | Closure | null $showOnlyCurrentPlaceholder = false;
 
     protected array $gridLayouts = [
         'two-columns',
@@ -77,7 +80,7 @@ class TiptapEditor extends Field
         $this->tools = config('filament-tiptap-editor.profiles.default');
         $this->extensions = config('filament-tiptap-editor.extensions') ?? [];
 
-        $this->afterStateHydrated(function (TiptapEditor $component, string|array|null $state): void {
+        $this->afterStateHydrated(function (TiptapEditor $component, string | array | null $state): void {
 
             if (! $state) {
                 return;
@@ -96,7 +99,7 @@ class TiptapEditor extends Field
             $livewire->validateOnly($component->getStatePath());
         });
 
-        $this->dehydrateStateUsing(function (TiptapEditor $component, string|array|null $state): string|array|null {
+        $this->dehydrateStateUsing(function (TiptapEditor $component, string | array | null $state): string | array | null {
 
             if (! $state) {
                 return null;
@@ -249,7 +252,7 @@ class TiptapEditor extends Field
 
     public function parseDataAsString(string $data): array
     {
-        $data = Str::of(json_decode('"'.$data.'"'))
+        $data = Str::of(json_decode('"' . $data . '"'))
             ->after('JSON.parse(\'')
             ->beforeLast('\')')
             ->toString();
@@ -328,6 +331,7 @@ class TiptapEditor extends Field
     public function getUpdateBlockAction(): Action
     {
         return Action::make('updateBlock')
+            ->fillForm(fn (array $arguments) => $arguments['data'])
             ->fillForm(function (array $arguments, TiptapEditor $component) {
                 $block = $component->getBlock($arguments['type']);
                 $data = $block->mutateDataBeforeFill($arguments['data']);
@@ -364,7 +368,8 @@ class TiptapEditor extends Field
             });
     }
 
-    public function maxContentWidth(string|Closure $width): static
+
+    public function maxContentWidth(string | Closure $width): static
     {
         $this->maxContentWidth = $width;
 
@@ -374,12 +379,12 @@ class TiptapEditor extends Field
     public function profile(string $profile): static
     {
         $this->profile = $profile;
-        $this->tools = config('filament-tiptap-editor.profiles.'.$profile);
+        $this->tools = config('filament-tiptap-editor.profiles.' . $profile);
 
         return $this;
     }
 
-    public function blocks(array|Closure $blocks): static
+    public function blocks(array | Closure $blocks): static
     {
         $this->blocks = $blocks;
 
@@ -407,7 +412,7 @@ class TiptapEditor extends Field
         return $this;
     }
 
-    public function customDocument(string|Closure|null $customDocument): static
+    public function customDocument(string | Closure | null $customDocument): static
     {
         $this->customDocument = $customDocument;
 
@@ -429,7 +434,7 @@ class TiptapEditor extends Field
      *
      * @return $this
      */
-    public function nodePlaceholders(array|Closure|null $nodePlaceholders): static
+    public function nodePlaceholders(array | Closure | null $nodePlaceholders): static
     {
         $this->nodePlaceholders = $nodePlaceholders;
 
@@ -446,7 +451,7 @@ class TiptapEditor extends Field
      *
      * @return $this
      */
-    public function showOnlyCurrentPlaceholder(bool|Closure|null $showOnlyCurrent): static
+    public function showOnlyCurrentPlaceholder(bool | Closure | null $showOnlyCurrent): static
     {
         $this->showOnlyCurrentPlaceholder = $showOnlyCurrent;
 
@@ -522,7 +527,7 @@ class TiptapEditor extends Field
         return $this->shouldCollapseBlocksPanel;
     }
 
-    public function mergeTags(array|Closure $mergeTags): static
+    public function mergeTags(array | Closure $mergeTags): static
     {
         $this->mergeTags = $mergeTags;
 
@@ -558,3 +563,4 @@ class TiptapEditor extends Field
         return $this->gridLayouts;
     }
 }
+
