@@ -28,7 +28,7 @@ class TiptapEditor extends Field
     use HasPlaceholder;
     use InteractsWithMedia;
     use InteractsWithMenus;
-
+    use HasMentions;
     protected array $extensions = [];
 
     protected string|Closure|null $maxContentWidth = null;
