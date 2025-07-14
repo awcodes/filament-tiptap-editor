@@ -330,7 +330,6 @@ class TiptapEditor extends Field
     public function getUpdateBlockAction(): Action
     {
         return Action::make('updateBlock')
-            ->fillForm(fn (array $arguments) => $arguments['data'])
             ->fillForm(function (array $arguments, TiptapEditor $component) {
                 $block = $component->getBlock($arguments['type']);
                 $data = $block->mutateDataBeforeFill($arguments['data']);
