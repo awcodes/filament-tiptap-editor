@@ -2,11 +2,11 @@
 
 namespace FilamentTiptapEditor\Blocks;
 
+use Filament\Schemas\Components\Group;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use FilamentTiptapEditor\TiptapBlock;

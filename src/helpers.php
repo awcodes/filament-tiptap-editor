@@ -1,8 +1,10 @@
 <?php
 
+use FilamentTiptapEditor\TiptapConverter;
+
 if (! function_exists('tiptap_converter')) {
-    function tiptap_converter(): FilamentTiptapEditor\TiptapConverter
+    function tiptap_converter(): TiptapConverter
     {
-        return app(\FilamentTiptapEditor\TiptapConverter::class);
+        return app(TiptapConverter::class);
     }
 }

@@ -2,6 +2,31 @@
 
 namespace FilamentTiptapEditor;
 
+use FilamentTiptapEditor\Extensions\Extensions\TextAlign;
+use FilamentTiptapEditor\Extensions\Extensions\ClassExtension;
+use FilamentTiptapEditor\Extensions\Extensions\IdExtension;
+use FilamentTiptapEditor\Extensions\Extensions\StyleExtension;
+use FilamentTiptapEditor\Extensions\Extensions\Color;
+use FilamentTiptapEditor\Extensions\Nodes\ListItem;
+use FilamentTiptapEditor\Extensions\Nodes\Lead;
+use FilamentTiptapEditor\Extensions\Nodes\Image;
+use FilamentTiptapEditor\Extensions\Nodes\CheckedList;
+use FilamentTiptapEditor\Extensions\Nodes\Details;
+use FilamentTiptapEditor\Extensions\Nodes\DetailsSummary;
+use FilamentTiptapEditor\Extensions\Nodes\DetailsContent;
+use FilamentTiptapEditor\Extensions\Nodes\Grid;
+use FilamentTiptapEditor\Extensions\Nodes\GridColumn;
+use FilamentTiptapEditor\Extensions\Nodes\GridBuilder;
+use FilamentTiptapEditor\Extensions\Nodes\GridBuilderColumn;
+use FilamentTiptapEditor\Extensions\Nodes\MergeTag;
+use FilamentTiptapEditor\Extensions\Nodes\Vimeo;
+use FilamentTiptapEditor\Extensions\Nodes\YouTube;
+use FilamentTiptapEditor\Extensions\Nodes\Video;
+use FilamentTiptapEditor\Extensions\Nodes\TiptapBlock;
+use FilamentTiptapEditor\Extensions\Nodes\Hurdle;
+use FilamentTiptapEditor\Extensions\Nodes\Mention;
+use FilamentTiptapEditor\Extensions\Marks\Link;
+use FilamentTiptapEditor\Extensions\Marks\Small;
 use FilamentTiptapEditor\Extensions\Extensions;
 use FilamentTiptapEditor\Extensions\Marks;
 use FilamentTiptapEditor\Extensions\Nodes;
@@ -57,32 +82,32 @@ class TiptapConverter
                 'listItem' => false,
             ]),
             new TextStyle,
-            new Extensions\TextAlign([
+            new TextAlign([
                 'types' => ['heading', 'paragraph'],
             ]),
-            new Extensions\ClassExtension,
-            new Extensions\IdExtension,
-            new Extensions\StyleExtension,
-            new Extensions\Color,
+            new ClassExtension,
+            new IdExtension,
+            new StyleExtension,
+            new Color,
             new CodeBlockHighlight,
-            new Nodes\ListItem,
-            new Nodes\Lead,
-            new Nodes\Image,
-            new Nodes\CheckedList,
-            new Nodes\Details,
-            new Nodes\DetailsSummary,
-            new Nodes\DetailsContent,
-            new Nodes\Grid,
-            new Nodes\GridColumn,
-            new Nodes\GridBuilder,
-            new Nodes\GridBuilderColumn,
-            new Nodes\MergeTag,
-            new Nodes\Vimeo,
-            new Nodes\YouTube,
-            new Nodes\Video,
-            new Nodes\TiptapBlock(['blocks' => $this->blocks]),
-            new Nodes\Hurdle,
-            new Nodes\Mention,
+            new ListItem,
+            new Lead,
+            new Image,
+            new CheckedList,
+            new Details,
+            new DetailsSummary,
+            new DetailsContent,
+            new Grid,
+            new GridColumn,
+            new GridBuilder,
+            new GridBuilderColumn,
+            new MergeTag,
+            new Vimeo,
+            new YouTube,
+            new Video,
+            new TiptapBlock(['blocks' => $this->blocks]),
+            new Hurdle,
+            new Mention,
             new Table,
             new TableHeader,
             new TableRow,
@@ -91,10 +116,10 @@ class TiptapConverter
             new Underline,
             new Superscript,
             new Subscript,
-            new Marks\Link([
+            new Link([
                 'protocols' => config('filament-tiptap-editor.link_protocols', []),
             ]),
-            new Marks\Small,
+            new Small,
             ...$customExtensions,
         ];
     }

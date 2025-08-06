@@ -2,8 +2,8 @@
 
 namespace FilamentTiptapEditor\Concerns;
 
+use Filament\Actions\Action;
 use Closure;
-use Filament\Forms\Components\Actions\Action;
 
 trait HasCustomActions
 {

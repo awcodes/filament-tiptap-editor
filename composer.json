@@ -20,17 +20,18 @@
     ],
     "require": {
         "php": "^8.1",
-        "filament/filament": "^3.2.138",
+        "filament/filament": "^v4.0.0-beta22",
         "spatie/laravel-package-tools": "^1.9.2",
-        "ueberdosis/tiptap-php": "^1.1"
+        "ueberdosis/tiptap-php": "^2.0.0"
     },
     "require-dev": {
+        "filament/upgrade": "^4.0",
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.0",
-        "orchestra/testbench": "^8.0",
-        "pestphp/pest": "^2.19",
-        "pestphp/pest-plugin-laravel": "^2.2",
-        "pestphp/pest-plugin-livewire": "^2.1",
+        "nunomaduro/collision": "^v8.8.2",
+        "orchestra/testbench": "^9.0",
+        "pestphp/pest": "^v3.8.2",
+        "pestphp/pest-plugin-laravel": "^v3.2.0",
+        "pestphp/pest-plugin-livewire": "^v3.0.0",
         "spatie/laravel-ray": "^1.26"
     },
     "autoload": {

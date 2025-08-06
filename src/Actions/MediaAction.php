@@ -2,12 +2,12 @@
 
 namespace FilamentTiptapEditor\Actions;
 
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\BaseFileUpload;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use FilamentTiptapEditor\TiptapEditor;
@@ -36,13 +36,13 @@ class MediaAction extends Action
                 'lazy' => null,
             ])
             ->modalWidth('md')
-            ->mountUsing(function (TiptapEditor $component, ComponentContainer $form, array $arguments) {
+            ->mountUsing(function (TiptapEditor $component, Schema $schema, array $arguments) {
                 $source = $arguments['src'] !== ''
                     ? $component->getDirectory() . Str::of($arguments['src'])
                         ->after($component->getDirectory())
                     : null;
 
-                $form->fill([
+                $schema->fill([
                     'src' => $source,
                     'alt' => $arguments['alt'] ?? '',
                     'title' => $arguments['title'] ?? '',

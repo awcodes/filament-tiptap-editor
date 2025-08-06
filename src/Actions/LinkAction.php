@@ -2,9 +2,9 @@
 
 namespace FilamentTiptapEditor\Actions;
 
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Grid;
+use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -34,8 +34,8 @@ class LinkAction extends Action
                 'referrerpolicy' => '',
                 'as_button' => false,
                 'button_theme' => '',
-            ])->mountUsing(function (ComponentContainer $form, array $arguments) {
-                $form->fill($arguments);
+            ])->mountUsing(function (Schema $schema, array $arguments) {
+                $schema->fill($arguments);
             })->modalHeading(function (array $arguments) {
                 $context = blank($arguments['href']) ? 'insert' : 'update';
 
