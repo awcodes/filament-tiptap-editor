@@ -119,57 +119,57 @@ class TiptapEditor extends Field
             return tiptap_converter()->asHTML($state);
         });
 
-        $this->registerListeners([
-            'tiptap::setGridBuilderContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_grid', $component, $statePath, $arguments),
-            ],
-            'tiptap::setSourceContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_source', $component, $statePath, $arguments),
-            ],
-            'tiptap::setOEmbedContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_oembed', $component, $statePath, $arguments),
-            ],
-            'tiptap::setLinkContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_link', $component, $statePath, $arguments),
-            ],
-            'tiptap::setMediaContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_media', $component, $statePath, $arguments),
-            ],
-            'tiptap::editMediaContent' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('filament_tiptap_edit_media', $component, $statePath, $arguments),
-            ],
-            'tiptap::updateBlock' => [
-                fn (
-                    TiptapEditor $component,
-                    string $statePath,
-                    array $arguments
-                ) => $this->getCustomListener('updateBlock', $component, $statePath, $arguments),
-            ],
-        ]);
+//        $this->registerListeners([
+//            'tiptap::setGridBuilderContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_grid', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::setSourceContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_source', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::setOEmbedContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_oembed', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::setLinkContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_link', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::setMediaContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_media', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::editMediaContent' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('filament_tiptap_edit_media', $component, $statePath, $arguments),
+//            ],
+//            'tiptap::updateBlock' => [
+//                fn (
+//                    TiptapEditor $component,
+//                    string $statePath,
+//                    array $arguments
+//                ) => $this->getCustomListener('updateBlock', $component, $statePath, $arguments),
+//            ],
+//        ]);
 
         $this->registerActions([
             SourceAction::make(),
