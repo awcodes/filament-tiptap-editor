@@ -22,7 +22,7 @@
         "php": "^8.1",
         "filament/filament": "^v4.0.0-beta22",
         "spatie/laravel-package-tools": "^1.9.2",
-        "ueberdosis/tiptap-php": "^2.0.0"
+        "ueberdosis/tiptap-php": "dev-main as 2.0.0"
     },
     "require-dev": {
         "filament/upgrade": "^4.0",
@@ -65,5 +65,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/DionBoerrigter/tiptap-php.git"
+        }
+    ]
 }
