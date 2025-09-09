@@ -151,7 +151,6 @@ Livewire.on('updateBlockFromAction', (event) => {
     }, 100)
 })
 
-
 export default function tiptap({
    state,
    statePath,
@@ -180,7 +179,7 @@ export default function tiptap({
    mentionSearchStrategy,
    linkProtocols = [],
    emitContentError = false,
-  enableContentCheck = false,
+   enableContentCheck = false,
 }) {
     let editor = null;
     return {

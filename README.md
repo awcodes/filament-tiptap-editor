@@ -670,7 +670,6 @@ $livewire->dispatch(
 );
 
 TiptapEditor::make(name: 'content')
-    // Customize the "No results found" message
     ->onContentError(fn(){
         // Do something with the error
     })
