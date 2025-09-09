@@ -656,6 +656,28 @@ TiptapEditor::make(name: 'content')
 
 ```
 
+## Catching content errors
+It is possible to catch invalid content errors in the editor. 
+
+```php
+//somewhere else in your Livewire component:
+
+$livewire->dispatch(
+    event: 'insertFromAction',
+    statePath: 'formData.content',
+    type: 'source',
+    source: $json,
+);
+
+TiptapEditor::make(name: 'content')
+    // Customize the "No results found" message
+    ->onContentError(fn(){
+        // Do something with the error
+    })
+```
+
+This allows you to hook into errors that occur while setting the content programmatically.
+
 ## Custom Extensions
 
 You can add your own extensions to the editor by creating the necessary files and adding them to the config file extensions array.

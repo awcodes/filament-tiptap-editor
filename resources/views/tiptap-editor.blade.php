@@ -22,6 +22,8 @@
     $mentionDebounce = $getMentionDebounce();
     $mentionSearchStrategy = $getMentionSearchStrategy();
     $tippyPlacement = $getTippyPlacement();
+    $emitContentError = $getEmitContentError();
+    $enableContentCheck = $getEnableContentCheck();
 @endphp
 
 <x-dynamic-component
@@ -76,6 +78,8 @@
                         tippyPlacement: @js($tippyPlacement),
                         mentionSearchStrategy: @js($mentionSearchStrategy),
                         linkProtocols: @js(config('filament-tiptap-editor.link_protocols')),
+                        emitContentError: @js($emitContentError),
+                        enableContentCheck: @js($enableContentCheck),
                     })"
                     x-init="$nextTick(() => { init() })"
                     x-on:click.away="blur()"

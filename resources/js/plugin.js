@@ -151,6 +151,7 @@ Livewire.on('updateBlockFromAction', (event) => {
     }, 100)
 })
 
+
 export default function tiptap({
    state,
    statePath,
@@ -177,10 +178,11 @@ export default function tiptap({
    mentionDebounce,
    tippyPlacement = 'auto',
    mentionSearchStrategy,
-    linkProtocols = [],
+   linkProtocols = [],
+   emitContentError = false,
+  enableContentCheck = false,
 }) {
     let editor = null;
-
     return {
         id: null,
         modalId: null,
@@ -408,6 +410,8 @@ export default function tiptap({
                             });
                         }
                     },
+                  enableContentCheck: enableContentCheck,
+                  emitContentError: emitContentError,
                     onUpdate({editor}) {
                         _this.updatedAt = Date.now();
                         clearTimeout(_this.timeOut);
@@ -455,27 +459,31 @@ export default function tiptap({
             this.locale = event.detail.locale
         },
         insertContent(event) {
+          try{
             if (event.detail.statePath !== this.statePath) return
-
             switch (event.detail.type) {
-                case 'media':
-                    this.insertMedia(event);
-                    return;
-                case 'video':
-                    this.insertVideo(event);
-                    return;
-                case 'link':
-                    this.insertLink(event);
-                    return;
-                case 'source':
-                    this.insertSource(event);
-                    return;
-                case 'grid':
-                    this.insertGridBuilder(event);
-                    return;
-                default:
-                    return;
+              case 'media':
+                this.insertMedia(event);
+                return;
+              case 'video':
+                this.insertVideo(event);
+                return;
+              case 'link':
+                this.insertLink(event);
+                return;
+              case 'source':
+                this.insertSource(event);
+                return;
+              case 'grid':
+                this.insertGridBuilder(event);
+                return;
+              default:
+                return;
             }
+          } catch (e){
+            this.$wire.dispatchFormEvent('tiptap:on-error', statePath);
+            console.error(e);
+          }
         },
         insertMedia(event) {
             if (Array.isArray(event.detail.media)) {

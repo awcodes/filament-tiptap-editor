@@ -57,6 +57,12 @@ class TiptapEditor extends Field
 
     protected bool | Closure | null $showOnlyCurrentPlaceholder = false;
 
+    protected ?Closure $onError = null;
+
+    protected bool | Closure | null $emitContentError = false;
+
+    protected bool | Closure | null $enableContentCheck = false;
+
     protected array $gridLayouts = [
         'two-columns',
         'three-columns',
@@ -406,6 +412,40 @@ class TiptapEditor extends Field
         $this->customDocument = $customDocument;
 
         return $this;
+    }
+
+    public function emitContentError(bool $condition = true): static
+    {
+        $this->emitContentError = $condition;
+
+        return $this;
+    }
+
+    public function enableContentCheck(bool $condition = true): static
+    {
+        $this->enableContentCheck = $condition;
+
+        return $this;
+    }
+
+    public function onContentError(Closure $onError): static
+    {
+        $this->emitContentError();
+        $this->enableContentCheck();
+
+        return $this->registerListeners(['tiptap:on-error' => [
+            $onError,
+        ]]);
+    }
+
+    public function getEmitContentError(): ?bool
+    {
+        return $this->evaluate($this->emitContentError);
+    }
+
+    public function getEnableContentCheck(): ?bool
+    {
+        return $this->evaluate($this->enableContentCheck);
     }
 
     public function getCustomDocument(): ?string
