@@ -411,6 +411,10 @@ export default function tiptap({
                     },
                   enableContentCheck: enableContentCheck,
                   emitContentError: emitContentError,
+                  onContentError({editor, error}) {
+                      editor.setEditable(false, false)
+                    _this.$wire.dispatchFormEvent('tiptap:on-error', statePath);
+                  },
                     onUpdate({editor}) {
                         _this.updatedAt = Date.now();
                         clearTimeout(_this.timeOut);
@@ -481,7 +485,6 @@ export default function tiptap({
             }
           } catch (e){
             this.$wire.dispatchFormEvent('tiptap:on-error', statePath);
-            console.error(e);
           }
         },
         insertMedia(event) {
