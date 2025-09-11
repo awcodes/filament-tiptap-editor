@@ -421,6 +421,7 @@ export default function tiptap({
                         _this.timeOut = setTimeout(function(){
                             _this.state = editor.isEmpty ? null : editor.getJSON();
                         },debounce ?? 0);
+                        _this.$wire.dispatchFormEvent('tiptap:on-update', statePath);
                     },
                     onSelectionUpdate() {
                         _this.updatedAt = Date.now();

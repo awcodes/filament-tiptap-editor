@@ -438,6 +438,13 @@ class TiptapEditor extends Field
         ]]);
     }
 
+    public function onUpdate(Closure $onUpdate): static
+    {
+        return $this->registerListeners(['tiptap:on-update' => [
+            $onUpdate,
+        ]]);
+    }
+
     public function getEmitContentError(): ?bool
     {
         return $this->evaluate($this->emitContentError);
