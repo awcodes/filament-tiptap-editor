@@ -411,10 +411,10 @@ export default function tiptap({
                     },
                   enableContentCheck: enableContentCheck,
                   emitContentError: emitContentError,
-                  onContentError({editor, error}) {
-                      editor.setEditable(false, false)
-                    _this.$wire.dispatchFormEvent('tiptap:on-error', statePath);
-                  },
+                    onContentError({editor, error}) {
+                        editor.setEditable(false, false)
+                        _this.$wire.dispatchFormEvent('tiptap:on-error', statePath);
+                    },
                     onUpdate({editor}) {
                         _this.updatedAt = Date.now();
                         clearTimeout(_this.timeOut);
@@ -427,9 +427,15 @@ export default function tiptap({
                     },
                     onBlur() {
                         _this.updatedAt = Date.now();
+                        window.dispatchEvent(new CustomEvent('tiptap:on-blur', {
+                          detail: { statePath, editor: _this }
+                        }));
                     },
                     onFocus() {
                         _this.updatedAt = Date.now();
+                        window.dispatchEvent(new CustomEvent('tiptap:on-focus', {
+                          detail: { statePath, editor: _this }
+                        }));
                     },
                 });
             }
