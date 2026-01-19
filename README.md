@@ -1,3 +1,6 @@
+> [!Warning]
+> This package is deprecated. As of Filament v4 the native Rich Editor covers most of the use case of this package and it is not needed anymore.
+
 # Filament Tiptap Editor
 
 A Tiptap integration for Filament Admin/Forms.
