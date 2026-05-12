@@ -7,6 +7,8 @@ A Tiptap integration for Filament Admin/Forms.
 
 ![tiptap-editor-og](https://res.cloudinary.com/aw-codes/image/upload/w_1200,f_auto,q_auto/plugins/tiptap-editor/awcodes-tiptap-editor.jpg)
 
+<!-- [docs_start] -->
+
 ## Installation
 
 Install the package via composer
@@ -782,6 +784,8 @@ Finally, you need to register your extensions in the config file and add the new
     ],
 ],
 ```
+
+<!-- [docs_end] -->
 
 ## Versioning
 
