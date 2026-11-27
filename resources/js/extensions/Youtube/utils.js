@@ -1,5 +1,16 @@
+// Only http(s) and scheme-less URLs may be used as an iframe source.
+export const isSafeEmbedUrl = (url) => {
+  if (typeof url !== "string" || url === "") {
+    return false;
+  }
+
+  const match = url.replace(/[\u0000-\u0020\u007F]+/g, "").match(/^([a-z][a-z0-9+.\-]*):/i);
+
+  return !match || ["http", "https"].includes(match[1].toLowerCase());
+};
+
 export const isValidYoutubeUrl = (url) => {
-  return url.match(/(youtube\.com|youtu\.be)(.+)?$/);
+  return isSafeEmbedUrl(url) && url.match(/(youtube\.com|youtu\.be)(.+)?$/);
 };
 
 export const getYoutubeEmbedUrl = (nocookie = false) => {
@@ -8,6 +19,10 @@ export const getYoutubeEmbedUrl = (nocookie = false) => {
 
 export const getEmbedURLFromYoutubeURL = (options) => {
   const { url, controls, nocookie, startAt } = options;
+
+  if (!isSafeEmbedUrl(url)) {
+    return null;
+  }
 
   let id = null;
 

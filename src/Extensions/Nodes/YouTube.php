@@ -2,11 +2,14 @@
 
 namespace FilamentTiptapEditor\Extensions\Nodes;
 
+use FilamentTiptapEditor\Extensions\Concerns\HasSafeEmbedSource;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;
 
 class YouTube extends Node
 {
+    use HasSafeEmbedSource;
+
     public static $name = 'youtube';
 
     public function addOptions(): array
@@ -32,7 +35,7 @@ class YouTube extends Node
             'src' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute('src');
+                    return static::sanitizeEmbedSource($DOMNode->firstChild->getAttribute('src'));
                 },
             ],
             'start' => [
@@ -91,7 +94,7 @@ class YouTube extends Node
             [
                 'iframe',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
-                    'src' => $node->attrs->src,
+                    'src' => static::sanitizeEmbedSource($node->attrs->src ?? null),
                     'width' => $node->attrs->width ?? $this->options['width'],
                     'height' => $node->attrs->height ?? $this->options['height'],
                     'allowfullscreen' => true,

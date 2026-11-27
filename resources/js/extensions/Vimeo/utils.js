@@ -1,9 +1,15 @@
+import { isSafeEmbedUrl } from "../Youtube/utils.js";
+
 export const isValidVimeoUrl = (url) => {
-  return url.match(/(vimeo\.com)(.+)?$/);
+  return isSafeEmbedUrl(url) && url.match(/(vimeo\.com)(.+)?$/);
 };
 
 export const getEmbedURLFromVimeoURL = (options) => {
   const { url, autoplay, loop, title, byline, portrait } = options;
+
+  if (!isSafeEmbedUrl(url)) {
+    return null;
+  }
 
   // if is already an embed url, return it
   if (url.includes("/video/")) {

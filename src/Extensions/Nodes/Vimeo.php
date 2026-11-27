@@ -2,11 +2,14 @@
 
 namespace FilamentTiptapEditor\Extensions\Nodes;
 
+use FilamentTiptapEditor\Extensions\Concerns\HasSafeEmbedSource;
 use Tiptap\Core\Node;
 use Tiptap\Utils\HTML;
 
 class Vimeo extends Node
 {
+    use HasSafeEmbedSource;
+
     public static $name = 'vimeo';
 
     public function addOptions(): array
@@ -32,7 +35,7 @@ class Vimeo extends Node
             'src' => [
                 'default' => null,
                 'parseHTML' => function ($DOMNode) {
-                    return $DOMNode->firstChild->getAttribute('src');
+                    return static::sanitizeEmbedSource($DOMNode->firstChild->getAttribute('src'));
                 },
             ],
             'width' => [
@@ -118,7 +121,7 @@ class Vimeo extends Node
             [
                 'iframe',
                 HTML::mergeAttributes($this->options['HTMLAttributes'], [
-                    'src' => $node->attrs->src,
+                    'src' => static::sanitizeEmbedSource($node->attrs->src ?? null),
                     'width' => $node->attrs->width ?? $this->options['width'],
                     'height' => $node->attrs->height ?? $this->options['height'],
                     'allowfullscreen' => true,
