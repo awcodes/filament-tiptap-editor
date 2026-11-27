@@ -162,6 +162,9 @@ Tools can also be added on a per-instance basis by using the `->tools()` modifie
 ]
 ```
 
+> [!Warning]
+> SVG files can contain JavaScript. With the default config, an uploaded SVG is served from your public disk on your app's own domain, so anyone who can use the editor's media button can upload a file that runs script in the browser of whoever opens it. If editors are not fully trusted, remove `image/svg+xml` from `accepted_file_types`, or serve uploads from a separate domain.
+
 ### Output format
 
 Tiptap has 3 different output formats.

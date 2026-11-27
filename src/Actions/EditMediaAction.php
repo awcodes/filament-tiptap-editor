@@ -99,7 +99,7 @@ class EditMediaAction extends Action
                         ->saveUploadedFileUsing($component->getSaveUploadedFileUsing() ?: function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                             $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
                             $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
-                            $extension = $file->getClientOriginalExtension();
+                            $extension = MediaAction::getStoredFileExtension($file);
 
                             if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
                                 $filename = $filename . '-' . time();

@@ -14,12 +14,29 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Symfony\Component\Mime\MimeTypes;
 
 class MediaAction extends Action
 {
     public static function getDefaultName(): ?string
     {
         return 'filament_tiptap_media';
+    }
+
+    /**
+     * Resolve the extension to store an upload under from its detected content type,
+     * so a client-supplied name such as `page.html` cannot change how the stored file is served.
+     */
+    public static function getStoredFileExtension(TemporaryUploadedFile $file): string
+    {
+        $extensions = MimeTypes::getDefault()->getExtensions($file->getMimeType());
+        $clientExtension = $file->getClientOriginalExtension();
+
+        if (in_array(strtolower($clientExtension), $extensions, true)) {
+            return $clientExtension;
+        }
+
+        return $extensions[0] ?? 'bin';
     }
 
     protected function setUp(): void
@@ -87,7 +104,7 @@ class MediaAction extends Action
                         ->saveUploadedFileUsing($component->getSaveUploadedFileUsing() ?: function (BaseFileUpload $component, TemporaryUploadedFile $file, callable $set) {
                             $filename = $component->shouldPreserveFilenames() ? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) : Str::uuid();
                             $storeMethod = $component->getVisibility() === 'public' ? 'storePubliclyAs' : 'storeAs';
-                            $extension = $file->getClientOriginalExtension();
+                            $extension = MediaAction::getStoredFileExtension($file);
 
                             if (Storage::disk($component->getDiskName())->exists(ltrim($component->getDirectory() . '/' . $filename . '.' . $extension, '/'))) {
                                 $filename = $filename . '-' . time();
